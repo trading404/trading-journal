@@ -20,6 +20,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var
 .sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--card);border-right:1px solid var(--border);padding:1.5rem 1rem;overflow-y:auto;z-index:200;transition:transform 0.3s ease}
 .main-content{margin-left:240px;padding:1.5rem}
 .logo{font-size:1.25rem;font-weight:700;color:var(--primary);margin-bottom:2rem;display:flex;align-items:center;gap:0.5rem}
+.lang-selector{margin-bottom:1.5rem;width:100%}
+.lang-selector select{width:100%;padding:0.625rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.875rem;cursor:pointer;touch-action:manipulation}
 .nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;margin-bottom:0.25rem;border-radius:0.5rem;cursor:pointer;transition:all 0.2s;color:var(--muted);font-size:0.9rem;touch-action:manipulation;min-height:48px}
 .nav-item:hover{background:rgba(59,130,246,0.1);color:var(--text)}
 .nav-item:active{transform:scale(0.98)}
@@ -123,6 +125,7 @@ th{background:rgba(59,130,246,0.05);font-weight:600;color:var(--muted);text-tran
   .btn{font-size:1rem;padding:0.875rem 1.5rem;min-height:52px}
   .btn-primary{padding:1rem;min-height:56px;font-size:1.05rem}
   .modal-close{width:3rem;height:3rem;min-height:48px}
+  .lang-selector{margin-bottom:1rem}
 }
 
 @media(max-width:480px){
@@ -143,409 +146,610 @@ th{background:rgba(59,130,246,0.05);font-weight:600;color:var(--muted);text-tran
   <div class="wrapper">
    <div class="mobile-header">
     <div style="font-size:1.25rem;font-weight:700;color:var(--primary)">
-     📊 Trading Pro
-    </div><button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+     📊 <span id="mobileHeaderTitle">Trading Pro</span>
+    </div>
+    <div style="display:flex;gap:0.5rem;align-items:center"><select id="mobileLanguageSelector" style="padding:0.5rem;border-radius:0.5rem;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.875rem;cursor:pointer;min-height:44px"> <option value="de">🇩🇪 DE</option> <option value="en">🇬🇧 EN</option> <option value="es">🇪🇸 ES</option> </select> <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </div>
    </div>
    <div class="mobile-overlay" id="mobileOverlay"></div>
    <aside class="sidebar" id="sidebar">
     <div class="logo">
-     📊 Trading Pro
+     📊 <span id="sidebarTitle">Trading Pro</span>
     </div>
-    <nav>
+    <div class="lang-selector"><select id="languageSelector" style="min-height:44px"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
+    </div>
+    <nav id="navigation">
      <div class="nav-item active" data-section="dashboard">
-      📊 Dashboard
+      <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
      </div>
      <div class="nav-item" data-section="trade">
-      ➕ Neuer Trade
+      <span class="nav-icon">➕</span> <span class="nav-text">Neuer Trade</span>
      </div>
      <div class="nav-item" data-section="history">
-      📜 Historie
+      <span class="nav-icon">📜</span> <span class="nav-text">Historie</span>
      </div>
      <div class="nav-item" data-section="performance">
-      📊 Performance
+      <span class="nav-icon">📊</span> <span class="nav-text">Performance</span>
      </div>
      <div class="nav-item" data-section="emotions">
-      🎭 Emotionen
+      <span class="nav-icon">🎭</span> <span class="nav-text">Emotionen</span>
      </div>
      <div class="nav-item" data-section="goals">
-      🧮 Zinseszins
+      <span class="nav-icon">🧮</span> <span class="nav-text">Zinseszins</span>
      </div>
      <div class="nav-item" data-section="withdrawals">
-      💸 Auszahlungen
+      <span class="nav-icon">💸</span> <span class="nav-text">Auszahlungen</span>
      </div>
     </nav>
    </aside>
-   <main class="main-content">
-    <section id="dashboard" class="section active">
-     <h2 style="margin-bottom:1.5rem">📊 Dashboard</h2>
-     <div class="grid grid-2">
-      <div class="card">
-       <div class="card-title">
-        💰 Kapital Setup
-       </div><label for="startCapital">Startkapital (€)</label> <input type="number" id="startCapital" placeholder="10000" inputmode="decimal"> <button class="btn btn-primary" id="saveCapital">Startkapital speichern</button>
-      </div>
-      <div class="card">
-       <div class="card-title">
-        📌 Übersicht
-       </div>
-       <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="stat">
-         <div class="stat-label">
-          Aktuelles Kapital
-         </div>
-         <div class="stat-value" id="currentCapital">
-          0€
-         </div>
-        </div>
-        <div class="stat">
-         <div class="stat-label">
-          Trades
-         </div>
-         <div class="stat-value" id="totalTrades">
-          0
-         </div>
-        </div>
-        <div class="stat">
-         <div class="stat-label">
-          Winrate
-         </div>
-         <div class="stat-value" id="winrate">
-          0%
-         </div>
-        </div>
-        <div class="stat">
-         <div class="stat-label">
-          Gesamt P/L
-         </div>
-         <div class="stat-value" id="totalPL">
-          0€
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="card">
-      <div class="card-title">
-       💰 Finanzübersicht
-      </div>
-      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-       <div class="stat">
-        <div class="stat-label">
-         ✅ Gewinne
-        </div>
-        <div class="stat-value profit" id="totalWins">
-         0€
-        </div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">
-         <span id="winCount">0</span> Trades
-        </div>
-       </div>
-       <div class="stat">
-        <div class="stat-label">
-         ❌ Verluste
-        </div>
-        <div class="stat-value loss" id="totalLosses">
-         0€
-        </div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">
-         <span id="lossCount">0</span> Trades
-        </div>
-       </div>
-       <div class="stat">
-        <div class="stat-label">
-         💸 Auszahlungen
-        </div>
-        <div class="stat-value loss" id="totalWithdrawals">
-         0€
-        </div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">
-         <span id="withdrawalCount">0</span> Auszahlungen
-        </div>
-       </div>
-      </div>
-      <div style="margin-top:1.5rem;padding:1.25rem;background:rgba(59,130,246,0.05);border:1px solid var(--border);border-radius:0.75rem">
-       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-        <div style="font-weight:600;font-size:1rem">
-         💵 Cashflow Zusammenfassung
-        </div>
-        <div style="font-size:0.875rem;color:var(--muted)">
-         Einnahmen vs. Ausgaben
-        </div>
-       </div>
-       <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div>
-         <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">
-          📥 Gesamt Einnahmen
-         </div>
-         <div style="font-size:1.75rem;font-weight:700;color:var(--success)" id="totalIncome">
-          0€
-         </div>
-        </div>
-        <div>
-         <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">
-          📤 Gesamt Ausgaben
-         </div>
-         <div style="font-size:1.75rem;font-weight:700;color:var(--danger)" id="totalExpenses">
-          0€
-         </div>
-        </div>
-       </div>
-       <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
-        <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.875rem;color:var(--muted)">💎 Netto Ergebnis</span> <span style="font-size:1.5rem;font-weight:700" id="netResult">0€</span>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="card">
-      <div class="card-title">
-       📈 Equity Curve
-      </div>
-      <div class="chart">
-       <canvas id="equityChart"></canvas>
-      </div>
-     </div>
-     <div class="stat-grid">
-      <div class="stat">
-       <div class="stat-label">
-        Max Drawdown
-       </div>
-       <div class="stat-value loss" id="maxDrawdown">
-        0€
-       </div>
-      </div>
-      <div class="stat">
-       <div class="stat-label">
-        Profit Factor
-       </div>
-       <div class="stat-value" id="profitFactor">
-        0.00
-       </div>
-      </div>
-     </div>
-    </section>
-    <section id="trade" class="section">
-     <h2 style="margin-bottom:1.5rem">➕ Neuer Trade</h2>
-     <div class="card">
-      <form id="tradeForm">
-       <div class="form-grid">
-        <div>
-         <label for="tradeDate">Datum *</label><input type="date" id="tradeDate" required>
-        </div>
-        <div>
-         <label for="tradeAsset">Asset</label><select id="tradeAsset"><option value="">-- auswählen --</option><optgroup label="Major Pairs"><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>USD/CHF</option><option>AUD/USD</option><option>USD/CAD</option><option>NZD/USD</option></optgroup><optgroup label="Minor Pairs"><option>EUR/GBP</option><option>EUR/AUD</option><option>EUR/CAD</option><option>EUR/JPY</option><option>GBP/JPY</option><option>GBP/AUD</option><option>AUD/JPY</option><option>NZD/JPY</option></optgroup><optgroup label="Exotic Pairs"><option>USD/TRY</option><option>USD/ZAR</option><option>USD/MXN</option><option>EUR/TRY</option></optgroup><optgroup label="Commodities"><option>XAU/USD (Gold)</option><option>XAG/USD (Silber)</option><option>WTI/USD (Öl)</option></optgroup><optgroup label="Crypto"><option>BTC/USD</option><option>ETH/USD</option><option>XRP/USD</option></optgroup><optgroup label="Indices"><option>US30</option><option>NAS100</option><option>SPX500</option><option>GER40</option><option>UK100</option></optgroup></select>
-        </div>
-        <div>
-         <label for="tradeLot">Lot Size</label><input type="number" step="0.01" id="tradeLot" placeholder="0.01" inputmode="decimal">
-        </div>
-        <div>
-         <label for="tradeResult">Ergebnis</label><select id="tradeResult"><option value="">-- auswählen --</option><option value="win">Gewinn</option><option value="loss">Verlust</option><option value="breakeven">Break Even</option></select>
-        </div>
-        <div>
-         <label for="tradePL">Gewinn/Verlust (€)</label><input type="number" step="0.01" id="tradePL" placeholder="0.00" inputmode="decimal">
-        </div>
-        <div>
-         <label for="tradeEntry">Entry Price</label><input type="number" step="0.00001" id="tradeEntry" placeholder="1.08500" inputmode="decimal">
-        </div>
-        <div>
-         <label for="tradeExit">Exit Price</label><input type="number" step="0.00001" id="tradeExit" placeholder="1.08750" inputmode="decimal">
-        </div>
-        <div>
-         <label for="tradeStrategy">Strategie</label><input type="text" id="tradeStrategy" placeholder="z.B. Trend Following">
-        </div>
-       </div>
-       <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">* Pflichtfeld - alle anderen Felder sind optional</p><label for="tradeEmotion">Emotion beim Trade</label> <select id="tradeEmotion"> <option value="">-- keine Emotion --</option> <option value="confident">😎 Selbstsicher</option> <option value="anxious">😰 Ängstlich</option> <option value="excited">🤩 Aufgeregt</option> <option value="frustrated">   Frustriert</option> <option value="calm">😌 Gelassen</option> <option value="greedy">🤑 Gierig</option> </select> <label for="tradeNotes">Notizen</label> <textarea id="tradeNotes" placeholder="Deine Gedanken zum Trade..."></textarea> <button type="submit" class="btn btn-primary">Trade hinzufügen</button>
-      </form>
-     </div>
-    </section>
-    <section id="history" class="section">
-     <h2 style="margin-bottom:1.5rem">📜 Trade Historie</h2>
-     <div class="card">
-      <div class="table-container">
-       <div id="historyContent"></div>
-      </div>
-     </div>
-    </section>
-    <section id="performance" class="section">
-     <h2 style="margin-bottom:1.5rem">📈 Performance Analyse</h2>
-     <div class="card">
-      <div class="card-title">
-       📊 Performance Metriken
-      </div>
-      <div id="performanceStats"></div>
-     </div>
-     <div class="grid grid-2">
-      <div class="card">
-       <div class="card-title">
-        🎯 Asset Verteilung
-       </div>
-       <div class="chart-sm">
-        <canvas id="assetChart"></canvas>
-       </div>
-      </div>
-      <div class="card">
-       <div class="card-title">
-        🏆 Asset Performance (P/L)
-       </div>
-       <div class="chart-sm">
-        <canvas id="assetPerformanceChart"></canvas>
-       </div>
-      </div>
-     </div>
-     <div class="card">
-      <div class="card-title">
-       📈 Monatliche Performance
-      </div>
-      <div class="chart">
-       <canvas id="monthlyChart"></canvas>
-      </div>
-     </div>
-    </section>
-    <section id="emotions" class="section">
-     <h2 style="margin-bottom:1.5rem">🎭 Emotionen Tracking</h2>
-     <div class="card">
-      <form id="emotionForm"><label for="emotionDate">Datum</label> <input type="date" id="emotionDate" required> <label>Emotion wählen</label>
-       <div class="emotion-grid"><button type="button" class="emotion-btn" data-emotion="confident"> <span class="emotion-icon">😎</span>Selbstsicher </button> <button type="button" class="emotion-btn" data-emotion="anxious"> <span class="emotion-icon">😰</span>Ängstlich </button> <button type="button" class="emotion-btn" data-emotion="excited"> <span class="emotion-icon">🤩</span>Aufgeregt </button> <button type="button" class="emotion-btn" data-emotion="frustrated"> <span class="emotion-icon">😤</span>Frustriert </button> <button type="button" class="emotion-btn" data-emotion="calm"> <span class="emotion-icon">😌</span>Gelassen </button> <button type="button" class="emotion-btn" data-emotion="greedy"> <span class="emotion-icon">🤑</span>Gierig </button>
-       </div><label for="emotionIntensity">Intensität (1-10)</label> <input type="range" min="1" max="10" value="5" id="emotionIntensity">
-       <div style="text-align:center;color:var(--muted);margin-top:0.5rem"><span id="intensityValue">5</span> / 10
-       </div><label for="emotionNotes">Notizen</label> <textarea id="emotionNotes" placeholder="Wie fühlst du dich heute beim Trading?"></textarea> <button type="submit" class="btn btn-primary">Emotion speichern</button>
-      </form>
-     </div>
-     <div id="emotionHistory" style="margin-top:1.5rem"></div>
-    </section>
-    <section id="goals" class="section">
-     <h2 style="margin-bottom:1.5rem">📊 Zinseszinseffekt Rechner</h2>
-     <div class="card">
-      <div class="card-title">
-       📈 Deine aktuelle Performance
-      </div>
-      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-       <div class="stat">
-        <div class="stat-label">
-         Aktuelles Kapital
-        </div>
-        <div class="stat-value profit" id="perfCurrentCapital">
-         0€
-        </div>
-       </div>
-       <div class="stat">
-        <div class="stat-label">
-         Ø Monatliche Rendite
-        </div>
-        <div class="stat-value" id="perfMonthlyReturn">
-         0%
-        </div>
-       </div>
-       <div class="stat">
-        <div class="stat-label">
-         Trading seit
-        </div>
-        <div class="stat-value" id="perfTradingSince">
-         0 Monate
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="card">
-      <div class="card-title">
-       🧮 Zinseszins berechnen
-      </div>
-      <form id="compoundForm">
-       <div class="form-grid">
-        <div><label for="compoundStartCapital">Startkapital (€)</label> <input type="number" step="0.01" id="compoundStartCapital" placeholder="10000" required inputmode="decimal">
-        </div>
-        <div><label for="compoundMonthlyReturn">Monatliche Rendite (%)</label> <input type="number" step="0.1" id="compoundMonthlyReturn" placeholder="5" required inputmode="decimal">
-         <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">
-          💡 Deine aktuelle: <span id="hintMonthlyReturn">-</span>
-         </div>
-        </div>
-        <div><label for="compoundMonths">Zeitraum (Monate)</label> <input type="number" id="compoundMonths" placeholder="12" required inputmode="numeric">
-        </div>
-        <div><label for="compoundWithdrawal">Monatliche Auszahlung (€)</label> <input type="number" step="0.01" id="compoundWithdrawal" placeholder="0" value="0" inputmode="decimal">
-         <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">
-          Optional - 0 für keine Auszahlungen
-         </div>
-        </div>
-       </div><button type="submit" class="btn btn-primary">Berechnen</button>
-      </form>
-     </div>
-     <div id="compoundResults"></div>
-    </section>
-    <section id="withdrawals" class="section">
-     <h2 style="margin-bottom:1.5rem">💸 Auszahlungen</h2>
-     <div class="card">
-      <div class="card-title">
-       Neue Auszahlung
-      </div>
-      <form id="withdrawalForm">
-       <div class="form-grid">
-        <div>
-         <label for="withdrawalDate">Datum</label><input type="date" id="withdrawalDate" required>
-        </div>
-        <div>
-         <label for="withdrawalAmount">Betrag (€)</label><input type="number" step="0.01" id="withdrawalAmount" placeholder="500" required inputmode="decimal">
-        </div>
-       </div><label for="withdrawalNotes">Notizen</label> <textarea id="withdrawalNotes" placeholder="Grund für die Auszahlung..."></textarea> <button type="submit" class="btn btn-primary">Auszahlung hinzufügen</button>
-      </form>
-     </div>
-     <div id="withdrawalStats"></div>
-     <div id="withdrawalHistory"></div>
-    </section>
+   <main class="main-content" id="mainContent"><!-- Content will be dynamically updated based on language -->
    </main>
   </div>
   <div id="editModal" class="modal">
    <div class="modal-content">
     <div class="modal-header">
-     <h3>Trade bearbeiten</h3><button class="modal-close" onclick="closeEditModal()">✕</button>
+     <h3 id="editModalTitle">Trade bearbeiten</h3><button class="modal-close" onclick="closeEditModal()">✕</button>
     </div>
-    <form id="editTradeForm"><input type="hidden" id="editTradeId">
-     <div class="form-grid">
-      <div>
-       <label for="editTradeDate">Datum</label><input type="date" id="editTradeDate" required>
-      </div>
-      <div>
-       <label for="editTradeAsset">Asset</label><select id="editTradeAsset" required><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>XAU/USD</option><option>BTC/USD</option></select>
-      </div>
-      <div>
-       <label for="editTradeLot">Lot Size</label><input type="number" step="0.01" id="editTradeLot" required inputmode="decimal">
-      </div>
-      <div>
-       <label for="editTradeResult">Ergebnis</label><select id="editTradeResult" required><option value="win">Gewinn</option><option value="loss">Verlust</option><option value="breakeven">Break Even</option></select>
-      </div>
-      <div>
-       <label for="editTradePL">P/L (€)</label><input type="number" step="0.01" id="editTradePL" required inputmode="decimal">
-      </div>
-      <div>
-       <label for="editTradeEntry">Entry</label><input type="number" step="0.00001" id="editTradeEntry" required inputmode="decimal">
-      </div>
-      <div>
-       <label for="editTradeExit">Exit</label><input type="number" step="0.00001" id="editTradeExit" required inputmode="decimal">
-      </div>
-      <div>
-       <label for="editTradeStrategy">Strategie</label><input type="text" id="editTradeStrategy">
-      </div>
-     </div><label for="editTradeEmotion">Emotion</label> <select id="editTradeEmotion"> <option value="">-- keine --</option> <option value="confident">😎 Selbstsicher</option> <option value="anxious">😰 Ängstlich</option> <option value="excited">🤩 Aufgeregt</option> <option value="frustrated">😤 Frustriert</option> <option value="calm">😌 Gelassen</option> <option value="greedy">🤑 Gierig</option> </select> <label for="editTradeNotes">Notizen</label> <textarea id="editTradeNotes"></textarea> <button type="submit" class="btn btn-primary">Trade aktualisieren</button>
+    <form id="editTradeForm"><!-- Form content will be dynamically updated -->
     </form>
    </div>
   </div>
   <script>
+// Translations
+const translations = {
+  de: {
+    appTitle: "Trading Pro",
+    nav: {
+      dashboard: "Dashboard",
+      newTrade: "Neuer Trade",
+      history: "Historie",
+      performance: "Performance",
+      emotions: "Emotionen",
+      compound: "Zinseszins",
+      withdrawals: "Auszahlungen"
+    },
+    dashboard: {
+      title: "Dashboard",
+      capitalSetup: "Kapital Setup",
+      startCapital: "Startkapital (€)",
+      saveCapital: "Startkapital speichern",
+      overview: "Übersicht",
+      currentCapital: "Aktuelles Kapital",
+      trades: "Trades",
+      winrate: "Winrate",
+      totalPL: "Gesamt P/L",
+      financialOverview: "Finanzübersicht",
+      wins: "Gewinne",
+      losses: "Verluste",
+      withdrawals: "Auszahlungen",
+      cashflowSummary: "Cashflow Zusammenfassung",
+      incomeVsExpenses: "Einnahmen vs. Ausgaben",
+      totalIncome: "Gesamt Einnahmen",
+      totalExpenses: "Gesamt Ausgaben",
+      netResult: "Netto Ergebnis",
+      equityCurve: "Equity Curve",
+      maxDrawdown: "Max Drawdown",
+      profitFactor: "Profit Factor"
+    },
+    trade: {
+      title: "Neuer Trade",
+      date: "Datum",
+      asset: "Asset",
+      select: "-- auswählen --",
+      lotSize: "Lot Size",
+      result: "Ergebnis",
+      win: "Gewinn",
+      loss: "Verlust",
+      breakeven: "Break Even",
+      profitLoss: "Gewinn/Verlust (€)",
+      entryPrice: "Entry Price",
+      exitPrice: "Exit Price",
+      strategy: "Strategie",
+      strategyPlaceholder: "z.B. Trend Following",
+      emotion: "Emotion beim Trade",
+      noEmotion: "-- keine Emotion --",
+      notes: "Notizen",
+      notesPlaceholder: "Deine Gedanken zum Trade...",
+      addTrade: "Trade hinzufügen",
+      required: "* Pflichtfeld - alle anderen Felder sind optional"
+    },
+    history: {
+      title: "Trade Historie",
+      date: "Datum",
+      asset: "Asset",
+      lot: "Lot",
+      result: "Ergebnis",
+      emotion: "Emotion",
+      actions: "Aktionen",
+      edit: "Edit",
+      delete: "Löschen",
+      noTrades: "Noch keine Trades"
+    },
+    performance: {
+      title: "Performance Analyse",
+      metrics: "Performance Metriken",
+      totalPL: "Gesamt P/L",
+      avgWin: "Ø Gewinn",
+      avgLoss: "Ø Verlust",
+      winrate: "Winrate",
+      profitFactor: "Profit Factor",
+      trades: "Trades",
+      bestTrade: "Bester Trade",
+      worstTrade: "Schlechtester Trade",
+      currentStreak: "Aktueller Streak",
+      assetDistribution: "Asset Verteilung",
+      assetPerformance: "Asset Performance (P/L)",
+      monthlyPerformance: "Monatliche Performance",
+      streaksTitle: "Winning & Losing Streaks",
+      longestWinStreak: "Längster Winning Streak",
+      longestLossStreak: "Längster Losing Streak",
+      consecutiveWins: "aufeinanderfolgende Gewinne",
+      consecutiveLosses: "aufeinanderfolgende Verluste",
+      currentlyIn: "Du befindest dich gerade in einem",
+      winningStreak: "Winning Streak",
+      losingStreak: "Losing Streak",
+      noData: "Keine Daten"
+    },
+    emotions: {
+      title: "Emotionen Tracking",
+      date: "Datum",
+      selectEmotion: "Emotion wählen",
+      confident: "Selbstsicher",
+      anxious: "Ängstlich",
+      excited: "Aufgeregt",
+      frustrated: "Frustriert",
+      calm: "Gelassen",
+      greedy: "Gierig",
+      intensity: "Intensität (1-10)",
+      notes: "Notizen",
+      notesPlaceholder: "Wie fühlst du dich heute beim Trading?",
+      save: "Emotion speichern",
+      noEmotions: "Noch keine Emotionen getrackt",
+      fromHistory: "Aus Trade Historie"
+    },
+    compound: {
+      title: "Zinseszinseffekt Rechner",
+      currentPerformance: "Deine aktuelle Performance",
+      currentCapital: "Aktuelles Kapital",
+      avgMonthlyReturn: "Ø Monatliche Rendite",
+      tradingSince: "Trading seit",
+      months: "Monate",
+      calculate: "Zinseszins berechnen",
+      startCapital: "Startkapital (€)",
+      monthlyReturn: "Monatliche Rendite (%)",
+      timeframe: "Zeitraum (Monate)",
+      monthlyWithdrawal: "Monatliche Auszahlung (€)",
+      optional: "Optional - 0 für keine Auszahlungen",
+      yourCurrent: "Deine aktuelle",
+      calculateBtn: "Berechnen",
+      results: "Berechnungsergebnis",
+      finalCapital: "Endkapital nach",
+      totalGrowth: "Gesamt Wachstum",
+      totalReturn: "Gesamt Return",
+      totalWithdrawn: "Gesamt ausgezahlt",
+      capitalGrowth: "Kapitalwachstum"
+    },
+    withdrawals: {
+      title: "Auszahlungen",
+      newWithdrawal: "Neue Auszahlung",
+      date: "Datum",
+      amount: "Betrag (€)",
+      notes: "Notizen",
+      notesPlaceholder: "Grund für die Auszahlung...",
+      add: "Auszahlung hinzufügen",
+      total: "Gesamt Auszahlungen",
+      count: "Anzahl",
+      noWithdrawals: "Keine Auszahlungen"
+    },
+    modals: {
+      editTrade: "Trade bearbeiten",
+      deleteTrade: "Trade löschen?",
+      deleteEmotion: "Emotion löschen?",
+      deleteWithdrawal: "Auszahlung löschen?",
+      confirm: "Löschen",
+      cancel: "Abbrechen",
+      update: "Trade aktualisieren"
+    },
+    messages: {
+      capitalSaved: "Startkapital gespeichert!",
+      tradeAdded: "Trade erfolgreich hinzugefügt!",
+      tradeUpdated: "Trade aktualisiert!",
+      tradeDeleted: "Trade gelöscht",
+      emotionSaved: "Emotion gespeichert!",
+      emotionDeleted: "Emotion gelöscht",
+      withdrawalAdded: "Auszahlung hinzugefügt!",
+      withdrawalDeleted: "Auszahlung gelöscht",
+      calculationSuccess: "Berechnung erfolgreich!",
+      selectEmotion: "Bitte wähle eine Emotion",
+      fillAllFields: "Bitte alle Felder korrekt ausfüllen",
+      validCapital: "Bitte gültiges Startkapital eingeben"
+    }
+  },
+  en: {
+    appTitle: "Trading Pro",
+    nav: {
+      dashboard: "Dashboard",
+      newTrade: "New Trade",
+      history: "History",
+      performance: "Performance",
+      emotions: "Emotions",
+      compound: "Compound",
+      withdrawals: "Withdrawals"
+    },
+    dashboard: {
+      title: "Dashboard",
+      capitalSetup: "Capital Setup",
+      startCapital: "Starting Capital (€)",
+      saveCapital: "Save Starting Capital",
+      overview: "Overview",
+      currentCapital: "Current Capital",
+      trades: "Trades",
+      winrate: "Win Rate",
+      totalPL: "Total P/L",
+      financialOverview: "Financial Overview",
+      wins: "Wins",
+      losses: "Losses",
+      withdrawals: "Withdrawals",
+      cashflowSummary: "Cashflow Summary",
+      incomeVsExpenses: "Income vs. Expenses",
+      totalIncome: "Total Income",
+      totalExpenses: "Total Expenses",
+      netResult: "Net Result",
+      equityCurve: "Equity Curve",
+      maxDrawdown: "Max Drawdown",
+      profitFactor: "Profit Factor"
+    },
+    trade: {
+      title: "New Trade",
+      date: "Date",
+      asset: "Asset",
+      select: "-- select --",
+      lotSize: "Lot Size",
+      result: "Result",
+      win: "Win",
+      loss: "Loss",
+      breakeven: "Break Even",
+      profitLoss: "Profit/Loss (€)",
+      entryPrice: "Entry Price",
+      exitPrice: "Exit Price",
+      strategy: "Strategy",
+      strategyPlaceholder: "e.g. Trend Following",
+      emotion: "Trade Emotion",
+      noEmotion: "-- no emotion --",
+      notes: "Notes",
+      notesPlaceholder: "Your thoughts about the trade...",
+      addTrade: "Add Trade",
+      required: "* Required field - all other fields are optional"
+    },
+    history: {
+      title: "Trade History",
+      date: "Date",
+      asset: "Asset",
+      lot: "Lot",
+      result: "Result",
+      emotion: "Emotion",
+      actions: "Actions",
+      edit: "Edit",
+      delete: "Delete",
+      noTrades: "No trades yet"
+    },
+    performance: {
+      title: "Performance Analysis",
+      metrics: "Performance Metrics",
+      totalPL: "Total P/L",
+      avgWin: "Avg Win",
+      avgLoss: "Avg Loss",
+      winrate: "Win Rate",
+      profitFactor: "Profit Factor",
+      trades: "Trades",
+      bestTrade: "Best Trade",
+      worstTrade: "Worst Trade",
+      currentStreak: "Current Streak",
+      assetDistribution: "Asset Distribution",
+      assetPerformance: "Asset Performance (P/L)",
+      monthlyPerformance: "Monthly Performance",
+      streaksTitle: "Winning & Losing Streaks",
+      longestWinStreak: "Longest Win Streak",
+      longestLossStreak: "Longest Loss Streak",
+      consecutiveWins: "consecutive wins",
+      consecutiveLosses: "consecutive losses",
+      currentlyIn: "You are currently in a",
+      winningStreak: "Winning Streak",
+      losingStreak: "Losing Streak",
+      noData: "No data"
+    },
+    emotions: {
+      title: "Emotions Tracking",
+      date: "Date",
+      selectEmotion: "Select Emotion",
+      confident: "Confident",
+      anxious: "Anxious",
+      excited: "Excited",
+      frustrated: "Frustrated",
+      calm: "Calm",
+      greedy: "Greedy",
+      intensity: "Intensity (1-10)",
+      notes: "Notes",
+      notesPlaceholder: "How do you feel about trading today?",
+      save: "Save Emotion",
+      noEmotions: "No emotions tracked yet",
+      fromHistory: "From Trade History"
+    },
+    compound: {
+      title: "Compound Interest Calculator",
+      currentPerformance: "Your Current Performance",
+      currentCapital: "Current Capital",
+      avgMonthlyReturn: "Avg Monthly Return",
+      tradingSince: "Trading Since",
+      months: "Months",
+      calculate: "Calculate Compound",
+      startCapital: "Starting Capital (€)",
+      monthlyReturn: "Monthly Return (%)",
+      timeframe: "Timeframe (Months)",
+      monthlyWithdrawal: "Monthly Withdrawal (€)",
+      optional: "Optional - 0 for no withdrawals",
+      yourCurrent: "Your current",
+      calculateBtn: "Calculate",
+      results: "Calculation Results",
+      finalCapital: "Final Capital after",
+      totalGrowth: "Total Growth",
+      totalReturn: "Total Return",
+      totalWithdrawn: "Total Withdrawn",
+      capitalGrowth: "Capital Growth"
+    },
+    withdrawals: {
+      title: "Withdrawals",
+      newWithdrawal: "New Withdrawal",
+      date: "Date",
+      amount: "Amount (€)",
+      notes: "Notes",
+      notesPlaceholder: "Reason for withdrawal...",
+      add: "Add Withdrawal",
+      total: "Total Withdrawals",
+      count: "Count",
+      noWithdrawals: "No withdrawals"
+    },
+    modals: {
+      editTrade: "Edit Trade",
+      deleteTrade: "Delete trade?",
+      deleteEmotion: "Delete emotion?",
+      deleteWithdrawal: "Delete withdrawal?",
+      confirm: "Delete",
+      cancel: "Cancel",
+      update: "Update Trade"
+    },
+    messages: {
+      capitalSaved: "Starting capital saved!",
+      tradeAdded: "Trade successfully added!",
+      tradeUpdated: "Trade updated!",
+      tradeDeleted: "Trade deleted",
+      emotionSaved: "Emotion saved!",
+      emotionDeleted: "Emotion deleted",
+      withdrawalAdded: "Withdrawal added!",
+      withdrawalDeleted: "Withdrawal deleted",
+      calculationSuccess: "Calculation successful!",
+      selectEmotion: "Please select an emotion",
+      fillAllFields: "Please fill all fields correctly",
+      validCapital: "Please enter valid starting capital"
+    }
+  },
+  es: {
+    appTitle: "Trading Pro",
+    nav: {
+      dashboard: "Panel",
+      newTrade: "Nueva Operación",
+      history: "Historia",
+      performance: "Rendimiento",
+      emotions: "Emociones",
+      compound: "Interés Compuesto",
+      withdrawals: "Retiros"
+    },
+    dashboard: {
+      title: "Panel de Control",
+      capitalSetup: "Configuración de Capital",
+      startCapital: "Capital Inicial (€)",
+      saveCapital: "Guardar Capital Inicial",
+      overview: "Resumen",
+      currentCapital: "Capital Actual",
+      trades: "Operaciones",
+      winrate: "Tasa de Éxito",
+      totalPL: "P/L Total",
+      financialOverview: "Resumen Financiero",
+      wins: "Ganancias",
+      losses: "Pérdidas",
+      withdrawals: "Retiros",
+      cashflowSummary: "Resumen de Flujo de Caja",
+      incomeVsExpenses: "Ingresos vs. Gastos",
+      totalIncome: "Ingresos Totales",
+      totalExpenses: "Gastos Totales",
+      netResult: "Resultado Neto",
+      equityCurve: "Curva de Capital",
+      maxDrawdown: "Pérdida Máxima",
+      profitFactor: "Factor de Beneficio"
+    },
+    trade: {
+      title: "Nueva Operación",
+      date: "Fecha",
+      asset: "Activo",
+      select: "-- seleccionar --",
+      lotSize: "Tamaño de Lote",
+      result: "Resultado",
+      win: "Ganancia",
+      loss: "Pérdida",
+      breakeven: "Punto de Equilibrio",
+      profitLoss: "Ganancia/Pérdida (€)",
+      entryPrice: "Precio de Entrada",
+      exitPrice: "Precio de Salida",
+      strategy: "Estrategia",
+      strategyPlaceholder: "ej. Seguimiento de Tendencia",
+      emotion: "Emoción en la Operación",
+      noEmotion: "-- sin emoción --",
+      notes: "Notas",
+      notesPlaceholder: "Tus pensamientos sobre la operación...",
+      addTrade: "Agregar Operación",
+      required: "* Campo obligatorio - todos los demás campos son opcionales"
+    },
+    history: {
+      title: "Historial de Operaciones",
+      date: "Fecha",
+      asset: "Activo",
+      lot: "Lote",
+      result: "Resultado",
+      emotion: "Emoción",
+      actions: "Acciones",
+      edit: "Editar",
+      delete: "Eliminar",
+      noTrades: "Aún no hay operaciones"
+    },
+    performance: {
+      title: "Análisis de Rendimiento",
+      metrics: "Métricas de Rendimiento",
+      totalPL: "P/L Total",
+      avgWin: "Ganancia Prom.",
+      avgLoss: "Pérdida Prom.",
+      winrate: "Tasa de Éxito",
+      profitFactor: "Factor de Beneficio",
+      trades: "Operaciones",
+      bestTrade: "Mejor Operación",
+      worstTrade: "Peor Operación",
+      currentStreak: "Racha Actual",
+      assetDistribution: "Distribución de Activos",
+      assetPerformance: "Rendimiento por Activo (P/L)",
+      monthlyPerformance: "Rendimiento Mensual",
+      streaksTitle: "Rachas Ganadoras y Perdedoras",
+      longestWinStreak: "Racha Ganadora Más Larga",
+      longestLossStreak: "Racha Perdedora Más Larga",
+      consecutiveWins: "victorias consecutivas",
+      consecutiveLosses: "pérdidas consecutivas",
+      currentlyIn: "Actualmente estás en una",
+      winningStreak: "Racha Ganadora",
+      losingStreak: "Racha Perdedora",
+      noData: "Sin datos"
+    },
+    emotions: {
+      title: "Seguimiento de Emociones",
+      date: "Fecha",
+      selectEmotion: "Seleccionar Emoción",
+      confident: "Confiado",
+      anxious: "Ansioso",
+      excited: "Emocionado",
+      frustrated: "Frustrado",
+      calm: "Tranquilo",
+      greedy: "Codicioso",
+      intensity: "Intensidad (1-10)",
+      notes: "Notas",
+      notesPlaceholder: "¿Cómo te sientes hoy con el trading?",
+      save: "Guardar Emoción",
+      noEmotions: "Aún no hay emociones registradas",
+      fromHistory: "Del Historial de Operaciones"
+    },
+    compound: {
+      title: "Calculadora de Interés Compuesto",
+      currentPerformance: "Tu Rendimiento Actual",
+      currentCapital: "Capital Actual",
+      avgMonthlyReturn: "Retorno Mensual Prom.",
+      tradingSince: "Operando Desde",
+      months: "Meses",
+      calculate: "Calcular Interés Compuesto",
+      startCapital: "Capital Inicial (€)",
+      monthlyReturn: "Retorno Mensual (%)",
+      timeframe: "Período (Meses)",
+      monthlyWithdrawal: "Retiro Mensual (€)",
+      optional: "Opcional - 0 para ningún retiro",
+      yourCurrent: "Tu actual",
+      calculateBtn: "Calcular",
+      results: "Resultados del Cálculo",
+      finalCapital: "Capital Final después de",
+      totalGrowth: "Crecimiento Total",
+      totalReturn: "Retorno Total",
+      totalWithdrawn: "Total Retirado",
+      capitalGrowth: "Crecimiento del Capital"
+    },
+    withdrawals: {
+      title: "Retiros",
+      newWithdrawal: "Nuevo Retiro",
+      date: "Fecha",
+      amount: "Monto (€)",
+      notes: "Notas",
+      notesPlaceholder: "Motivo del retiro...",
+      add: "Agregar Retiro",
+      total: "Retiros Totales",
+      count: "Cantidad",
+      noWithdrawals: "Sin retiros"
+    },
+    modals: {
+      editTrade: "Editar Operación",
+      deleteTrade: "¿Eliminar operación?",
+      deleteEmotion: "¿Eliminar emoción?",
+      deleteWithdrawal: "¿Eliminar retiro?",
+      confirm: "Eliminar",
+      cancel: "Cancelar",
+      update: "Actualizar Operación"
+    },
+    messages: {
+      capitalSaved: "¡Capital inicial guardado!",
+      tradeAdded: "¡Operación agregada exitosamente!",
+      tradeUpdated: "¡Operación actualizada!",
+      tradeDeleted: "Operación eliminada",
+      emotionSaved: "¡Emoción guardada!",
+      emotionDeleted: "Emoción eliminada",
+      withdrawalAdded: "¡Retiro agregado!",
+      withdrawalDeleted: "Retiro eliminado",
+      calculationSuccess: "¡Cálculo exitoso!",
+      selectEmotion: "Por favor selecciona una emoción",
+      fillAllFields: "Por favor completa todos los campos correctamente",
+      validCapital: "Por favor ingresa un capital inicial válido"
+    }
+  }
+};
+
+let currentLang = localStorage.getItem('tradingJournalLang') || 'de';
 let allData = [];
 let charts = {};
 let selectedEmotion = '';
 
+// Language Management
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('tradingJournalLang', lang);
+  document.getElementById('languageSelector').value = lang;
+  document.getElementById('mobileLanguageSelector').value = lang;
+  renderUI();
+  updateAll();
+}
+
+function t(path) {
+  const keys = path.split('.');
+  let value = translations[currentLang];
+  for (const key of keys) {
+    value = value[key];
+    if (value === undefined) return path;
+  }
+  return value;
+}
+
 // Mobile Menu
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const sidebar = document.getElementById('sidebar');
-const mobileOverlay = document.getElementById('mobileOverlay');
+let mobileMenuBtn, sidebar, mobileOverlay;
 
-mobileMenuBtn.addEventListener('click', () => {
-  sidebar.classList.add('open');
-  mobileOverlay.classList.add('show');
-});
-
-mobileOverlay.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-  mobileOverlay.classList.remove('show');
-});
+function initMobileMenu() {
+  mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  sidebar = document.getElementById('sidebar');
+  mobileOverlay = document.getElementById('mobileOverlay');
+  
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      mobileOverlay.classList.add('show');
+    });
+  }
+  
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      mobileOverlay.classList.remove('show');
+    });
+  }
+}
 
 // LocalStorage Functions
 function saveToLocalStorage() {
@@ -563,133 +767,489 @@ function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// Initialize
-function initApp() {
-  loadFromLocalStorage();
-  updateAll();
+// Render Complete UI
+function renderUI() {
+  const lang = translations[currentLang];
+  
+  // Update titles
+  document.getElementById('sidebarTitle').textContent = lang.appTitle;
+  document.getElementById('mobileHeaderTitle').textContent = lang.appTitle;
+  
+  // Update navigation
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems[0].innerHTML = `<span class="nav-icon">📊</span> <span class="nav-text">${lang.nav.dashboard}</span>`;
+  navItems[1].innerHTML = `<span class="nav-icon">➕</span> <span class="nav-text">${lang.nav.newTrade}</span>`;
+  navItems[2].innerHTML = `<span class="nav-icon">📜</span> <span class="nav-text">${lang.nav.history}</span>`;
+  navItems[3].innerHTML = `<span class="nav-icon">📊</span> <span class="nav-text">${lang.nav.performance}</span>`;
+  navItems[4].innerHTML = `<span class="nav-icon">🎭</span> <span class="nav-text">${lang.nav.emotions}</span>`;
+  navItems[5].innerHTML = `<span class="nav-icon">🧮</span> <span class="nav-text">${lang.nav.compound}</span>`;
+  navItems[6].innerHTML = `<span class="nav-icon">💸</span> <span class="nav-text">${lang.nav.withdrawals}</span>`;
+  
+  // Render main content sections
+  renderDashboard();
+  renderTradePage();
+  renderHistoryPage();
+  renderPerformancePage();
+  renderEmotionsPage();
+  renderCompoundPage();
+  renderWithdrawalsPage();
+  renderEditModal();
 }
 
-// Navigation
-document.querySelectorAll('.nav-item').forEach(nav => {
-  nav.addEventListener('click', () => {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(nav.dataset.section).classList.add('active');
-    nav.classList.add('active');
-    
-    // Close mobile menu
-    sidebar.classList.remove('open');
-    mobileOverlay.classList.remove('show');
-    
-    updateAll();
-  });
-});
-
-// Save Capital
-document.getElementById('saveCapital').addEventListener('click', function() {
-  const value = parseFloat(document.getElementById('startCapital').value);
+function renderDashboard() {
+  const d = translations[currentLang].dashboard;
+  const mainContent = document.getElementById('mainContent');
   
-  if (isNaN(value) || value <= 0) {
-    showToast('Bitte gültiges Startkapital eingeben', 'error');
-    return;
+  const dashboardSection = document.createElement('section');
+  dashboardSection.id = 'dashboard';
+  dashboardSection.className = 'section active';
+  dashboardSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">📊 ${d.title}</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">💰 ${d.capitalSetup}</div>
+        <label for="startCapital">${d.startCapital}</label>
+        <input type="number" id="startCapital" placeholder="10000" inputmode="decimal">
+        <button class="btn btn-primary" id="saveCapital">${d.saveCapital}</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📌 ${d.overview}</div>
+        <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div class="stat">
+            <div class="stat-label">${d.currentCapital}</div>
+            <div class="stat-value" id="currentCapital">0€</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">${d.trades}</div>
+            <div class="stat-value" id="totalTrades">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">${d.winrate}</div>
+            <div class="stat-value" id="winrate">0%</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">${d.totalPL}</div>
+            <div class="stat-value" id="totalPL">0€</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💰 ${d.financialOverview}</div>
+      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat">
+          <div class="stat-label">✅ ${d.wins}</div>
+          <div class="stat-value profit" id="totalWins">0€</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem"><span id="winCount">0</span> ${d.trades}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">❌ ${d.losses}</div>
+          <div class="stat-value loss" id="totalLosses">0€</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem"><span id="lossCount">0</span> ${d.trades}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">💸 ${d.withdrawals}</div>
+          <div class="stat-value loss" id="totalWithdrawals">0€</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem"><span id="withdrawalCount">0</span> ${d.withdrawals}</div>
+        </div>
+      </div>
+      
+      <div style="margin-top:1.5rem;padding:1.25rem;background:rgba(59,130,246,0.05);border:1px solid var(--border);border-radius:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+          <div style="font-weight:600;font-size:1rem">💵 ${d.cashflowSummary}</div>
+          <div style="font-size:0.875rem;color:var(--muted)">${d.incomeVsExpenses}</div>
+        </div>
+        <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div>
+            <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">📥 ${d.totalIncome}</div>
+            <div style="font-size:1.75rem;font-weight:700;color:var(--success)" id="totalIncome">0€</div>
+          </div>
+          <div>
+            <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">📤 ${d.totalExpenses}</div>
+            <div style="font-size:1.75rem;font-weight:700;color:var(--danger)" id="totalExpenses">0€</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:0.875rem;color:var(--muted)">💎 ${d.netResult}</span>
+            <span style="font-size:1.5rem;font-weight:700" id="netResult">0€</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">📈 ${d.equityCurve}</div>
+      <div class="chart"><canvas id="equityChart"></canvas></div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-label">${d.maxDrawdown}</div>
+        <div class="stat-value loss" id="maxDrawdown">0€</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">${d.profitFactor}</div>
+        <div class="stat-value" id="profitFactor">0.00</div>
+      </div>
+    </div>
+  `;
+  
+  // Clear and append
+  const existingDashboard = document.getElementById('dashboard');
+  if (existingDashboard) existingDashboard.remove();
+  mainContent.appendChild(dashboardSection);
+  
+  // Add event listener
+  const saveCapitalBtn = document.getElementById('saveCapital');
+  if (saveCapitalBtn) {
+    saveCapitalBtn.addEventListener('click', function() {
+      const value = parseFloat(document.getElementById('startCapital').value);
+      
+      if (isNaN(value) || value <= 0) {
+        showToast(t('messages.validCapital'), 'error');
+        return;
+      }
+      
+      const existing = allData.find(d => d.type === 'capital');
+      
+      if (existing) {
+        existing.start_capital = value;
+      } else {
+        allData.push({
+          id: generateId(),
+          type: 'capital',
+          start_capital: value,
+          date: new Date().toISOString()
+        });
+      }
+      
+      saveToLocalStorage();
+      updateAll();
+      showToast(t('messages.capitalSaved'), 'success');
+    });
   }
+}
+
+function renderTradePage() {
+  const tr = translations[currentLang].trade;
+  const mainContent = document.getElementById('mainContent');
   
-  const existing = allData.find(d => d.type === 'capital');
+  const tradeSection = document.createElement('section');
+  tradeSection.id = 'trade';
+  tradeSection.className = 'section';
+  tradeSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">➕ ${tr.title}</h2>
+    <div class="card">
+      <form id="tradeForm">
+        <div class="form-grid">
+          <div><label for="tradeDate">${tr.date} *</label><input type="date" id="tradeDate" required></div>
+          <div><label for="tradeAsset">${tr.asset}</label><select id="tradeAsset"><option value="">${tr.select}</option><optgroup label="Major Pairs"><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>USD/CHF</option><option>AUD/USD</option><option>USD/CAD</option><option>NZD/USD</option></optgroup><optgroup label="Minor Pairs"><option>EUR/GBP</option><option>EUR/AUD</option><option>EUR/CAD</option><option>EUR/JPY</option><option>GBP/JPY</option><option>GBP/AUD</option><option>AUD/JPY</option><option>NZD/JPY</option></optgroup><optgroup label="Exotic Pairs"><option>USD/TRY</option><option>USD/ZAR</option><option>USD/MXN</option><option>EUR/TRY</option></optgroup><optgroup label="Commodities"><option>XAU/USD (Gold)</option><option>XAG/USD (Silber)</option><option>WTI/USD (Öl)</option></optgroup><optgroup label="Crypto"><option>BTC/USD</option><option>ETH/USD</option><option>XRP/USD</option></optgroup><optgroup label="Indices"><option>US30</option><option>NAS100</option><option>SPX500</option><option>GER40</option><option>UK100</option></optgroup></select></div>
+          <div><label for="tradeLot">${tr.lotSize}</label><input type="number" step="0.01" id="tradeLot" placeholder="0.01" inputmode="decimal"></div>
+          <div><label for="tradeResult">${tr.result}</label><select id="tradeResult"><option value="">${tr.select}</option><option value="win">✅ ${tr.win}</option><option value="loss">❌ ${tr.loss}</option><option value="breakeven">➖ ${tr.breakeven}</option></select></div>
+          <div><label for="tradePL">${tr.profitLoss}</label><input type="number" step="0.01" id="tradePL" placeholder="0.00" inputmode="decimal"></div>
+          <div><label for="tradeEntry">${tr.entryPrice}</label><input type="number" step="0.00001" id="tradeEntry" placeholder="1.08500" inputmode="decimal"></div>
+          <div><label for="tradeExit">${tr.exitPrice}</label><input type="number" step="0.00001" id="tradeExit" placeholder="1.08750" inputmode="decimal"></div>
+          <div><label for="tradeStrategy">${tr.strategy}</label><input type="text" id="tradeStrategy" placeholder="${tr.strategyPlaceholder}"></div>
+        </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem">${tr.required}</p>
+        <label for="tradeEmotion">${tr.emotion}</label>
+        <select id="tradeEmotion">
+          <option value="">${tr.noEmotion}</option>
+          <option value="confident">😎 ${translations[currentLang].emotions.confident}</option>
+          <option value="anxious">😰 ${translations[currentLang].emotions.anxious}</option>
+          <option value="excited">🤩 ${translations[currentLang].emotions.excited}</option>
+          <option value="frustrated">😤 ${translations[currentLang].emotions.frustrated}</option>
+          <option value="calm">😌 ${translations[currentLang].emotions.calm}</option>
+          <option value="greedy">🤑 ${translations[currentLang].emotions.greedy}</option>
+        </select>
+        <label for="tradeNotes">${tr.notes}</label>
+        <textarea id="tradeNotes" placeholder="${tr.notesPlaceholder}"></textarea>
+        <button type="submit" class="btn btn-primary">${tr.addTrade}</button>
+      </form>
+    </div>
+  `;
   
-  if (existing) {
-    existing.start_capital = value;
-  } else {
-    allData.push({
-      id: generateId(),
-      type: 'capital',
-      start_capital: value,
-      date: new Date().toISOString()
+  const existingTrade = document.getElementById('trade');
+  if (existingTrade) existingTrade.remove();
+  mainContent.appendChild(tradeSection);
+  
+  // Add form handler
+  const tradeForm = document.getElementById('tradeForm');
+  if (tradeForm) {
+    tradeForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      let profitLoss = parseFloat(document.getElementById('tradePL').value) || 0;
+      const tradeResult = document.getElementById('tradeResult').value;
+      
+      if (tradeResult === 'loss' && profitLoss > 0) {
+        profitLoss = -profitLoss;
+      }
+      
+      allData.push({
+        id: generateId(),
+        type: 'trade',
+        date: document.getElementById('tradeDate').value,
+        asset: document.getElementById('tradeAsset').value,
+        lot_size: parseFloat(document.getElementById('tradeLot').value) || 0,
+        result: tradeResult,
+        profit_loss: profitLoss,
+        entry_price: parseFloat(document.getElementById('tradeEntry').value) || 0,
+        exit_price: parseFloat(document.getElementById('tradeExit').value) || 0,
+        strategy: document.getElementById('tradeStrategy').value || '',
+        notes: document.getElementById('tradeNotes').value || '',
+        emotion: document.getElementById('tradeEmotion').value || ''
+      });
+      
+      saveToLocalStorage();
+      updateAll();
+      showToast(t('messages.tradeAdded'), 'success');
+      this.reset();
+      document.getElementById('tradeDate').value = new Date().toISOString().split('T')[0];
     });
   }
   
-  saveToLocalStorage();
-  updateAll();
-  showToast('Startkapital gespeichert!', 'success');
-});
+  // Set default date
+  const tradeDateField = document.getElementById('tradeDate');
+  if (tradeDateField) {
+    tradeDateField.value = new Date().toISOString().split('T')[0];
+  }
+}
 
-// Add Trade
-document.getElementById('tradeForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+function renderHistoryPage() {
+  const h = translations[currentLang].history;
+  const mainContent = document.getElementById('mainContent');
   
-  let profitLoss = parseFloat(document.getElementById('tradePL').value) || 0;
-  const tradeResult = document.getElementById('tradeResult').value;
+  const historySection = document.createElement('section');
+  historySection.id = 'history';
+  historySection.className = 'section';
+  historySection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">📜 ${h.title}</h2>
+    <div class="card">
+      <div class="table-container">
+        <div id="historyContent"></div>
+      </div>
+    </div>
+  `;
   
-  if (tradeResult === 'loss' && profitLoss > 0) {
-    profitLoss = -profitLoss;
+  const existingHistory = document.getElementById('history');
+  if (existingHistory) existingHistory.remove();
+  mainContent.appendChild(historySection);
+}
+
+function renderPerformancePage() {
+  const p = translations[currentLang].performance;
+  const mainContent = document.getElementById('mainContent');
+  
+  const performanceSection = document.createElement('section');
+  performanceSection.id = 'performance';
+  performanceSection.className = 'section';
+  performanceSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">📈 ${p.title}</h2>
+    <div class="card">
+      <div class="card-title">📊 ${p.metrics}</div>
+      <div id="performanceStats"></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">🎯 ${p.assetDistribution}</div>
+        <div class="chart-sm"><canvas id="assetChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏆 ${p.assetPerformance}</div>
+        <div class="chart-sm"><canvas id="assetPerformanceChart"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 ${p.monthlyPerformance}</div>
+      <div class="chart"><canvas id="monthlyChart"></canvas></div>
+    </div>
+  `;
+  
+  const existingPerformance = document.getElementById('performance');
+  if (existingPerformance) existingPerformance.remove();
+  mainContent.appendChild(performanceSection);
+}
+
+function renderEmotionsPage() {
+  const e = translations[currentLang].emotions;
+  const mainContent = document.getElementById('mainContent');
+  
+  const emotionsSection = document.createElement('section');
+  emotionsSection.id = 'emotions';
+  emotionsSection.className = 'section';
+  emotionsSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">🎭 ${e.title}</h2>
+    <div class="card">
+      <form id="emotionForm">
+        <label for="emotionDate">${e.date}</label>
+        <input type="date" id="emotionDate" required>
+        <label>${e.selectEmotion}</label>
+        <div class="emotion-grid">
+          <button type="button" class="emotion-btn" data-emotion="confident">
+            <span class="emotion-icon">😎</span>${e.confident}
+          </button>
+          <button type="button" class="emotion-btn" data-emotion="anxious">
+            <span class="emotion-icon">😰</span>${e.anxious}
+          </button>
+          <button type="button" class="emotion-btn" data-emotion="excited">
+            <span class="emotion-icon">🤩</span>${e.excited}
+          </button>
+          <button type="button" class="emotion-btn" data-emotion="frustrated">
+            <span class="emotion-icon">😤</span>${e.frustrated}
+          </button>
+          <button type="button" class="emotion-btn" data-emotion="calm">
+            <span class="emotion-icon">😌</span>${e.calm}
+          </button>
+          <button type="button" class="emotion-btn" data-emotion="greedy">
+            <span class="emotion-icon">🤑</span>${e.greedy}
+          </button>
+        </div>
+        <label for="emotionIntensity">${e.intensity}</label>
+        <input type="range" min="1" max="10" value="5" id="emotionIntensity">
+        <div style="text-align:center;color:var(--muted);margin-top:0.5rem">
+          <span id="intensityValue">5</span> / 10
+        </div>
+        <label for="emotionNotes">${e.notes}</label>
+        <textarea id="emotionNotes" placeholder="${e.notesPlaceholder}"></textarea>
+        <button type="submit" class="btn btn-primary">${e.save}</button>
+      </form>
+    </div>
+    <div id="emotionHistory" style="margin-top:1.5rem"></div>
+  `;
+  
+  const existingEmotions = document.getElementById('emotions');
+  if (existingEmotions) existingEmotions.remove();
+  mainContent.appendChild(emotionsSection);
+  
+  // Emotion buttons
+  document.querySelectorAll('.emotion-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedEmotion = this.dataset.emotion;
+    });
+  });
+  
+  // Intensity slider
+  const intensitySlider = document.getElementById('emotionIntensity');
+  if (intensitySlider) {
+    intensitySlider.addEventListener('input', function() {
+      document.getElementById('intensityValue').textContent = this.value;
+    });
   }
   
-  allData.push({
-    id: generateId(),
-    type: 'trade',
-    date: document.getElementById('tradeDate').value,
-    asset: document.getElementById('tradeAsset').value,
-    lot_size: parseFloat(document.getElementById('tradeLot').value) || 0,
-    result: tradeResult,
-    profit_loss: profitLoss,
-    entry_price: parseFloat(document.getElementById('tradeEntry').value) || 0,
-    exit_price: parseFloat(document.getElementById('tradeExit').value) || 0,
-    strategy: document.getElementById('tradeStrategy').value || '',
-    notes: document.getElementById('tradeNotes').value || '',
-    emotion: document.getElementById('tradeEmotion').value || ''
-  });
-  
-  saveToLocalStorage();
-  updateAll();
-  showToast('Trade erfolgreich hinzugefügt!', 'success');
-  this.reset();
-  document.getElementById('tradeDate').value = new Date().toISOString().split('T')[0];
-});
-
-// Emotion Selection
-document.querySelectorAll('.emotion-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
-    this.classList.add('selected');
-    selectedEmotion = this.dataset.emotion;
-  });
-});
-
-document.getElementById('emotionIntensity').addEventListener('input', function() {
-  document.getElementById('intensityValue').textContent = this.value;
-});
-
-// Add Emotion
-document.getElementById('emotionForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  if (!selectedEmotion) {
-    showToast('Bitte wähle eine Emotion', 'error');
-    return;
+  // Form submission
+  const emotionForm = document.getElementById('emotionForm');
+  if (emotionForm) {
+    emotionForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!selectedEmotion) {
+        showToast(t('messages.selectEmotion'), 'error');
+        return;
+      }
+      
+      allData.push({
+        id: generateId(),
+        type: 'emotion',
+        date: document.getElementById('emotionDate').value,
+        emotion: selectedEmotion,
+        emotion_intensity: parseInt(document.getElementById('emotionIntensity').value),
+        notes: document.getElementById('emotionNotes').value || ''
+      });
+      
+      saveToLocalStorage();
+      updateAll();
+      showToast(t('messages.emotionSaved'), 'success');
+      this.reset();
+      document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+      selectedEmotion = '';
+      document.getElementById('emotionIntensity').value = 5;
+      document.getElementById('intensityValue').textContent = '5';
+      document.getElementById('emotionDate').value = new Date().toISOString().split('T')[0];
+    });
   }
   
-  allData.push({
-    id: generateId(),
-    type: 'emotion',
-    date: document.getElementById('emotionDate').value,
-    emotion: selectedEmotion,
-    emotion_intensity: parseInt(document.getElementById('emotionIntensity').value),
-    notes: document.getElementById('emotionNotes').value || ''
-  });
-  
-  saveToLocalStorage();
-  updateAll();
-  showToast('Emotion gespeichert!', 'success');
-  this.reset();
-  document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
-  selectedEmotion = '';
-  document.getElementById('emotionIntensity').value = 5;
-  document.getElementById('intensityValue').textContent = '5';
-  document.getElementById('emotionDate').value = new Date().toISOString().split('T')[0];
-});
+  // Set default date
+  const emotionDateField = document.getElementById('emotionDate');
+  if (emotionDateField) {
+    emotionDateField.value = new Date().toISOString().split('T')[0];
+  }
+}
 
-// Compound Form
-document.getElementById('compoundForm').addEventListener('submit', function(e) {
+function renderCompoundPage() {
+  const c = translations[currentLang].compound;
+  const mainContent = document.getElementById('mainContent');
+  
+  const compoundSection = document.createElement('section');
+  compoundSection.id = 'goals';
+  compoundSection.className = 'section';
+  compoundSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">📊 ${c.title}</h2>
+    
+    <div class="card">
+      <div class="card-title">📈 ${c.currentPerformance}</div>
+      <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat">
+          <div class="stat-label">${c.currentCapital}</div>
+          <div class="stat-value profit" id="perfCurrentCapital">0€</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">${c.avgMonthlyReturn}</div>
+          <div class="stat-value" id="perfMonthlyReturn">0%</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">${c.tradingSince}</div>
+          <div class="stat-value" id="perfTradingSince">0 ${c.months}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">🧮 ${c.calculate}</div>
+      <form id="compoundForm">
+        <div class="form-grid">
+          <div>
+            <label for="compoundStartCapital">${c.startCapital}</label>
+            <input type="number" step="0.01" id="compoundStartCapital" placeholder="10000" required inputmode="decimal">
+          </div>
+          <div>
+            <label for="compoundMonthlyReturn">${c.monthlyReturn}</label>
+            <input type="number" step="0.1" id="compoundMonthlyReturn" placeholder="5" required inputmode="decimal">
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">💡 ${c.yourCurrent}: <span id="hintMonthlyReturn">-</span></div>
+          </div>
+          <div>
+            <label for="compoundMonths">${c.timeframe}</label>
+            <input type="number" id="compoundMonths" placeholder="12" required inputmode="numeric">
+          </div>
+          <div>
+            <label for="compoundWithdrawal">${c.monthlyWithdrawal}</label>
+            <input type="number" step="0.01" id="compoundWithdrawal" placeholder="0" value="0" inputmode="decimal">
+            <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">${c.optional}</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">${c.calculateBtn}</button>
+      </form>
+    </div>
+    
+    <div id="compoundResults"></div>
+  `;
+  
+  const existingCompound = document.getElementById('goals');
+  if (existingCompound) existingCompound.remove();
+  mainContent.appendChild(compoundSection);
+  
+  // Form submission
+  const compoundForm = document.getElementById('compoundForm');
+  if (compoundForm) {
+    compoundForm.addEventListener('submit', handleCompoundCalculation);
+  }
+}
+
+function handleCompoundCalculation(e) {
   e.preventDefault();
+  const c = translations[currentLang].compound;
   
   const startCapital = parseFloat(document.getElementById('compoundStartCapital').value);
   const monthlyReturn = parseFloat(document.getElementById('compoundMonthlyReturn').value) / 100;
@@ -697,7 +1257,7 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
   const monthlyWithdrawal = parseFloat(document.getElementById('compoundWithdrawal').value) || 0;
   
   if (isNaN(startCapital) || isNaN(monthlyReturn) || isNaN(months) || startCapital <= 0 || months <= 0) {
-    showToast('Bitte alle Felder korrekt ausfüllen', 'error');
+    showToast(t('messages.fillAllFields'), 'error');
     return;
   }
   
@@ -722,7 +1282,7 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
     
     if (currentCapital < 0) currentCapital = 0;
     
-    labels.push(`Monat ${i}`);
+    labels.push(`${currentLang === 'de' ? 'Monat' : currentLang === 'en' ? 'Month' : 'Mes'} ${i}`);
     capitalData.push(currentCapital);
     withdrawalData.push(totalWithdrawn);
   }
@@ -735,23 +1295,23 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
   
   resultsContainer.innerHTML = `
     <div class="card">
-      <div class="card-title">📊 Berechnungsergebnis</div>
+      <div class="card-title">📊 ${c.results}</div>
       <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
         <div class="stat">
-          <div class="stat-label">Endkapital nach ${months} Monaten</div>
+          <div class="stat-label">${c.finalCapital} ${months} ${c.months}</div>
           <div class="stat-value profit">${finalCapital.toFixed(2)}€</div>
         </div>
         <div class="stat">
-          <div class="stat-label">Gesamt Wachstum</div>
+          <div class="stat-label">${c.totalGrowth}</div>
           <div class="stat-value ${totalGrowth >= 0 ? 'profit' : 'loss'}">${totalGrowth >= 0 ? '+' : ''}${totalGrowth.toFixed(2)}€</div>
         </div>
         <div class="stat">
-          <div class="stat-label">Gesamt Return</div>
+          <div class="stat-label">${c.totalReturn}</div>
           <div class="stat-value ${totalReturn >= 0 ? 'profit' : 'loss'}">${totalReturn >= 0 ? '+' : ''}${totalReturn.toFixed(1)}%</div>
         </div>
         ${monthlyWithdrawal > 0 ? `
         <div class="stat">
-          <div class="stat-label">Gesamt ausgezahlt</div>
+          <div class="stat-label">${c.totalWithdrawn}</div>
           <div class="stat-value loss">-${totalWithdrawn.toFixed(2)}€</div>
         </div>
         ` : '<div></div>'}
@@ -766,7 +1326,7 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
   if (charts.compound) charts.compound.destroy();
   
   const datasets = [{
-    label: '💰 Kapitalwachstum',
+    label: `💰 ${c.capitalGrowth}`,
     data: capitalData,
     borderColor: '#3b82f6',
     backgroundColor: 'rgba(59,130,246,0.1)',
@@ -780,7 +1340,7 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
   
   if (monthlyWithdrawal > 0) {
     datasets.push({
-      label: '💸 Gesamt ausgezahlt',
+      label: `💸 ${c.totalWithdrawn}`,
       data: withdrawalData,
       borderColor: '#ef4444',
       backgroundColor: 'rgba(239,68,68,0.05)',
@@ -847,68 +1407,188 @@ document.getElementById('compoundForm').addEventListener('submit', function(e) {
     }
   });
   
-  showToast('Berechnung erfolgreich!', 'success');
-});
+  showToast(t('messages.calculationSuccess'), 'success');
+}
 
-// Add Withdrawal
-document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+function renderWithdrawalsPage() {
+  const w = translations[currentLang].withdrawals;
+  const mainContent = document.getElementById('mainContent');
   
-  allData.push({
-    id: generateId(),
-    type: 'withdrawal',
-    date: document.getElementById('withdrawalDate').value,
-    withdrawal_amount: parseFloat(document.getElementById('withdrawalAmount').value),
-    notes: document.getElementById('withdrawalNotes').value || ''
-  });
+  const withdrawalsSection = document.createElement('section');
+  withdrawalsSection.id = 'withdrawals';
+  withdrawalsSection.className = 'section';
+  withdrawalsSection.innerHTML = `
+    <h2 style="margin-bottom:1.5rem">💸 ${w.title}</h2>
+    <div class="card">
+      <div class="card-title">${w.newWithdrawal}</div>
+      <form id="withdrawalForm">
+        <div class="form-grid">
+          <div><label for="withdrawalDate">${w.date}</label><input type="date" id="withdrawalDate" required></div>
+          <div><label for="withdrawalAmount">${w.amount}</label><input type="number" step="0.01" id="withdrawalAmount" placeholder="500" required inputmode="decimal"></div>
+        </div>
+        <label for="withdrawalNotes">${w.notes}</label>
+        <textarea id="withdrawalNotes" placeholder="${w.notesPlaceholder}"></textarea>
+        <button type="submit" class="btn btn-primary">${w.add}</button>
+      </form>
+    </div>
+    <div id="withdrawalStats"></div>
+    <div id="withdrawalHistory"></div>
+  `;
   
-  saveToLocalStorage();
-  updateAll();
-  showToast('Auszahlung hinzugefügt!', 'success');
-  this.reset();
-  document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
-});
-
-// Edit Trade Form
-document.getElementById('editTradeForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+  const existingWithdrawals = document.getElementById('withdrawals');
+  if (existingWithdrawals) existingWithdrawals.remove();
+  mainContent.appendChild(withdrawalsSection);
   
-  const id = document.getElementById('editTradeId').value;
-  const trade = allData.find(d => d.id === id);
-  if (!trade) return;
-  
-  let profitLoss = parseFloat(document.getElementById('editTradePL').value);
-  const tradeResult = document.getElementById('editTradeResult').value;
-  
-  if (tradeResult === 'loss' && profitLoss > 0) {
-    profitLoss = -profitLoss;
+  // Form submission
+  const withdrawalForm = document.getElementById('withdrawalForm');
+  if (withdrawalForm) {
+    withdrawalForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      allData.push({
+        id: generateId(),
+        type: 'withdrawal',
+        date: document.getElementById('withdrawalDate').value,
+        withdrawal_amount: parseFloat(document.getElementById('withdrawalAmount').value),
+        notes: document.getElementById('withdrawalNotes').value || ''
+      });
+      
+      saveToLocalStorage();
+      updateAll();
+      showToast(t('messages.withdrawalAdded'), 'success');
+      this.reset();
+      document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
+    });
   }
   
-  trade.date = document.getElementById('editTradeDate').value;
-  trade.asset = document.getElementById('editTradeAsset').value;
-  trade.lot_size = parseFloat(document.getElementById('editTradeLot').value);
-  trade.result = tradeResult;
-  trade.profit_loss = profitLoss;
-  trade.entry_price = parseFloat(document.getElementById('editTradeEntry').value);
-  trade.exit_price = parseFloat(document.getElementById('editTradeExit').value);
-  trade.strategy = document.getElementById('editTradeStrategy').value;
-  trade.emotion = document.getElementById('editTradeEmotion').value;
-  trade.notes = document.getElementById('editTradeNotes').value;
-  
-  saveToLocalStorage();
-  updateAll();
-  showToast('Trade aktualisiert!', 'success');
-  closeEditModal();
-});
+  // Set default date
+  const withdrawalDateField = document.getElementById('withdrawalDate');
+  if (withdrawalDateField) {
+    withdrawalDateField.value = new Date().toISOString().split('T')[0];
+  }
+}
 
-document.getElementById('editModal').addEventListener('click', function(e) {
-  if (e.target === this) closeEditModal();
-});
+function renderEditModal() {
+  const m = translations[currentLang].modals;
+  const tr = translations[currentLang].trade;
+  const e = translations[currentLang].emotions;
+  
+  const editModalContent = document.querySelector('#editModal .modal-content');
+  if (editModalContent) {
+    editModalContent.innerHTML = `
+      <div class="modal-header">
+        <h3 id="editModalTitle">${m.editTrade}</h3>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+      <form id="editTradeForm">
+        <input type="hidden" id="editTradeId">
+        <div class="form-grid">
+          <div><label for="editTradeDate">${tr.date}</label><input type="date" id="editTradeDate" required></div>
+          <div><label for="editTradeAsset">${tr.asset}</label><select id="editTradeAsset" required><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>XAU/USD</option><option>BTC/USD</option></select></div>
+          <div><label for="editTradeLot">${tr.lotSize}</label><input type="number" step="0.01" id="editTradeLot" required inputmode="decimal"></div>
+          <div><label for="editTradeResult">${tr.result}</label><select id="editTradeResult" required><option value="win">${tr.win}</option><option value="loss">${tr.loss}</option><option value="breakeven">${tr.breakeven}</option></select></div>
+          <div><label for="editTradePL">P/L (€)</label><input type="number" step="0.01" id="editTradePL" required inputmode="decimal"></div>
+          <div><label for="editTradeEntry">Entry</label><input type="number" step="0.00001" id="editTradeEntry" required inputmode="decimal"></div>
+          <div><label for="editTradeExit">Exit</label><input type="number" step="0.00001" id="editTradeExit" required inputmode="decimal"></div>
+          <div><label for="editTradeStrategy">${tr.strategy}</label><input type="text" id="editTradeStrategy"></div>
+        </div>
+        <label for="editTradeEmotion">${tr.emotion}</label>
+        <select id="editTradeEmotion">
+          <option value="">${tr.noEmotion}</option>
+          <option value="confident">😎 ${e.confident}</option>
+          <option value="anxious">😰 ${e.anxious}</option>
+          <option value="excited">🤩 ${e.excited}</option>
+          <option value="frustrated">😤 ${e.frustrated}</option>
+          <option value="calm">😌 ${e.calm}</option>
+          <option value="greedy">🤑 ${e.greedy}</option>
+        </select>
+        <label for="editTradeNotes">${tr.notes}</label>
+        <textarea id="editTradeNotes"></textarea>
+        <button type="submit" class="btn btn-primary">${m.update}</button>
+      </form>
+    `;
+  }
+  
+  // Form submission
+  const editTradeForm = document.getElementById('editTradeForm');
+  if (editTradeForm) {
+    editTradeForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('editTradeId').value;
+      const trade = allData.find(d => d.id === id);
+      if (!trade) return;
+      
+      let profitLoss = parseFloat(document.getElementById('editTradePL').value);
+      const tradeResult = document.getElementById('editTradeResult').value;
+      
+      if (tradeResult === 'loss' && profitLoss > 0) {
+        profitLoss = -profitLoss;
+      }
+      
+      trade.date = document.getElementById('editTradeDate').value;
+      trade.asset = document.getElementById('editTradeAsset').value;
+      trade.lot_size = parseFloat(document.getElementById('editTradeLot').value);
+      trade.result = tradeResult;
+      trade.profit_loss = profitLoss;
+      trade.entry_price = parseFloat(document.getElementById('editTradeEntry').value);
+      trade.exit_price = parseFloat(document.getElementById('editTradeExit').value);
+      trade.strategy = document.getElementById('editTradeStrategy').value;
+      trade.emotion = document.getElementById('editTradeEmotion').value;
+      trade.notes = document.getElementById('editTradeNotes').value;
+      
+      saveToLocalStorage();
+      updateAll();
+      showToast(t('messages.tradeUpdated'), 'success');
+      closeEditModal();
+    });
+  }
+}
+
+// Initialize
+function initApp() {
+  loadFromLocalStorage();
+  renderUI();
+  initMobileMenu();
+  
+  // Language selectors
+  const langSelector = document.getElementById('languageSelector');
+  const mobileLangSelector = document.getElementById('mobileLanguageSelector');
+  
+  if (langSelector) {
+    langSelector.value = currentLang;
+    langSelector.addEventListener('change', (e) => setLanguage(e.target.value));
+  }
+  
+  if (mobileLangSelector) {
+    mobileLangSelector.value = currentLang;
+    mobileLangSelector.addEventListener('change', (e) => setLanguage(e.target.value));
+  }
+  
+  // Navigation
+  document.querySelectorAll('.nav-item').forEach(nav => {
+    nav.addEventListener('click', () => {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById(nav.dataset.section).classList.add('active');
+      nav.classList.add('active');
+      
+      // Close mobile menu
+      if (sidebar) sidebar.classList.remove('open');
+      if (mobileOverlay) mobileOverlay.classList.remove('show');
+      
+      updateAll();
+    });
+  });
+  
+  updateAll();
+}
 
 // Update All
 function updateAll() {
   const cap = allData.find(d => d.type === 'capital');
-  if (cap) document.getElementById('startCapital').value = cap.start_capital;
+  const startCapitalField = document.getElementById('startCapital');
+  if (cap && startCapitalField) startCapitalField.value = cap.start_capital;
   updateDashboard();
   updateHistory();
   updatePerformance();
@@ -942,28 +1622,63 @@ function updateDashboard() {
   const totalLosses = Math.abs(lossTrades.reduce((sum, t) => sum + (t.profit_loss || 0), 0));
   const profitFactor = totalLosses > 0 ? (totalWins / totalLosses) : 0;
   
-  document.getElementById('currentCapital').textContent = currentCapital.toFixed(2) + '€';
-  document.getElementById('currentCapital').className = 'stat-value ' + (currentCapital >= startCapital ? 'profit' : 'loss');
-  document.getElementById('totalTrades').textContent = trades.length;
-  document.getElementById('winrate').textContent = winrate + '%';
-  document.getElementById('totalPL').textContent = totalPL.toFixed(2) + '€';
-  document.getElementById('totalPL').className = 'stat-value ' + (totalPL >= 0 ? 'profit' : 'loss');
-  document.getElementById('maxDrawdown').textContent = '-' + maxDrawdown.toFixed(2) + '€';
-  document.getElementById('profitFactor').textContent = profitFactor.toFixed(2);
-  document.getElementById('profitFactor').className = 'stat-value ' + (profitFactor >= 1 ? 'profit' : 'loss');
+  const currentCapitalEl = document.getElementById('currentCapital');
+  if (currentCapitalEl) {
+    currentCapitalEl.textContent = currentCapital.toFixed(2) + '€';
+    currentCapitalEl.className = 'stat-value ' + (currentCapital >= startCapital ? 'profit' : 'loss');
+  }
   
-  document.getElementById('totalWins').textContent = '+' + totalWins.toFixed(2) + '€';
-  document.getElementById('winCount').textContent = winTrades.length;
-  document.getElementById('totalLosses').textContent = '-' + totalLosses.toFixed(2) + '€';
-  document.getElementById('lossCount').textContent = lossTrades.length;
-  document.getElementById('totalWithdrawals').textContent = '-' + totalWithdrawals.toFixed(2) + '€';
-  document.getElementById('withdrawalCount').textContent = withdrawals.length;
+  const totalTradesEl = document.getElementById('totalTrades');
+  if (totalTradesEl) totalTradesEl.textContent = trades.length;
   
-  document.getElementById('totalIncome').textContent = '+' + totalWins.toFixed(2) + '€';
-  document.getElementById('totalExpenses').textContent = '-' + (totalLosses + totalWithdrawals).toFixed(2) + '€';
+  const winrateEl = document.getElementById('winrate');
+  if (winrateEl) winrateEl.textContent = winrate + '%';
+  
+  const totalPLEl = document.getElementById('totalPL');
+  if (totalPLEl) {
+    totalPLEl.textContent = totalPL.toFixed(2) + '€';
+    totalPLEl.className = 'stat-value ' + (totalPL >= 0 ? 'profit' : 'loss');
+  }
+  
+  const maxDrawdownEl = document.getElementById('maxDrawdown');
+  if (maxDrawdownEl) maxDrawdownEl.textContent = '-' + maxDrawdown.toFixed(2) + '€';
+  
+  const profitFactorEl = document.getElementById('profitFactor');
+  if (profitFactorEl) {
+    profitFactorEl.textContent = profitFactor.toFixed(2);
+    profitFactorEl.className = 'stat-value ' + (profitFactor >= 1 ? 'profit' : 'loss');
+  }
+  
+  const totalWinsEl = document.getElementById('totalWins');
+  if (totalWinsEl) totalWinsEl.textContent = '+' + totalWins.toFixed(2) + '€';
+  
+  const winCountEl = document.getElementById('winCount');
+  if (winCountEl) winCountEl.textContent = winTrades.length;
+  
+  const totalLossesEl = document.getElementById('totalLosses');
+  if (totalLossesEl) totalLossesEl.textContent = '-' + totalLosses.toFixed(2) + '€';
+  
+  const lossCountEl = document.getElementById('lossCount');
+  if (lossCountEl) lossCountEl.textContent = lossTrades.length;
+  
+  const totalWithdrawalsEl = document.getElementById('totalWithdrawals');
+  if (totalWithdrawalsEl) totalWithdrawalsEl.textContent = '-' + totalWithdrawals.toFixed(2) + '€';
+  
+  const withdrawalCountEl = document.getElementById('withdrawalCount');
+  if (withdrawalCountEl) withdrawalCountEl.textContent = withdrawals.length;
+  
+  const totalIncomeEl = document.getElementById('totalIncome');
+  if (totalIncomeEl) totalIncomeEl.textContent = '+' + totalWins.toFixed(2) + '€';
+  
+  const totalExpensesEl = document.getElementById('totalExpenses');
+  if (totalExpensesEl) totalExpensesEl.textContent = '-' + (totalLosses + totalWithdrawals).toFixed(2) + '€';
+  
   const netResult = totalWins - totalLosses - totalWithdrawals;
-  document.getElementById('netResult').textContent = (netResult >= 0 ? '+' : '') + netResult.toFixed(2) + '€';
-  document.getElementById('netResult').className = netResult >= 0 ? 'profit' : 'loss';
+  const netResultEl = document.getElementById('netResult');
+  if (netResultEl) {
+    netResultEl.textContent = (netResult >= 0 ? '+' : '') + netResult.toFixed(2) + '€';
+    netResultEl.className = netResult >= 0 ? 'profit' : 'loss';
+  }
   
   updateEquityChart(trades);
 }
@@ -983,7 +1698,7 @@ function updateEquityChart(trades) {
         data: {
           labels: ['Start'],
           datasets: [{
-            label: 'Kontostand',
+            label: currentLang === 'de' ? 'Kontostand' : currentLang === 'en' ? 'Account Balance' : 'Saldo de Cuenta',
             data: [startCapital],
             borderColor: '#3b82f6',
             backgroundColor: 'rgba(59,130,246,0.1)',
@@ -1001,7 +1716,8 @@ function updateEquityChart(trades) {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return 'Kontostand: ' + context.parsed.y.toFixed(2) + '€';
+                  const label = currentLang === 'de' ? 'Kontostand' : currentLang === 'en' ? 'Balance' : 'Saldo';
+                  return label + ': ' + context.parsed.y.toFixed(2) + '€';
                 }
               }
             }
@@ -1021,7 +1737,7 @@ function updateEquityChart(trades) {
         }
       });
     } else {
-      ctx.parentElement.innerHTML = '<div class="empty"><div class="empty-icon">📈</div><p>Bitte zuerst Startkapital eingeben</p></div>';
+      ctx.parentElement.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><p>${currentLang === 'de' ? 'Bitte zuerst Startkapital eingeben' : currentLang === 'en' ? 'Please enter starting capital first' : 'Por favor ingresa el capital inicial primero'}</p></div>`;
     }
     return;
   }
@@ -1049,12 +1765,12 @@ function updateEquityChart(trades) {
     
     if (useTradeNext) {
       currentEquity += nextTrade.profit_loss || 0;
-      labels.push(new Date(nextTrade.date).toLocaleDateString('de-DE'));
+      labels.push(new Date(nextTrade.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES'));
       equityData.push(currentEquity);
       tradeIndex++;
     } else if (nextWithdrawal) {
       currentEquity -= nextWithdrawal.withdrawal_amount || 0;
-      labels.push(new Date(nextWithdrawal.date).toLocaleDateString('de-DE') + ' 💸');
+      labels.push(new Date(nextWithdrawal.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES') + ' 💸');
       equityData.push(currentEquity);
       withdrawalIndex++;
     }
@@ -1065,7 +1781,7 @@ function updateEquityChart(trades) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Kontostand',
+        label: currentLang === 'de' ? 'Kontostand' : currentLang === 'en' ? 'Account Balance' : 'Saldo de Cuenta',
         data: equityData,
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59,130,246,0.1)',
@@ -1089,7 +1805,8 @@ function updateEquityChart(trades) {
           padding: 12,
           callbacks: {
             label: function(context) {
-              return 'Kontostand: ' + context.parsed.y.toFixed(2) + '€';
+              const label = currentLang === 'de' ? 'Kontostand' : currentLang === 'en' ? 'Balance' : 'Saldo';
+              return label + ': ' + context.parsed.y.toFixed(2) + '€';
             }
           }
         }
@@ -1120,34 +1837,39 @@ function updateEquityChart(trades) {
 function updateHistory() {
   const trades = allData.filter(d => d.type === 'trade').sort((a, b) => new Date(b.date) - new Date(a.date));
   const container = document.getElementById('historyContent');
+  if (!container) return;
+  
+  const h = translations[currentLang].history;
+  const tr = translations[currentLang].trade;
+  const e = translations[currentLang].emotions;
   
   if (trades.length === 0) {
-    container.innerHTML = '<div class="empty"><div class="empty-icon">📜</div><p>Noch keine Trades</p></div>';
+    container.innerHTML = `<div class="empty"><div class="empty-icon">📜</div><p>${h.noTrades}</p></div>`;
     return;
   }
   
   const emotionIcons = { confident: '😎', anxious: '😰', excited: '🤩', frustrated: '😤', calm: '😌', greedy: '🤑' };
   
-  let html = '<table><thead><tr><th>Datum</th><th>Asset</th><th>Lot</th><th>Ergebnis</th><th>Emotion</th><th>P/L</th><th>Aktionen</th></tr></thead><tbody>';
+  let html = `<table><thead><tr><th>${h.date}</th><th>${h.asset}</th><th>${h.lot}</th><th>${h.result}</th><th>${h.emotion}</th><th>P/L</th><th>${h.actions}</th></tr></thead><tbody>`;
   
   trades.forEach(trade => {
     const plValue = trade.profit_loss || 0;
     const isLoss = plValue < 0;
     const isWin = plValue > 0;
     const plClass = isLoss ? 'loss' : 'profit';
-    const resultText = isLoss ? '❌ Verlust' : isWin ? '✅ Gewinn' : '➖ BE';
+    const resultText = isLoss ? `❌ ${tr.loss}` : isWin ? `✅ ${tr.win}` : `➖ ${tr.breakeven}`;
     const emotionIcon = trade.emotion ? emotionIcons[trade.emotion] || '-' : '-';
     const displayValue = isLoss ? `${plValue.toFixed(2)}€` : isWin ? `+${plValue.toFixed(2)}€` : `${plValue.toFixed(2)}€`;
     html += `<tr>
-      <td>${new Date(trade.date).toLocaleDateString('de-DE')}</td>
+      <td>${new Date(trade.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES')}</td>
       <td>${trade.asset || '-'}</td>
       <td>${trade.lot_size || '-'}</td>
       <td>${resultText}</td>
       <td style="font-size:1.5rem">${emotionIcon}</td>
       <td class="${plClass}">${displayValue}</td>
       <td>
-        <button class="btn btn-sm btn-secondary" onclick="editTrade('${trade.id}')">Edit</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteTrade('${trade.id}')">Löschen</button>
+        <button class="btn btn-sm btn-secondary" onclick="editTrade('${trade.id}')">${h.edit}</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteTrade('${trade.id}')">${h.delete}</button>
       </td>
     </tr>`;
   });
@@ -1180,13 +1902,15 @@ function closeEditModal() {
 }
 
 function deleteTrade(id) {
+  const m = translations[currentLang].modals;
+  
   const deleteConfirm = document.createElement('div');
   deleteConfirm.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1.5rem;z-index:10000;box-shadow:0 20px 50px rgba(0,0,0,0.7);max-width:90%;width:300px';
   deleteConfirm.innerHTML = `
-    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">Trade löschen?</div>
+    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">${m.deleteTrade}</div>
     <div style="display:flex;gap:0.75rem;margin-top:1rem">
-      <button class="btn btn-danger" style="flex:1" id="confirmDeleteBtn">Löschen</button>
-      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteBtn">Abbrechen</button>
+      <button class="btn btn-danger" style="flex:1" id="confirmDeleteBtn">${m.confirm}</button>
+      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteBtn">${m.cancel}</button>
     </div>
   `;
   
@@ -1200,7 +1924,7 @@ function deleteTrade(id) {
     allData = allData.filter(d => d.id !== id);
     saveToLocalStorage();
     updateAll();
-    showToast('Trade gelöscht', 'success');
+    showToast(t('messages.tradeDeleted'), 'success');
     overlay.remove();
     deleteConfirm.remove();
   };
@@ -1218,9 +1942,13 @@ function deleteTrade(id) {
 
 function updatePerformance() {
   const trades = allData.filter(d => d.type === 'trade');
+  const p = translations[currentLang].performance;
+  const statsContainer = document.getElementById('performanceStats');
+  
+  if (!statsContainer) return;
   
   if (trades.length === 0) {
-    document.getElementById('performanceStats').innerHTML = '<div class="empty"><div class="empty-icon">📈</div><p>Keine Daten</p></div>';
+    statsContainer.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><p>${p.noData}</p></div>`;
     return;
   }
   
@@ -1274,38 +2002,38 @@ function updatePerformance() {
     }
   }
   
-  document.getElementById('performanceStats').innerHTML = `
+  statsContainer.innerHTML = `
     <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat"><div class="stat-label">Gesamt P/L</div><div class="stat-value ${totalPL >= 0 ? 'profit' : 'loss'}">${totalPL >= 0 ? '+' : ''}${totalPL.toFixed(2)}€</div></div>
-      <div class="stat"><div class="stat-label">Ø Gewinn</div><div class="stat-value profit">+${avgWin.toFixed(2)}€</div></div>
-      <div class="stat"><div class="stat-label">Ø Verlust</div><div class="stat-value loss">${avgLoss.toFixed(2)}€</div></div>
-      <div class="stat"><div class="stat-label">Winrate</div><div class="stat-value ${winrate >= 50 ? 'profit' : ''}">${winrate.toFixed(1)}%</div></div>
-      <div class="stat"><div class="stat-label">Profit Factor</div><div class="stat-value">${profitFactor.toFixed(2)}</div></div>
-      <div class="stat"><div class="stat-label">Trades</div><div class="stat-value">${trades.length}</div></div>
-      <div class="stat"><div class="stat-label">Bester Trade</div><div class="stat-value profit">+${bestTrade.toFixed(2)}€</div></div>
-      <div class="stat"><div class="stat-label">Schlechtester Trade</div><div class="stat-value loss">${worstTrade.toFixed(2)}€</div></div>
-      <div class="stat"><div class="stat-label">Aktueller Streak</div><div class="stat-value ${streakType === 'win' ? 'profit' : streakType === 'loss' ? 'loss' : ''}">${currentStreak > 0 ? (streakType === 'win' ? '✅ ' : '❌ ') + currentStreak : '-'}</div></div>
+      <div class="stat"><div class="stat-label">${p.totalPL}</div><div class="stat-value ${totalPL >= 0 ? 'profit' : 'loss'}">${totalPL >= 0 ? '+' : ''}${totalPL.toFixed(2)}€</div></div>
+      <div class="stat"><div class="stat-label">${p.avgWin}</div><div class="stat-value profit">+${avgWin.toFixed(2)}€</div></div>
+      <div class="stat"><div class="stat-label">${p.avgLoss}</div><div class="stat-value loss">${avgLoss.toFixed(2)}€</div></div>
+      <div class="stat"><div class="stat-label">${p.winrate}</div><div class="stat-value ${winrate >= 50 ? 'profit' : ''}">${winrate.toFixed(1)}%</div></div>
+      <div class="stat"><div class="stat-label">${p.profitFactor}</div><div class="stat-value">${profitFactor.toFixed(2)}</div></div>
+      <div class="stat"><div class="stat-label">${p.trades}</div><div class="stat-value">${trades.length}</div></div>
+      <div class="stat"><div class="stat-label">${p.bestTrade}</div><div class="stat-value profit">+${bestTrade.toFixed(2)}€</div></div>
+      <div class="stat"><div class="stat-label">${p.worstTrade}</div><div class="stat-value loss">${worstTrade.toFixed(2)}€</div></div>
+      <div class="stat"><div class="stat-label">${p.currentStreak}</div><div class="stat-value ${streakType === 'win' ? 'profit' : streakType === 'loss' ? 'loss' : ''}">${currentStreak > 0 ? (streakType === 'win' ? '✅ ' : '❌ ') + currentStreak : '-'}</div></div>
     </div>
     
     <div style="margin-top:1.5rem;padding:1.25rem;background:rgba(59,130,246,0.05);border:1px solid var(--border);border-radius:0.75rem">
-      <div style="font-weight:600;font-size:1rem;margin-bottom:1rem">🔥 Winning & Losing Streaks</div>
+      <div style="font-weight:600;font-size:1rem;margin-bottom:1rem">🔥 ${p.streaksTitle}</div>
       <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
         <div style="padding:1rem;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:0.75rem">
-          <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">✅ Längster Winning Streak</div>
+          <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">✅ ${p.longestWinStreak}</div>
           <div style="font-size:2rem;font-weight:700;color:var(--success)">${longestWinStreak}</div>
-          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">aufeinanderfolgende Gewinne</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">${p.consecutiveWins}</div>
         </div>
         <div style="padding:1rem;background:rgba(239,68,68,0.1);border:1px solid var(--danger);border-radius:0.75rem">
-          <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">❌ Längster Losing Streak</div>
+          <div style="font-size:0.875rem;color:var(--muted);margin-bottom:0.5rem">❌ ${p.longestLossStreak}</div>
           <div style="font-size:2rem;font-weight:700;color:var(--danger)">${longestLossStreak}</div>
-          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">aufeinanderfolgende Verluste</div>
+          <div style="font-size:0.75rem;color:var(--muted);margin-top:0.25rem">${p.consecutiveLosses}</div>
         </div>
       </div>
       ${currentStreak > 0 ? `
         <div style="margin-top:1rem;padding:1rem;background:rgba(59,130,246,0.05);border-radius:0.5rem;text-align:center">
-          <div style="font-size:0.875rem;color:var(--muted)">Du befindest dich gerade in einem</div>
+          <div style="font-size:0.875rem;color:var(--muted)">${p.currentlyIn}</div>
           <div style="font-size:1.25rem;font-weight:700;margin-top:0.25rem;color:${streakType === 'win' ? 'var(--success)' : 'var(--danger)'}">
-            ${streakType === 'win' ? '✅' : '❌'} ${currentStreak} ${streakType === 'win' ? 'Winning' : 'Losing'} Streak
+            ${streakType === 'win' ? '✅' : '❌'} ${currentStreak} ${streakType === 'win' ? p.winningStreak : p.losingStreak}
           </div>
         </div>
       ` : ''}
@@ -1322,8 +2050,10 @@ function updateAssetPerformanceChart(trades) {
   if (!ctx) return;
   if (charts.assetPerformance) charts.assetPerformance.destroy();
   
+  const p = translations[currentLang].performance;
+  
   if (trades.length === 0) {
-    ctx.parentElement.innerHTML = '<div class="empty"><div class="empty-icon">🏆</div><p>Keine Daten</p></div>';
+    ctx.parentElement.innerHTML = `<div class="empty"><div class="empty-icon">🏆</div><p>${p.noData}</p></div>`;
     return;
   }
   
@@ -1343,7 +2073,7 @@ function updateAssetPerformanceChart(trades) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Gewinn/Verlust',
+        label: currentLang === 'de' ? 'Gewinn/Verlust' : currentLang === 'en' ? 'Profit/Loss' : 'Ganancia/Pérdida',
         data: data,
         backgroundColor: data.map(v => v >= 0 ? '#10b981' : '#ef4444')
       }]
@@ -1370,7 +2100,7 @@ function updateMonthlyChart(trades) {
   trades.forEach(t => {
     const date = new Date(t.date);
     const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    const label = date.toLocaleDateString('de-DE', { year: '2-digit', month: 'short' });
+    const label = date.toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES', { year: '2-digit', month: 'short' });
     if (!monthlyData[key]) {
       monthlyData[key] = { label: label, value: 0 };
     }
@@ -1386,7 +2116,7 @@ function updateMonthlyChart(trades) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Monatliche P/L',
+        label: currentLang === 'de' ? 'Monatliche P/L' : currentLang === 'en' ? 'Monthly P/L' : 'P/L Mensual',
         data: data,
         backgroundColor: data.map(v => v >= 0 ? '#10b981' : '#ef4444'),
         borderRadius: 6,
@@ -1473,16 +2203,25 @@ function updateEmotionHistory() {
   const emotions = allData.filter(d => d.type === 'emotion').sort((a, b) => new Date(b.date) - new Date(a.date));
   const trades = allData.filter(d => d.type === 'trade' && d.emotion).sort((a, b) => new Date(b.date) - new Date(a.date));
   const container = document.getElementById('emotionHistory');
+  if (!container) return;
   
+  const e = translations[currentLang].emotions;
   const allEmotionEntries = [...emotions, ...trades].sort((a, b) => new Date(b.date) - new Date(a.date));
   
   if (allEmotionEntries.length === 0) {
-    container.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">🎭</div><p>Noch keine Emotionen getrackt</p></div></div>';
+    container.innerHTML = `<div class="card"><div class="empty"><div class="empty-icon">🎭</div><p>${e.noEmotions}</p></div></div>`;
     return;
   }
   
   const emotionIcons = { confident: '😎', anxious: '😰', excited: '🤩', frustrated: '😤', calm: '😌', greedy: '🤑' };
-  const emotionLabels = { confident: 'Selbstsicher', anxious: 'Ängstlich', excited: 'Aufgeregt', frustrated: 'Frustriert', calm: 'Gelassen', greedy: 'Gierig' };
+  const emotionLabels = {
+    confident: e.confident,
+    anxious: e.anxious,
+    excited: e.excited,
+    frustrated: e.frustrated,
+    calm: e.calm,
+    greedy: e.greedy
+  };
   
   let html = '';
   allEmotionEntries.forEach(entry => {
@@ -1501,7 +2240,7 @@ function updateEmotionHistory() {
             <span style="font-size:2rem">${emotionIcons[emotion]}</span>
             <div style="flex:1">
               <div style="font-weight:600">${emotionLabels[emotion]}</div>
-              <div style="font-size:0.875rem;color:var(--muted)">${new Date(entry.date).toLocaleDateString('de-DE')} • Trade: ${entry.asset || 'N/A'}</div>
+              <div style="font-size:0.875rem;color:var(--muted)">${new Date(entry.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES')} • Trade: ${entry.asset || 'N/A'}</div>
             </div>
           </div>
           <div style="text-align:right">
@@ -1510,24 +2249,25 @@ function updateEmotionHistory() {
           </div>
         </div>
         ${entry.notes ? `<p style="margin-top:0.75rem;color:var(--muted);font-size:0.875rem;padding:0.75rem;background:rgba(59,130,246,0.05);border-radius:0.5rem">${entry.notes}</p>` : ''}
-        <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted)">📊 Aus Trade Historie</div>
+        <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted)">📊 ${e.fromHistory}</div>
       </div>`;
     } else {
+      const m = translations[currentLang].modals;
       html += `<div class="card">
         <div class="goal-header">
           <div style="display:flex;align-items:center;gap:0.75rem">
             <span style="font-size:2rem">${emotionIcons[emotion]}</span>
             <div>
               <div style="font-weight:600">${emotionLabels[emotion]}</div>
-              <div style="font-size:0.875rem;color:var(--muted)">${new Date(entry.date).toLocaleDateString('de-DE')}</div>
+              <div style="font-size:0.875rem;color:var(--muted)">${new Date(entry.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES')}</div>
             </div>
           </div>
-          <button class="btn btn-sm btn-danger" onclick="deleteEmotion('${entry.id}')">Löschen</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteEmotion('${entry.id}')">${translations[currentLang].history.delete}</button>
         </div>
         <div class="progress-bar">
           <div class="progress-fill" style="width:${emotionIntensity * 10}%"></div>
         </div>
-        <div style="font-size:0.875rem;color:var(--muted)">Intensität: ${emotionIntensity}/10</div>
+        <div style="font-size:0.875rem;color:var(--muted)">${e.intensity.split(' ')[0]}: ${emotionIntensity}/10</div>
         ${entry.notes ? `<p style="margin-top:0.75rem;color:var(--muted);font-size:0.875rem">${entry.notes}</p>` : ''}
       </div>`;
     }
@@ -1537,13 +2277,15 @@ function updateEmotionHistory() {
 }
 
 function deleteEmotion(id) {
+  const m = translations[currentLang].modals;
+  
   const deleteConfirm = document.createElement('div');
   deleteConfirm.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1.5rem;z-index:10000;box-shadow:0 20px 50px rgba(0,0,0,0.7);max-width:90%;width:300px';
   deleteConfirm.innerHTML = `
-    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">Emotion löschen?</div>
+    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">${m.deleteEmotion}</div>
     <div style="display:flex;gap:0.75rem;margin-top:1rem">
-      <button class="btn btn-danger" style="flex:1" id="confirmDeleteEmotionBtn">Löschen</button>
-      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteEmotionBtn">Abbrechen</button>
+      <button class="btn btn-danger" style="flex:1" id="confirmDeleteEmotionBtn">${m.confirm}</button>
+      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteEmotionBtn">${m.cancel}</button>
     </div>
   `;
   
@@ -1557,7 +2299,7 @@ function deleteEmotion(id) {
     allData = allData.filter(d => d.id !== id);
     saveToLocalStorage();
     updateAll();
-    showToast('Emotion gelöscht', 'success');
+    showToast(t('messages.emotionDeleted'), 'success');
     overlay.remove();
     deleteConfirm.remove();
   };
@@ -1582,7 +2324,10 @@ function updateCompoundCalculator() {
   const totalWithdrawals = withdrawals.reduce((sum, w) => sum + (w.withdrawal_amount || 0), 0);
   const currentCapital = startCapital + totalPL - totalWithdrawals;
   
-  document.getElementById('perfCurrentCapital').textContent = currentCapital.toFixed(2) + '€';
+  const perfCurrentCapitalEl = document.getElementById('perfCurrentCapital');
+  if (perfCurrentCapitalEl) perfCurrentCapitalEl.textContent = currentCapital.toFixed(2) + '€';
+  
+  const c = translations[currentLang].compound;
   
   if (trades.length > 0 && startCapital > 0) {
     const firstTradeDate = new Date(trades[0].date);
@@ -1592,19 +2337,36 @@ function updateCompoundCalculator() {
     
     const monthlyReturn = monthsElapsed > 0 ? (Math.pow(currentCapital / startCapital, 1 / monthsElapsed) - 1) * 100 : 0;
     
-    document.getElementById('perfMonthlyReturn').textContent = monthlyReturn.toFixed(2) + '%';
-    document.getElementById('perfMonthlyReturn').className = 'stat-value ' + (monthlyReturn >= 0 ? 'profit' : 'loss');
-    document.getElementById('perfTradingSince').textContent = Math.floor(monthsElapsed) + ' Monate';
+    const perfMonthlyReturnEl = document.getElementById('perfMonthlyReturn');
+    if (perfMonthlyReturnEl) {
+      perfMonthlyReturnEl.textContent = monthlyReturn.toFixed(2) + '%';
+      perfMonthlyReturnEl.className = 'stat-value ' + (monthlyReturn >= 0 ? 'profit' : 'loss');
+    }
     
-    document.getElementById('hintMonthlyReturn').textContent = monthlyReturn.toFixed(2) + '%';
-    document.getElementById('compoundStartCapital').value = currentCapital.toFixed(2);
-    document.getElementById('compoundMonthlyReturn').value = monthlyReturn.toFixed(2);
+    const perfTradingSinceEl = document.getElementById('perfTradingSince');
+    if (perfTradingSinceEl) perfTradingSinceEl.textContent = Math.floor(monthsElapsed) + ' ' + c.months;
+    
+    const hintMonthlyReturnEl = document.getElementById('hintMonthlyReturn');
+    if (hintMonthlyReturnEl) hintMonthlyReturnEl.textContent = monthlyReturn.toFixed(2) + '%';
+    
+    const compoundStartCapitalEl = document.getElementById('compoundStartCapital');
+    if (compoundStartCapitalEl) compoundStartCapitalEl.value = currentCapital.toFixed(2);
+    
+    const compoundMonthlyReturnEl = document.getElementById('compoundMonthlyReturn');
+    if (compoundMonthlyReturnEl) compoundMonthlyReturnEl.value = monthlyReturn.toFixed(2);
   } else {
-    document.getElementById('perfMonthlyReturn').textContent = '0%';
-    document.getElementById('perfTradingSince').textContent = '0 Monate';
-    document.getElementById('hintMonthlyReturn').textContent = '-';
+    const perfMonthlyReturnEl = document.getElementById('perfMonthlyReturn');
+    if (perfMonthlyReturnEl) perfMonthlyReturnEl.textContent = '0%';
+    
+    const perfTradingSinceEl = document.getElementById('perfTradingSince');
+    if (perfTradingSinceEl) perfTradingSinceEl.textContent = '0 ' + c.months;
+    
+    const hintMonthlyReturnEl = document.getElementById('hintMonthlyReturn');
+    if (hintMonthlyReturnEl) hintMonthlyReturnEl.textContent = '-';
+    
     if (currentCapital > 0) {
-      document.getElementById('compoundStartCapital').value = currentCapital.toFixed(2);
+      const compoundStartCapitalEl = document.getElementById('compoundStartCapital');
+      if (compoundStartCapitalEl) compoundStartCapitalEl.value = currentCapital.toFixed(2);
     }
   }
 }
@@ -1613,30 +2375,36 @@ function updateWithdrawals() {
   const withdrawals = allData.filter(d => d.type === 'withdrawal').sort((a, b) => new Date(b.date) - new Date(a.date));
   const totalWithdrawals = withdrawals.reduce((sum, w) => sum + (w.withdrawal_amount || 0), 0);
   
-  document.getElementById('withdrawalStats').innerHTML = `
-    <div class="card">
-      <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="stat"><div class="stat-label">Gesamt Auszahlungen</div><div class="stat-value loss">-${totalWithdrawals.toFixed(2)}€</div></div>
-        <div class="stat"><div class="stat-label">Anzahl</div><div class="stat-value">${withdrawals.length}</div></div>
+  const w = translations[currentLang].withdrawals;
+  
+  const withdrawalStatsEl = document.getElementById('withdrawalStats');
+  if (withdrawalStatsEl) {
+    withdrawalStatsEl.innerHTML = `
+      <div class="card">
+        <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div class="stat"><div class="stat-label">${w.total}</div><div class="stat-value loss">-${totalWithdrawals.toFixed(2)}€</div></div>
+          <div class="stat"><div class="stat-label">${w.count}</div><div class="stat-value">${withdrawals.length}</div></div>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  }
   
   const container = document.getElementById('withdrawalHistory');
+  if (!container) return;
   
   if (withdrawals.length === 0) {
-    container.innerHTML = '<div class="card"><div class="empty"><div class="empty-icon">💸</div><p>Keine Auszahlungen</p></div></div>';
+    container.innerHTML = `<div class="card"><div class="empty"><div class="empty-icon">💸</div><p>${w.noWithdrawals}</p></div></div>`;
     return;
   }
   
-  let html = '<div class="card"><div class="table-container"><table><thead><tr><th>Datum</th><th>Betrag</th><th>Notizen</th><th></th></tr></thead><tbody>';
+  let html = `<div class="card"><div class="table-container"><table><thead><tr><th>${w.date}</th><th>${w.amount}</th><th>${w.notes}</th><th></th></tr></thead><tbody>`;
   
-  withdrawals.forEach(w => {
+  withdrawals.forEach(withdrawal => {
     html += `<tr>
-      <td>${new Date(w.date).toLocaleDateString('de-DE')}</td>
-      <td class="loss">-${w.withdrawal_amount.toFixed(2)}€</td>
-      <td>${w.notes || '-'}</td>
-      <td><button class="btn btn-sm btn-danger" onclick="deleteWithdrawal('${w.id}')">Löschen</button></td>
+      <td>${new Date(withdrawal.date).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES')}</td>
+      <td class="loss">-${withdrawal.withdrawal_amount.toFixed(2)}€</td>
+      <td>${withdrawal.notes || '-'}</td>
+      <td><button class="btn btn-sm btn-danger" onclick="deleteWithdrawal('${withdrawal.id}')">${translations[currentLang].history.delete}</button></td>
     </tr>`;
   });
   
@@ -1645,13 +2413,15 @@ function updateWithdrawals() {
 }
 
 function deleteWithdrawal(id) {
+  const m = translations[currentLang].modals;
+  
   const deleteConfirm = document.createElement('div');
   deleteConfirm.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:1.5rem;z-index:10000;box-shadow:0 20px 50px rgba(0,0,0,0.7);max-width:90%;width:300px';
   deleteConfirm.innerHTML = `
-    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">Auszahlung löschen?</div>
+    <div style="font-weight:600;margin-bottom:1rem;font-size:1.1rem">${m.deleteWithdrawal}</div>
     <div style="display:flex;gap:0.75rem;margin-top:1rem">
-      <button class="btn btn-danger" style="flex:1" id="confirmDeleteWithdrawalBtn">Löschen</button>
-      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteWithdrawalBtn">Abbrechen</button>
+      <button class="btn btn-danger" style="flex:1" id="confirmDeleteWithdrawalBtn">${m.confirm}</button>
+      <button class="btn btn-secondary" style="flex:1" id="cancelDeleteWithdrawalBtn">${m.cancel}</button>
     </div>
   `;
   
@@ -1665,7 +2435,7 @@ function deleteWithdrawal(id) {
     allData = allData.filter(d => d.id !== id);
     saveToLocalStorage();
     updateAll();
-    showToast('Auszahlung gelöscht', 'success');
+    showToast(t('messages.withdrawalDeleted'), 'success');
     overlay.remove();
     deleteConfirm.remove();
   };
@@ -1692,13 +2462,13 @@ function showToast(message, type = 'success') {
   }, 3000);
 }
 
-// Set default dates
-document.getElementById('tradeDate').value = new Date().toISOString().split('T')[0];
-document.getElementById('emotionDate').value = new Date().toISOString().split('T')[0];
-document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
-
 // Initialize app on load
-initApp();
+document.addEventListener('DOMContentLoaded', initApp);
+
+// Close modal on backdrop click
+document.getElementById('editModal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b6cbbd94610e0d3',t:'MTc2NzIxNTExMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b6cec82d447e0d3',t:'MTc2NzIxNzEwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
