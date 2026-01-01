@@ -550,7 +550,7 @@
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Größter Verlust
+             Gr    ßter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
              €0.00
@@ -728,7 +728,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="editTradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">    Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
@@ -789,19 +789,49 @@
         async function initializeDataSDK() {
             if (!window.dataSdk || sdkInitialized) return;
             
+            console.log('🔄 Initializing Data SDK...');
+            
+            // Show loading state
+            showLoadingOverlay();
+            
             try {
                 const result = await window.dataSdk.init(dataHandler);
                 if (result.isOk) {
                     sdkInitialized = true;
-                    console.log('✅ Data SDK initialized');
+                    console.log('✅ Data SDK initialized successfully');
+                    hideLoadingOverlay();
+                    showToast('Verbindung hergestellt!');
                 } else {
                     console.error('❌ Failed to initialize Data SDK:', result.error);
+                    hideLoadingOverlay();
                     showToast('Datenbank konnte nicht initialisiert werden', 'error');
                 }
             } catch (error) {
                 console.error('❌ Exception during SDK init:', error);
+                hideLoadingOverlay();
                 showToast('Fehler bei Datenbank-Verbindung', 'error');
             }
+        }
+        
+        // Show loading overlay
+        function showLoadingOverlay() {
+            const overlay = document.createElement('div');
+            overlay.id = 'sdkLoadingOverlay';
+            overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);';
+            overlay.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="loading-spinner" style="margin: 0 auto 20px;"></div>
+                    <div style="color: white; font-size: 18px; font-weight: bold;">Verbindung wird hergestellt...</div>
+                    <div style="color: #9ca3af; font-size: 14px; margin-top: 8px;">Bitte einen Moment Geduld</div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+        
+        // Hide loading overlay
+        function hideLoadingOverlay() {
+            const overlay = document.getElementById('sdkLoadingOverlay');
+            if (overlay) overlay.remove();
         }
 
         // Auth State Observer
@@ -1012,9 +1042,28 @@
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !sdkInitialized || !currentUser || isLoading) {
-                console.log('SDK not ready:', { dataSdk: !!window.dataSdk, sdkInitialized, currentUser: !!currentUser, isLoading });
-                showToast('Bitte warten Sie, bis die Verbindung hergestellt ist', 'error');
+            
+            // Enhanced validation with user-friendly messages
+            if (!currentUser) {
+                showToast('Bitte melden Sie sich zuerst an', 'error');
+                return;
+            }
+            
+            if (!window.dataSdk) {
+                showToast('Datenbank wird geladen, bitte warten...', 'error');
+                setTimeout(() => window.location.reload(), 2000);
+                return;
+            }
+            
+            if (!sdkInitialized) {
+                showToast('Verbindung wird hergestellt, bitte kurz warten...', 'error');
+                // Try to initialize again
+                await initializeDataSDK();
+                return;
+            }
+            
+            if (isLoading) {
+                showToast('Vorheriger Vorgang läuft noch...', 'error');
                 return;
             }
 
@@ -1071,7 +1120,7 @@
                 }
             } catch (error) {
                 console.error('❌ Exception:', error);
-                showToast('Fehler beim Speichern', 'error');
+                showToast('Fehler beim Speichern: ' + error.message, 'error');
             } finally {
                 isLoading = false;
                 submitBtn.disabled = false;
@@ -1915,5 +1964,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72bc2c446fe0d3',t:'MTc2NzI3ODA0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72c2aff3a9e0d3',t:'MTc2NzI3ODMwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
