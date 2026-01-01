@@ -704,12 +704,13 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Zielkapital (€)</label> <input type="number" id="targetCapital" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 100000" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Monatliche Rendite (%)</label> <input type="number" id="monthlyReturn" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 5" required>
+           <div><label class="block text-sm font-semibold mb-2">Gewünschte monatliche Rendite (%)</label> <input type="number" id="monthlyReturn" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 5" required>
            </div>
           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
          </form>
-         <div id="compoundResults" class="hidden space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div id="compoundResults" class="hidden space-y-6"><!-- Performance Status Banner -->
+          <div id="performanceStatus" class="rounded-xl p-6 text-center"></div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
              Monate bis Ziel
@@ -717,21 +718,71 @@
             <div class="text-2xl font-bold text-purple-400" id="monthsToGoal">
              0
             </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Mit Zielrendite
+            </div>
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Ihre aktuelle Rendite
+             Aktuelle Performance
             </div>
-            <div class="text-2xl font-bold text-green-400" id="currentReturn">
+            <div class="text-2xl font-bold" id="currentMonthlyReturn">
              0%
             </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Ø pro Monat
+            </div>
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Benötigte Rendite
+             Gewünschte Rendite
             </div>
             <div class="text-2xl font-bold text-blue-400" id="requiredReturn">
              0%
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Ø pro Monat
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Differenz
+            </div>
+            <div class="text-2xl font-bold" id="returnDifference">
+             0%
+            </div>
+            <div class="text-xs text-gray-500 mt-1" id="returnDifferenceLabel">
+             -
+            </div>
+           </div>
+          </div><!-- Projected Timeline Comparison -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
+            <div class="text-3xl mb-2">
+             🎯
+            </div>
+            <div class="text-sm text-gray-400 mb-1">
+             Bei aktueller Performance
+            </div>
+            <div class="text-2xl font-bold text-green-400" id="monthsWithCurrentPerformance">
+             0
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Monate bis Ziel
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-500/30">
+            <div class="text-3xl mb-2">
+             ⏱️
+            </div>
+            <div class="text-sm text-gray-400 mb-1">
+             Zeitdifferenz
+            </div>
+            <div class="text-2xl font-bold" id="timeDifference">
+             0
+            </div>
+            <div class="text-xs mt-1" id="timeDifferenceLabel">
+             Monate
             </div>
            </div>
           </div>
@@ -1996,43 +2047,171 @@
             e.preventDefault();
             
             const currentCapital = startCapitalRecord ? startCapitalRecord.currentCapital : 0;
+            const startCapital = startCapitalRecord ? startCapitalRecord.startCapital : 0;
             const targetCapital = parseFloat(document.getElementById('targetCapital').value);
-            const monthlyReturn = parseFloat(document.getElementById('monthlyReturn').value) / 100;
+            const desiredMonthlyReturn = parseFloat(document.getElementById('monthlyReturn').value) / 100;
             
-            let monthsToGoal = 0;
-            let projected = currentCapital;
-            const projectedData = [currentCapital];
+            // Calculate actual trading performance
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
             
-            while (projected < targetCapital && monthsToGoal < 360) {
-                projected *= (1 + monthlyReturn);
-                projectedData.push(projected);
-                monthsToGoal++;
+            // Group trades by month to calculate monthly returns
+            const monthlyReturns = [];
+            const monthlyData = {};
+            
+            let runningCapital = startCapital;
+            sortedTrades.forEach(trade => {
+                if (trade.profitLoss && trade.date) {
+                    const month = trade.date.substring(0, 7); // YYYY-MM
+                    
+                    if (!monthlyData[month]) {
+                        monthlyData[month] = {
+                            startCapital: runningCapital,
+                            pl: 0
+                        };
+                    }
+                    
+                    monthlyData[month].pl += trade.profitLoss;
+                    runningCapital += trade.profitLoss;
+                }
+            });
+            
+            // Calculate monthly return percentages
+            Object.values(monthlyData).forEach(data => {
+                if (data.startCapital > 0) {
+                    const returnPercent = (data.pl / data.startCapital);
+                    monthlyReturns.push(returnPercent);
+                }
+            });
+            
+            // Calculate average monthly return
+            const avgMonthlyReturn = monthlyReturns.length > 0 
+                ? monthlyReturns.reduce((sum, r) => sum + r, 0) / monthlyReturns.length 
+                : 0;
+            
+            // Calculate months to goal with DESIRED return
+            let monthsToGoalDesired = 0;
+            let projectedDesired = currentCapital;
+            const projectedDesiredData = [currentCapital];
+            
+            while (projectedDesired < targetCapital && monthsToGoalDesired < 360) {
+                projectedDesired *= (1 + desiredMonthlyReturn);
+                projectedDesiredData.push(projectedDesired);
+                monthsToGoalDesired++;
             }
             
-            const startCapital = startCapitalRecord ? startCapitalRecord.startCapital : 0;
-            const currentReturn = startCapital > 0 ? ((currentCapital - startCapital) / startCapital) * 100 : 0;
+            // Calculate months to goal with CURRENT performance
+            let monthsToGoalCurrent = 0;
+            let projectedCurrent = currentCapital;
+            const projectedCurrentData = [currentCapital];
             
-            document.getElementById('monthsToGoal').textContent = monthsToGoal;
-            document.getElementById('currentReturn').textContent = currentReturn.toFixed(2) + '%';
-            document.getElementById('requiredReturn').textContent = (monthlyReturn * 100).toFixed(2) + '%/Monat';
+            if (avgMonthlyReturn > 0) {
+                while (projectedCurrent < targetCapital && monthsToGoalCurrent < 360) {
+                    projectedCurrent *= (1 + avgMonthlyReturn);
+                    projectedCurrentData.push(projectedCurrent);
+                    monthsToGoalCurrent++;
+                }
+            } else {
+                monthsToGoalCurrent = 360; // Set to max if performance is negative
+            }
+            
+            // Calculate differences
+            const returnDifference = ((avgMonthlyReturn - desiredMonthlyReturn) * 100);
+            const timeDifference = monthsToGoalDesired - monthsToGoalCurrent;
+            
+            // Determine status
+            let statusHTML = '';
+            let statusClass = '';
+            
+            if (avgMonthlyReturn > desiredMonthlyReturn) {
+                statusClass = 'bg-gradient-to-br from-green-500/30 to-green-600/20 border-2 border-green-500/50';
+                statusHTML = `
+                    <div class="text-5xl mb-3">🚀</div>
+                    <div class="text-2xl font-bold text-green-400 mb-2">Hervorragend! Sie sind schneller als geplant!</div>
+                    <div class="text-gray-300">
+                        Mit Ihrer aktuellen Performance von <span class="font-bold text-green-400">${(avgMonthlyReturn * 100).toFixed(2)}%</span> pro Monat 
+                        erreichen Sie Ihr Ziel <span class="font-bold text-green-400">${Math.abs(timeDifference)} Monate früher</span> als geplant!
+                    </div>
+                `;
+            } else if (avgMonthlyReturn < desiredMonthlyReturn && avgMonthlyReturn > 0) {
+                statusClass = 'bg-gradient-to-br from-orange-500/30 to-orange-600/20 border-2 border-orange-500/50';
+                statusHTML = `
+                    <div class="text-5xl mb-3">⚠️</div>
+                    <div class="text-2xl font-bold text-orange-400 mb-2">Sie liegen etwas zurück</div>
+                    <div class="text-gray-300">
+                        Ihre aktuelle Performance von <span class="font-bold text-orange-400">${(avgMonthlyReturn * 100).toFixed(2)}%</span> pro Monat 
+                        liegt unter dem Ziel. Sie brauchen <span class="font-bold text-orange-400">${Math.abs(timeDifference)} Monate länger</span> als geplant.
+                    </div>
+                `;
+            } else {
+                statusClass = 'bg-gradient-to-br from-red-500/30 to-red-600/20 border-2 border-red-500/50';
+                statusHTML = `
+                    <div class="text-5xl mb-3">📉</div>
+                    <div class="text-2xl font-bold text-red-400 mb-2">Achtung: Negative Performance</div>
+                    <div class="text-gray-300">
+                        Ihre aktuelle Performance ist negativ. Überprüfen Sie Ihre Strategie und konzentrieren Sie sich auf Risikomanagement.
+                    </div>
+                `;
+            }
+            
+            document.getElementById('performanceStatus').className = `rounded-xl p-6 text-center ${statusClass}`;
+            document.getElementById('performanceStatus').innerHTML = statusHTML;
+            
+            // Update statistics
+            document.getElementById('monthsToGoal').textContent = monthsToGoalDesired;
+            document.getElementById('currentMonthlyReturn').textContent = (avgMonthlyReturn * 100).toFixed(2) + '%';
+            document.getElementById('currentMonthlyReturn').className = avgMonthlyReturn >= desiredMonthlyReturn ? 'text-2xl font-bold text-green-400' : avgMonthlyReturn > 0 ? 'text-2xl font-bold text-orange-400' : 'text-2xl font-bold text-red-400';
+            
+            document.getElementById('requiredReturn').textContent = (desiredMonthlyReturn * 100).toFixed(2) + '%';
+            document.getElementById('returnDifference').textContent = (returnDifference >= 0 ? '+' : '') + returnDifference.toFixed(2) + '%';
+            document.getElementById('returnDifference').className = returnDifference >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
+            document.getElementById('returnDifferenceLabel').textContent = returnDifference >= 0 ? 'Über Ziel' : 'Unter Ziel';
+            
+            document.getElementById('monthsWithCurrentPerformance').textContent = monthsToGoalCurrent >= 360 ? '360+' : monthsToGoalCurrent;
+            document.getElementById('timeDifference').textContent = Math.abs(timeDifference);
+            document.getElementById('timeDifference').className = timeDifference > 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-orange-400';
+            document.getElementById('timeDifferenceLabel').textContent = timeDifference > 0 ? 'Monate früher' : 'Monate später';
+            document.getElementById('timeDifferenceLabel').className = timeDifference > 0 ? 'text-xs mt-1 font-semibold text-green-400' : 'text-xs mt-1 font-semibold text-orange-400';
+            
             document.getElementById('compoundResults').classList.remove('hidden');
             
+            // Create chart with both projections
             const ctx = document.getElementById('compoundChart');
             if (compoundChart) compoundChart.destroy();
+            
+            const maxLength = Math.max(projectedDesiredData.length, projectedCurrentData.length);
+            const labels = Array.from({length: maxLength}, (_, i) => `Monat ${i}`);
+            
+            const datasets = [
+                {
+                    label: 'Gewünschte Rendite (' + (desiredMonthlyReturn * 100).toFixed(1) + '%/Monat)',
+                    data: projectedDesiredData,
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                }
+            ];
+            
+            // Only add current performance line if it's positive
+            if (avgMonthlyReturn > 0) {
+                datasets.push({
+                    label: 'Aktuelle Performance (' + (avgMonthlyReturn * 100).toFixed(2) + '%/Monat)',
+                    data: projectedCurrentData,
+                    borderColor: avgMonthlyReturn >= desiredMonthlyReturn ? '#10b981' : '#f59e0b',
+                    backgroundColor: avgMonthlyReturn >= desiredMonthlyReturn ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                });
+            }
             
             compoundChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: projectedData.map((_, i) => `Monat ${i}`),
-                    datasets: [{
-                        label: 'Projiziertes Kapital (€)',
-                        data: projectedData,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    labels: labels,
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
@@ -2040,6 +2219,13 @@
                     plugins: {
                         legend: {
                             labels: { color: '#fff' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -2051,7 +2237,12 @@
                             grid: { color: 'rgba(255, 255, 255, 0.1)' }
                         },
                         y: {
-                            ticks: { color: '#9ca3af' },
+                            ticks: { 
+                                color: '#9ca3af',
+                                callback: function(value) {
+                                    return '€' + value.toFixed(0);
+                                }
+                            },
                             grid: { color: 'rgba(255, 255, 255, 0.1)' }
                         }
                     }
@@ -2111,5 +2302,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b730136671fe0d3',t:'MTc2NzI4MDg2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73083693ade0d3',t:'MTc2NzI4MTE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
