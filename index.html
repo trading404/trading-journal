@@ -757,54 +757,64 @@
         </div>
        </div><!-- Compound Interest Tab -->
        <div id="compoundTab" class="tab-content hidden">
-        <div class="glass-card rounded-xl p-8 max-w-4xl mx-auto animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💰</span> <span>Zinseszins-Rechner</span></h2>
-         <form id="compoundForm" class="space-y-6 mb-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-semibold mb-2">Zielkapital (€)</label> <input type="number" id="targetCapital" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 100000" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Gewünschte monatliche Rendite (%)</label> <input type="number" id="monthlyReturn" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 5" required>
-           </div>
-          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
-         </form>
-         <div id="compoundResults" class="hidden space-y-6">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
+        <div class="max-w-6xl mx-auto space-y-6 animate-fade-in"><!-- Input Form Card -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💰</span> <span>Zinseszins-Rechner</span></h2>
+          <form id="compoundForm" class="space-y-4">
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold mb-2">Zielkapital (€)</label> <input type="number" id="targetCapital" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg text-lg" placeholder="z.B. 100000" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Gewünschte monatliche Rendite (%)</label> <input type="number" id="monthlyReturn" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg text-lg" placeholder="z.B. 5" required>
+            </div>
+           </div><button type="submit" class="btn-primary w-full py-4 rounded-lg font-bold text-white text-lg"> 🔮 Berechnen </button>
+          </form>
+         </div><!-- Results Section -->
+         <div id="compoundResults" class="hidden space-y-6"><!-- Main KPIs -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+           <div class="stat-card rounded-xl p-6 text-center">
+            <div class="text-3xl mb-2">
+             ⏱️
+            </div>
+            <div class="text-xs text-gray-400 uppercase mb-2">
              Monate bis Ziel
             </div>
-            <div class="text-2xl font-bold text-purple-400" id="monthsToGoal">
+            <div class="text-3xl font-bold text-purple-400" id="monthsToGoal">
              0
             </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
+           <div class="stat-card rounded-xl p-6 text-center">
+            <div class="text-3xl mb-2">
+             🎯
+            </div>
+            <div class="text-xs text-gray-400 uppercase mb-2">
              Ziel-Rendite/Monat
             </div>
-            <div class="text-2xl font-bold text-blue-400" id="targetMonthlyReturn">
+            <div class="text-3xl font-bold text-blue-400" id="targetMonthlyReturn">
              0%
             </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             Aktuelle Rendite/Monat
+           <div class="stat-card rounded-xl p-6 text-center">
+            <div class="text-3xl mb-2">
+             📈
             </div>
-            <div class="text-2xl font-bold" id="actualMonthlyReturn">
+            <div class="text-xs text-gray-400 uppercase mb-2">
+             Deine Rendite/Monat
+            </div>
+            <div class="text-3xl font-bold" id="actualMonthlyReturn">
              0%
             </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
+           <div class="stat-card rounded-xl p-6 text-center">
+            <div class="text-xs text-gray-400 uppercase mb-2">
              Performance Status
             </div>
-            <div class="text-2xl font-bold" id="performanceStatus">
+            <div class="text-6xl mt-2" id="performanceStatus">
              -
             </div>
            </div>
-          </div>
-          <div id="performanceComparison" class="glass-card rounded-lg p-6">
-           <h3 class="text-lg font-bold mb-4">📊 Performance-Vergleich</h3>
-           <div id="performanceDetails" class="space-y-3 text-sm"></div>
+          </div><!-- Performance Comparison -->
+          <div class="glass-card rounded-xl p-6">
+           <div id="performanceDetails"></div>
           </div>
          </div>
         </div>
@@ -986,7 +996,7 @@
           </div>
          </div><!-- Risk/Reward Calculator -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>⚖️</span> <span>Risk/Reward Rechner</span></h2>
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>   ️</span> <span>Risk/Reward Rechner</span></h2>
           <form id="rrCalculatorForm" class="space-y-4">
            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="rrEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08450">
@@ -2831,7 +2841,7 @@
                 
                 if (actualMonthlyReturn >= monthlyReturn * 100) {
                     // Performing better or on track
-                    performanceStatusEl.textContent = '🎉';
+                    performanceStatusEl.textContent = '    ';
                     performanceStatusEl.className = 'text-2xl font-bold text-green-400';
                     
                     detailsHTML = `
@@ -2936,5 +2946,5 @@
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7410f4d41ae0d3',t:'MTc2NzI5MTk5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b748ed8a2bee0d3',t:'MTc2NzI5NzE1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
