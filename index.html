@@ -290,6 +290,11 @@
         
         select.input-modern option {
             background: #1a1f3a;
+            color: #ffffff;
+        }
+        
+        body.light-theme select.input-modern option {
+            background: #ffffff;
             color: #000000;
         }
         
@@ -764,7 +769,7 @@
          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <div class="stat-card rounded-2xl p-6 sm:p-8 text-center animate-fade-in">
            <div class="text-4xl sm:text-5xl mb-3">
-            💰
+              
            </div>
            <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-3 font-bold">
             Aktuelles Kapital
@@ -1418,7 +1423,7 @@
             </div>
             <div><label class="block text-sm font-bold mb-3 text-purple-300">Titel</label> <input type="text" id="eventTitle" class="input-modern w-full px-5 py-4 rounded-xl" placeholder="z.B. NFP Daten" required>
             </div>
-            <div><label class="block text-sm font-bold mb-3 text-purple-300">Typ</label> <select id="eventType" class="input-modern w-full px-5 py-4 rounded-xl"> <option value="News">📰 News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">   Zentralbank</option> <option value="Persönlich">👤 Persönlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
+            <div><label class="block text-sm font-bold mb-3 text-purple-300">Typ</label> <select id="eventType" class="input-modern w-full px-5 py-4 rounded-xl"> <option value="News">📰 News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">   Zentralbank</option> <option value="Persönlich">👤 Pers  nlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
             </div>
             <div><label class="block text-sm font-bold mb-3 text-purple-300">Notiz (optional)</label> <textarea id="eventNote" rows="3" class="input-modern w-full px-5 py-4 rounded-xl" placeholder="Details..."></textarea>
             </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white"> 💾 Termin speichern </button>
@@ -2955,7 +2960,7 @@
                 } catch (error) {
                     console.error('Error deleting trade:', error);
                     hideLoadingOverlay();
-                    showToast('   Fehler beim Löschen', 'error');
+                    showToast('    Fehler beim Löschen', 'error');
                 }
             });
         }
@@ -3199,7 +3204,7 @@
                     currentStreakType = '❄️ Verlust';
                     currentStreak = tempLossStreak;
                 } else {
-                    currentStreakType = '    Breakeven';
+                    currentStreakType = '      Breakeven';
                     currentStreak = 0;
                 }
             }
@@ -4298,5 +4303,5 @@
             document.getElementById('pipCalculatorResults').classList.remove('hidden');
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b755878c79ce0d3',t:'MTc2NzMwNTQxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b755d6c82c7e0d3',t:'MTc2NzMwNTYxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
