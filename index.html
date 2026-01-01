@@ -574,7 +574,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional ausw  hlen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="   Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional ausw  hlen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="   Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">  l WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1181,19 +1181,19 @@
             
             try {
                 // Load trades
-                const tradesSnapshot = await db.collection('users').doc(currentUser.uid).collection('trades').get();
+                const tradesSnapshot = await db.collection('users').doc(currentUser.uid).collection('trades').orderBy('timestamp', 'desc').get();
                 trades = tradesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
                 // Load withdrawals
-                const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').get();
+                const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').orderBy('timestamp', 'desc').get();
                 withdrawals = withdrawalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
                 // Load deposits
-                const depositsSnapshot = await db.collection('users').doc(currentUser.uid).collection('deposits').get();
+                const depositsSnapshot = await db.collection('users').doc(currentUser.uid).collection('deposits').orderBy('timestamp', 'desc').get();
                 deposits = depositsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
                 // Load events
-                const eventsSnapshot = await db.collection('users').doc(currentUser.uid).collection('events').get();
+                const eventsSnapshot = await db.collection('users').doc(currentUser.uid).collection('events').orderBy('eventDate', 'asc').get();
                 events = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
                 // Load start capital
@@ -1210,7 +1210,45 @@
                 renderUpcomingEvents();
             } catch (error) {
                 console.error('Error loading data:', error);
-                showToast('Fehler beim Laden der Daten', 'error');
+                
+                // If error is about missing index, provide helpful message
+                if (error.code === 'failed-precondition' || error.message.includes('index')) {
+                    showToast('Datenbank wird initialisiert. Bitte warten Sie einen Moment...', 'error');
+                    // Retry without orderBy for initial load
+                    setTimeout(async () => {
+                        try {
+                            const tradesSnapshot = await db.collection('users').doc(currentUser.uid).collection('trades').get();
+                            trades = tradesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            
+                            const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').get();
+                            withdrawals = withdrawalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            
+                            const depositsSnapshot = await db.collection('users').doc(currentUser.uid).collection('deposits').get();
+                            deposits = depositsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            
+                            const eventsSnapshot = await db.collection('users').doc(currentUser.uid).collection('events').get();
+                            events = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            
+                            const startCapitalDoc = await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').get();
+                            if (startCapitalDoc.exists) {
+                                startCapitalData = startCapitalDoc.data();
+                            }
+                            
+                            updateDashboard();
+                            renderTradeHistory();
+                            renderWithdrawals();
+                            renderDeposits();
+                            renderCalendar();
+                            renderUpcomingEvents();
+                            showToast('Daten erfolgreich geladen!');
+                        } catch (retryError) {
+                            console.error('Retry error:', retryError);
+                            showToast('Fehler beim Laden der Daten', 'error');
+                        }
+                    }, 2000);
+                } else {
+                    showToast('Fehler beim Laden der Daten', 'error');
+                }
             }
         }
 
@@ -1221,7 +1259,7 @@
             toast.style.background = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
             toast.innerHTML = `
                 <div class="flex items-center gap-2">
-                    <span>${type === 'error' ? '❌' : '✅'}</span>
+                    <span>${type === 'error' ? '❌' : '   '}</span>
                     <span>${message}</span>
                 </div>
             `;
@@ -2200,7 +2238,7 @@
                 'Gestresst': '😫',
                 'Euphorisch': '🤩',
                 'Frustriert': '😤',
-                'Ängstlich': '😨',
+                'Ängstlich': '  ',
                 'Neutral': '😐',
                 'Fokussiert': '🎯'
             };
@@ -2769,7 +2807,7 @@
             if (events.length === 0) {
                 list.innerHTML = `
                     <div class="text-center py-8 text-gray-400 text-sm">
-                        <div class="text-4xl mb-2">📭</div>
+                        <div class="text-4xl mb-2">  </div>
                         <p>Keine Termine</p>
                     </div>
                 `;
@@ -3080,5 +3118,5 @@
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74994577bde0d3',t:'MTc2NzI5NzU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74a2a76712e0d3',t:'MTc2NzI5Nzk2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
