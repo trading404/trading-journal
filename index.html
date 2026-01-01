@@ -644,6 +644,58 @@
              €0.00
             </div>
            </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Gewinn Trades
+            </div>
+            <div class="text-xl font-bold text-green-400" id="winCount">
+             0
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Verlust Trades
+            </div>
+            <div class="text-xl font-bold text-red-400" id="lossCount">
+             0
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Break Even
+            </div>
+            <div class="text-xl font-bold text-orange-400" id="beCount">
+             0
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Längste Gewinnserie
+            </div>
+            <div class="text-xl font-bold text-green-400" id="longestWinStreak">
+             0
+            </div>
+           </div>
+          </div>
+         </div><!-- Charts -->
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card rounded-xl p-6">
+           <h3 class="text-lg font-bold mb-4">Asset Performance</h3>
+           <div class="chart-container">
+            <canvas id="assetChart"></canvas>
+           </div>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+           <h3 class="text-lg font-bold mb-4">Strategie Performance</h3>
+           <div class="chart-container">
+            <canvas id="strategyChart"></canvas>
+           </div>
+          </div>
+         </div><!-- Monthly Performance -->
+         <div class="glass-card rounded-xl p-6">
+          <h3 class="text-lg font-bold mb-4">Monatliche Performance</h3>
+          <div class="chart-container">
+           <canvas id="monthlyChart"></canvas>
           </div>
          </div>
         </div>
@@ -718,23 +770,158 @@
        </div><!-- Calendar Tab -->
        <div id="calendarTab" class="tab-content hidden">
         <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Trading Kalender</span></h2>
-         <div class="text-center py-12 text-gray-400">
-          <div class="text-6xl mb-4">
-           🗓️
+         <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>📅</span> <span id="calendarTitle">Trading Kalender</span></h2>
+          <div class="flex gap-2"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ◀ </button> <button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ▶ </button>
           </div>
-          <p>Kalender in Entwicklung</p>
+         </div>
+         <div class="grid grid-cols-7 gap-2 mb-4">
+          <div class="text-center font-bold text-gray-400 py-2">
+           Mo
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           Di
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           Mi
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           Do
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           Fr
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           Sa
+          </div>
+          <div class="text-center font-bold text-gray-400 py-2">
+           So
+          </div>
+         </div>
+         <div id="calendarGrid" class="grid grid-cols-7 gap-2">
          </div>
         </div>
        </div><!-- Calculators Tab -->
        <div id="calculatorsTab" class="tab-content hidden">
-        <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>🔢</span> <span>Trading Rechner</span></h2>
-         <div class="text-center py-12 text-gray-400">
-          <div class="text-6xl mb-4">
-           🧮
+        <div class="space-y-8 animate-fade-in"><!-- Position Size Calculator -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Position Size Rechner</span></h2>
+          <form id="positionSizeForm" class="space-y-4">
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold mb-2">Kontostand (€)</label> <input type="number" id="psAccountBalance" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="10000">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Risiko pro Trade (%)</label> <input type="number" id="psRiskPercent" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="psEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08450">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Stop Loss Preis</label> <input type="number" id="psStopLoss" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08350">
+            </div>
+           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
+          </form>
+          <div id="positionSizeResult" class="mt-6 hidden">
+           <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Risiko Betrag
+             </div>
+             <div class="text-xl font-bold text-purple-400" id="psRiskAmount">
+              €0.00
+             </div>
+            </div>
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Lot Size
+             </div>
+             <div class="text-xl font-bold text-green-400" id="psLotSize">
+              0.00
+             </div>
+            </div>
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Stop Loss (Pips)
+             </div>
+             <div class="text-xl font-bold text-red-400" id="psStopPips">
+              0
+             </div>
+            </div>
+           </div>
           </div>
-          <p>Rechner in Entwicklung</p>
+         </div><!-- Pip Calculator -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>🔢</span> <span>Pip Rechner</span></h2>
+          <form id="pipCalculatorForm" class="space-y-4">
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pcEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08450">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Exit Preis</label> <input type="number" id="pcExitPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08550">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="pcLotSize" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="0.10">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Pip Wert (€)</label> <input type="number" id="pcPipValue" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="10">
+            </div>
+           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
+          </form>
+          <div id="pipCalculatorResult" class="mt-6 hidden">
+           <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Pips
+             </div>
+             <div class="text-xl font-bold text-purple-400" id="pcPips">
+              0
+             </div>
+            </div>
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Profit/Loss
+             </div>
+             <div class="text-xl font-bold" id="pcProfitLoss">
+              €0.00
+             </div>
+            </div>
+           </div>
+          </div>
+         </div><!-- Risk/Reward Calculator -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>⚖️</span> <span>Risk/Reward Rechner</span></h2>
+          <form id="rrCalculatorForm" class="space-y-4">
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="rrEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08450">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Stop Loss</label> <input type="number" id="rrStopLoss" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08350">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Take Profit</label> <input type="number" id="rrTakeProfit" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="1.08650">
+            </div>
+           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
+          </form>
+          <div id="rrCalculatorResult" class="mt-6 hidden">
+           <div class="grid grid-cols-3 gap-4">
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Risk (Pips)
+             </div>
+             <div class="text-xl font-bold text-red-400" id="rrRiskPips">
+              0
+             </div>
+            </div>
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              Reward (Pips)
+             </div>
+             <div class="text-xl font-bold text-green-400" id="rrRewardPips">
+              0
+             </div>
+            </div>
+            <div class="stat-card rounded-lg p-4 text-center">
+             <div class="text-sm text-gray-400 mb-1">
+              R/R Ratio
+             </div>
+             <div class="text-xl font-bold text-purple-400" id="rrRatio">
+              0:0
+             </div>
+            </div>
+           </div>
+          </div>
          </div>
         </div>
        </div>
@@ -1165,7 +1352,35 @@
             
             document.getElementById('profitFactor').textContent = profitFactor.toFixed(2);
             
+            // Performance metrics
+            const avgWin = wins.length > 0 ? wins.reduce((sum, t) => sum + t.profitLoss, 0) / wins.length : 0;
+            const avgLoss = losses.length > 0 ? losses.reduce((sum, t) => sum + t.profitLoss, 0) / losses.length : 0;
+            const maxWin = wins.length > 0 ? Math.max(...wins.map(t => t.profitLoss)) : 0;
+            const maxLoss = losses.length > 0 ? Math.min(...losses.map(t => t.profitLoss)) : 0;
+            
+            document.getElementById('avgWin').textContent = formatCurrency(avgWin);
+            document.getElementById('avgLoss').textContent = formatCurrency(avgLoss);
+            document.getElementById('maxWin').textContent = formatCurrency(maxWin);
+            document.getElementById('maxLoss').textContent = formatCurrency(maxLoss);
+            document.getElementById('winCount').textContent = wins.length;
+            document.getElementById('lossCount').textContent = losses.length;
+            document.getElementById('beCount').textContent = trades.filter(t => t.profitLoss === 0).length;
+            
+            // Longest win streak
+            let currentStreak = 0;
+            let longestStreak = 0;
+            sortedTrades.forEach(trade => {
+                if (trade.profitLoss && trade.profitLoss > 0) {
+                    currentStreak++;
+                    if (currentStreak > longestStreak) longestStreak = currentStreak;
+                } else {
+                    currentStreak = 0;
+                }
+            });
+            document.getElementById('longestWinStreak').textContent = longestStreak;
+            
             renderEquityCurve();
+            renderPerformanceCharts();
         }
 
         // Render Equity Curve
@@ -1476,6 +1691,282 @@
             };
             return emojis[emotion] || '😐';
         }
+
+        // Performance Charts
+        let assetChart, strategyChart, monthlyChart;
+
+        function renderPerformanceCharts() {
+            // Asset Performance Chart
+            const assetData = {};
+            trades.forEach(trade => {
+                if (trade.asset && trade.profitLoss) {
+                    assetData[trade.asset] = (assetData[trade.asset] || 0) + trade.profitLoss;
+                }
+            });
+
+            const assetLabels = Object.keys(assetData);
+            const assetValues = Object.values(assetData);
+
+            const assetCtx = document.getElementById('assetChart');
+            if (assetCtx) {
+                if (assetChart) assetChart.destroy();
+                assetChart = new Chart(assetCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: assetLabels,
+                        datasets: [{
+                            label: 'Profit/Loss (€)',
+                            data: assetValues,
+                            backgroundColor: assetValues.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.6)' : 'rgba(239, 68, 68, 0.6)'),
+                            borderColor: assetValues.map(v => v >= 0 ? '#10b981' : '#ef4444'),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                            y: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                        }
+                    }
+                });
+            }
+
+            // Strategy Performance Chart
+            const strategyData = {};
+            trades.forEach(trade => {
+                if (trade.strategy && trade.profitLoss) {
+                    strategyData[trade.strategy] = (strategyData[trade.strategy] || 0) + trade.profitLoss;
+                }
+            });
+
+            const strategyLabels = Object.keys(strategyData);
+            const strategyValues = Object.values(strategyData);
+
+            const strategyCtx = document.getElementById('strategyChart');
+            if (strategyCtx) {
+                if (strategyChart) strategyChart.destroy();
+                strategyChart = new Chart(strategyCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: strategyLabels,
+                        datasets: [{
+                            data: strategyValues.map(v => Math.abs(v)),
+                            backgroundColor: [
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(59, 130, 246, 0.8)'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#1e293b'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { color: '#9ca3af' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Monthly Performance Chart
+            const monthlyData = {};
+            trades.forEach(trade => {
+                if (trade.date && trade.profitLoss) {
+                    const month = trade.date.substring(0, 7);
+                    monthlyData[month] = (monthlyData[month] || 0) + trade.profitLoss;
+                }
+            });
+
+            const monthlyLabels = Object.keys(monthlyData).sort();
+            const monthlyValues = monthlyLabels.map(m => monthlyData[m]);
+
+            const monthlyCtx = document.getElementById('monthlyChart');
+            if (monthlyCtx) {
+                if (monthlyChart) monthlyChart.destroy();
+                monthlyChart = new Chart(monthlyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: monthlyLabels,
+                        datasets: [{
+                            label: 'Monatlicher Profit/Loss (€)',
+                            data: monthlyValues,
+                            backgroundColor: monthlyValues.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.6)' : 'rgba(239, 68, 68, 0.6)'),
+                            borderColor: monthlyValues.map(v => v >= 0 ? '#10b981' : '#ef4444'),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                            y: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Calendar
+        let currentCalendarYear = new Date().getFullYear();
+        let currentCalendarMonth = new Date().getMonth();
+
+        function renderCalendar() {
+            const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1);
+            const lastDay = new Date(currentCalendarYear, currentCalendarMonth + 1, 0);
+            const startingDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+            const numberOfDays = lastDay.getDate();
+
+            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            document.getElementById('calendarTitle').textContent = `${monthNames[currentCalendarMonth]} ${currentCalendarYear}`;
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                grid.appendChild(emptyDay);
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= numberOfDays; day++) {
+                const dateStr = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayTrades = trades.filter(t => t.date === dateStr);
+                
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                
+                if (today.getFullYear() === currentCalendarYear && today.getMonth() === currentCalendarMonth && today.getDate() === day) {
+                    dayDiv.classList.add('today');
+                }
+
+                if (dayTrades.length > 0) {
+                    const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
+                    if (dayPL > 0) dayDiv.classList.add('profit');
+                    else if (dayPL < 0) dayDiv.classList.add('loss');
+                    else dayDiv.classList.add('breakeven');
+
+                    dayDiv.innerHTML = `
+                        <div class="text-sm font-bold">${day}</div>
+                        <div class="text-xs ${dayPL >= 0 ? 'text-green-300' : 'text-red-300'}">${formatCurrency(dayPL)}</div>
+                    `;
+                } else {
+                    dayDiv.classList.add('empty');
+                    dayDiv.innerHTML = `<div class="text-sm">${day}</div>`;
+                }
+
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentCalendarMonth--;
+            if (currentCalendarMonth < 0) {
+                currentCalendarMonth = 11;
+                currentCalendarYear--;
+            }
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentCalendarMonth++;
+            if (currentCalendarMonth > 11) {
+                currentCalendarMonth = 0;
+                currentCalendarYear++;
+            }
+            renderCalendar();
+        });
+
+        // Calculators
+        document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const accountBalance = parseFloat(document.getElementById('psAccountBalance').value);
+            const riskPercent = parseFloat(document.getElementById('psRiskPercent').value);
+            const entryPrice = parseFloat(document.getElementById('psEntryPrice').value);
+            const stopLoss = parseFloat(document.getElementById('psStopLoss').value);
+
+            const riskAmount = accountBalance * (riskPercent / 100);
+            const stopPips = Math.abs(entryPrice - stopLoss) * 10000;
+            const lotSize = riskAmount / (stopPips * 10);
+
+            document.getElementById('psRiskAmount').textContent = formatCurrency(riskAmount);
+            document.getElementById('psLotSize').textContent = lotSize.toFixed(2);
+            document.getElementById('psStopPips').textContent = stopPips.toFixed(1);
+            document.getElementById('positionSizeResult').classList.remove('hidden');
+        });
+
+        document.getElementById('pipCalculatorForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const entryPrice = parseFloat(document.getElementById('pcEntryPrice').value);
+            const exitPrice = parseFloat(document.getElementById('pcExitPrice').value);
+            const lotSize = parseFloat(document.getElementById('pcLotSize').value);
+            const pipValue = parseFloat(document.getElementById('pcPipValue').value);
+
+            const pips = Math.abs(exitPrice - entryPrice) * 10000;
+            const profitLoss = pips * pipValue * lotSize;
+
+            document.getElementById('pcPips').textContent = pips.toFixed(1);
+            document.getElementById('pcProfitLoss').textContent = formatCurrency(profitLoss);
+            document.getElementById('pcProfitLoss').className = profitLoss >= 0 ? 'text-xl font-bold text-green-400' : 'text-xl font-bold text-red-400';
+            document.getElementById('pipCalculatorResult').classList.remove('hidden');
+        });
+
+        document.getElementById('rrCalculatorForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const entryPrice = parseFloat(document.getElementById('rrEntryPrice').value);
+            const stopLoss = parseFloat(document.getElementById('rrStopLoss').value);
+            const takeProfit = parseFloat(document.getElementById('rrTakeProfit').value);
+
+            const riskPips = Math.abs(entryPrice - stopLoss) * 10000;
+            const rewardPips = Math.abs(takeProfit - entryPrice) * 10000;
+            const ratio = rewardPips / riskPips;
+
+            document.getElementById('rrRiskPips').textContent = riskPips.toFixed(1);
+            document.getElementById('rrRewardPips').textContent = rewardPips.toFixed(1);
+            document.getElementById('rrRatio').textContent = `1:${ratio.toFixed(2)}`;
+            document.getElementById('rrCalculatorResult').classList.remove('hidden');
+        });
+
+        // Compound Interest Calculator
+        document.getElementById('compoundForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const targetCapital = parseFloat(document.getElementById('targetCapital').value);
+            const monthlyReturn = parseFloat(document.getElementById('monthlyReturn').value) / 100;
+            const currentCapital = startCapitalData ? startCapitalData.currentCapital : 0;
+
+            if (currentCapital <= 0) {
+                showToast('Bitte erst Startkapital festlegen', 'error');
+                return;
+            }
+
+            let capital = currentCapital;
+            let months = 0;
+
+            while (capital < targetCapital && months < 1000) {
+                capital *= (1 + monthlyReturn);
+                months++;
+            }
+
+            document.getElementById('monthsToGoal').textContent = months;
+            document.getElementById('compoundResults').classList.remove('hidden');
+        });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73f1576462e0d3',t:'MTc2NzI5MDcwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73fb60805ee0d3',t:'MTc2NzI5MTExNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
