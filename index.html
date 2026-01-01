@@ -361,7 +361,7 @@
         Menü
        </div><button id="closeMobileMenu" class="text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🧮</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>    </span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>   </span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🧮</span> <span>Rechner</span> </button>
       </nav>
      </aside><!-- Main Content -->
      <main class="flex-1 overflow-auto w-full">
@@ -571,7 +571,7 @@
           </div>
          </div><!-- Monthly Performance -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Monatliche Performance</span></h2>
           <div class="chart-container">
            <canvas id="monthlyPerformanceChart"></canvas>
           </div>
@@ -730,7 +730,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">    Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">   Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">   Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">   Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="editTradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg"></textarea>
      </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Änderungen speichern </button>
@@ -787,52 +787,35 @@
 
         // Initialize Data SDK
         async function initializeDataSDK() {
-            if (!window.dataSdk || sdkInitialized) return;
+            if (sdkInitialized) {
+                console.log('⚠️ SDK already initialized');
+                return;
+            }
+            
+            if (!window.dataSdk) {
+                console.error('❌ Data SDK not loaded yet');
+                setTimeout(initializeDataSDK, 100);
+                return;
+            }
             
             console.log('🔄 Initializing Data SDK...');
-            
-            // Show loading state
-            showLoadingOverlay();
             
             try {
                 const result = await window.dataSdk.init(dataHandler);
                 if (result.isOk) {
                     sdkInitialized = true;
                     console.log('✅ Data SDK initialized successfully');
-                    hideLoadingOverlay();
                     showToast('Verbindung hergestellt!');
                 } else {
                     console.error('❌ Failed to initialize Data SDK:', result.error);
-                    hideLoadingOverlay();
                     showToast('Datenbank konnte nicht initialisiert werden', 'error');
                 }
             } catch (error) {
                 console.error('❌ Exception during SDK init:', error);
-                hideLoadingOverlay();
                 showToast('Fehler bei Datenbank-Verbindung', 'error');
             }
         }
-        
-        // Show loading overlay
-        function showLoadingOverlay() {
-            const overlay = document.createElement('div');
-            overlay.id = 'sdkLoadingOverlay';
-            overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);';
-            overlay.innerHTML = `
-                <div style="text-align: center;">
-                    <div class="loading-spinner" style="margin: 0 auto 20px;"></div>
-                    <div style="color: white; font-size: 18px; font-weight: bold;">Verbindung wird hergestellt...</div>
-                    <div style="color: #9ca3af; font-size: 14px; margin-top: 8px;">Bitte einen Moment Geduld</div>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-        }
-        
-        // Hide loading overlay
-        function hideLoadingOverlay() {
-            const overlay = document.getElementById('sdkLoadingOverlay');
-            if (overlay) overlay.remove();
-        }
+
 
         // Auth State Observer
         auth.onAuthStateChanged(async (user) => {
@@ -1043,22 +1026,23 @@
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Enhanced validation with user-friendly messages
+            console.log('💼 Start Capital Form submitted');
+            console.log('Current User:', currentUser?.email);
+            console.log('SDK Initialized:', sdkInitialized);
+            console.log('Window dataSdk exists:', !!window.dataSdk);
+            
             if (!currentUser) {
                 showToast('Bitte melden Sie sich zuerst an', 'error');
                 return;
             }
             
             if (!window.dataSdk) {
-                showToast('Datenbank wird geladen, bitte warten...', 'error');
-                setTimeout(() => window.location.reload(), 2000);
+                showToast('SDK wird geladen, bitte warten...', 'error');
                 return;
             }
             
             if (!sdkInitialized) {
-                showToast('Verbindung wird hergestellt, bitte kurz warten...', 'error');
-                // Try to initialize again
-                await initializeDataSDK();
+                showToast('Initialisierung läuft, bitte kurz warten...', 'error');
                 return;
             }
             
@@ -1068,6 +1052,8 @@
             }
 
             const capital = parseFloat(document.getElementById('startCapital').value);
+            console.log('Capital entered:', capital);
+            
             if (!capital || capital <= 0) {
                 showToast('Bitte gültiges Startkapital eingeben', 'error');
                 return;
@@ -1086,7 +1072,7 @@
             try {
                 let result;
                 if (startCapitalRecord) {
-                    // Calculate the difference to adjust current capital
+                    console.log('📝 Updating existing start capital record');
                     const oldStartCapital = startCapitalRecord.startCapital || 0;
                     const difference = capital - oldStartCapital;
                     const newCurrentCapital = (startCapitalRecord.currentCapital || 0) + difference;
@@ -1096,9 +1082,10 @@
                         startCapital: capital,
                         currentCapital: newCurrentCapital
                     };
-                    console.log('📝 Updating start capital:', { old: oldStartCapital, new: capital, diff: difference, newCurrentCapital });
+                    console.log('Update payload:', updated);
                     result = await window.dataSdk.update(updated);
                 } else {
+                    console.log('✨ Creating new start capital record');
                     const record = {
                         type: 'startCapital',
                         userEmail: currentUser.email,
@@ -1106,9 +1093,11 @@
                         currentCapital: capital,
                         timestamp: Date.now()
                     };
-                    console.log('✨ Creating new start capital:', record);
+                    console.log('Create payload:', record);
                     result = await window.dataSdk.create(record);
                 }
+
+                console.log('SDK Result:', result);
 
                 if (result.isOk) {
                     showToast('Startkapital erfolgreich gespeichert!');
@@ -1964,5 +1953,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72cbe7d661e0d3',t:'MTc2NzI3ODY4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72d117c10fe0d3',t:'MTc2NzI3ODg5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
