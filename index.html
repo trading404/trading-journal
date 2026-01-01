@@ -395,7 +395,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in">
           <div class="text-2xl sm:text-4xl mb-2">
-           💰
+             
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Aktuelles Kapital
@@ -504,7 +504,7 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 150.00 oder -50.00">
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">    Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
@@ -740,7 +740,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">   Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="editTradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg"></textarea>
      </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Änderungen speichern </button>
@@ -766,6 +766,12 @@
         const auth = firebase.auth();
         let currentUser = null;
         let sdkInitialized = false;
+        
+        // Global data variables
+        let allData = [];
+        let trades = [];
+        let withdrawals = [];
+        let startCapitalRecord = null;
         
         // Data SDK Handler - MUST be defined before initialization
         const dataHandler = {
@@ -1007,13 +1013,13 @@
         };
         
         let currentLanguage = localStorage.getItem('tradingJournalLanguage') || 'de';
-        
-        let allData = [];
-        let trades = [];
-        let withdrawals = [];
-        let startCapitalRecord = null;
         let editingTradeId = null;
         let isLoading = false;
+        let equityCurveChart = null;
+        let assetDistributionChart = null;
+        let assetPerformanceChart = null;
+        let monthlyPerformanceChart = null;
+        let compoundChart = null;
         
         // Toast Notification
         function showToast(message, type = 'success') {
@@ -1029,12 +1035,6 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
-        
-        let equityCurveChart = null;
-        let assetDistributionChart = null;
-        let assetPerformanceChart = null;
-        let monthlyPerformanceChart = null;
-        let compoundChart = null;
 
         // Language System
         function updateLanguage(lang) {
@@ -1062,7 +1062,7 @@
                 localStorage.setItem('tradingJournalTheme', 'dark');
             } else {
                 body.classList.add('light-theme');
-                themeIcon.textContent = '☀️';
+                themeIcon.textContent = '☀  ';
                 themeText.textContent = 'Light';
                 localStorage.setItem('tradingJournalTheme', 'light');
             }
@@ -1122,40 +1122,6 @@
 
         // Initialize language
         updateLanguage(currentLanguage);
-
-        // Data SDK Handler
-        const dataHandler = {
-            onDataChanged(data) {
-                console.log('onDataChanged called with', data.length, 'records');
-                allData = data;
-                trades = data.filter(item => item.type === 'trade');
-                withdrawals = data.filter(item => item.type === 'withdrawal');
-                startCapitalRecord = data.find(item => item.type === 'startCapital');
-                
-                console.log('Start capital record:', startCapitalRecord);
-                console.log('Trades:', trades.length);
-                console.log('Withdrawals:', withdrawals.length);
-                
-                updateDashboard();
-                renderTradeHistory();
-                renderWithdrawals();
-            }
-        };
-
-        // Toast Notification
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.style.background = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
-            toast.innerHTML = `
-                <div class="flex items-center gap-2">
-                    <span>${type === 'error' ? '❌' : '✅'}</span>
-                    <span>${message}</span>
-                </div>
-            `;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
 
         // Tab Navigation
         document.querySelectorAll('.nav-button').forEach(button => {
@@ -2144,5 +2110,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729690b42de0d3',t:'MTc2NzI3NjUwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729ba35101e0d3',t:'MTc2NzI3NjcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
