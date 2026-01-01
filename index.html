@@ -698,7 +698,7 @@
       <div><label id="registerEmailLabel" class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="registerEmail" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="deine@email.de" required>
       </div>
       <div><label id="registerPasswordLabel" class="block text-sm font-bold mb-3 text-purple-300">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="••••••••" required>
-      </div><button type="submit" id="registerButton" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg"> ✨ Konto erstellen </button>
+      </div><button type="submit" id="registerButton" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg">    Konto erstellen </button>
      </form>
      <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition"> <span id="loginPromptText">    Bereits registriert? Jetzt anmelden</span> </button>
      </div>
@@ -1601,6 +1601,7 @@
   appId: "1:927047992152:web:2269467aa95689e0955b2d",
   measurementId: "G-36WT75DLEL"
 };
+
 
         // Initialize Firebase
         let app, auth, db;
@@ -4090,12 +4091,10 @@
         }
 
         function calculateCompound() {
-            const initialCapital = parseFloat(document.getElementById('compoundInitialCapital').value);
             const targetAmount = parseFloat(document.getElementById('compoundTargetAmount').value);
             const plannedReturn = parseFloat(document.getElementById('compoundPlannedReturn').value) / 100;
-            const months = parseInt(document.getElementById('compoundMonths').value);
             
-            if (isNaN(initialCapital) || isNaN(targetAmount) || isNaN(plannedReturn) || isNaN(months)) {
+            if (isNaN(targetAmount) || isNaN(plannedReturn)) {
                 showToast('❌ Bitte alle Felder ausfüllen', 'error');
                 return;
             }
@@ -4103,68 +4102,121 @@
             const startCapital = startCapitalData ? startCapitalData.startCapital : 0;
             const currentCapital = startCapitalData ? startCapitalData.currentCapital : 0;
             
-            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
-            const firstTradeDate = sortedTrades.length > 0 ? new Date(sortedTrades[0].date) : new Date();
-            const lastTradeDate = sortedTrades.length > 0 ? new Date(sortedTrades[sortedTrades.length - 1].date) : new Date();
-            const monthsDiff = (lastTradeDate.getFullYear() - firstTradeDate.getFullYear()) * 12 + 
-                               (lastTradeDate.getMonth() - firstTradeDate.getMonth()) + 1;
-            
-            const yourMonthlyReturn = monthsDiff > 0 && startCapital > 0 ? 
-                ((currentCapital / startCapital) ** (1 / monthsDiff) - 1) : 0;
-            
-            let yourProjection = currentCapital;
-            for (let i = 0; i < months; i++) {
-                yourProjection *= (1 + yourMonthlyReturn);
+            if (startCapital === 0) {
+                showToast('❌ Bitte erst Startkapital im Dashboard festlegen', 'error');
+                return;
             }
             
-            const targetProjection = initialCapital * Math.pow(1 + plannedReturn, months);
+            // Calculate actual performance
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            let yourMonthlyReturn = 0;
+            let monthsDiff = 1;
             
-            const difference = yourProjection - targetProjection;
-            const differencePercent = targetProjection > 0 ? ((yourProjection - targetProjection) / targetProjection * 100) : 0;
+            if (sortedTrades.length > 0) {
+                const firstTradeDate = new Date(sortedTrades[0].date);
+                const lastTradeDate = new Date(sortedTrades[sortedTrades.length - 1].date);
+                monthsDiff = (lastTradeDate.getFullYear() - firstTradeDate.getFullYear()) * 12 + 
+                               (lastTradeDate.getMonth() - firstTradeDate.getMonth()) + 1;
+                
+                if (monthsDiff > 0 && startCapital > 0) {
+                    yourMonthlyReturn = (currentCapital / startCapital) ** (1 / monthsDiff) - 1;
+                }
+            }
             
+            // Calculate months needed to reach target with both rates
+            let yourMonthsToTarget = 0;
+            let tempYour = currentCapital;
+            while (tempYour < targetAmount && yourMonthsToTarget < 10000) {
+                tempYour *= (1 + yourMonthlyReturn);
+                yourMonthsToTarget++;
+            }
+            
+            let targetMonthsToTarget = 0;
+            let tempTarget = currentCapital;
+            while (tempTarget < targetAmount && targetMonthsToTarget < 10000) {
+                tempTarget *= (1 + plannedReturn);
+                targetMonthsToTarget++;
+            }
+            
+            // Time difference
+            const timeDifference = yourMonthsToTarget - targetMonthsToTarget;
+            
+            // Update UI with results
             document.getElementById('compoundYourRate').textContent = (yourMonthlyReturn * 100).toFixed(2) + '%';
-            document.getElementById('compoundYourMonths').textContent = months;
-            document.getElementById('compoundYourProjection').textContent = formatCurrency(yourProjection);
+            document.getElementById('compoundYourMonths').textContent = yourMonthsToTarget < 10000 ? yourMonthsToTarget : '∞';
             
             document.getElementById('compoundTargetRate').textContent = (plannedReturn * 100).toFixed(2) + '%';
-            document.getElementById('compoundTargetMonths').textContent = months;
-            document.getElementById('compoundTargetProjection').textContent = formatCurrency(targetProjection);
+            document.getElementById('compoundTargetMonths').textContent = targetMonthsToTarget < 10000 ? targetMonthsToTarget : '∞';
             
-            document.getElementById('compoundDifference').textContent = formatCurrency(Math.abs(difference));
-            document.getElementById('compoundDifference').className = difference >= 0 ? 'text-5xl font-bold mb-3 text-green-400' : 'text-5xl font-bold mb-3 text-red-400';
-            document.getElementById('compoundDifferencePercent').textContent = (difference >= 0 ? '+' : '') + differencePercent.toFixed(1) + '%';
-            document.getElementById('compoundDifferencePercent').className = difference >= 0 ? 'text-lg font-semibold text-green-400' : 'text-lg font-semibold text-red-400';
+            // Time difference display
+            document.getElementById('compoundTimeDifference').textContent = Math.abs(timeDifference);
             
-            let monthsToTarget = 0;
-            let temp = currentCapital;
-            while (temp < targetAmount && monthsToTarget < 1000) {
-                temp *= (1 + yourMonthlyReturn);
-                monthsToTarget++;
+            if (timeDifference < 0) {
+                // You're faster
+                document.getElementById('compoundTimeDifferenceText').textContent = 'Monate schneller als geplant! 🚀';
+                document.getElementById('compoundTimeDifference').className = 'text-6xl font-bold mb-3 text-green-400';
+            } else if (timeDifference > 0) {
+                // You're slower
+                document.getElementById('compoundTimeDifferenceText').textContent = 'Monate langsamer als geplant';
+                document.getElementById('compoundTimeDifference').className = 'text-6xl font-bold mb-3 text-red-400';
+            } else {
+                // Exactly on track
+                document.getElementById('compoundTimeDifferenceText').textContent = 'Genau im Plan! 🎯';
+                document.getElementById('compoundTimeDifference').className = 'text-6xl font-bold mb-3 text-yellow-400';
             }
             
-            document.getElementById('compoundMonthsToTarget').textContent = temp >= targetAmount ? `${monthsToTarget} Monate` : 'Nicht erreichbar';
+            // Performance Status Banner
+            const statusBanner = document.getElementById('performanceStatusBanner');
+            const statusEmoji = document.getElementById('statusEmoji');
+            const statusTitle = document.getElementById('statusTitle');
+            const statusMessage = document.getElementById('statusMessage');
             
-            const totalProfit = targetProjection - initialCapital;
-            document.getElementById('compoundTotalProfit').textContent = formatCurrency(totalProfit);
+            if (yourMonthlyReturn > plannedReturn) {
+                // Outperforming
+                statusBanner.className = 'mb-8 rounded-2xl p-8 text-center border-4 border-green-500 bg-gradient-to-br from-green-900 to-green-800 bg-opacity-50';
+                statusEmoji.textContent = '🚀';
+                statusTitle.textContent = 'Du übertriffst dein Ziel!';
+                statusMessage.textContent = `Du bist ${Math.abs(timeDifference)} Monate schneller als geplant. Großartige Leistung!`;
+            } else if (yourMonthlyReturn < plannedReturn) {
+                // Underperforming
+                statusBanner.className = 'mb-8 rounded-2xl p-8 text-center border-4 border-red-500 bg-gradient-to-br from-red-900 to-red-800 bg-opacity-50';
+                statusEmoji.textContent = '📊';
+                statusTitle.textContent = 'Du bist etwas hinter dem Plan';
+                statusMessage.textContent = `Du bist ${Math.abs(timeDifference)} Monate langsamer als geplant. Aber du machst Fortschritte!`;
+            } else {
+                // On track
+                statusBanner.className = 'mb-8 rounded-2xl p-8 text-center border-4 border-yellow-500 bg-gradient-to-br from-yellow-900 to-yellow-800 bg-opacity-50';
+                statusEmoji.textContent = '🎯';
+                statusTitle.textContent = 'Perfekt im Plan!';
+                statusMessage.textContent = 'Du bist genau auf Kurs zu deinem Ziel!';
+            }
             
-            const growthPercent = ((targetProjection - initialCapital) / initialCapital) * 100;
+            // Additional info
+            document.getElementById('compoundTargetAmountDisplay').textContent = formatCurrency(targetAmount);
+            
+            const requiredProfit = targetAmount - currentCapital;
+            document.getElementById('compoundRequiredProfit').textContent = formatCurrency(requiredProfit);
+            
+            const growthPercent = ((targetAmount - startCapital) / startCapital) * 100;
             document.getElementById('compoundGrowthPercent').textContent = growthPercent.toFixed(1) + '%';
             
-            renderCompoundChart(currentCapital, yourMonthlyReturn, initialCapital, plannedReturn, months);
+            // Render chart - show longer timeframe for better comparison
+            const maxMonths = Math.max(yourMonthsToTarget, targetMonthsToTarget, 12);
+            renderCompoundChart(currentCapital, yourMonthlyReturn, plannedReturn, Math.min(maxMonths, 120), targetAmount);
             
             document.getElementById('compoundEmptyState').classList.add('hidden');
             document.getElementById('compoundResults').classList.remove('hidden');
         }
 
-        function renderCompoundChart(yourStartCapital, yourRate, targetStartCapital, targetRate, months) {
+        function renderCompoundChart(startCapital, yourRate, targetRate, months, targetAmount) {
             const labels = [];
             const yourData = [];
             const targetData = [];
             
             for (let i = 0; i <= months; i++) {
                 labels.push(`Monat ${i}`);
-                yourData.push(yourStartCapital * Math.pow(1 + yourRate, i));
-                targetData.push(targetStartCapital * Math.pow(1 + targetRate, i));
+                yourData.push(startCapital * Math.pow(1 + yourRate, i));
+                targetData.push(startCapital * Math.pow(1 + targetRate, i));
             }
             
             const ctx = document.getElementById('compoundChart');
@@ -4179,23 +4231,38 @@
                             label: 'Deine Performance',
                             data: yourData,
                             borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.15)',
                             borderWidth: 4,
                             fill: true,
                             tension: 0.4,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#3b82f6'
+                            pointRadius: 5,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         },
                         {
-                            label: 'Zielvorgabe',
+                            label: 'Geplante Performance',
                             data: targetData,
                             borderColor: '#a78bfa',
-                            backgroundColor: 'rgba(167, 139, 250, 0.1)',
+                            backgroundColor: 'rgba(167, 139, 250, 0.15)',
                             borderWidth: 4,
                             fill: true,
                             tension: 0.4,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#a78bfa'
+                            pointRadius: 5,
+                            pointBackgroundColor: '#a78bfa',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Zielsumme',
+                            data: Array(months + 1).fill(targetAmount),
+                            borderColor: '#10b981',
+                            backgroundColor: 'transparent',
+                            borderWidth: 3,
+                            borderDash: [10, 5],
+                            fill: false,
+                            tension: 0,
+                            pointRadius: 0
                         }
                     ]
                 },
@@ -4208,14 +4275,20 @@
                             labels: {
                                 color: '#9ca3af',
                                 font: { size: 14, weight: 'bold' },
-                                padding: 20
+                                padding: 20,
+                                usePointStyle: true
                             }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(0, 0, 0, 0.9)',
                             padding: 16,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
                             callbacks: {
                                 label: function(context) {
+                                    if (context.datasetIndex === 2) {
+                                        return `Ziel: ${formatCurrency(context.parsed.y)}`;
+                                    }
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
                                 }
                             }
@@ -4225,7 +4298,8 @@
                         x: {
                             ticks: { 
                                 color: '#9ca3af',
-                                maxTicksLimit: 12
+                                maxTicksLimit: 15,
+                                font: { size: 11 }
                             },
                             grid: { 
                                 color: 'rgba(99, 102, 241, 0.1)',
@@ -4235,8 +4309,9 @@
                         y: {
                             ticks: { 
                                 color: '#9ca3af',
+                                font: { size: 11 },
                                 callback: function(value) {
-                                    return '€' + value.toFixed(0);
+                                    return '€' + (value >= 1000 ? (value/1000).toFixed(0) + 'k' : value.toFixed(0));
                                 }
                             },
                             grid: { 
@@ -4313,5 +4388,5 @@
             document.getElementById('pipCalculatorResults').classList.remove('hidden');
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b756290668ae0d3',t:'MTc2NzMwNTgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b756e8276aae0d3',t:'MTc2NzMwNjMxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
