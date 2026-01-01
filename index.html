@@ -428,7 +428,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.3s">
           <div class="text-2xl sm:text-4xl mb-2">
-              
+           🎯
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Profit Factor
@@ -692,7 +692,7 @@
           <div id="positionSizeResult" class="mt-6"></div>
          </div><!-- Pip Calculator -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Pip-Rechner</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📏</span> <span>Pip-Rechner</span></h2>
           <form id="pipCalculatorForm" class="space-y-4">
            <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pipEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08450" required>
            </div>
@@ -740,7 +740,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">     Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="editTradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg"></textarea>
      </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Änderungen speichern </button>
@@ -765,6 +765,7 @@
         }
         const auth = firebase.auth();
         let currentUser = null;
+        let sdkInitialized = false;
         
         // Auth State Observer
         auth.onAuthStateChanged(async (user) => {
@@ -776,14 +777,23 @@
                 document.getElementById('userEmailMobile').textContent = user.email;
                 
                 // Initialize Data SDK
-                if (window.dataSdk) {
+                console.log('User logged in, initializing Data SDK...');
+                if (window.dataSdk && !sdkInitialized) {
                     const result = await window.dataSdk.init(dataHandler);
-                    if (!result.isOk) {
+                    console.log('SDK init result:', result);
+                    if (result.isOk) {
+                        sdkInitialized = true;
+                        console.log('✅ Data SDK initialized successfully');
+                    } else {
+                        console.error('❌ Failed to initialize Data SDK:', result.error);
                         showToast('Fehler beim Initialisieren der Datenbank', 'error');
                     }
+                } else if (!window.dataSdk) {
+                    console.error('❌ window.dataSdk is not available!');
                 }
             } else {
                 currentUser = null;
+                sdkInitialized = false;
                 document.getElementById('authScreen').classList.remove('hidden');
                 document.getElementById('mainApp').classList.add('hidden');
             }
@@ -1043,10 +1053,15 @@
         // Data SDK Handler
         const dataHandler = {
             onDataChanged(data) {
+                console.log('onDataChanged called with', data.length, 'records');
                 allData = data;
                 trades = data.filter(item => item.type === 'trade');
                 withdrawals = data.filter(item => item.type === 'withdrawal');
                 startCapitalRecord = data.find(item => item.type === 'startCapital');
+                
+                console.log('Start capital record:', startCapitalRecord);
+                console.log('Trades:', trades.length);
+                console.log('Withdrawals:', withdrawals.length);
                 
                 updateDashboard();
                 renderTradeHistory();
@@ -1104,18 +1119,47 @@
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || isLoading) return;
+            
+            console.log('=== START CAPITAL FORM SUBMIT ===');
+            console.log('window.dataSdk exists:', !!window.dataSdk);
+            console.log('sdkInitialized:', sdkInitialized);
+            console.log('isLoading:', isLoading);
+            console.log('currentUser:', currentUser);
+            
+            if (!window.dataSdk) {
+                console.error('Data SDK not available!');
+                showToast('Datenbank nicht verfügbar. Bitte Seite neu laden.', 'error');
+                return;
+            }
+            
+            if (!sdkInitialized) {
+                console.error('SDK not initialized yet!');
+                showToast('Datenbank wird noch initialisiert. Bitte kurz warten.', 'error');
+                return;
+            }
+            
+            if (isLoading) {
+                console.log('Already loading, skipping...');
+                return;
+            }
 
-            const inputValue = document.getElementById('startCapital').value;
-            console.log('Input value:', inputValue);
+            const inputElement = document.getElementById('startCapital');
+            const inputValue = inputElement.value;
+            console.log('Input value (raw):', inputValue);
+            console.log('Input value type:', typeof inputValue);
             
             const capital = parseFloat(inputValue);
             console.log('Parsed capital:', capital);
+            console.log('Is NaN:', isNaN(capital));
             
             if (!inputValue || inputValue.trim() === '' || isNaN(capital) || capital <= 0) {
+                console.error('Validation failed!');
                 showToast('Bitte gültiges Startkapital eingeben (größer als 0)', 'error');
                 return;
             }
+
+            console.log('Current startCapitalRecord:', startCapitalRecord);
+            console.log('Total records in allData:', allData.length);
 
             if (!startCapitalRecord && allData.length >= 999) {
                 showToast('Maximum von 999 Einträgen erreicht!', 'error');
@@ -1127,50 +1171,67 @@
             const originalText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
+            console.log('Button disabled, starting save operation...');
 
             try {
                 let result;
                 if (startCapitalRecord) {
                     // Update existing - keep currentCapital as is, only update startCapital
-                    console.log('Updating existing record:', startCapitalRecord);
-                    const updated = { ...startCapitalRecord, startCapital: capital };
+                    console.log('UPDATE MODE - Updating existing record');
+                    console.log('Existing record:', JSON.stringify(startCapitalRecord, null, 2));
+                    
+                    const updated = { 
+                        ...startCapitalRecord, 
+                        startCapital: capital 
+                    };
+                    console.log('Updated record to save:', JSON.stringify(updated, null, 2));
+                    
                     result = await window.dataSdk.update(updated);
+                    console.log('Update result:', result);
                 } else {
                     // Create new record
-                    console.log('Creating new start capital record');
+                    console.log('CREATE MODE - Creating new start capital record');
                     const record = {
                         type: 'startCapital',
                         startCapital: capital,
                         currentCapital: capital,
                         timestamp: Date.now()
                     };
-                    console.log('Record to create:', record);
+                    console.log('New record to create:', JSON.stringify(record, null, 2));
+                    
                     result = await window.dataSdk.create(record);
+                    console.log('Create result:', result);
                 }
 
-                console.log('SDK Result:', result);
+                console.log('Final SDK result.isOk:', result.isOk);
+                console.log('Final SDK result.isError:', result.isError);
 
                 if (result.isOk) {
+                    console.log('✅ SUCCESS - Capital saved!');
                     showToast('Startkapital erfolgreich gespeichert!');
-                    document.getElementById('startCapital').value = '';
+                    inputElement.value = '';
+                    console.log('Input field cleared');
                 } else {
+                    console.error('❌ ERROR - Save failed');
+                    console.error('Error details:', result.error);
                     showToast('Fehler beim Speichern: ' + (result.error?.message || 'Unbekannter Fehler'), 'error');
-                    console.error('Error saving start capital:', result.error);
                 }
             } catch (error) {
+                console.error('❌ EXCEPTION caught:', error);
+                console.error('Exception stack:', error.stack);
                 showToast('Fehler beim Speichern: ' + error.message, 'error');
-                console.error('Exception:', error);
             } finally {
                 isLoading = false;
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
+                console.log('=== END START CAPITAL FORM SUBMIT ===');
             }
         });
 
         // New Trade Form
         document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || isLoading) return;
+            if (!window.dataSdk || isLoading || !sdkInitialized) return;
 
             if (allData.length >= 999) {
                 showToast('Maximum von 999 Einträgen erreicht!', 'error');
@@ -1230,7 +1291,7 @@
         // Withdrawal Form
         document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || isLoading) return;
+            if (!window.dataSdk || isLoading || !sdkInitialized) return;
 
             if (allData.length >= 999) {
                 showToast('Maximum von 999 Einträgen erreicht!', 'error');
@@ -1481,7 +1542,7 @@
         // Update Trade
         document.getElementById('editTradeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !editingTradeId || isLoading) return;
+            if (!window.dataSdk || !editingTradeId || isLoading || !sdkInitialized) return;
             
             isLoading = true;
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -1532,7 +1593,7 @@
 
         // Delete Trade
         window.deleteTrade = async function(id) {
-            if (!window.dataSdk || isLoading) return;
+            if (!window.dataSdk || isLoading || !sdkInitialized) return;
             
             const button = event.target;
             const originalText = button.textContent;
@@ -1625,7 +1686,7 @@
 
         // Delete Withdrawal
         window.deleteWithdrawal = async function(id) {
-            if (!window.dataSdk || isLoading) return;
+            if (!window.dataSdk || isLoading || !sdkInitialized) return;
             
             const button = event.target;
             const originalText = button.textContent;
@@ -2010,5 +2071,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b727f57d379e0d3',t:'MTc2NzI3NTU0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b728c9146dee0d3',t:'MTc2NzI3NjA5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
