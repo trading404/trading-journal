@@ -7,14 +7,14 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Tailwind CSS Production Alternative -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Tailwind CSS -->
   <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
   <style>
         body {
             box-sizing: border-box;
         }
         
-        /* Light Theme Variables */
+        /* Theme Variables */
         :root {
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
@@ -22,6 +22,8 @@
             --text-primary: #ffffff;
             --text-secondary: #9ca3af;
             --border-color: rgba(255, 255, 255, 0.1);
+            --accent-primary: #667eea;
+            --accent-secondary: #764ba2;
         }
         
         body.light-theme {
@@ -33,16 +35,22 @@
             --border-color: rgba(0, 0, 0, 0.1);
         }
         
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1e1b4b 50%, var(--bg-primary) 100%);
+        }
+        
         body.light-theme {
             background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #f8fafc 100%);
         }
         
+        /* Light theme overrides */
         body.light-theme .bg-slate-800 {
-            background-color: #e2e8f0 !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         body.light-theme .border-slate-700 {
-            border-color: #cbd5e1 !important;
+            border-color: #e2e8f0 !important;
         }
         
         body.light-theme .text-white {
@@ -54,14 +62,20 @@
         }
         
         body.light-theme .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
         body.light-theme .input-modern {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(0, 0, 0, 0.1);
             color: #0f172a;
+        }
+        
+        body.light-theme .input-modern:focus {
+            background: #ffffff;
+            border-color: #667eea;
         }
         
         body.light-theme .input-modern::placeholder {
@@ -74,37 +88,42 @@
         }
         
         body.light-theme .trade-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         
         body.light-theme .stat-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
             border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
         }
         
         body.light-theme .bg-slate-700 {
-            background-color: #cbd5e1 !important;
+            background-color: #f1f5f9 !important;
         }
         
         body.light-theme .nav-button:hover {
-            background-color: #cbd5e1 !important;
+            background-color: #f1f5f9 !important;
         }
         
         body.light-theme .nav-button.active {
-            background-color: #cbd5e1 !important;
+            background-color: rgba(102, 126, 234, 0.15) !important;
+            color: #667eea !important;
         }
         
+        /* Scrollbar */
         * {
             scrollbar-width: thin;
-            scrollbar-color: #4f46e5 #1e293b;
+            scrollbar-color: #667eea #1e293b;
         }
         
         body.light-theme * {
-            scrollbar-color: #4f46e5 #e2e8f0;
+            scrollbar-color: #667eea #e2e8f0;
         }
         
         *::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         
         *::-webkit-scrollbar-track {
@@ -116,10 +135,11 @@
         }
         
         *::-webkit-scrollbar-thumb {
-            background-color: #4f46e5;
+            background-color: #667eea;
             border-radius: 4px;
         }
         
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -130,6 +150,11 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out;
         }
@@ -138,6 +163,11 @@
             animation: slideIn 0.3s ease-out;
         }
         
+        .animate-pulse-slow {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Gradients */
         .gradient-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
@@ -150,50 +180,94 @@
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
         }
         
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .gradient-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
         
+        .gradient-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        /* Glass Card */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Stat Card */
         .stat-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
             border: 1px solid rgba(102, 126, 234, 0.3);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
         }
         
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Navigation */
         .nav-button {
             position: relative;
             transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-button.active::before {
+            transform: scaleY(1);
         }
         
         .nav-button.active {
             color: #667eea;
-            background-color: rgba(102, 126, 234, 0.2);
+            background-color: rgba(102, 126, 234, 0.15);
         }
         
-        body.light-theme .nav-button.active {
-            color: #667eea;
-            background-color: rgba(102, 126, 234, 0.15) !important;
-        }
-        
+        /* Input Modern */
         .input-modern {
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(30, 41, 59, 0.6);
             border: 2px solid rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
         }
         
         .input-modern:focus {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
             border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            transform: translateY(-1px);
         }
         
         .input-modern::placeholder {
@@ -205,15 +279,37 @@
             color: white;
         }
         
+        /* Buttons */
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
             border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover:not(:disabled)::before {
+            left: 100%;
         }
         
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
         }
         
         .btn-primary:disabled {
@@ -221,15 +317,35 @@
             cursor: not-allowed;
         }
         
+        /* Trade Card */
         .trade-card {
-            background: rgba(30, 41, 59, 0.6);
+            background: rgba(30, 41, 59, 0.7);
             border-left: 4px solid #667eea;
             transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .trade-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
         
         .trade-card:hover {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
             transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .trade-card:hover::after {
+            opacity: 1;
         }
         
         .trade-card.profit {
@@ -244,19 +360,22 @@
             border-left-color: #f59e0b;
         }
         
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             color: white;
             padding: 16px 24px;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             z-index: 10000;
             animation: slideIn 0.3s ease-out;
+            border-left: 4px solid #667eea;
         }
         
+        /* Loading Spinner */
         .loading-spinner {
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-top: 3px solid white;
@@ -271,11 +390,13 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Chart Container */
         .chart-container {
             position: relative;
             height: 300px;
         }
         
+        /* Calendar Styles */
         .calendar-day {
             aspect-ratio: 1;
             display: flex;
@@ -287,11 +408,13 @@
             transition: all 0.2s ease;
             position: relative;
             min-height: 60px;
+            background: rgba(30, 41, 59, 0.4);
         }
         
-        .calendar-day:hover {
+        .calendar-day:hover:not(.empty) {
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            z-index: 10;
         }
         
         .calendar-day.empty {
@@ -306,69 +429,168 @@
         
         .calendar-day.today {
             border: 2px solid #3b82f6;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
         }
         
         .calendar-day.profit {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3));
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(5, 150, 105, 0.4));
         }
         
         .calendar-day.loss {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3));
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.4));
         }
         
         .calendar-day.breakeven {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.3));
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.4), rgba(217, 119, 6, 0.4));
         }
         
         .calendar-day.mixed {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(124, 58, 237, 0.3));
-        }
-        
-        .calendar-day.news-event {
-            border: 2px solid #3b82f6;
-        }
-        
-        .calendar-day .news-indicator {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            font-size: 10px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(124, 58, 237, 0.4));
         }
         
         .calendar-day .event-dot {
             position: absolute;
-            bottom: 2px;
+            bottom: 4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             background: #3b82f6;
             border-radius: 50%;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
         }
-
+        
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 9999;
             padding: 20px;
+            backdrop-filter: blur(4px);
         }
-
+        
         .modal-content {
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(30, 41, 59, 0.98);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 32px;
             max-width: 500px;
             width: 100%;
             animation: fadeIn 0.3s ease-out;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+        
+        .badge-info {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 24px 0;
+        }
+        
+        /* Section Header */
+        .section-header {
+            position: relative;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        /* Metric Card Enhancement */
+        .metric-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Comparison Card Styles */
+        .comparison-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--card-color, #667eea), transparent);
+        }
+        
+        .comparison-card-blue {
+            --card-color: #3b82f6;
+        }
+        
+        .comparison-card-purple {
+            --card-color: #a78bfa;
+        }
+        
+        .comparison-card-gray {
+            --card-color: #64748b;
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -376,15 +598,15 @@
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body class="h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+ <body class="h-full text-white">
   <div class="min-h-full w-full flex flex-col overflow-auto"><!-- Login Screen -->
    <div id="loginScreen" class="flex-1 flex items-center justify-center px-4">
     <div class="glass-card rounded-2xl p-8 max-w-md w-full animate-fade-in">
      <div class="text-center mb-8">
-      <div class="text-6xl mb-4">
+      <div class="text-6xl mb-4 animate-pulse-slow">
        📊
       </div>
-      <h1 class="text-3xl font-bold mb-2">Trading Journal</h1>
+      <h1 class="text-3xl font-bold mb-2 gradient-primary bg-clip-text text-transparent" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Trading Journal</h1>
       <p class="text-gray-400">Professionelles Trade Management</p>
      </div>
      <form id="loginForm" class="space-y-4 mb-4">
@@ -393,17 +615,17 @@
       <div><label class="block text-sm font-semibold mb-2">Passwort</label> <input type="password" id="loginPassword" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Anmelden </button>
      </form>
-     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Noch kein Konto? Jetzt registrieren </button>
+     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 text-sm transition"> Noch kein Konto? Jetzt registrieren </button>
      </div>
     </div>
    </div><!-- Register Screen -->
    <div id="registerScreen" class="flex-1 flex items-center justify-center px-4 hidden">
     <div class="glass-card rounded-2xl p-8 max-w-md w-full animate-fade-in">
      <div class="text-center mb-8">
-      <div class="text-6xl mb-4">
+      <div class="text-6xl mb-4 animate-pulse-slow">
        📊
       </div>
-      <h1 class="text-3xl font-bold mb-2">Registrierung</h1>
+      <h1 class="text-3xl font-bold mb-2 gradient-primary bg-clip-text text-transparent" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Registrierung</h1>
       <p class="text-gray-400">Erstelle dein Trading Journal</p>
      </div>
      <form id="registerForm" class="space-y-4 mb-4">
@@ -412,12 +634,12 @@
       <div><label class="block text-sm font-semibold mb-2">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Registrieren </button>
      </form>
-     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Bereits registriert? Jetzt anmelden </button>
+     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 text-sm transition"> Bereits registriert? Jetzt anmelden </button>
      </div>
     </div>
    </div><!-- Main App -->
    <div id="mainApp" class="flex-1 flex flex-col w-full hidden"><!-- Header -->
-    <header class="gradient-primary shadow-2xl w-full">
+    <header class="gradient-primary shadow-2xl w-full sticky top-0 z-40">
      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div class="flex items-center justify-between gap-4">
        <div class="flex-1 min-w-0">
@@ -465,12 +687,15 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"><!-- Dashboard Tab -->
        <div id="dashboardTab" class="tab-content animate-fade-in"><!-- Start Capital Input -->
         <div class="glass-card rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in">
-         <h2 class="text-lg sm:text-xl font-bold mb-4 flex items-center gap-2"><span>💼</span> <span>Startkapital festlegen</span></h2>
+         <div class="section-header">
+          <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2"><span>💼</span> <span>Startkapital festlegen</span></h2>
+         </div>
          <form id="startCapitalForm" class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end">
           <div class="flex-1"><label class="block text-sm font-semibold mb-2">Startkapital (€)</label> <input type="number" id="startCapital" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
-          </div><button type="submit" class="btn-primary px-6 py-3 rounded-lg font-bold text-white whitespace-nowrap"> Speichern </button>
+          </div><button type="submit" class="btn-primary px-6 py-3 rounded-lg font-bold text-white whitespace-nowrap"> 💾 Speichern </button>
          </form>
          <div id="startCapitalDisplay" class="mt-4 hidden">
+          <div class="divider"></div>
           <div class="text-sm text-gray-400">
            Ihr Startkapital
           </div>
@@ -479,121 +704,135 @@
           </div>
          </div>
         </div><!-- Financial Overview -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in">
-          <div class="text-2xl sm:text-4xl mb-2">
-           💰
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Aktuelles Kapital
-          </div>
-          <div class="text-lg sm:text-3xl font-bold text-purple-400" id="currentCapital">
-           €0.00
-          </div>
+        <div class="mb-6">
+         <div class="section-header">
+          <h2 class="text-xl font-bold">Finanzübersicht</h2>
          </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.1s">
-          <div class="text-2xl sm:text-4xl mb-2">
-           📊
+         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in">
+           <div class="text-2xl sm:text-4xl mb-2">
+            💰
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Aktuelles Kapital
+           </div>
+           <div class="text-lg sm:text-3xl font-bold text-purple-400" id="currentCapital">
+            €0.00
+           </div>
           </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Gesamt P/L
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.1s">
+           <div class="text-2xl sm:text-4xl mb-2">
+            📊
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Gesamt P/L
+           </div>
+           <div class="text-lg sm:text-3xl font-bold" id="totalPL">
+            €0.00
+           </div>
           </div>
-          <div class="text-lg sm:text-3xl font-bold" id="totalPL">
-           €0.00
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.2s">
+           <div class="text-2xl sm:text-4xl mb-2">
+            📉
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Max Drawdown
+           </div>
+           <div class="text-lg sm:text-3xl font-bold text-red-400" id="maxDrawdown">
+            0%
+           </div>
           </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.2s">
-          <div class="text-2xl sm:text-4xl mb-2">
-           📉
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Max Drawdown
-          </div>
-          <div class="text-lg sm:text-3xl font-bold text-red-400" id="maxDrawdown">
-           0%
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.3s">
-          <div class="text-2xl sm:text-4xl mb-2">
-                   
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Profit Factor
-          </div>
-          <div class="text-lg sm:text-3xl font-bold text-green-400" id="profitFactor">
-           0.00
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.3s">
+           <div class="text-2xl sm:text-4xl mb-2">
+            🎯
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Profit Factor
+           </div>
+           <div class="text-lg sm:text-3xl font-bold text-green-400" id="profitFactor">
+            0.00
+           </div>
           </div>
          </div>
         </div><!-- Equity Curve -->
         <div class="glass-card rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in">
-         <h2 class="text-lg sm:text-xl font-bold mb-4 flex items-center gap-2"><span>📈</span> <span>Equity Curve</span></h2>
+         <div class="section-header">
+          <h2 class="text-lg sm:text-xl font-bold flex items-center gap-2"><span>📈</span> <span>Equity Curve</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="equityCurveChart"></canvas>
          </div>
         </div><!-- Additional Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
-          <div class="text-2xl sm:text-3xl mb-2">
-           🎯
+        <div class="mb-6">
+         <div class="section-header">
+          <h2 class="text-xl font-bold">Statistiken</h2>
+         </div>
+         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6">
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+           <div class="text-2xl sm:text-3xl mb-2">
+            🎯
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Winrate
+           </div>
+           <div class="text-xl sm:text-2xl font-bold" id="winRate">
+            0%
+           </div>
           </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Winrate
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+           <div class="text-2xl sm:text-3xl mb-2">
+            📝
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Anzahl Trades
+           </div>
+           <div class="text-xl sm:text-2xl font-bold" id="totalTrades">
+            0
+           </div>
           </div>
-          <div class="text-xl sm:text-2xl font-bold" id="winRate">
-           0%
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+           <div class="text-2xl sm:text-3xl mb-2">
+            💳
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Auszahlungen
+           </div>
+           <div class="text-xl sm:text-2xl font-bold text-orange-400" id="totalWithdrawals">
+            €0.00
+           </div>
           </div>
          </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
-          <div class="text-2xl sm:text-3xl mb-2">
-           📝
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+           <div class="text-2xl sm:text-3xl mb-2">
+            💰
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Einzahlungen
+           </div>
+           <div class="text-xl sm:text-2xl font-bold text-green-400" id="totalDeposits">
+            €0.00
+           </div>
           </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Anzahl Trades
-          </div>
-          <div class="text-xl sm:text-2xl font-bold" id="totalTrades">
-           0
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
-          <div class="text-2xl sm:text-3xl mb-2">
-           💳
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Auszahlungen
-          </div>
-          <div class="text-xl sm:text-2xl font-bold text-orange-400" id="totalWithdrawals">
-           €0.00
-          </div>
-         </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6">
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
-          <div class="text-2xl sm:text-3xl mb-2">
-           💰
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Einzahlungen
-          </div>
-          <div class="text-xl sm:text-2xl font-bold text-green-400" id="totalDeposits">
-           €0.00
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
-          <div class="text-2xl sm:text-3xl mb-2">
-           📊
-          </div>
-          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
-           Kapital aus Trading
-          </div>
-          <div class="text-xl sm:text-2xl font-bold text-purple-400" id="capitalFromTrading">
-           €0.00
+          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+           <div class="text-2xl sm:text-3xl mb-2">
+            📊
+           </div>
+           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+            Kapital aus Trading
+           </div>
+           <div class="text-xl sm:text-2xl font-bold text-purple-400" id="capitalFromTrading">
+            €0.00
+           </div>
           </div>
          </div>
         </div>
        </div><!-- New Trade Tab -->
        <div id="newtradeTab" class="tab-content hidden">
         <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>     </span> <span>Neuen Trade hinzufügen</span></h2>
+         <div class="section-header">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>➕</span> <span>Neuen Trade hinzufügen</span></h2>
+         </div>
          <form id="newTradeForm" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
@@ -604,7 +843,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
            <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="tradeLotSize" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 0.1">
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Ergebnis</label> <select id="tradeResult" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Wählen...</option> <option value="Gewinn">Gewinn</option> <option value="Verlust">Verlust</option> <option value="Breakeven">Breakeven</option> </select>
+           <div><label class="block text-sm font-semibold mb-2">Ergebnis</label> <select id="tradeResult" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Wählen...</option> <option value="Gewinn">✅ Gewinn</option> <option value="Verlust">❌ Verlust</option> <option value="Breakeven">➖ Breakeven</option> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -622,7 +861,7 @@
            </div>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="tradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Zusätzliche Notizen..."></textarea>
-          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Trade speichern </button>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 💾 Trade speichern </button>
          </form>
         </div>
        </div><!-- History Tab -->
@@ -630,7 +869,7 @@
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
          <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold flex items-center gap-2"><span>📜</span> <span>Trade Historie</span></h2>
-          <div class="text-sm text-gray-400" id="historyCount">
+          <div class="badge badge-info" id="historyCount">
            0 Trades
           </div>
          </div>
@@ -638,202 +877,233 @@
         </div>
        </div><!-- Performance Tab -->
        <div id="performanceTab" class="tab-content hidden"><!-- Performance Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           📊
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Bester Trade
-          </div>
-          <div class="text-xl font-bold text-green-400" id="perfBestTrade">
-           €0.00
-          </div>
+        <div class="mb-6">
+         <div class="section-header">
+          <h2 class="text-xl font-bold">Trade Statistiken</h2>
          </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           📉
+         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            📊
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Bester Trade
+           </div>
+           <div class="text-xl font-bold text-green-400" id="perfBestTrade">
+            €0.00
+           </div>
           </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Schlechtester Trade
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            📉
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Schlechtester Trade
+           </div>
+           <div class="text-xl font-bold text-red-400" id="perfWorstTrade">
+            €0.00
+           </div>
           </div>
-          <div class="text-xl font-bold text-red-400" id="perfWorstTrade">
-           €0.00
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            ✅
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Ø Gewinn
+           </div>
+           <div class="text-xl font-bold text-green-400" id="perfAvgWin">
+            €0.00
+           </div>
           </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-              
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Ø Gewinn
-          </div>
-          <div class="text-xl font-bold text-green-400" id="perfAvgWin">
-           €0.00
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           💸
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Ø Verlust
-          </div>
-          <div class="text-xl font-bold text-red-400" id="perfAvgLoss">
-           €0.00
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            💸
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Ø Verlust
+           </div>
+           <div class="text-xl font-bold text-red-400" id="perfAvgLoss">
+            €0.00
+           </div>
           </div>
          </div>
         </div><!-- Streak Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           🔥
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Längste Gewinnstr  hne
-          </div>
-          <div class="text-xl font-bold text-green-400" id="perfLongestWinStreak">
-           0
-          </div>
+        <div class="mb-6">
+         <div class="section-header">
+          <h2 class="text-xl font-bold">Strähnen Analyse</h2>
          </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           ❄  
+         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            🔥
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Längste Gewinnsträhne
+           </div>
+           <div class="text-xl font-bold text-green-400" id="perfLongestWinStreak">
+            0
+           </div>
           </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Längste Verluststrähne
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            ❄️
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Längste Verluststrähne
+           </div>
+           <div class="text-xl font-bold text-red-400" id="perfLongestLossStreak">
+            0
+           </div>
           </div>
-          <div class="text-xl font-bold text-red-400" id="perfLongestLossStreak">
-           0
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            📊
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Aktuelle Strähne
+           </div>
+           <div class="text-xl font-bold" id="perfCurrentStreak">
+            0
+           </div>
           </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           ⚡
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Aktuelle Strähne
-          </div>
-          <div class="text-xl font-bold" id="perfCurrentStreak">
-           0
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           📊
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Strähnen Typ
-          </div>
-          <div class="text-lg font-bold" id="perfCurrentStreakType">
-           -
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            📍
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Strähnen Typ
+           </div>
+           <div class="text-lg font-bold" id="perfCurrentStreakType">
+            -
+           </div>
           </div>
          </div>
         </div><!-- Streak Visualization -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>🔥</span> <span>Gewinn/Verlust Strähnen Übersicht</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>🔥</span> <span>Gewinn/Verlust Strähnen</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="streakChart"></canvas>
          </div>
         </div><!-- Win/Loss Distribution -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>🎯</span> <span>Gewinn/Verlust Verteilung</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>🎯</span> <span>Gewinn/Verlust Verteilung</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="winLossChart"></canvas>
          </div>
         </div><!-- Strategy Performance -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>🎯</span> <span>Performance nach Strategie</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>🎯</span> <span>Performance nach Strategie</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="strategyChart"></canvas>
          </div>
         </div><!-- Monthly Performance -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="monthlyChart"></canvas>
          </div>
         </div><!-- Asset Performance -->
         <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>💱</span> <span>Performance nach Asset</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>💱</span> <span>Performance nach Asset</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="assetChart"></canvas>
          </div>
         </div>
        </div><!-- Emotions Tab -->
        <div id="emotionsTab" class="tab-content hidden"><!-- Emotion Stats Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           🎯
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Beste Emotion
-          </div>
-          <div class="text-lg font-bold text-green-400" id="emoBestEmotion">
-           -
-          </div>
+        <div class="mb-6">
+         <div class="section-header">
+          <h2 class="text-xl font-bold">Emotionen Übersicht</h2>
          </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           ⚠️
+         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            🎯
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Beste Emotion
+           </div>
+           <div class="text-lg font-bold text-green-400" id="emoBestEmotion">
+            -
+           </div>
           </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Schlechteste Emotion
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            ⚠️
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Schlechteste Emotion
+           </div>
+           <div class="text-lg font-bold text-red-400" id="emoWorstEmotion">
+            -
+           </div>
           </div>
-          <div class="text-lg font-bold text-red-400" id="emoWorstEmotion">
-           -
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            📊
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Häufigste Emotion
+           </div>
+           <div class="text-lg font-bold text-purple-400" id="emoMostFrequent">
+            -
+           </div>
           </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           📊
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Häufigste Emotion
-          </div>
-          <div class="text-lg font-bold text-purple-400" id="emoMostFrequent">
-           -
-          </div>
-         </div>
-         <div class="stat-card rounded-xl p-4 text-center">
-          <div class="text-2xl mb-2">
-           💯
-          </div>
-          <div class="text-xs text-gray-400 uppercase mb-1">
-           Trades mit Emotion
-          </div>
-          <div class="text-lg font-bold text-blue-400" id="emoTradeCount">
-           0/0
+          <div class="stat-card rounded-xl p-4 text-center">
+           <div class="text-2xl mb-2">
+            💯
+           </div>
+           <div class="text-xs text-gray-400 uppercase mb-1">
+            Trades mit Emotion
+           </div>
+           <div class="text-lg font-bold text-blue-400" id="emoTradeCount">
+            0/0
+           </div>
           </div>
          </div>
         </div><!-- Emotion Performance Chart -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📊</span> <span>Performance nach Emotion</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>📊</span> <span>Performance nach Emotion</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="emotionPerformanceChart"></canvas>
          </div>
         </div><!-- Emotion Distribution -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>🎭</span> <span>Emotionen Verteilung</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>🎭</span> <span>Emotionen Verteilung</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="emotionDistributionChart"></canvas>
          </div>
         </div><!-- Emotion Win Rate -->
         <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>🎯</span> <span>Winrate nach Emotion</span></h2>
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>🎯</span> <span>Winrate nach Emotion</span></h2>
+         </div>
          <div class="chart-container">
           <canvas id="emotionWinrateChart"></canvas>
          </div>
         </div>
-       </div><!-- Compound Tab -->
+       </div><!-- Compound Tab - ONLY ONE CALCULATOR -->
        <div id="compoundTab" class="tab-content hidden"><!-- Current Performance Overview -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-         <div class="flex items-center justify-between mb-6">
+         <div class="section-header">
           <h2 class="text-xl font-bold flex items-center gap-2"><span>📊</span> <span>Deine Trading-Performance</span></h2>
          </div>
          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
+          <div class="metric-card">
            <div class="text-xs text-gray-400 mb-1 uppercase">
             Startkapital
            </div>
@@ -841,7 +1111,7 @@
             €0.00
            </div>
           </div>
-          <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
+          <div class="metric-card">
            <div class="text-xs text-gray-400 mb-1 uppercase">
             Aktuelles Kapital
            </div>
@@ -849,7 +1119,7 @@
             €0.00
            </div>
           </div>
-          <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
+          <div class="metric-card">
            <div class="text-xs text-gray-400 mb-1 uppercase">
             Gesamtgewinn
            </div>
@@ -857,7 +1127,7 @@
             €0.00
            </div>
           </div>
-          <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
+          <div class="metric-card">
            <div class="text-xs text-gray-400 mb-1 uppercase">
             Ø Rendite/Monat
            </div>
@@ -869,7 +1139,9 @@
         </div><!-- Main Calculator Card -->
         <div class="glass-card rounded-xl p-8 animate-fade-in">
          <div class="mb-8">
-          <h2 class="text-2xl font-bold mb-2 flex items-center gap-2"><span>💰</span> <span>Zinseszins-Rechner</span></h2>
+          <div class="section-header">
+           <h2 class="text-2xl font-bold flex items-center gap-2"><span>💰</span> <span>Zinseszins-Rechner</span></h2>
+          </div>
           <p class="text-gray-400 text-sm">Vergleiche deine Performance mit deiner Zielvorgabe</p>
          </div><!-- Input Form -->
          <form id="compoundForm" class="mb-8">
@@ -882,14 +1154,14 @@
            </div>
            <div><label class="block text-sm font-semibold mb-2">Zeitraum (Monate)</label> <input type="number" id="compoundMonths" step="1" min="1" max="120" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="12" value="12" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2 opacity-0 select-none">Berechnen</label> <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
+           <div><label class="block text-sm font-semibold mb-2 opacity-0 select-none">Berechnen</label> <button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 📊 Berechnen </button>
            </div>
           </div>
          </form><!-- Results Section -->
          <div id="compoundResults" class="hidden"><!-- Key Metrics -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><!-- Your Performance -->
-           <div class="bg-gradient-to-br from-blue-900 to-blue-800 bg-opacity-50 rounded-xl p-6 border-2 border-blue-400 border-opacity-30">
-            <div class="flex items-center justify-between mb-4"><span class="text-3xl">👤</span> <span class="text-xs font-semibold text-blue-300 uppercase tracking-wide">Deine Performance</span>
+           <div class="comparison-card comparison-card-blue bg-gradient-to-br from-blue-900 to-blue-800 bg-opacity-50 rounded-xl p-6 border-2 border-blue-400 border-opacity-30">
+            <div class="flex items-center justify-between mb-4"><span class="text-3xl">👤</span> <span class="badge badge-info">Deine Performance</span>
             </div>
             <div class="mb-3">
              <div class="text-xs text-gray-300 mb-1">
@@ -902,7 +1174,8 @@
               pro Monat
              </div>
             </div>
-            <div class="pt-3 border-t border-blue-400 border-opacity-20">
+            <div class="divider"></div>
+            <div>
              <div class="text-xs text-gray-300 mb-1">
               Endkapital nach <span id="compoundYourMonths">12</span> Monaten
              </div>
@@ -911,8 +1184,8 @@
              </div>
             </div>
            </div><!-- Target Performance -->
-           <div class="bg-gradient-to-br from-purple-900 to-purple-800 bg-opacity-50 rounded-xl p-6 border-2 border-purple-400 border-opacity-30">
-            <div class="flex items-center justify-between mb-4"><span class="text-3xl">🎯</span> <span class="text-xs font-semibold text-purple-300 uppercase tracking-wide">Zielvorgabe</span>
+           <div class="comparison-card comparison-card-purple bg-gradient-to-br from-purple-900 to-purple-800 bg-opacity-50 rounded-xl p-6 border-2 border-purple-400 border-opacity-30">
+            <div class="flex items-center justify-between mb-4"><span class="text-3xl">🎯</span> <span class="badge" style="background: rgba(167, 139, 250, 0.2); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.4);">Zielvorgabe</span>
             </div>
             <div class="mb-3">
              <div class="text-xs text-gray-300 mb-1">
@@ -925,7 +1198,8 @@
               pro Monat
              </div>
             </div>
-            <div class="pt-3 border-t border-purple-400 border-opacity-20">
+            <div class="divider"></div>
+            <div>
              <div class="text-xs text-gray-300 mb-1">
               Endkapital nach <span id="compoundTargetMonths">12</span> Monaten
              </div>
@@ -934,8 +1208,8 @@
              </div>
             </div>
            </div><!-- Difference -->
-           <div class="bg-gradient-to-br from-slate-800 to-slate-700 bg-opacity-80 rounded-xl p-6 border-2 border-slate-600">
-            <div class="flex items-center justify-between mb-4"><span class="text-3xl">⚖️</span> <span class="text-xs font-semibold text-gray-300 uppercase tracking-wide">Differenz</span>
+           <div class="comparison-card comparison-card-gray bg-gradient-to-br from-slate-800 to-slate-700 bg-opacity-80 rounded-xl p-6 border-2 border-slate-600">
+            <div class="flex items-center justify-between mb-4"><span class="text-3xl">⚖️</span> <span class="badge" style="background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.4);">Differenz</span>
             </div>
             <div class="text-center">
              <div class="text-xs text-gray-400 mb-2">
@@ -956,7 +1230,7 @@
            </div>
           </div><!-- Additional Info -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-           <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
+           <div class="metric-card text-center">
             <div class="text-2xl mb-2">
              🎯
             </div>
@@ -967,7 +1241,7 @@
              -- Monate
             </div>
            </div>
-           <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
+           <div class="metric-card text-center">
             <div class="text-2xl mb-2">
              📈
             </div>
@@ -978,7 +1252,7 @@
              €0.00
             </div>
            </div>
-           <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
+           <div class="metric-card text-center">
             <div class="text-2xl mb-2">
              💰
             </div>
@@ -992,358 +1266,243 @@
           </div>
          </div><!-- Empty State -->
          <div id="compoundEmptyState" class="text-center py-16">
-          <div class="text-6xl mb-4">
+          <div class="text-6xl mb-4 animate-pulse-slow">
            📊
           </div>
           <h3 class="text-xl font-bold mb-2 text-gray-300">Starte die Berechnung</h3>
           <p class="text-gray-400">Fülle die Felder aus und klicke auf "Berechnen"</p>
          </div>
         </div>
-       </div>
-       <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📊</span> <span>Deine aktuelle Performance</span></h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-         <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
-          <div class="text-xs text-gray-400 mb-1">
-           Startkapital
-          </div>
-          <div class="text-lg font-bold text-purple-400" id="compoundStartCapital">
-           €0.00
-          </div>
+       </div><!-- Withdrawals Tab -->
+       <div id="withdrawalsTab" class="tab-content hidden">
+        <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>💳</span> <span>Neue Auszahlung</span></h2>
          </div>
-         <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
-          <div class="text-xs text-gray-400 mb-1">
-           Aktuell
-          </div>
-          <div class="text-lg font-bold text-green-400" id="compoundCurrentCapital">
-           €0.00
-          </div>
-         </div>
-         <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
-          <div class="text-xs text-gray-400 mb-1">
-           Gewinn
-          </div>
-          <div class="text-lg font-bold" id="compoundTotalGain">
-           €0.00
-          </div>
-         </div>
-         <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4 text-center">
-          <div class="text-xs text-gray-400 mb-1">
-           Ø Rendite/Monat
-          </div>
-          <div class="text-lg font-bold text-blue-400" id="compoundAvgMonthly">
-           0%
-          </div>
-         </div>
-        </div>
-       </div><!-- Compound Calculator -->
-       <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💰</span> <span>Zinseszins Rechner</span></h2>
-        <form id="compoundForm" class="space-y-4 mb-6">
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Startkapital (     )</label> <input type="number" id="compoundInitialCapital" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Monatliche Rendite (%)</label> <input type="number" id="compoundMonthlyReturn" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 5" required>
-          </div>
-         </div>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Zeitraum (Monate)</label> <input type="number" id="compoundMonths" step="1" min="1" max="120" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 12" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Monatliche Auszahlung (€)</label> <input type="number" id="compoundMonthlyWithdrawal" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="0 = keine Auszahlung" value="0">
-          </div>
-         </div>
-         <div class="flex items-center gap-3 bg-slate-700 bg-opacity-40 rounded-lg p-4"><input type="checkbox" id="useCurrentPerformance" class="w-5 h-5 rounded bg-slate-600 border-slate-500"> <label for="useCurrentPerformance" class="text-sm font-semibold cursor-pointer">      Meine aktuelle Performance verwenden (Ø <span id="currentPerfRate">0%</span>/Monat) </label>
-         </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
-        </form><!-- Results -->
-        <div id="compoundResults" class="hidden">
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="stat-card rounded-xl p-4 text-center">
-           <div class="text-2xl mb-2">
-            🎯
-           </div>
-           <div class="text-xs text-gray-400 uppercase mb-2">
-            Endkapital
-           </div>
-           <div class="text-2xl font-bold text-green-400" id="compoundFinalCapital">
-            €0.00
-           </div>
-          </div>
-          <div class="stat-card rounded-xl p-4 text-center">
-           <div class="text-2xl mb-2">
-            📈
-           </div>
-           <div class="text-xs text-gray-400 uppercase mb-2">
-            Gesamtgewinn
-           </div>
-           <div class="text-2xl font-bold text-purple-400" id="compoundTotalProfit">
-            €0.00
-           </div>
-          </div>
-          <div class="stat-card rounded-xl p-4 text-center">
-           <div class="text-2xl mb-2">
-            💳
-           </div>
-           <div class="text-xs text-gray-400 uppercase mb-2">
-            Gesamt Auszahlungen
-           </div>
-           <div class="text-2xl font-bold text-orange-400" id="compoundTotalWithdrawn">
-            €0.00
-           </div>
-          </div>
-         </div><!-- Comparison with Current Performance -->
-         <div id="compoundComparison" class="bg-slate-700 bg-opacity-40 rounded-lg p-4 mb-6 hidden">
-          <h3 class="text-lg font-bold mb-3 flex items-center gap-2"><span>📊</span> <span>Vergleich: Deine Performance vs. Zielvorgabe</span></h3>
+         <form id="withdrawalForm" class="space-y-4 mb-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-           <div class="bg-slate-600 bg-opacity-40 rounded-lg p-3">
-            <div class="text-sm text-gray-400 mb-1">
-             Mit deiner aktuellen Performance
-            </div>
-            <div class="text-xl font-bold text-blue-400" id="compoundYourProjection">
-             €0.00
-            </div>
-            <div class="text-xs text-gray-400 mt-1" id="compoundYourRate">
-             0%/Monat
-            </div>
+           <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="withdrawalDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div class="bg-slate-600 bg-opacity-40 rounded-lg p-3">
-            <div class="text-sm text-gray-400 mb-1">
-             Mit Zielvorgabe
-            </div>
-            <div class="text-xl font-bold text-purple-400" id="compoundTargetProjection">
-             €0.00
-            </div>
-            <div class="text-xs text-gray-400 mt-1" id="compoundTargetRate">
-             0%/Monat
-            </div>
+           <div><label class="block text-sm font-semibold mb-2">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 500.00" required>
            </div>
           </div>
-          <div class="mt-3 text-center">
-           <div class="text-sm text-gray-400">
-            Differenz
-           </div>
-           <div class="text-2xl font-bold" id="compoundDifference">
-            €0.00
-           </div>
-          </div>
-         </div><!-- Chart -->
-         <div class="chart-container" style="height: 400px;">
-          <canvas id="compoundChart"></canvas>
-         </div>
+          <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Gewinn-Auszahlung Q1"></textarea>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 💾 Auszahlung speichern </button>
+         </form>
         </div>
-       </div>
-      </div><!-- Withdrawals Tab -->
-      <div id="withdrawalsTab" class="tab-content hidden">
-       <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💳</span> <span>Neue Auszahlung</span></h2>
-        <form id="withdrawalForm" class="space-y-4 mb-8">
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="withdrawalDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 500.00" required>
-          </div>
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>📋</span> <span>Auszahlungen Historie</span></h2>
          </div>
-         <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Gewinn-Auszahlung Q1"></textarea>
-         </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Auszahlung speichern </button>
-        </form>
-       </div>
-       <div class="glass-card rounded-xl p-6 animate-fade-in">
-        <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Auszahlungen Historie</span></h2>
-        <div id="withdrawalsList" class="space-y-4"></div>
-       </div>
-      </div><!-- Deposits Tab -->
-      <div id="depositsTab" class="tab-content hidden">
-       <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💰</span> <span>Neue Einzahlung</span></h2>
-        <form id="depositForm" class="space-y-4 mb-8">
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="depositDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1000.00" required>
-          </div>
-         </div>
-         <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Nachschuss fürs Trading"></textarea>
-         </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Einzahlung speichern </button>
-        </form>
-       </div>
-       <div class="glass-card rounded-xl p-6 animate-fade-in">
-        <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Einzahlungen Historie</span></h2>
-        <div id="depositsList" class="space-y-4"></div>
-       </div>
-      </div><!-- Calendar Tab -->
-      <div id="calendarTab" class="tab-content hidden">
-       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2">
-         <div class="glass-card rounded-xl p-6 animate-fade-in">
-          <div class="flex items-center justify-between mb-6"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 p-2 rounded-lg transition"> ◀ </button>
-           <h2 class="text-2xl font-bold" id="calendarTitle">Januar 2024</h2><button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 p-2 rounded-lg transition"> ▶ </button>
-          </div>
-          <div class="grid grid-cols-7 gap-2 mb-2 text-center text-sm font-semibold text-gray-400">
-           <div>
-            Mo
-           </div>
-           <div>
-            Di
-           </div>
-           <div>
-            Mi
-           </div>
-           <div>
-            Do
-           </div>
-           <div>
-            Fr
-           </div>
-           <div>
-            Sa
-           </div>
-           <div>
-            So
-           </div>
-          </div>
-          <div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>
-         </div>
+         <div id="withdrawalsList" class="space-y-4"></div>
         </div>
-        <div class="space-y-6">
-         <div class="glass-card rounded-xl p-6 animate-fade-in">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📅</span> <span>Neuer Termin</span></h3>
-          <form id="eventForm" class="space-y-4">
-           <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="eventDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Uhrzeit (optional)</label> <input type="time" id="eventTime" class="input-modern w-full px-4 py-3 rounded-lg">
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Titel</label> <input type="text" id="eventTitle" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. NFP Daten" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Typ</label> <select id="eventType" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="News">    News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">🏦 Zentralbank</option> <option value="Persönlich">👤 Persönlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="eventNote" rows="2" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Details..."></textarea>
-           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Termin speichern </button>
-          </form>
+       </div><!-- Deposits Tab -->
+       <div id="depositsTab" class="tab-content hidden">
+        <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>💰</span> <span>Neue Einzahlung</span></h2>
          </div>
-         <div class="glass-card rounded-xl p-6 animate-fade-in">
-          <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📅</span> <span>Kommende Termine</span></h3>
-          <div id="upcomingEventsList" class="space-y-2 max-h-64 overflow-y-auto"></div>
-         </div>
+         <form id="depositForm" class="space-y-4 mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="depositDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1000.00" required>
+           </div>
+          </div>
+          <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Nachschuss fürs Trading"></textarea>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 💾 Einzahlung speichern </button>
+         </form>
         </div>
-       </div>
-      </div><!-- Calculators Tab -->
-      <div id="calculatorsTab" class="tab-content hidden"><!-- Position Size Calculator -->
-       <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Positionsgr  ßen-Rechner</span></h2>
-        <form id="positionSizeForm" class="space-y-4 mb-6">
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Kontostand (€)</label> <input type="number" id="psAccountBalance" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Risiko pro Trade (%)</label> <input type="number" id="psRiskPercent" step="0.01" min="0.01" max="100" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1" value="1" required>
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>📋</span> <span>Einzahlungen Historie</span></h2>
+         </div>
+         <div id="depositsList" class="space-y-4"></div>
+        </div>
+       </div><!-- Calendar Tab -->
+       <div id="calendarTab" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+         <div class="lg:col-span-2">
+          <div class="glass-card rounded-xl p-6 animate-fade-in">
+           <div class="flex items-center justify-between mb-6"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 p-3 rounded-lg transition"> ◀ </button>
+            <h2 class="text-2xl font-bold" id="calendarTitle">Januar 2024</h2><button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 p-3 rounded-lg transition"> ▶ </button>
+           </div>
+           <div class="grid grid-cols-7 gap-2 mb-3 text-center text-sm font-semibold text-gray-400">
+            <div>
+             Mo
+            </div>
+            <div>
+             Di
+            </div>
+            <div>
+             Mi
+            </div>
+            <div>
+             Do
+            </div>
+            <div>
+             Fr
+            </div>
+            <div>
+             Sa
+            </div>
+            <div>
+             So
+            </div>
+           </div>
+           <div id="calendarGrid" class="grid grid-cols-7 gap-2"></div>
           </div>
          </div>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="psEntryPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08500" required>
+         <div class="space-y-6">
+          <div class="glass-card rounded-xl p-6 animate-fade-in">
+           <div class="section-header">
+            <h3 class="text-xl font-bold flex items-center gap-2"><span>📅</span> <span>Neuer Termin</span></h3>
+           </div>
+           <form id="eventForm" class="space-y-4">
+            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="eventDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Uhrzeit (optional)</label> <input type="time" id="eventTime" class="input-modern w-full px-4 py-3 rounded-lg">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Titel</label> <input type="text" id="eventTitle" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. NFP Daten" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Typ</label> <select id="eventType" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="News">📰 News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">🏦 Zentralbank</option> <option value="Persönlich">👤 Persönlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="eventNote" rows="2" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Details..."></textarea>
+            </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 💾 Termin speichern </button>
+           </form>
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Stop Loss Preis</label> <input type="number" id="psStopLoss" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08300" required>
-          </div>
-         </div>
-         <div><label class="block text-sm font-semibold mb-2">Pip-Wert pro Standard-Lot (€)</label> <input type="number" id="psPipValue" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10 für EURUSD" value="10" required>
-          <p class="text-xs text-gray-400 mt-1">💡 Standard: 10€ für EUR/USD, GBP/USD | 8€ für USD/JPY</p>
-         </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
-        </form><!-- Position Size Results -->
-        <div id="positionSizeResults" class="hidden">
-         <div class="bg-gradient-to-br from-purple-900 to-blue-900 rounded-xl p-6 mb-4">
-          <h3 class="text-xl font-bold mb-4 text-center">📊 Ergebnisse</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Risiko in €
-            </div>
-            <div class="text-2xl font-bold text-orange-400" id="psRiskAmount">
-             €0.00
-            </div>
+          <div class="glass-card rounded-xl p-6 animate-fade-in">
+           <div class="section-header">
+            <h3 class="text-lg font-bold flex items-center gap-2"><span>📅</span> <span>Kommende Termine</span></h3>
            </div>
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Stop Loss Distanz
-            </div>
-            <div class="text-2xl font-bold text-yellow-400" id="psStopDistance">
-             0 Pips
-            </div>
-           </div>
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Empfohlene Lot Size
-            </div>
-            <div class="text-2xl font-bold text-green-400" id="psLotSize">
-             0.00
-            </div>
-           </div>
-          </div>
-         </div>
-         <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
-          <h4 class="font-bold mb-3 flex items-center gap-2"><span>💰</span> <span>Beispiel Take-Profit Szenarien</span></h4>
-          <div class="space-y-2 text-sm">
-           <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">1:1 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR1">+€0.00</span>
-           </div>
-           <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">1:2 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR2">+€0.00</span>
-           </div>
-           <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">1:3 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR3">+€0.00</span>
-           </div>
+           <div id="upcomingEventsList" class="space-y-2 max-h-64 overflow-y-auto"></div>
           </div>
          </div>
         </div>
-       </div><!-- Pip Calculator -->
-       <div class="glass-card rounded-xl p-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📏</span> <span>Pip-Rechner</span></h2>
-        <form id="pipCalculatorForm" class="space-y-4 mb-6">
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Währungspaar</label> <select id="pipCurrencyPair" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="EURUSD">EUR/USD</option> <option value="GBPUSD">GBP/USD</option> <option value="USDJPY">USD/JPY</option> <option value="USDCHF">USD/CHF</option> <option value="AUDUSD">AUD/USD</option> <option value="USDCAD">USD/CAD</option> <option value="NZDUSD">NZD/USD</option> <option value="EURGBP">EUR/GBP</option> <option value="EURJPY">EUR/JPY</option> <option value="GBPJPY">GBP/JPY</option> </select>
+       </div><!-- Calculators Tab -->
+       <div id="calculatorsTab" class="tab-content hidden"><!-- Position Size Calculator -->
+        <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>📊</span> <span>Positionsgrößen-Rechner</span></h2>
+         </div>
+         <form id="positionSizeForm" class="space-y-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Kontostand (€)</label> <input type="number" id="psAccountBalance" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Risiko pro Trade (%)</label> <input type="number" id="psRiskPercent" step="0.01" min="0.01" max="100" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1" value="1" required>
+           </div>
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="pipLotSize" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 0.1" value="1" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="psEntryPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08500" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Stop Loss Preis</label> <input type="number" id="psStopLoss" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08300" required>
+           </div>
+          </div>
+          <div><label class="block text-sm font-semibold mb-2">Pip-Wert pro Standard-Lot (€)</label> <input type="number" id="psPipValue" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10 für EURUSD" value="10" required>
+           <p class="text-xs text-gray-400 mt-1">💡 Standard: 10€ für EUR/USD, GBP/USD | 8€ für USD/JPY</p>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 📊 Berechnen </button>
+         </form><!-- Position Size Results -->
+         <div id="positionSizeResults" class="hidden">
+          <div class="bg-gradient-to-br from-purple-900 to-blue-900 rounded-xl p-6 mb-4">
+           <h3 class="text-xl font-bold mb-4 text-center">📊 Ergebnisse</h3>
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Risiko in €
+             </div>
+             <div class="text-2xl font-bold text-orange-400" id="psRiskAmount">
+              €0.00
+             </div>
+            </div>
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Stop Loss Distanz
+             </div>
+             <div class="text-2xl font-bold text-yellow-400" id="psStopDistance">
+              0 Pips
+             </div>
+            </div>
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Empfohlene Lot Size
+             </div>
+             <div class="text-2xl font-bold text-green-400" id="psLotSize">
+              0.00
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="metric-card">
+           <h4 class="font-bold mb-3 flex items-center gap-2"><span>💰</span> <span>Beispiel Take-Profit Szenarien</span></h4>
+           <div class="space-y-2 text-sm">
+            <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-3"><span class="text-gray-300">1:1 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR1">+€0.00</span>
+            </div>
+            <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-3"><span class="text-gray-300">1:2 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR2">+€0.00</span>
+            </div>
+            <div class="flex justify-between items-center bg-slate-600 bg-opacity-40 rounded p-3"><span class="text-gray-300">1:3 Risk-Reward</span> <span class="font-bold text-green-400" id="psRR3">+€0.00</span>
+            </div>
+           </div>
           </div>
          </div>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pipEntryPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08500" required>
-          </div>
-          <div><label class="block text-sm font-semibold mb-2">Exit Preis</label> <input type="number" id="pipExitPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08650" required>
-          </div>
-         </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
-        </form><!-- Pip Calculator Results -->
-        <div id="pipCalculatorResults" class="hidden">
-         <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-xl p-6">
-          <h3 class="text-xl font-bold mb-4 text-center">📏 Ergebnisse</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Pip-Differenz
-            </div>
-            <div class="text-2xl font-bold text-blue-400" id="pipDifference">
-             0 Pips
-            </div>
+        </div><!-- Pip Calculator -->
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <div class="section-header">
+          <h2 class="text-2xl font-bold flex items-center gap-2"><span>📏</span> <span>Pip-Rechner</span></h2>
+         </div>
+         <form id="pipCalculatorForm" class="space-y-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Währungspaar</label> <select id="pipCurrencyPair" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="EURUSD">EUR/USD</option> <option value="GBPUSD">GBP/USD</option> <option value="USDJPY">USD/JPY</option> <option value="USDCHF">USD/CHF</option> <option value="AUDUSD">AUD/USD</option> <option value="USDCAD">USD/CAD</option> <option value="NZDUSD">NZD/USD</option> <option value="EURGBP">EUR/GBP</option> <option value="EURJPY">EUR/JPY</option> <option value="GBPJPY">GBP/JPY</option> </select>
            </div>
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Pip-Wert
-            </div>
-            <div class="text-2xl font-bold text-purple-400" id="pipValue">
-             €0.00
-            </div>
-           </div>
-           <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
-            <div class="text-xs text-gray-300 mb-1">
-             Profit/Loss
-            </div>
-            <div class="text-2xl font-bold" id="pipProfitLoss">
-             €0.00
-            </div>
+           <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="pipLotSize" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 0.1" value="1" required>
            </div>
           </div>
-          <div class="bg-slate-700 bg-opacity-40 rounded-lg p-4">
-           <h4 class="font-bold mb-3 text-sm">📊 Pip-Wert für verschiedene Lot-Größen:</h4>
-           <div class="grid grid-cols-2 gap-2 text-xs">
-            <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">0.01 Lot (Micro)</span> <span class="font-bold" id="pipValue001">€0.00/pip</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pipEntryPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08500" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Exit Preis</label> <input type="number" id="pipExitPrice" step="0.00001" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08650" required>
+           </div>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 📏 Berechnen </button>
+         </form><!-- Pip Calculator Results -->
+         <div id="pipCalculatorResults" class="hidden">
+          <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-xl p-6">
+           <h3 class="text-xl font-bold mb-4 text-center">📏 Ergebnisse</h3>
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Pip-Differenz
+             </div>
+             <div class="text-2xl font-bold text-blue-400" id="pipDifference">
+              0 Pips
+             </div>
             </div>
-            <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">0.10 Lot (Mini)</span> <span class="font-bold" id="pipValue010">€0.00/pip</span>
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Pip-Wert
+             </div>
+             <div class="text-2xl font-bold text-purple-400" id="pipValue">
+              €0.00
+             </div>
             </div>
-            <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">1.00 Lot (Standard)</span> <span class="font-bold" id="pipValue100">€0.00/pip</span>
+            <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
+             <div class="text-xs text-gray-300 mb-1">
+              Profit/Loss
+             </div>
+             <div class="text-2xl font-bold" id="pipProfitLoss">
+              €0.00
+             </div>
             </div>
-            <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">10.0 Lot</span> <span class="font-bold" id="pipValue1000">€0.00/pip</span>
+           </div>
+           <div class="metric-card">
+            <h4 class="font-bold mb-3 text-sm">📊 Pip-Wert für verschiedene Lot-Größen:</h4>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+             <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">0.01 Lot (Micro)</span> <span class="font-bold" id="pipValue001">€0.00/pip</span>
+             </div>
+             <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">0.10 Lot (Mini)</span> <span class="font-bold" id="pipValue010">€0.00/pip</span>
+             </div>
+             <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">1.00 Lot (Standard)</span> <span class="font-bold" id="pipValue100">€0.00/pip</span>
+             </div>
+             <div class="flex justify-between bg-slate-600 bg-opacity-40 rounded p-2"><span class="text-gray-300">10.0 Lot</span> <span class="font-bold" id="pipValue1000">€0.00/pip</span>
+             </div>
             </div>
            </div>
           </div>
@@ -1354,8 +1513,7 @@
      </main>
     </div>
    </div>
-  </div>
-  <script>
+   <script>
         // Firebase Configuration - REPLACE WITH YOUR OWN CONFIG
         const firebaseConfig = {
   apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
@@ -1441,14 +1599,13 @@
             }
         });
 
-        // Load all data from Firestore - SIMPLIFIED VERSION
+        // Load all data from Firestore
         async function loadAllData() {
             if (!currentUser) return;
             
             showToast('Lade Daten...', 'info');
             
             try {
-                // Load ALL collections WITHOUT orderBy - simplest approach
                 const [tradesSnap, withdrawalsSnap, depositsSnap, eventsSnap, startCapitalDoc] = await Promise.all([
                     db.collection('users').doc(currentUser.uid).collection('trades').get(),
                     db.collection('users').doc(currentUser.uid).collection('withdrawals').get(),
@@ -1457,24 +1614,20 @@
                     db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').get()
                 ]);
                 
-                // Convert to arrays
                 trades = tradesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 withdrawals = withdrawalsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 deposits = depositsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 events = eventsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                // Load start capital
                 if (startCapitalDoc.exists) {
                     startCapitalData = startCapitalDoc.data();
                 }
                 
-                // Sort manually in JavaScript
                 trades.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
                 withdrawals.sort((a, b) => new Date(b.withdrawalDate || 0) - new Date(a.withdrawalDate || 0));
                 deposits.sort((a, b) => new Date(b.depositDate || 0) - new Date(a.depositDate || 0));
                 events.sort((a, b) => new Date(a.eventDate || 0) - new Date(b.eventDate || 0));
                 
-                // Update UI
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
@@ -1489,9 +1642,8 @@
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                showToast('   Fehler beim Laden: ' + error.message, 'error');
+                showToast('❌ Fehler beim Laden: ' + error.message, 'error');
                 
-                // Still render empty UI
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
@@ -1502,14 +1654,14 @@
             }
         }
 
-        // Toast Notification with types
+        // Toast Notification
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = 'toast';
             
-            let bgColor = 'rgba(16, 185, 129, 0.95)'; // green
-            if (type === 'error') bgColor = 'rgba(239, 68, 68, 0.95)'; // red
-            if (type === 'info') bgColor = 'rgba(59, 130, 246, 0.95)'; // blue
+            let bgColor = 'rgba(16, 185, 129, 0.95)';
+            if (type === 'error') bgColor = 'rgba(239, 68, 68, 0.95)';
+            if (type === 'info') bgColor = 'rgba(59, 130, 246, 0.95)';
             
             toast.style.background = bgColor;
             toast.textContent = message;
@@ -1527,9 +1679,9 @@
             
             try {
                 await auth.signInWithEmailAndPassword(email, password);
-                showToast('Erfolgreich angemeldet!');
+                showToast('✅ Erfolgreich angemeldet!');
             } catch (error) {
-                showToast('Anmeldung fehlgeschlagen: ' + error.message, 'error');
+                showToast('❌ Anmeldung fehlgeschlagen: ' + error.message, 'error');
             }
         });
 
@@ -1541,15 +1693,15 @@
             const password = document.getElementById('registerPassword').value;
             
             if (password.length < 6) {
-                showToast('Passwort muss mindestens 6 Zeichen lang sein', 'error');
+                showToast('❌ Passwort muss mindestens 6 Zeichen lang sein', 'error');
                 return;
             }
             
             try {
                 await auth.createUserWithEmailAndPassword(email, password);
-                showToast('Registrierung erfolgreich!');
+                showToast('✅ Registrierung erfolgreich!');
             } catch (error) {
-                showToast('Registrierung fehlgeschlagen: ' + error.message, 'error');
+                showToast('❌ Registrierung fehlgeschlagen: ' + error.message, 'error');
             }
         });
 
@@ -1567,7 +1719,7 @@
         // Logout
         function logout() {
             auth.signOut();
-            showToast('Erfolgreich abgemeldet');
+            showToast('✅ Erfolgreich abgemeldet');
         }
 
         document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -1595,7 +1747,6 @@
             }
         }
 
-        // Load saved theme
         const savedTheme = localStorage.getItem('tradingJournalTheme');
         if (savedTheme === 'light') {
             document.body.classList.add('light-theme');
@@ -1681,7 +1832,7 @@
                 'Gestresst': '😫',
                 'Euphorisch': '🤩',
                 'Frustriert': '😤',
-                'Ängstlich': '  ',
+                'Ängstlich': '😨',
                 'Neutral': '😐',
                 'Fokussiert': '🎯'
             };
@@ -1703,8 +1854,6 @@
             const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
             const totalWithdrawalAmount = withdrawals.reduce((sum, w) => sum + w.withdrawalAmount, 0);
             const totalDepositAmount = deposits.reduce((sum, d) => sum + d.depositAmount, 0);
-            
-            // Calculate capital from trading only (current - start - deposits + withdrawals)
             const capitalFromTrading = currentCapital - startCapital - totalDepositAmount + totalWithdrawalAmount;
             
             document.getElementById('headerCapital').textContent = formatCurrency(currentCapital);
@@ -1842,7 +1991,6 @@
         // Render Performance Charts
         function renderPerformanceCharts() {
             if (trades.length === 0) {
-                // Update stats to zero
                 document.getElementById('perfBestTrade').textContent = '€0.00';
                 document.getElementById('perfWorstTrade').textContent = '€0.00';
                 document.getElementById('perfAvgWin').textContent = '€0.00';
@@ -1854,7 +2002,6 @@
                 return;
             }
 
-            // Calculate performance stats
             const wins = trades.filter(t => t.profitLoss && t.profitLoss > 0);
             const losses = trades.filter(t => t.profitLoss && t.profitLoss < 0);
             
@@ -1868,7 +2015,6 @@
             document.getElementById('perfAvgWin').textContent = formatCurrency(avgWin);
             document.getElementById('perfAvgLoss').textContent = formatCurrency(avgLoss);
 
-            // Calculate streaks
             const streakData = calculateStreaks();
             document.getElementById('perfLongestWinStreak').textContent = streakData.longestWinStreak.toString();
             document.getElementById('perfLongestLossStreak').textContent = streakData.longestLossStreak.toString();
@@ -1885,19 +2031,10 @@
                 document.getElementById('perfCurrentStreak').className = 'text-xl font-bold text-gray-400';
             }
 
-            // Win/Loss Distribution Chart
             renderWinLossChart(wins.length, losses.length, trades.filter(t => t.profitLoss === 0).length);
-
-            // Streak Chart
             renderStreakChart(streakData.streakHistory);
-
-            // Strategy Performance Chart
             renderStrategyChart();
-
-            // Monthly Performance Chart
             renderMonthlyChart();
-
-            // Asset Performance Chart
             renderAssetChart();
         }
 
@@ -2086,7 +2223,6 @@
             const ctx = document.getElementById('strategyChart');
             if (!ctx) return;
 
-            // Group trades by strategy
             const strategyData = {};
             trades.forEach(trade => {
                 const strategy = trade.strategy || 'Keine Strategie';
@@ -2176,7 +2312,6 @@
             const ctx = document.getElementById('monthlyChart');
             if (!ctx) return;
 
-            // Group trades by month
             const monthlyData = {};
             trades.forEach(trade => {
                 const date = new Date(trade.date);
@@ -2261,7 +2396,6 @@
             const ctx = document.getElementById('assetChart');
             if (!ctx) return;
 
-            // Group trades by asset
             const assetData = {};
             trades.forEach(trade => {
                 const asset = trade.asset || 'Kein Asset';
@@ -2390,22 +2524,18 @@
                             </div>
                             
                             <div class="grid grid-cols-2 gap-2 text-sm text-gray-300 mb-3">
-                                ${trade.lotSize ? `<div>📊 Lot: ${trade.lotSize}</div>` : ''}
-                                ${trade.strategy ? `<div>🎯 ${trade.strategy}</div>` : ''}
-                                ${trade.emotion ? `<div>${getEmotionEmoji(trade.emotion)} ${trade.emotion}</div>` : ''}
-                                ${trade.entryPrice ? `<div>   Entry: ${trade.entryPrice}</div>` : ''}
-                                ${trade.exitPrice ? `<div>📤 Exit: ${trade.exitPrice}</div>` : ''}
+                                ${trade.lotSize ? `<div class="badge badge-info">📊 Lot: ${trade.lotSize}</div>` : ''}
+                                ${trade.strategy ? `<div class="badge badge-info">🎯 ${trade.strategy}</div>` : ''}
+                                ${trade.emotion ? `<div class="badge badge-info">${getEmotionEmoji(trade.emotion)} ${trade.emotion}</div>` : ''}
                             </div>
+                            
                             ${trade.notes ? `
-                                <div class="bg-slate-700 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                                <div class="bg-slate-700 bg-opacity-40 rounded-lg p-3 mb-3 text-sm text-gray-300">
                                     📝 ${trade.notes}
                                 </div>
                             ` : ''}
                             
                             <div class="flex gap-2">
-                                <button onclick="editTrade('${trade.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
-                                    ✏️ Bearbeiten
-                                </button>
                                 <button onclick="deleteTrade('${trade.id}')" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
                                     🗑️ Löschen
                                 </button>
@@ -2415,199 +2545,6 @@
                 `;
             }).join('');
         }
-
-        // Edit Trade
-        window.editTrade = function(id) {
-            const trade = trades.find(t => t.id === id);
-            if (!trade) return;
-            
-            const tradeCard = document.getElementById(`trade-${id}`);
-            const resultClass = trade.profitLoss > 0 ? 'profit' : trade.profitLoss < 0 ? 'loss' : 'breakeven';
-            
-            tradeCard.innerHTML = `
-                <form onsubmit="saveEditedTrade(event, '${id}')" class="p-4 space-y-3">
-                    <h3 class="text-lg font-bold mb-3">✏️ Trade bearbeiten</h3>
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Datum</label>
-                            <input type="date" id="edit-date-${id}" value="${trade.date}" class="input-modern w-full px-2 py-2 rounded text-sm" required>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Asset</label>
-                            <select id="edit-asset-${id}" class="input-modern w-full px-2 py-2 rounded text-sm" onchange="toggleCustomAsset('${id}')">
-                                <option value="">Wählen...</option>
-                                <option value="EURUSD" ${trade.asset === 'EURUSD' ? 'selected' : ''}>EUR/USD</option>
-                                <option value="GBPUSD" ${trade.asset === 'GBPUSD' ? 'selected' : ''}>GBP/USD</option>
-                                <option value="USDJPY" ${trade.asset === 'USDJPY' ? 'selected' : ''}>USD/JPY</option>
-                                <option value="USDCHF" ${trade.asset === 'USDCHF' ? 'selected' : ''}>USD/CHF</option>
-                                <option value="AUDUSD" ${trade.asset === 'AUDUSD' ? 'selected' : ''}>AUD/USD</option>
-                                <option value="USDCAD" ${trade.asset === 'USDCAD' ? 'selected' : ''}>USD/CAD</option>
-                                <option value="NZDUSD" ${trade.asset === 'NZDUSD' ? 'selected' : ''}>NZD/USD</option>
-                                <option value="EURGBP" ${trade.asset === 'EURGBP' ? 'selected' : ''}>EUR/GBP</option>
-                                <option value="EURJPY" ${trade.asset === 'EURJPY' ? 'selected' : ''}>EUR/JPY</option>
-                                <option value="GBPJPY" ${trade.asset === 'GBPJPY' ? 'selected' : ''}>GBP/JPY</option>
-                                <option value="XAUUSD" ${trade.asset === 'XAUUSD' ? 'selected' : ''}>XAU/USD (Gold)</option>
-                                <option value="XAGUSD" ${trade.asset === 'XAGUSD' ? 'selected' : ''}>XAG/USD (Silber)</option>
-                                <option value="US30" ${trade.asset === 'US30' ? 'selected' : ''}>US30 (Dow Jones)</option>
-                                <option value="NAS100" ${trade.asset === 'NAS100' ? 'selected' : ''}>NAS100 (Nasdaq)</option>
-                                <option value="SPX500" ${trade.asset === 'SPX500' ? 'selected' : ''}>SPX500 (S&P 500)</option>
-                                <option value="BTCUSD" ${trade.asset === 'BTCUSD' ? 'selected' : ''}>BTC/USD (Bitcoin)</option>
-                                <option value="ETHUSD" ${trade.asset === 'ETHUSD' ? 'selected' : ''}>ETH/USD (Ethereum)</option>
-                                <option value="CUSTOM" ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? 'selected' : ''}>🔧 Eigenes Asset</option>
-                            </select>
-                            <input type="text" id="edit-asset-custom-${id}" value="${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? trade.asset : ''}" placeholder="Asset eingeben" class="input-modern w-full px-2 py-2 rounded text-sm mt-1 ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? '' : 'hidden'}" style="display: ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? 'block' : 'none'}">
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Lot Size</label>
-                            <input type="number" step="0.01" id="edit-lotsize-${id}" value="${trade.lotSize || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Ergebnis</label>
-                            <select id="edit-result-${id}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                                <option value="" ${!trade.result ? 'selected' : ''}>Wählen...</option>
-                                <option value="Gewinn" ${trade.result === 'Gewinn' ? 'selected' : ''}>Gewinn</option>
-                                <option value="Verlust" ${trade.result === 'Verlust' ? 'selected' : ''}>Verlust</option>
-                                <option value="Breakeven" ${trade.result === 'Breakeven' ? 'selected' : ''}>Breakeven</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Entry Price</label>
-                            <input type="number" step="0.00001" id="edit-entry-${id}" value="${trade.entryPrice || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Exit Price</label>
-                            <input type="number" step="0.00001" id="edit-exit-${id}" value="${trade.exitPrice || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-semibold mb-1">Profit/Loss (€)</label>
-                        <input type="number" step="0.01" id="edit-pl-${id}" value="${trade.profitLoss || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Strategie</label>
-                            <input type="text" id="edit-strategy-${id}" value="${trade.strategy || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold mb-1">Emotion</label>
-                            <select id="edit-emotion-${id}" class="input-modern w-full px-2 py-2 rounded text-sm">
-                                <option value="" ${!trade.emotion ? 'selected' : ''}>Wählen...</option>
-                                <option value="Ruhig" ${trade.emotion === 'Ruhig' ? 'selected' : ''}>    Ruhig</option>
-                                <option value="Zuversichtlich" ${trade.emotion === 'Zuversichtlich' ? 'selected' : ''}>😊 Zuversichtlich</option>
-                                <option value="Nervös" ${trade.emotion === 'Nervös' ? 'selected' : ''}>😰 Nervös</option>
-                                <option value="Gestresst" ${trade.emotion === 'Gestresst' ? 'selected' : ''}>😫 Gestresst</option>
-                                <option value="Euphorisch" ${trade.emotion === 'Euphorisch' ? 'selected' : ''}>     Euphorisch</option>
-                                <option value="Frustriert" ${trade.emotion === 'Frustriert' ? 'selected' : ''}>😤 Frustriert</option>
-                                <option value="Ängstlich" ${trade.emotion === 'Ängstlich' ? 'selected' : ''}>😨 Ängstlich</option>
-                                <option value="Neutral" ${trade.emotion === 'Neutral' ? 'selected' : ''}>😐 Neutral</option>
-                                <option value="Fokussiert" ${trade.emotion === 'Fokussiert' ? 'selected' : ''}>🎯 Fokussiert</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-semibold mb-1">Notizen</label>
-                        <textarea id="edit-notes-${id}" rows="2" class="input-modern w-full px-2 py-2 rounded text-sm">${trade.notes || ''}</textarea>
-                    </div>
-                    
-                    <div class="flex gap-2">
-                        <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                            💾 Speichern
-                        </button>
-                        <button type="button" onclick="cancelEditTrade('${id}')" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                            ❌ Abbrechen
-                        </button>
-                    </div>
-                </form>
-            `;
-        };
-
-        // Save Edited Trade
-        window.saveEditedTrade = async function(event, id) {
-            event.preventDefault();
-            if (!currentUser) return;
-            
-            const oldTrade = trades.find(t => t.id === id);
-            const oldPL = oldTrade.profitLoss || 0;
-            
-            let profitLoss = document.getElementById(`edit-pl-${id}`).value ? parseFloat(document.getElementById(`edit-pl-${id}`).value) : null;
-            const result = document.getElementById(`edit-result-${id}`).value;
-            
-            if (result === 'Verlust' && profitLoss !== null && profitLoss > 0) {
-                profitLoss = -Math.abs(profitLoss);
-            }
-            
-            // Get asset value - check if custom asset is selected
-            let assetValue = document.getElementById(`edit-asset-${id}`).value;
-            if (assetValue === 'CUSTOM') {
-                assetValue = document.getElementById(`edit-asset-custom-${id}`).value || null;
-            } else if (assetValue === '') {
-                assetValue = null;
-            }
-            
-            const updatedTrade = {
-                date: document.getElementById(`edit-date-${id}`).value,
-                asset: assetValue,
-                lotSize: document.getElementById(`edit-lotsize-${id}`).value ? parseFloat(document.getElementById(`edit-lotsize-${id}`).value) : null,
-                result: result || null,
-                entryPrice: document.getElementById(`edit-entry-${id}`).value ? parseFloat(document.getElementById(`edit-entry-${id}`).value) : null,
-                exitPrice: document.getElementById(`edit-exit-${id}`).value ? parseFloat(document.getElementById(`edit-exit-${id}`).value) : null,
-                profitLoss: profitLoss,
-                strategy: document.getElementById(`edit-strategy-${id}`).value || null,
-                emotion: document.getElementById(`edit-emotion-${id}`).value || null,
-                notes: document.getElementById(`edit-notes-${id}`).value || null,
-                timestamp: oldTrade.timestamp
-            };
-            
-            try {
-                await db.collection('users').doc(currentUser.uid).collection('trades').doc(id).update(updatedTrade);
-                showToast('Trade erfolgreich aktualisiert!');
-                
-                // Update current capital
-                const newPL = profitLoss || 0;
-                const plDifference = newPL - oldPL;
-                
-                if (plDifference !== 0 && startCapitalData) {
-                    startCapitalData.currentCapital += plDifference;
-                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
-                }
-                
-                await loadAllData();
-            } catch (error) {
-                console.error('Error updating trade:', error);
-                showToast('Fehler beim Aktualisieren', 'error');
-            }
-        };
-
-        // Toggle Custom Asset Input
-        window.toggleCustomAsset = function(id) {
-            const select = document.getElementById(`edit-asset-${id}`);
-            const customInput = document.getElementById(`edit-asset-custom-${id}`);
-            
-            if (select.value === 'CUSTOM') {
-                customInput.style.display = 'block';
-                customInput.classList.remove('hidden');
-                customInput.focus();
-            } else {
-                customInput.style.display = 'none';
-                customInput.classList.add('hidden');
-                customInput.value = '';
-            }
-        };
-
-        // Cancel Edit Trade
-        window.cancelEditTrade = async function(id) {
-            await loadAllData();
-        };
 
         // Delete Trade
         window.deleteTrade = async function(id) {
@@ -2621,10 +2558,10 @@
                     <p class="text-white font-semibold mb-3">Trade wirklich löschen?</p>
                     <div class="flex gap-2 justify-center">
                         <button onclick="confirmDeleteTrade('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Ja, löschen
+                            ✅ Ja, löschen
                         </button>
                         <button onclick="cancelDeleteTrade('${id}', \`${originalHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Abbrechen
+                            ❌ Abbrechen
                         </button>
                     </div>
                 </div>
@@ -2637,7 +2574,7 @@
             
             try {
                 await db.collection('users').doc(currentUser.uid).collection('trades').doc(id).delete();
-                showToast('Trade gelöscht!');
+                showToast('✅ Trade gelöscht!');
                 
                 if (startCapitalData && oldPL !== 0) {
                     startCapitalData.currentCapital -= oldPL;
@@ -2647,7 +2584,7 @@
                 await loadAllData();
             } catch (error) {
                 console.error('Error deleting trade:', error);
-                showToast('Fehler beim Löschen', 'error');
+                showToast('❌ Fehler beim Löschen', 'error');
             }
         };
 
@@ -2676,7 +2613,10 @@
                 <div class="trade-card rounded-lg p-4 animate-slide-in">
                     <div class="flex justify-between items-start mb-3">
                         <div>
-                            <div class="text-lg font-bold">Auszahlung</div>
+                            <div class="text-lg font-bold flex items-center gap-2">
+                                <span>💳</span>
+                                <span>Auszahlung</span>
+                            </div>
                             <div class="text-sm text-gray-400">${formatDate(w.withdrawalDate)}</div>
                         </div>
                         <div class="text-2xl font-bold text-orange-400">
@@ -2684,12 +2624,12 @@
                         </div>
                     </div>
                     ${w.withdrawalNote ? `
-                        <div class="bg-slate-700 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                        <div class="bg-slate-700 bg-opacity-40 rounded-lg p-3 mb-3 text-sm text-gray-300">
                             📝 ${w.withdrawalNote}
                         </div>
                     ` : ''}
                     <button onclick="deleteWithdrawal('${w.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                            ️ Löschen
+                        🗑️ Löschen
                     </button>
                 </div>
             `).join('');
@@ -2715,7 +2655,10 @@
                 <div class="trade-card rounded-lg p-4 animate-slide-in">
                     <div class="flex justify-between items-start mb-3">
                         <div>
-                            <div class="text-lg font-bold">Einzahlung</div>
+                            <div class="text-lg font-bold flex items-center gap-2">
+                                <span>💰</span>
+                                <span>Einzahlung</span>
+                            </div>
                             <div class="text-sm text-gray-400">${formatDate(d.depositDate)}</div>
                         </div>
                         <div class="text-2xl font-bold text-green-400">
@@ -2723,7 +2666,7 @@
                         </div>
                     </div>
                     ${d.depositNote ? `
-                        <div class="bg-slate-700 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                        <div class="bg-slate-700 bg-opacity-40 rounded-lg p-3 mb-3 text-sm text-gray-300">
                             📝 ${d.depositNote}
                         </div>
                     ` : ''}
@@ -2737,30 +2680,11 @@
         window.deleteWithdrawal = async function(id) {
             if (!currentUser) return;
             
-            const withdrawalCard = event.target.closest('.trade-card');
-            const originalHTML = withdrawalCard.innerHTML;
-            
-            withdrawalCard.innerHTML = `
-                <div class="text-center py-4">
-                    <p class="text-white font-semibold mb-3">Auszahlung wirklich l  schen?</p>
-                    <div class="flex gap-2 justify-center">
-                        <button onclick="confirmDeleteWithdrawal('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Ja, löschen
-                        </button>
-                        <button onclick="cancelDeleteWithdrawal(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Abbrechen
-                        </button>
-                    </div>
-                </div>
-            `;
-        };
-
-        window.confirmDeleteWithdrawal = async function(id) {
             const withdrawal = withdrawals.find(w => w.id === id);
             
             try {
                 await db.collection('users').doc(currentUser.uid).collection('withdrawals').doc(id).delete();
-                showToast('Auszahlung gelöscht!');
+                showToast('✅ Auszahlung gelöscht!');
                 
                 if (startCapitalData) {
                     startCapitalData.currentCapital += withdrawal.withdrawalAmount;
@@ -2770,43 +2694,18 @@
                 await loadAllData();
             } catch (error) {
                 console.error('Error deleting withdrawal:', error);
-                showToast('Fehler beim Löschen', 'error');
+                showToast('❌ Fehler beim Löschen', 'error');
             }
         };
 
-        window.cancelDeleteWithdrawal = function(button, originalHTML) {
-            const withdrawalCard = button.closest('.trade-card');
-            withdrawalCard.innerHTML = originalHTML;
-        };
-
-        // Delete Deposit
         window.deleteDeposit = async function(id) {
             if (!currentUser) return;
             
-            const depositCard = event.target.closest('.trade-card');
-            const originalHTML = depositCard.innerHTML;
-            
-            depositCard.innerHTML = `
-                <div class="text-center py-4">
-                    <p class="text-white font-semibold mb-3">Einzahlung wirklich löschen?</p>
-                    <div class="flex gap-2 justify-center">
-                        <button onclick="confirmDeleteDeposit('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Ja, löschen
-                        </button>
-                        <button onclick="cancelDeleteDeposit(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
-                            Abbrechen
-                        </button>
-                    </div>
-                </div>
-            `;
-        };
-
-        window.confirmDeleteDeposit = async function(id) {
             const deposit = deposits.find(d => d.id === id);
             
             try {
                 await db.collection('users').doc(currentUser.uid).collection('deposits').doc(id).delete();
-                showToast('Einzahlung gelöscht!');
+                showToast('✅ Einzahlung gelöscht!');
                 
                 if (startCapitalData) {
                     startCapitalData.currentCapital -= deposit.depositAmount;
@@ -2816,18 +2715,12 @@
                 await loadAllData();
             } catch (error) {
                 console.error('Error deleting deposit:', error);
-                showToast('Fehler beim Löschen', 'error');
+                showToast('❌ Fehler beim Löschen', 'error');
             }
-        };
-
-        window.cancelDeleteDeposit = function(button, originalHTML) {
-            const depositCard = button.closest('.trade-card');
-            depositCard.innerHTML = originalHTML;
         };
 
         // Render Emotion Analysis
         function renderEmotionAnalysis() {
-            // Filter trades with emotions
             const tradesWithEmotions = trades.filter(t => t.emotion && t.emotion.trim() !== '');
             
             document.getElementById('emoTradeCount').textContent = `${tradesWithEmotions.length}/${trades.length}`;
@@ -2839,7 +2732,6 @@
                 return;
             }
 
-            // Calculate performance by emotion
             const emotionData = {};
             tradesWithEmotions.forEach(trade => {
                 const emotion = trade.emotion;
@@ -2858,7 +2750,6 @@
                 else if (trade.profitLoss < 0) emotionData[emotion].losses++;
             });
 
-            // Find best and worst emotions
             let bestEmotion = null;
             let worstEmotion = null;
             let maxPL = -Infinity;
@@ -2889,7 +2780,6 @@
             document.getElementById('emoWorstEmotion').textContent = worstEmotion ? `${getEmotionEmoji(worstEmotion)} ${worstEmotion}` : '-';
             document.getElementById('emoMostFrequent').textContent = mostFrequentEmotion ? `${getEmotionEmoji(mostFrequentEmotion)} ${mostFrequentEmotion}` : '-';
 
-            // Render charts
             renderEmotionPerformanceChart(emotionData);
             renderEmotionDistributionChart(emotionData);
             renderEmotionWinrateChart(emotionData);
@@ -2957,829 +2847,7 @@
                             }
                         },
                         y: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                callback: function(value) {
-                                    return '€' + value.toFixed(0);
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Emotion Distribution Chart
-        function renderEmotionDistributionChart(emotionData) {
-            const ctx = document.getElementById('emotionDistributionChart');
-            if (!ctx) return;
-
-            const emotions = Object.keys(emotionData);
-            const counts = emotions.map(e => emotionData[e].count);
-            
-            const emotionColors = {
-                'Ruhig': 'rgba(59, 130, 246, 0.8)',
-                'Zuversichtlich': 'rgba(16, 185, 129, 0.8)',
-                'Nervös': 'rgba(251, 191, 36, 0.8)',
-                'Gestresst': 'rgba(239, 68, 68, 0.8)',
-                'Euphorisch': 'rgba(236, 72, 153, 0.8)',
-                'Frustriert': 'rgba(249, 115, 22, 0.8)',
-                'Ängstlich': 'rgba(220, 38, 38, 0.8)',
-                'Neutral': 'rgba(156, 163, 175, 0.8)',
-                'Fokussiert': 'rgba(139, 92, 246, 0.8)'
-            };
-            
-            const colors = emotions.map(e => emotionColors[e] || 'rgba(156, 163, 175, 0.8)');
-
-            if (emotionDistributionChart) {
-                emotionDistributionChart.destroy();
-            }
-
-            emotionDistributionChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: emotions.map(e => `${getEmotionEmoji(e)} ${e}`),
-                    datasets: [{
-                        data: counts,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.8', '1')),
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#9ca3af',
-                                padding: 15,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 12,
-                            callbacks: {
-                                label: function(context) {
-                                    const emotion = emotions[context.dataIndex];
-                                    const count = emotionData[emotion].count;
-                                    const percentage = ((count / trades.filter(t => t.emotion).length) * 100).toFixed(1);
-                                    return [
-                                        `Trades: ${count}`,
-                                        `Anteil: ${percentage}%`
-                                    ];
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Emotion Winrate Chart
-        function renderEmotionWinrateChart(emotionData) {
-            const ctx = document.getElementById('emotionWinrateChart');
-            if (!ctx) return;
-
-            const emotions = Object.keys(emotionData);
-            const winrates = emotions.map(e => {
-                const total = emotionData[e].count;
-                const wins = emotionData[e].wins;
-                return total > 0 ? (wins / total * 100) : 0;
-            });
-            
-            const colors = winrates.map(wr => {
-                if (wr >= 70) return 'rgba(16, 185, 129, 0.8)';
-                else if (wr >= 50) return 'rgba(251, 191, 36, 0.8)';
-                else return 'rgba(239, 68, 68, 0.8)';
-            });
-
-            if (emotionWinrateChart) {
-                emotionWinrateChart.destroy();
-            }
-
-            emotionWinrateChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: emotions.map(e => `${getEmotionEmoji(e)} ${e}`),
-                    datasets: [{
-                        label: 'Winrate (%)',
-                        data: winrates,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.8', '1')),
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 12,
-                            callbacks: {
-                                label: function(context) {
-                                    const emotion = emotions[context.dataIndex];
-                                    const wins = emotionData[emotion].wins;
-                                    const losses = emotionData[emotion].losses;
-                                    const total = emotionData[emotion].count;
-                                    return [
-                                        `Winrate: ${context.parsed.y.toFixed(1)}%`,
-                                        `Gewinne: ${wins}`,
-                                        `Verluste: ${losses}`,
-                                        `Gesamt: ${total}`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { 
-                                color: '#9ca3af'
-                            },
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: { 
-                                color: '#9ca3af',
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Calendar
-        let currentCalendarYear = new Date().getFullYear();
-        let currentCalendarMonth = new Date().getMonth();
-
-        function renderCalendar() {
-            const firstDay = new Date(currentCalendarYear, currentCalendarMonth, 1);
-            const lastDay = new Date(currentCalendarYear, currentCalendarMonth + 1, 0);
-            const startingDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-            const numberOfDays = lastDay.getDate();
-
-            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-            document.getElementById('calendarTitle').textContent = `${monthNames[currentCalendarMonth]} ${currentCalendarYear}`;
-
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-
-            for (let i = 0; i < startingDayOfWeek; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day empty';
-                grid.appendChild(emptyDay);
-            }
-
-            const today = new Date();
-            for (let day = 1; day <= numberOfDays; day++) {
-                const dateStr = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayTrades = trades.filter(t => t.date === dateStr);
-                const dayEvents = events.filter(e => e.eventDate === dateStr);
-                
-                const dayDiv = document.createElement('div');
-                dayDiv.className = 'calendar-day';
-                
-                if (today.getFullYear() === currentCalendarYear && today.getMonth() === currentCalendarMonth && today.getDate() === day) {
-                    dayDiv.classList.add('today');
-                }
-
-                let content = `<div class="text-sm font-bold">${day}</div>`;
-                
-                if (dayTrades.length > 0) {
-                    const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
-                    if (dayPL > 0) dayDiv.classList.add('profit');
-                    else if (dayPL < 0) dayDiv.classList.add('loss');
-                    else dayDiv.classList.add('breakeven');
-
-                    content += `<div class="text-xs ${dayPL >= 0 ? 'text-green-300' : 'text-red-300'}">${formatCurrency(dayPL)}</div>`;
-                } else {
-                    dayDiv.classList.add('empty');
-                }
-                
-                if (dayEvents.length > 0) {
-                    content += `<div class="event-dot"></div>`;
-                }
-
-                dayDiv.innerHTML = content;
-                grid.appendChild(dayDiv);
-            }
-        }
-
-        function renderUpcomingEvents() {
-            const list = document.getElementById('upcomingEventsList');
-            
-            if (events.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-8 text-gray-400 text-sm">
-                        <div class="text-4xl mb-2">📭</div>
-                        <p>Keine Termine</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const now = new Date();
-            const todayStr = now.toISOString().split('T')[0];
-            
-            const upcomingEvents = events
-                .filter(e => e.eventDate >= todayStr)
-                .slice(0, 10);
-            
-            if (upcomingEvents.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-8 text-gray-400 text-sm">
-                        <div class="text-4xl mb-2">✅</div>
-                        <p>Keine kommenden Termine</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            list.innerHTML = upcomingEvents.map(e => `
-                <div class="bg-slate-700 bg-opacity-40 rounded-lg p-3 text-sm">
-                    <div class="font-semibold text-white">${e.eventTitle}</div>
-                    <div class="text-xs text-gray-400 mt-1">${formatDate(e.eventDate)}</div>
-                </div>
-            `).join('');
-        }
-
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentCalendarMonth--;
-            if (currentCalendarMonth < 0) {
-                currentCalendarMonth = 11;
-                currentCalendarYear--;
-            }
-            renderCalendar();
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentCalendarMonth++;
-            if (currentCalendarMonth > 11) {
-                currentCalendarMonth = 0;
-                currentCalendarYear++;
-            }
-            renderCalendar();
-        });
-
-        // Start Capital Form
-        document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) return;
-            
-            const capital = parseFloat(document.getElementById('startCapital').value);
-            
-            if (!capital || capital <= 0) {
-                showToast('Bitte gültiges Startkapital eingeben', 'error');
-                return;
-            }
-
-            try {
-                if (startCapitalData) {
-                    const oldStartCapital = startCapitalData.startCapital || 0;
-                    const difference = capital - oldStartCapital;
-                    startCapitalData.startCapital = capital;
-                    startCapitalData.currentCapital += difference;
-                } else {
-                    startCapitalData = {
-                        startCapital: capital,
-                        currentCapital: capital
-                    };
-                }
-                
-                await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
-                showToast('Startkapital erfolgreich gespeichert!');
-                document.getElementById('startCapital').value = '';
-                updateDashboard();
-            } catch (error) {
-                console.error('Error saving start capital:', error);
-                showToast('Fehler beim Speichern', 'error');
-            }
-        });
-
-        // New Trade Form
-        document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) return;
-
-            let profitLoss = document.getElementById('tradeProfitLoss').value ? parseFloat(document.getElementById('tradeProfitLoss').value) : null;
-            const result = document.getElementById('tradeResult').value;
-            
-            if (result === 'Verlust' && profitLoss !== null && profitLoss > 0) {
-                profitLoss = -Math.abs(profitLoss);
-            }
-
-            const trade = {
-                date: document.getElementById('tradeDate').value,
-                asset: document.getElementById('tradeAsset').value || null,
-                lotSize: document.getElementById('tradeLotSize').value ? parseFloat(document.getElementById('tradeLotSize').value) : null,
-                result: result || null,
-                entryPrice: document.getElementById('tradeEntryPrice').value ? parseFloat(document.getElementById('tradeEntryPrice').value) : null,
-                exitPrice: document.getElementById('tradeExitPrice').value ? parseFloat(document.getElementById('tradeExitPrice').value) : null,
-                profitLoss: profitLoss,
-                strategy: document.getElementById('tradeStrategy').value || null,
-                emotion: document.getElementById('tradeEmotion').value || null,
-                notes: document.getElementById('tradeNotes').value || null,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                await db.collection('users').doc(currentUser.uid).collection('trades').add(trade);
-                showToast('Trade erfolgreich gespeichert!');
-                document.getElementById('newTradeForm').reset();
-                document.getElementById('tradeDate').value = today;
-                
-                if (trade.profitLoss !== null && startCapitalData) {
-                    startCapitalData.currentCapital += trade.profitLoss;
-                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
-                }
-                
-                await loadAllData();
-            } catch (error) {
-                console.error('Error saving trade:', error);
-                showToast('Fehler beim Speichern', 'error');
-            }
-        });
-
-        // Withdrawal Form
-        document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) return;
-
-            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
-
-            const withdrawal = {
-                withdrawalDate: document.getElementById('withdrawalDate').value,
-                withdrawalAmount: amount,
-                withdrawalNote: document.getElementById('withdrawalNote').value || null,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                await db.collection('users').doc(currentUser.uid).collection('withdrawals').add(withdrawal);
-                showToast('Auszahlung erfolgreich gespeichert!');
-                document.getElementById('withdrawalForm').reset();
-                document.getElementById('withdrawalDate').value = today;
-                
-                if (startCapitalData) {
-                    startCapitalData.currentCapital -= amount;
-                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
-                }
-                
-                await loadAllData();
-            } catch (error) {
-                console.error('Error saving withdrawal:', error);
-                showToast('Fehler beim Speichern', 'error');
-            }
-        });
-
-        // Deposit Form
-        document.getElementById('depositForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) return;
-
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-
-            const deposit = {
-                depositDate: document.getElementById('depositDate').value,
-                depositAmount: amount,
-                depositNote: document.getElementById('depositNote').value || null,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                await db.collection('users').doc(currentUser.uid).collection('deposits').add(deposit);
-                showToast('Einzahlung erfolgreich gespeichert!');
-                document.getElementById('depositForm').reset();
-                document.getElementById('depositDate').value = today;
-                
-                if (startCapitalData) {
-                    startCapitalData.currentCapital += amount;
-                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
-                }
-                
-                await loadAllData();
-            } catch (error) {
-                console.error('Error saving deposit:', error);
-                showToast('Fehler beim Speichern', 'error');
-            }
-        });
-
-        // Event Form
-        document.getElementById('eventForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) return;
-
-            const event = {
-                eventDate: document.getElementById('eventDate').value,
-                eventTime: document.getElementById('eventTime').value || null,
-                eventTitle: document.getElementById('eventTitle').value,
-                eventType: document.getElementById('eventType').value,
-                eventNote: document.getElementById('eventNote').value || null,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                await db.collection('users').doc(currentUser.uid).collection('events').add(event);
-                showToast('Termin erfolgreich gespeichert!');
-                document.getElementById('eventForm').reset();
-                document.getElementById('eventDate').value = today;
-                await loadAllData();
-            } catch (error) {
-                console.error('Error saving event:', error);
-                showToast('Fehler beim Speichern', 'error');
-            }
-        });
-
-        // Update Compound Performance Display
-        function updateCompoundPerformance() {
-            const startCapital = startCapitalData ? (startCapitalData.startCapital || 0) : 0;
-            const currentCapital = startCapitalData ? (startCapitalData.currentCapital || 0) : 0;
-            const totalGain = currentCapital - startCapital;
-            
-            document.getElementById('compoundStartCapital').textContent = formatCurrency(startCapital);
-            document.getElementById('compoundCurrentCapital').textContent = formatCurrency(currentCapital);
-            document.getElementById('compoundTotalGain').textContent = formatCurrency(totalGain);
-            document.getElementById('compoundTotalGain').className = totalGain >= 0 ? 'text-lg font-bold text-green-400' : 'text-lg font-bold text-red-400';
-            
-            // Calculate average monthly return
-            const avgMonthlyReturn = calculateAverageMonthlyReturn();
-            document.getElementById('compoundAvgMonthly').textContent = avgMonthlyReturn.toFixed(2) + '%';
-            
-            // Prefill form with current data
-            if (startCapital > 0) {
-                document.getElementById('compoundInitialCapital').value = currentCapital;
-            }
-        }
-
-        // Calculate average monthly return based on actual trading history
-        function calculateAverageMonthlyReturn() {
-            if (trades.length === 0 || !startCapitalData || !startCapitalData.startCapital) {
-                return 0;
-            }
-            
-            // Get first and last trade dates
-            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
-            const firstTradeDate = new Date(sortedTrades[0].date);
-            const lastTradeDate = new Date(sortedTrades[sortedTrades.length - 1].date);
-            
-            // Calculate months difference
-            const monthsDiff = (lastTradeDate.getFullYear() - firstTradeDate.getFullYear()) * 12 + 
-                             (lastTradeDate.getMonth() - firstTradeDate.getMonth()) + 1;
-            
-            if (monthsDiff <= 0) return 0;
-            
-            const startCapital = startCapitalData.startCapital;
-            const currentCapital = startCapitalData.currentCapital;
-            
-            // Calculate total return percentage
-            const totalReturn = ((currentCapital - startCapital) / startCapital) * 100;
-            
-            // Calculate average monthly return
-            const avgMonthlyReturn = totalReturn / monthsDiff;
-            
-            return avgMonthlyReturn;
-        }
-
-        // Compound Calculator Form
-        document.getElementById('compoundForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get values
-            const initialCapital = parseFloat(document.getElementById('compoundInitialCapital').value);
-            const targetAmount = parseFloat(document.getElementById('compoundTargetAmount').value);
-            const months = parseInt(document.getElementById('compoundMonths').value);
-            const plannedReturn = parseFloat(document.getElementById('compoundPlannedReturn').value);
-            
-            // Get current performance
-            const currentPerformance = calculateAverageMonthlyReturn();
-            
-            calculateCompoundWithComparison(initialCapital, targetAmount, plannedReturn, currentPerformance, months);
-        });
-
-        // Calculate compound interest with comparison
-        function calculateCompoundWithComparison(initialCapital, targetAmount, plannedReturn, currentPerformance, months) {
-            const plannedRate = plannedReturn / 100;
-            const currentRate = currentPerformance / 100;
-            
-            // Calculate with planned return
-            let capitalPlanned = initialCapital;
-            const monthlyDataPlanned = [initialCapital];
-            
-            for (let i = 1; i <= months; i++) {
-                capitalPlanned = capitalPlanned * (1 + plannedRate);
-                monthlyDataPlanned.push(capitalPlanned);
-            }
-            
-            // Calculate with current performance
-            let capitalCurrent = initialCapital;
-            const monthlyDataCurrent = [initialCapital];
-            
-            for (let i = 1; i <= months; i++) {
-                capitalCurrent = capitalCurrent * (1 + currentRate);
-                monthlyDataCurrent.push(capitalCurrent);
-            }
-            
-            // Calculate months to reach target with planned return
-            let monthsToTarget = 0;
-            let tempCapital = initialCapital;
-            while (tempCapital < targetAmount && monthsToTarget < 240) { // Max 20 years
-                monthsToTarget++;
-                tempCapital = tempCapital * (1 + plannedRate);
-            }
-            
-            const finalCapitalPlanned = capitalPlanned;
-            const finalCapitalCurrent = capitalCurrent;
-            const totalProfitPlanned = finalCapitalPlanned - initialCapital;
-            const difference = finalCapitalCurrent - finalCapitalPlanned;
-            const differencePercent = finalCapitalPlanned > 0 ? ((difference / finalCapitalPlanned) * 100).toFixed(1) : 0;
-            const growthPercent = ((finalCapitalPlanned - initialCapital) / initialCapital * 100).toFixed(1);
-            
-            // Update comparison cards
-            document.getElementById('compoundYourRate').textContent = currentPerformance.toFixed(2) + '%';
-            document.getElementById('compoundYourMonths').textContent = months;
-            document.getElementById('compoundYourProjection').textContent = formatCurrency(finalCapitalCurrent);
-            
-            document.getElementById('compoundTargetRate').textContent = plannedReturn.toFixed(2) + '%';
-            document.getElementById('compoundTargetMonths').textContent = months;
-            document.getElementById('compoundTargetProjection').textContent = formatCurrency(finalCapitalPlanned);
-            
-            document.getElementById('compoundDifference').textContent = formatCurrency(Math.abs(difference));
-            document.getElementById('compoundDifference').className = difference >= 0 ? 'text-4xl font-bold text-green-400' : 'text-4xl font-bold text-red-400';
-            document.getElementById('compoundDifferencePercent').textContent = (difference >= 0 ? '+' : '') + differencePercent + '% ' + (difference >= 0 ? 'über Ziel' : 'unter Ziel');
-            
-            // Update additional stats
-            document.getElementById('compoundMonthsToTarget').textContent = monthsToTarget >= 240 ? 'Nicht erreichbar' : monthsToTarget + ' Monate';
-            document.getElementById('compoundTotalProfit').textContent = formatCurrency(totalProfitPlanned);
-            document.getElementById('compoundGrowthPercent').textContent = '+' + growthPercent + '%';
-            
-            // Show results
-            document.getElementById('compoundResults').classList.remove('hidden');
-            document.getElementById('compoundEmptyState').classList.add('hidden');
-            
-            // Render chart
-            renderCompoundComparisonChart(months, monthlyDataPlanned, monthlyDataCurrent, plannedReturn, currentPerformance, targetAmount);
-        }
-
-        // Render compound comparison chart
-        function renderCompoundComparisonChart(months, dataPlanned, dataCurrent, plannedReturn, currentReturn, targetAmount) {
-            const ctx = document.getElementById('compoundChart');
-            if (!ctx) return;
-            
-            if (compoundChart) {
-                compoundChart.destroy();
-            }
-            
-            const labels = [];
-            for (let i = 0; i <= months; i++) {
-                labels.push(`Monat ${i}`);
-            }
-            
-            // Create target line data
-            const targetLine = new Array(months + 1).fill(targetAmount);
-            
-            const datasets = [
-                {
-                    label: `🎯 Zielvorgabe (${plannedReturn.toFixed(1)}%/Monat)`,
-                    data: dataPlanned,
-                    borderColor: '#a78bfa',
-                    backgroundColor: 'rgba(167, 139, 250, 0.15)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 0,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: '#a78bfa',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2
-                },
-                {
-                    label: `👤 Deine Performance (${currentReturn.toFixed(1)}%/Monat)`,
-                    data: dataCurrent,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 0,
-                    pointHoverRadius: 6,
-                    pointBackgroundColor: '#3b82f6',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2
-                },
-                {
-                    label: `💫 Zielsumme`,
-                    data: targetLine,
-                    borderColor: '#10b981',
-                    backgroundColor: 'transparent',
-                    borderWidth: 2,
-                    borderDash: [10, 5],
-                    fill: false,
-                    pointRadius: 0,
-                    pointHoverRadius: 0
-                }
-            ];
-            
-            compoundChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                color: '#9ca3af',
-                                padding: 15,
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                },
-                                usePointStyle: true,
-                                pointStyle: 'line'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 12,
-                            callbacks: {
-                                label: function(context) {
-                                    if (context.datasetIndex === 2) {
-                                        return `Zielsumme: ${formatCurrency(context.parsed.y)}`;
-                                    }
-                                    return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
-                                },
-                                afterBody: function(context) {
-                                    if (context[0].datasetIndex === 0 || context[0].datasetIndex === 1) {
-                                        const diff = context[0].parsed.y - targetAmount;
-                                        if (Math.abs(diff) > 0.01) {
-                                            return diff >= 0 ? `✅ ${formatCurrency(diff)} über Ziel` : `❌ ${formatCurrency(Math.abs(diff))} unter Ziel`;
-                                        } else {
-                                            return '🎯 Ziel erreicht!';
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                maxTicksLimit: 15
-                            },
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            }
-                        },
-                        y: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                callback: function(value) {
-                                    return '€' + (value / 1000).toFixed(0) + 'k';
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Position Size Calculator
-        document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const accountBalance = parseFloat(document.getElementById('psAccountBalance').value);
-            const riskPercent = parseFloat(document.getElementById('psRiskPercent').value);
-            const entryPrice = parseFloat(document.getElementById('psEntryPrice').value);
-            const stopLoss = parseFloat(document.getElementById('psStopLoss').value);
-            const pipValue = parseFloat(document.getElementById('psPipValue').value);
-            
-            // Calculate risk amount
-            const riskAmount = accountBalance * (riskPercent / 100);
-            
-            // Calculate stop distance in pips
-            const stopDistance = Math.abs(entryPrice - stopLoss) * 10000; // For 4-decimal pairs
-            
-            // Calculate lot size
-            const lotSize = riskAmount / (stopDistance * pipValue);
-            
-            // Display results
-            document.getElementById('psRiskAmount').textContent = formatCurrency(riskAmount);
-            document.getElementById('psStopDistance').textContent = stopDistance.toFixed(1) + ' Pips';
-            document.getElementById('psLotSize').textContent = lotSize.toFixed(2);
-            
-            // Calculate take profit scenarios
-            document.getElementById('psRR1').textContent = '+' + formatCurrency(riskAmount);
-            document.getElementById('psRR2').textContent = '+' + formatCurrency(riskAmount * 2);
-            document.getElementById('psRR3').textContent = '+' + formatCurrency(riskAmount * 3);
-            
-            document.getElementById('positionSizeResults').classList.remove('hidden');
-            showToast('   Position berechnet!');
-        });
-
-        // Pip Calculator
-        document.getElementById('pipCalculatorForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const currencyPair = document.getElementById('pipCurrencyPair').value;
-            const lotSize = parseFloat(document.getElementById('pipLotSize').value);
-            const entryPrice = parseFloat(document.getElementById('pipEntryPrice').value);
-            const exitPrice = parseFloat(document.getElementById('pipExitPrice').value);
-            
-            // Determine pip size based on currency pair
-            let pipMultiplier = 10000; // 4-decimal pairs
-            if (currencyPair.includes('JPY')) {
-                pipMultiplier = 100; // 2-decimal pairs
-            }
-            
-            // Calculate pip difference
-            const pipDifference = Math.abs(exitPrice - entryPrice) * pipMultiplier;
-            const isProfit = exitPrice > entryPrice;
-            
-            // Standard pip values per lot (approximate, for demonstration)
-            let standardPipValue = 10; // EUR/USD default
-            if (currencyPair === 'GBPUSD') standardPipValue = 10;
-            else if (currencyPair === 'USDJPY') standardPipValue = 8;
-            else if (currencyPair === 'USDCHF') standardPipValue = 10;
-            else if (currencyPair === 'AUDUSD') standardPipValue = 10;
-            else if (currencyPair === 'USDCAD') standardPipValue = 8;
-            else if (currencyPair === 'NZDUSD') standardPipValue = 10;
-            else if (currencyPair === 'EURGBP') standardPipValue = 12;
-            else if (currencyPair === 'EURJPY') standardPipValue = 8;
-            else if (currencyPair === 'GBPJPY') standardPipValue = 8;
-            
-            // Calculate pip value for current lot size
-            const pipValueForLot = standardPipValue * lotSize;
-            
-            // Calculate profit/loss
-            const profitLoss = pipDifference * pipValueForLot;
-            
-            // Display results
-            document.getElementById('pipDifference').textContent = pipDifference.toFixed(1) + ' Pips';
-            document.getElementById('pipValue').textContent = formatCurrency(pipValueForLot) + '/pip';
-            document.getElementById('pipProfitLoss').textContent = (isProfit ? '+' : '-') + formatCurrency(profitLoss);
-            document.getElementById('pipProfitLoss').className = isProfit ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
-            
-            // Show pip values for different lot sizes
-            document.getElementById('pipValue001').textContent = formatCurrency(standardPipValue * 0.01) + '/pip';
-            document.getElementById('pipValue010').textContent = formatCurrency(standardPipValue * 0.1) + '/pip';
-            document.getElementById('pipValue100').textContent = formatCurrency(standardPipValue * 1) + '/pip';
-            document.getElementById('pipValue1000').textContent = formatCurrency(standardPipValue * 10) + '/pip';
-            
-            document.getElementById('pipCalculatorResults').classList.remove('hidden');
-            showToast('   Pips berechnet!');
-        });
-        
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74f1f2d016e0d3',t:'MTc2NzMwMTIxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                            </script>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b750819a75de0d3',t:'MTc2NzMwMjEyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
