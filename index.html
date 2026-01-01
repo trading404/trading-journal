@@ -734,6 +734,34 @@
              0
             </div>
            </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Ziel-Rendite/Monat
+            </div>
+            <div class="text-2xl font-bold text-blue-400" id="targetMonthlyReturn">
+             0%
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Aktuelle Rendite/Monat
+            </div>
+            <div class="text-2xl font-bold" id="actualMonthlyReturn">
+             0%
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             Performance Status
+            </div>
+            <div class="text-2xl font-bold" id="performanceStatus">
+             -
+            </div>
+           </div>
+          </div>
+          <div id="performanceComparison" class="glass-card rounded-lg p-6">
+           <h3 class="text-lg font-bold mb-4">📊 Performance-Vergleich</h3>
+           <div id="performanceDetails" class="space-y-3 text-sm"></div>
           </div>
          </div>
         </div>
@@ -1950,12 +1978,14 @@
             const targetCapital = parseFloat(document.getElementById('targetCapital').value);
             const monthlyReturn = parseFloat(document.getElementById('monthlyReturn').value) / 100;
             const currentCapital = startCapitalData ? startCapitalData.currentCapital : 0;
+            const startCapital = startCapitalData ? startCapitalData.startCapital : 0;
 
-            if (currentCapital <= 0) {
+            if (currentCapital <= 0 || startCapital <= 0) {
                 showToast('Bitte erst Startkapital festlegen', 'error');
                 return;
             }
 
+            // Calculate months to goal with target return
             let capital = currentCapital;
             let months = 0;
 
@@ -1964,9 +1994,161 @@
                 months++;
             }
 
+            // Calculate actual performance
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // Get date range of trading
+            let firstTradeDate = null;
+            let lastTradeDate = null;
+            
+            if (sortedTrades.length > 0) {
+                firstTradeDate = new Date(sortedTrades[0].date);
+                lastTradeDate = new Date(sortedTrades[sortedTrades.length - 1].date);
+            }
+            
+            // Calculate months between first and last trade
+            let tradingMonths = 0;
+            if (firstTradeDate && lastTradeDate) {
+                tradingMonths = (lastTradeDate.getFullYear() - firstTradeDate.getFullYear()) * 12 + 
+                               (lastTradeDate.getMonth() - firstTradeDate.getMonth()) + 1;
+            }
+            
+            // Calculate actual monthly return
+            const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
+            const totalReturnPercent = startCapital > 0 ? (totalPL / startCapital) * 100 : 0;
+            const actualMonthlyReturn = tradingMonths > 0 ? totalReturnPercent / tradingMonths : 0;
+
+            // Display results
             document.getElementById('monthsToGoal').textContent = months;
+            document.getElementById('targetMonthlyReturn').textContent = (monthlyReturn * 100).toFixed(2) + '%';
+            document.getElementById('actualMonthlyReturn').textContent = actualMonthlyReturn.toFixed(2) + '%';
+            
+            // Performance comparison
+            const performanceStatusEl = document.getElementById('performanceStatus');
+            const performanceDetailsEl = document.getElementById('performanceDetails');
+            
+            let statusHTML = '';
+            let detailsHTML = '';
+            
+            if (tradingMonths === 0) {
+                performanceStatusEl.textContent = '⏳';
+                performanceStatusEl.className = 'text-2xl font-bold text-gray-400';
+                detailsHTML = `
+                    <div class="text-gray-400">
+                        <p>⚠️ Noch keine ausreichende Trading-Historie vorhanden</p>
+                        <p class="mt-2">Fügen Sie Trades hinzu, um Ihre Performance zu tracken!</p>
+                    </div>
+                `;
+            } else {
+                const difference = actualMonthlyReturn - (monthlyReturn * 100);
+                const percentageDiff = monthlyReturn > 0 ? (difference / (monthlyReturn * 100)) * 100 : 0;
+                
+                if (actualMonthlyReturn >= monthlyReturn * 100) {
+                    // Performing better or on track
+                    performanceStatusEl.textContent = '🎉';
+                    performanceStatusEl.className = 'text-2xl font-bold text-green-400';
+                    
+                    detailsHTML = `
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">✅</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-green-400 mb-1">Du bist schneller als geplant!</div>
+                                <div class="text-gray-300">
+                                    Deine aktuelle Performance von <span class="text-green-400 font-semibold">${actualMonthlyReturn.toFixed(2)}%</span> 
+                                    pro Monat liegt <span class="text-green-400 font-semibold">${Math.abs(difference).toFixed(2)}%</span> 
+                                    über deinem Ziel von <span class="text-blue-400 font-semibold">${(monthlyReturn * 100).toFixed(2)}%</span>.
+                                </div>
+                                <div class="mt-2 text-purple-300">
+                                    Das entspricht einer <span class="font-semibold">${percentageDiff.toFixed(1)}%</span> besseren Performance! 🚀
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 mt-4">
+                            <span class="text-2xl">📊</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-gray-300 mb-1">Trading-Statistik</div>
+                                <div class="text-gray-400 text-xs space-y-1">
+                                    <div>• Trading-Zeitraum: <span class="text-white font-semibold">${tradingMonths} Monat${tradingMonths !== 1 ? 'e' : ''}</span></div>
+                                    <div>• Gesamtrendite: <span class="text-green-400 font-semibold">${totalReturnPercent.toFixed(2)}%</span></div>
+                                    <div>• Startkapital: <span class="text-white font-semibold">${formatCurrency(startCapital)}</span></div>
+                                    <div>• Aktuelles Kapital: <span class="text-white font-semibold">${formatCurrency(currentCapital)}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 mt-4">
+                            <span class="text-2xl">⏱️</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-gray-300 mb-1">Hochrechnung</div>
+                                <div class="text-gray-400">
+                                    Wenn du diese Performance beibehältst, erreichst du dein Ziel von 
+                                    <span class="text-purple-400 font-semibold">${formatCurrency(targetCapital)}</span> in ca. 
+                                    <span class="text-green-400 font-semibold">${Math.ceil((Math.log(targetCapital / currentCapital) / Math.log(1 + actualMonthlyReturn / 100)))}</span> Monaten!
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Underperforming
+                    performanceStatusEl.textContent = '⚠️';
+                    performanceStatusEl.className = 'text-2xl font-bold text-orange-400';
+                    
+                    detailsHTML = `
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">⚠️</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-orange-400 mb-1">Du bist langsamer als geplant</div>
+                                <div class="text-gray-300">
+                                    Deine aktuelle Performance von <span class="text-orange-400 font-semibold">${actualMonthlyReturn.toFixed(2)}%</span> 
+                                    pro Monat liegt <span class="text-red-400 font-semibold">${Math.abs(difference).toFixed(2)}%</span> 
+                                    unter deinem Ziel von <span class="text-blue-400 font-semibold">${(monthlyReturn * 100).toFixed(2)}%</span>.
+                                </div>
+                                <div class="mt-2 text-gray-400">
+                                    Das entspricht einer <span class="font-semibold text-orange-400">${Math.abs(percentageDiff).toFixed(1)}%</span> niedrigeren Performance.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 mt-4">
+                            <span class="text-2xl">📊</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-gray-300 mb-1">Trading-Statistik</div>
+                                <div class="text-gray-400 text-xs space-y-1">
+                                    <div>• Trading-Zeitraum: <span class="text-white font-semibold">${tradingMonths} Monat${tradingMonths !== 1 ? 'e' : ''}</span></div>
+                                    <div>• Gesamtrendite: <span class="${totalReturnPercent >= 0 ? 'text-green-400' : 'text-red-400'} font-semibold">${totalReturnPercent.toFixed(2)}%</span></div>
+                                    <div>• Startkapital: <span class="text-white font-semibold">${formatCurrency(startCapital)}</span></div>
+                                    <div>• Aktuelles Kapital: <span class="text-white font-semibold">${formatCurrency(currentCapital)}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 mt-4">
+                            <span class="text-2xl">💡</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-gray-300 mb-1">Was du verbessern kannst</div>
+                                <div class="text-gray-400 text-xs space-y-1">
+                                    <div>• Überprüfe deine Trading-Strategie</div>
+                                    <div>• Analysiere deine Verlust-Trades</div>
+                                    <div>• Optimiere dein Risk/Reward Ratio</div>
+                                    <div>• Arbeite an deinem Money Management</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 mt-4">
+                            <span class="text-2xl">⏱️</span>
+                            <div class="flex-1">
+                                <div class="font-bold text-gray-300 mb-1">Realistische Hochrechnung</div>
+                                <div class="text-gray-400">
+                                    Bei deiner aktuellen Performance erreichst du dein Ziel von 
+                                    <span class="text-purple-400 font-semibold">${formatCurrency(targetCapital)}</span> in ca. 
+                                    <span class="text-orange-400 font-semibold">${actualMonthlyReturn > 0 ? Math.ceil((Math.log(targetCapital / currentCapital) / Math.log(1 + actualMonthlyReturn / 100))) : '∞'}</span> Monaten.
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            performanceDetailsEl.innerHTML = detailsHTML;
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73fb60805ee0d3',t:'MTc2NzI5MTExNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7401fd1610e0d3',t:'MTc2NzI5MTM4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
