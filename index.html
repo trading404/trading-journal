@@ -426,7 +426,7 @@
        </div><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="lg:hidden bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg></button> <!-- Desktop Controls -->
-       <div class="hidden lg:flex items-center gap-4"><!-- Language Selector --> <select id="languageSelector" class="input-modern px-3 py-2 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select> <!-- Theme Toggle --> <button id="themeToggle" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition flex items-center gap-2"> <span id="themeIcon">🌙</span> <span id="themeText">Dark</span> </button> <!-- User Account -->
+       <div class="hidden lg:flex items-center gap-4"><!-- Language Selector --> <select id="languageSelector" class="input-modern px-3 py-2 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">  🇧 English</option> <option value="es">🇪🇸 Español</option> </select> <!-- Theme Toggle --> <button id="themeToggle" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition flex items-center gap-2"> <span id="themeIcon">🌙</span> <span id="themeText">Dark</span> </button> <!-- User Account -->
         <div id="userSection" class="flex items-center gap-3">
          <div id="userInfo" class="text-right">
           <div class="text-sm text-purple-100">
@@ -545,7 +545,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
           <div class="text-2xl sm:text-3xl mb-2">
-           📝
+              
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Anzahl Trades
@@ -574,7 +574,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="   Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional ausw  hlen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="   Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -593,7 +593,7 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">   Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="tradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Weitere Gedanken zum Trade..."></textarea>
           </div><button type="submit" class="btn-primary w-full py-4 rounded-lg font-bold text-white text-lg"> Trade speichern </button>
@@ -1099,6 +1099,7 @@
         // Global data variables
         let trades = [];
         let withdrawals = [];
+        let deposits = [];
         let events = [];
         let startCapitalData = null;
         let equityCurveChart = null;
@@ -1187,6 +1188,10 @@
                 const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').get();
                 withdrawals = withdrawalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
+                // Load deposits
+                const depositsSnapshot = await db.collection('users').doc(currentUser.uid).collection('deposits').get();
+                deposits = depositsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
                 // Load events
                 const eventsSnapshot = await db.collection('users').doc(currentUser.uid).collection('events').get();
                 events = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -1200,6 +1205,7 @@
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
+                renderDeposits();
                 renderCalendar();
                 renderUpcomingEvents();
             } catch (error) {
@@ -1306,6 +1312,7 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tradeDate').value = today;
         document.getElementById('withdrawalDate').value = today;
+        document.getElementById('depositDate').value = today;
         document.getElementById('eventDate').value = today;
 
         // Event Form
@@ -1449,6 +1456,39 @@
             }
         });
 
+        // Deposit Form
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+
+            const deposit = {
+                depositDate: document.getElementById('depositDate').value,
+                depositAmount: amount,
+                depositNote: document.getElementById('depositNote').value || null,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('deposits').add(deposit);
+                showToast('Einzahlung erfolgreich gespeichert!');
+                document.getElementById('depositForm').reset();
+                document.getElementById('depositDate').value = today;
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital += amount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error saving deposit:', error);
+                showToast('Fehler beim Speichern', 'error');
+            }
+        });
+
         // Update Dashboard
         function updateDashboard() {
             const startCapital = startCapitalData ? (startCapitalData.startCapital || 0) : 0;
@@ -1463,6 +1503,7 @@
             
             const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
             const totalWithdrawalAmount = withdrawals.reduce((sum, w) => sum + w.withdrawalAmount, 0);
+            const totalDepositAmount = deposits.reduce((sum, d) => sum + d.depositAmount, 0);
             
             document.getElementById('headerCapital').textContent = formatCurrency(currentCapital);
             document.getElementById('headerCapitalMobile').textContent = formatCurrency(currentCapital);
@@ -1470,7 +1511,14 @@
             document.getElementById('totalPL').textContent = formatCurrency(totalPL);
             document.getElementById('totalPL').className = totalPL >= 0 ? 'text-lg sm:text-3xl font-bold text-green-400' : 'text-lg sm:text-3xl font-bold text-red-400';
             document.getElementById('totalTrades').textContent = trades.length;
-            document.getElementById('totalWithdrawals').textContent = formatCurrency(totalWithdrawalAmount);
+            document.getElementById('totalDeposits').textContent = formatCurrency(totalDepositAmount);
+            document.getElementById('totalWithdrawalsDisplay').textContent = formatCurrency(totalWithdrawalAmount);
+            
+            // Calculate net return (considering deposits)
+            const totalInvested = startCapital + totalDepositAmount;
+            const netReturn = totalInvested > 0 ? ((currentCapital + totalWithdrawalAmount - totalInvested) / totalInvested * 100) : 0;
+            document.getElementById('netReturn').textContent = netReturn.toFixed(2) + '%';
+            document.getElementById('netReturn').className = netReturn >= 0 ? 'text-xl sm:text-2xl font-bold text-green-400' : 'text-xl sm:text-2xl font-bold text-red-400';
             
             const wins = trades.filter(t => t.profitLoss && t.profitLoss > 0);
             const losses = trades.filter(t => t.profitLoss && t.profitLoss < 0);
@@ -2042,6 +2090,92 @@
         window.cancelDeleteWithdrawal = function(button, originalHTML) {
             const withdrawalCard = button.closest('.trade-card');
             withdrawalCard.innerHTML = originalHTML;
+        };
+
+        // Render Deposits
+        function renderDeposits() {
+            const list = document.getElementById('depositsList');
+            
+            if (deposits.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="text-6xl mb-4">📭</div>
+                        <p>Keine Einzahlungen vorhanden</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sorted = [...deposits].sort((a, b) => new Date(b.depositDate) - new Date(a.depositDate));
+            
+            list.innerHTML = sorted.map(d => `
+                <div class="trade-card rounded-lg p-4 animate-slide-in">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <div class="text-lg font-bold">Einzahlung</div>
+                            <div class="text-sm text-gray-400">${formatDate(d.depositDate)}</div>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-400">
+                            +${formatCurrency(d.depositAmount)}
+                        </div>
+                    </div>
+                    ${d.depositNote ? `
+                        <div class="bg-slate-700 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                            📝 ${d.depositNote}
+                        </div>
+                    ` : ''}
+                    <button onclick="deleteDeposit('${d.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                        🗑️ Löschen
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Delete Deposit
+        window.deleteDeposit = async function(id) {
+            if (!currentUser) return;
+            
+            // Create inline confirmation
+            const depositCard = event.target.closest('.trade-card');
+            const originalHTML = depositCard.innerHTML;
+            
+            depositCard.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-white font-semibold mb-3">Einzahlung wirklich löschen?</p>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="confirmDeleteDeposit('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Ja, löschen
+                        </button>
+                        <button onclick="cancelDeleteDeposit(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Abbrechen
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        window.confirmDeleteDeposit = async function(id) {
+            const deposit = deposits.find(d => d.id === id);
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('deposits').doc(id).delete();
+                showToast('Einzahlung gelöscht!');
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital -= deposit.depositAmount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error deleting deposit:', error);
+                showToast('Fehler beim Löschen', 'error');
+            }
+        };
+
+        window.cancelDeleteDeposit = function(button, originalHTML) {
+            const depositCard = button.closest('.trade-card');
+            depositCard.innerHTML = originalHTML;
         };
 
         // Helper Functions
@@ -2946,5 +3080,5 @@
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b748ed8a2bee0d3',t:'MTc2NzI5NzE1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74994577bde0d3',t:'MTc2NzI5NzU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
