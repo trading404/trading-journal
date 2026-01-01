@@ -115,24 +115,114 @@
     <header class="bg-gradient-to-r from-purple-600 to-blue-600 shadow-2xl w-full sticky top-0 z-40">
      <div class="max-w-7xl mx-auto px-6 py-6">
       <div class="flex items-center justify-between">
-       <h1 class="text-3xl font-bold text-white flex items-center gap-3"><span class="text-4xl">💎</span> <span>Trading Journal Pro</span></h1><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl font-bold"> 🚪 Abmelden </button>
+       <h1 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3"><span class="text-4xl">💎</span> <span>Trading Journal Pro</span></h1>
+       <div class="flex items-center gap-4">
+        <div class="bg-white bg-opacity-10 px-4 py-2 rounded-xl">
+         <div class="text-xs text-purple-100">
+          Kapital
+         </div>
+         <div class="text-xl font-bold" id="headerCapital">
+          €0.00
+         </div>
+        </div><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl font-bold"> 🚪 </button>
+       </div>
       </div>
      </div>
     </header>
-    <main class="flex-1 overflow-auto w-full">
-     <div class="max-w-7xl mx-auto px-6 py-8">
-      <div class="glass-card rounded-2xl p-8 text-center">
-       <div class="text-6xl mb-4">
-        ✅
-       </div>
-       <h2 class="text-3xl font-bold mb-4">Erfolgreich angemeldet!</h2>
-       <p class="text-gray-400 text-lg mb-6">Deine Trading Journal App ist bereit.</p>
-       <div class="bg-slate-800 rounded-xl p-6">
-        <p class="text-sm text-gray-400">Die vollständige App mit allen Features wird geladen...</p>
+    <div class="flex flex-1 overflow-hidden w-full">
+     <aside class="w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto">
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-5 py-4 rounded-xl font-bold hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span class="text-xl">📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span class="text-xl">➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span class="text-xl">📜</span> <span>Historie</span> </button>
+      </nav>
+     </aside>
+     <main class="flex-1 overflow-auto w-full">
+      <div class="max-w-7xl mx-auto px-6 py-8"><!-- Dashboard Tab -->
+       <div id="dashboardTab" class="tab-content">
+        <div class="glass-card rounded-2xl p-8 mb-8">
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💼</span> <span>Startkapital festlegen</span></h2>
+         <form id="startCapitalForm" class="flex gap-4"><input type="number" id="startCapital" step="0.01" class="flex-1 px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white" placeholder="z.B. 10000" required> <button type="submit" class="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"> 💾 Speichern </button>
+         </form>
+         <div id="startCapitalDisplay" class="mt-6 hidden">
+          <div class="text-sm text-gray-400 font-bold">
+           Startkapital
+          </div>
+          <div class="text-4xl font-bold text-purple-400 mt-2" id="startCapitalValue">
+           €0.00
+          </div>
+         </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+         <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="text-4xl mb-3">
+           💰
+          </div>
+          <div class="text-sm text-gray-400 mb-2">
+           Aktuelles Kapital
+          </div>
+          <div class="text-3xl font-bold text-purple-400" id="currentCapital">
+           €0.00
+          </div>
+         </div>
+         <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="text-4xl mb-3">
+           📊
+          </div>
+          <div class="text-sm text-gray-400 mb-2">
+           Gesamt P/L
+          </div>
+          <div class="text-3xl font-bold" id="totalPL">
+           €0.00
+          </div>
+         </div>
+         <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="text-4xl mb-3">
+           🎯
+          </div>
+          <div class="text-sm text-gray-400 mb-2">
+           Winrate
+          </div>
+          <div class="text-3xl font-bold" id="winRate">
+           0%
+          </div>
+         </div>
+         <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="text-4xl mb-3">
+           📝
+          </div>
+          <div class="text-sm text-gray-400 mb-2">
+           Trades
+          </div>
+          <div class="text-3xl font-bold" id="totalTrades">
+           0
+          </div>
+         </div>
+        </div>
+       </div><!-- New Trade Tab -->
+       <div id="newtradeTab" class="tab-content hidden">
+        <div class="glass-card rounded-2xl p-8">
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>➕</span> <span>Neuen Trade hinzufügen</span></h2>
+         <form id="newTradeForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div><label class="block text-sm font-bold mb-3 text-purple-300">Datum</label> <input type="date" id="tradeDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white" required>
+           </div>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300">Asset</label> <input type="text" id="tradeAsset" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white" placeholder="z.B. EUR/USD" required>
+           </div>
+          </div>
+          <div><label class="block text-sm font-bold mb-3 text-purple-300">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-lg" placeholder="z.B. 150.00 oder -50.00" required>
+          </div>
+          <div><label class="block text-sm font-bold mb-3 text-purple-300">Notizen (optional)</label> <textarea id="tradeNotes" rows="4" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white" placeholder="Details zum Trade..."></textarea>
+          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"> 💾 Trade speichern </button>
+         </form>
+        </div>
+       </div><!-- History Tab -->
+       <div id="historyTab" class="tab-content hidden">
+        <div class="glass-card rounded-2xl p-8">
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span>Trade Historie</span></h2>
+         <div id="tradeHistoryList" class="space-y-4"></div>
+        </div>
        </div>
       </div>
-     </div>
-    </main>
+     </main>
+    </div>
    </div>
   </div>
   <script>
@@ -156,6 +246,8 @@
 
         let app, auth, db;
         let currentUser = null;
+        let trades = [];
+        let startCapitalData = null;
         
         function showToast(message) {
             const toast = document.createElement('div');
@@ -164,6 +256,127 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+        
+        function formatCurrency(value) {
+            return '€' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+        
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('de-DE', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+        }
+        
+        async function loadAllData() {
+            if (!currentUser) return;
+            
+            try {
+                const [tradesSnap, startCapitalDoc] = await Promise.all([
+                    db.collection('users').doc(currentUser.uid).collection('trades').get(),
+                    db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').get()
+                ]);
+                
+                trades = tradesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                trades.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                
+                if (startCapitalDoc.exists) {
+                    startCapitalData = startCapitalDoc.data();
+                }
+                
+                updateDashboard();
+                renderTradeHistory();
+                
+            } catch (error) {
+                console.error('Fehler beim Laden:', error);
+                showToast('❌ Fehler beim Laden der Daten');
+            }
+        }
+        
+        function updateDashboard() {
+            const startCapital = startCapitalData ? (startCapitalData.startCapital || 0) : 0;
+            const currentCapital = startCapitalData ? (startCapitalData.currentCapital || 0) : 0;
+            
+            if (startCapitalData && startCapital > 0) {
+                document.getElementById('startCapitalDisplay').classList.remove('hidden');
+                document.getElementById('startCapitalValue').textContent = formatCurrency(startCapital);
+                document.getElementById('startCapital').value = startCapital;
+            }
+            
+            const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
+            
+            document.getElementById('headerCapital').textContent = formatCurrency(currentCapital);
+            document.getElementById('currentCapital').textContent = formatCurrency(currentCapital);
+            document.getElementById('totalPL').textContent = formatCurrency(totalPL);
+            document.getElementById('totalPL').className = totalPL >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+            document.getElementById('totalTrades').textContent = trades.length;
+            
+            const wins = trades.filter(t => t.profitLoss && t.profitLoss > 0);
+            const winRate = trades.length > 0 ? (wins.length / trades.length * 100) : 0;
+            document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
+        }
+        
+        function renderTradeHistory() {
+            const container = document.getElementById('tradeHistoryList');
+            
+            if (trades.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20">
+                        <div class="text-6xl mb-4">📜</div>
+                        <p class="text-gray-400 text-lg">Noch keine Trades vorhanden</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            trades.forEach(trade => {
+                const plColor = trade.profitLoss > 0 ? 'text-green-400' : trade.profitLoss < 0 ? 'text-red-400' : 'text-yellow-400';
+                html += `
+                    <div class="glass-card rounded-xl p-6 hover:scale-105 transition">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="text-2xl font-bold">${trade.asset}</div>
+                                <div class="text-sm text-gray-400">${formatDate(trade.date)}</div>
+                            </div>
+                            <div class="text-3xl font-bold ${plColor}">
+                                ${formatCurrency(trade.profitLoss)}
+                            </div>
+                        </div>
+                        ${trade.notes ? `<div class="text-sm text-gray-300 mt-3">${trade.notes}</div>` : ''}
+                        <button onclick="deleteTrade('${trade.id}')" class="mt-4 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold">
+                            🗑️ Löschen
+                        </button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        window.deleteTrade = async function(tradeId) {
+            if (!currentUser) return;
+            
+            const trade = trades.find(t => t.id === tradeId);
+            if (!trade) return;
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('trades').doc(tradeId).delete();
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital -= (trade.profitLoss || 0);
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                showToast('✅ Trade gelöscht');
+                await loadAllData();
+            } catch (error) {
+                console.error('Fehler beim Löschen:', error);
+                showToast('❌ Fehler beim Löschen');
+            }
+        };
         
         function initFirebase() {
             if (typeof firebase === 'undefined') {
@@ -184,6 +397,7 @@
                         document.getElementById('loginScreen').classList.add('hidden');
                         document.getElementById('registerScreen').classList.add('hidden');
                         document.getElementById('mainApp').classList.remove('hidden');
+                        loadAllData();
                         showToast('✅ Erfolgreich angemeldet!');
                     } else {
                         console.log('❌ Kein Benutzer angemeldet');
@@ -200,6 +414,10 @@
         }
         
         initFirebase();
+
+        // Set today's date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tradeDate').value = today;
 
         // Login
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -246,6 +464,115 @@
             auth.signOut();
             showToast('✅ Erfolgreich abgemeldet');
         });
+        
+        // Tab Navigation
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.dataset.tab;
+                
+                document.querySelectorAll('.nav-button').forEach(btn => {
+                    btn.classList.remove('active', 'text-white');
+                    btn.classList.add('text-gray-400');
+                });
+                button.classList.add('active', 'text-white');
+                button.classList.remove('text-gray-400');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById(tabName + 'Tab').classList.remove('hidden');
+            });
+        });
+        
+        // Start Capital Form
+        document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const startCapitalInput = parseFloat(document.getElementById('startCapital').value);
+            
+            if (isNaN(startCapitalInput) || startCapitalInput <= 0) {
+                showToast('❌ Bitte gültigen Betrag eingeben');
+                return;
+            }
+            
+            try {
+                if (!startCapitalData) {
+                    startCapitalData = {
+                        startCapital: startCapitalInput,
+                        currentCapital: startCapitalInput
+                    };
+                } else {
+                    const diff = startCapitalInput - startCapitalData.startCapital;
+                    startCapitalData.startCapital = startCapitalInput;
+                    startCapitalData.currentCapital += diff;
+                }
+                
+                await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                
+                showToast('✅ Startkapital gespeichert!');
+                updateDashboard();
+                
+            } catch (error) {
+                console.error('Fehler:', error);
+                showToast('❌ Fehler beim Speichern');
+            }
+        });
+        
+        // New Trade Form
+        document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const profitLoss = parseFloat(document.getElementById('tradeProfitLoss').value);
+            
+            if (isNaN(profitLoss)) {
+                showToast('❌ Bitte gültigen Profit/Loss eingeben');
+                return;
+            }
+            
+            const trade = {
+                date: document.getElementById('tradeDate').value,
+                asset: document.getElementById('tradeAsset').value,
+                profitLoss: profitLoss,
+                notes: document.getElementById('tradeNotes').value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('trades').add(trade);
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital += profitLoss;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                showToast('✅ Trade gespeichert!');
+                document.getElementById('newTradeForm').reset();
+                document.getElementById('tradeDate').value = today;
+                
+                await loadAllData();
+                
+                // Switch to history tab
+                document.querySelectorAll('.nav-button').forEach(btn => {
+                    btn.classList.remove('active', 'text-white');
+                    btn.classList.add('text-gray-400');
+                });
+                document.querySelector('[data-tab="history"]').classList.add('active', 'text-white');
+                document.querySelector('[data-tab="history"]').classList.remove('text-gray-400');
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById('historyTab').classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Fehler:', error);
+                showToast('❌ Fehler beim Speichern');
+            }
+        });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b75c6ca362be0d3',t:'MTc2NzMwOTkzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b75ce17f415e0d3',t:'MTc2NzMxMDIzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
