@@ -16,7 +16,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -219,6 +219,48 @@
             background: #d32f2f;
         }
 
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -258,7 +300,7 @@
             gap: 20px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
@@ -297,17 +339,25 @@
         }
 
         .form-field input,
-        .form-field select {
+        .form-field select,
+        .form-field textarea {
             width: 100%;
             padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 14px;
             box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-field textarea {
+            min-height: 80px;
+            resize: vertical;
         }
 
         .form-field input:focus,
-        .form-field select:focus {
+        .form-field select:focus,
+        .form-field textarea:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -506,6 +556,228 @@
             padding: 20px;
             color: #667eea;
         }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .chart-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bar-label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .bar-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* Calendar View */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .calendar-nav button:hover {
+            background: #5568d3;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-day:hover {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .calendar-day.has-trades {
+            background: #f0f4ff;
+            border-color: #667eea;
+        }
+
+        .calendar-day-number {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day-pl {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: auto;
+        }
+
+        .calendar-day-pl.positive {
+            color: #4caf50;
+        }
+
+        .calendar-day-pl.negative {
+            color: #f44336;
+        }
+
+        /* Notes Section */
+        .notes-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .note-item {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .note-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .note-content {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Export Section */
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            padding: 15px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .export-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .filter-section {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -551,78 +823,162 @@
      </div>
      <div class="user-info"><span class="user-email" id="userEmail"></span> <button class="logout-btn" id="logoutBtn">Ausloggen</button>
      </div>
-    </header><!-- Stats -->
-    <div class="stats-grid">
-     <div class="stat-card">
-      <div class="stat-label">
-       Gesamt P&amp;L
-      </div>
-      <div class="stat-value" id="totalPL">
-       €0.00
-      </div>
-     </div>
-     <div class="stat-card">
-      <div class="stat-label">
-       Anzahl Trades
-      </div>
-      <div class="stat-value" id="totalTrades">
-       0
-      </div>
-     </div>
-     <div class="stat-card">
-      <div class="stat-label">
-       Winrate
-      </div>
-      <div class="stat-value" id="winRate">
-       0%
-      </div>
-     </div>
-     <div class="stat-card">
-      <div class="stat-label">
-       Ø Gewinn
-      </div>
-      <div class="stat-value positive" id="avgWin">
-       €0.00
-      </div>
-     </div>
-    </div><!-- Main Content -->
-    <div class="main-content"><!-- Trade Form -->
-     <div class="card">
-      <h2>✏️ Neuer Trade</h2>
-      <form id="tradeForm">
-       <div class="form-field"><label for="asset">Asset</label> <select id="asset" required> <option value="">Wähle ein Asset...</option> <optgroup label="📈 Major Pairs"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Minor Pairs"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/CHF">EUR/CHF</option> <option value="EUR/AUD">EUR/AUD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> </optgroup> <optgroup label="🌍 Exotic Pairs"> <option value="USD/TRY">USD/TRY</option> <option value="USD/ZAR">USD/ZAR</option> <option value="USD/MXN">USD/MXN</option> <option value="USD/BRL">USD/BRL</option> <option value="EUR/TRY">EUR/TRY</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silber (XAG/USD)</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> <optgroup label="📉 Indices"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (Nasdaq)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> </select>
+    </header><!-- Navigation -->
+    <div class="nav-tabs"><button class="nav-tab active" data-tab="dashboard">📊 Dashboard</button> <button class="nav-tab" data-tab="analytics">📈 Analytics</button> <button class="nav-tab" data-tab="calendar">📅 Kalender</button> <button class="nav-tab" data-tab="notes">📝 Notizen</button> <button class="nav-tab" data-tab="export">💾 Export</button>
+    </div><!-- Dashboard Tab -->
+    <div class="tab-content active" id="dashboardTab"><!-- Stats -->
+     <div class="stats-grid">
+      <div class="stat-card">
+       <div class="stat-label">
+        Gesamt P&amp;L
        </div>
-       <div class="form-field"><label>Typ</label>
-        <div class="radio-group">
-         <div class="radio-option"><input type="radio" id="typeLong" name="type" value="Long" checked> <label for="typeLong">Long 📈</label>
+       <div class="stat-value" id="totalPL">
+        €0.00
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-label">
+        Anzahl Trades
+       </div>
+       <div class="stat-value" id="totalTrades">
+        0
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-label">
+        Winrate
+       </div>
+       <div class="stat-value" id="winRate">
+        0%
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-label">
+        Ø Gewinn
+       </div>
+       <div class="stat-value positive" id="avgWin">
+        €0.00
+       </div>
+      </div>
+     </div><!-- Main Content -->
+     <div class="main-content"><!-- Trade Form -->
+      <div class="card">
+       <h2>✏️ Neuer Trade</h2>
+       <form id="tradeForm">
+        <div class="form-field"><label for="asset">Asset</label> <select id="asset" required> <option value="">Wähle ein Asset...</option> <optgroup label="📈 Major Pairs"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Minor Pairs"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/CHF">EUR/CHF</option> <option value="EUR/AUD">EUR/AUD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> </optgroup> <optgroup label="🌍 Exotic Pairs"> <option value="USD/TRY">USD/TRY</option> <option value="USD/ZAR">USD/ZAR</option> <option value="USD/MXN">USD/MXN</option> <option value="USD/BRL">USD/BRL</option> <option value="EUR/TRY">EUR/TRY</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silber (XAG/USD)</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> <optgroup label="📉 Indices"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (Nasdaq)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> </select>
+        </div>
+        <div class="form-field"><label>Typ</label>
+         <div class="radio-group">
+          <div class="radio-option"><input type="radio" id="typeLong" name="type" value="Long" checked> <label for="typeLong">Long 📈</label>
+          </div>
+          <div class="radio-option"><input type="radio" id="typeShort" name="type" value="Short"> <label for="typeShort">Short 📉</label>
+          </div>
          </div>
-         <div class="radio-option"><input type="radio" id="typeShort" name="type" value="Short"> <label for="typeShort">Short 📉</label>
+        </div>
+        <div class="form-row">
+         <div class="form-field"><label for="entry">Einstieg</label> <input type="number" id="entry" step="0.00001" required>
+         </div>
+         <div class="form-field"><label for="exit">Ausstieg</label> <input type="number" id="exit" step="0.00001" required>
          </div>
         </div>
-       </div>
-       <div class="form-row">
-        <div class="form-field"><label for="entry">Einstieg</label> <input type="number" id="entry" step="0.00001" required>
+        <div class="form-row">
+         <div class="form-field"><label for="lots">Lots</label> <input type="number" id="lots" step="0.01" value="0.01" required>
+         </div>
+         <div class="form-field"><label for="pl">P&amp;L (€)</label> <input type="number" id="pl" step="0.01" required>
+         </div>
         </div>
-        <div class="form-field"><label for="exit">Ausstieg</label> <input type="number" id="exit" step="0.00001" required>
+        <div class="form-field"><label for="date">Datum</label> <input type="date" id="date" required>
+        </div>
+        <div class="form-field"><label for="notes">Notizen</label> <input type="text" id="tradeNotes" placeholder="Optional...">
+        </div><button type="submit" class="submit-btn">Trade hinzufügen</button>
+       </form>
+      </div><!-- Trade History -->
+      <div class="card">
+       <h2>📜 Trade Historie</h2>
+       <div class="trade-list" id="tradeList">
+        <div class="loading">
+         Lade Trades...
         </div>
        </div>
-       <div class="form-row">
-        <div class="form-field"><label for="lots">Lots</label> <input type="number" id="lots" step="0.01" value="0.01" required>
-        </div>
-        <div class="form-field"><label for="pl">P&amp;L (€)</label> <input type="number" id="pl" step="0.01" required>
-        </div>
-       </div>
-       <div class="form-field"><label for="date">Datum</label> <input type="date" id="date" required>
-       </div>
-       <div class="form-field"><label for="notes">Notizen</label> <input type="text" id="notes" placeholder="Optional...">
-       </div><button type="submit" class="submit-btn">Trade hinzufügen</button>
-      </form>
-     </div><!-- Trade History -->
+      </div>
+     </div>
+    </div><!-- Analytics Tab -->
+    <div class="tab-content" id="analyticsTab">
+     <div class="analytics-grid"><!-- Performance by Asset -->
+      <div class="chart-card">
+       <h3>📊 Performance nach Asset</h3>
+       <div id="assetChart"></div>
+      </div><!-- Win/Loss Ratio -->
+      <div class="chart-card">
+       <h3>🎯 Win/Loss Ratio</h3>
+       <div id="winLossChart"></div>
+      </div><!-- Monthly Performance -->
+      <div class="chart-card">
+       <h3>📅 Monatliche Performance</h3>
+       <div id="monthlyChart"></div>
+      </div><!-- Trade Type Performance -->
+      <div class="chart-card">
+       <h3>📈 Long vs Short</h3>
+       <div id="typeChart"></div>
+      </div>
+     </div>
+    </div><!-- Calendar Tab -->
+    <div class="tab-content" id="calendarTab">
      <div class="card">
-      <h2>📜 Trade Historie</h2>
-      <div class="trade-list" id="tradeList">
-       <div class="loading">
-        Lade Trades...
+      <div class="calendar-header">
+       <h2 id="calendarMonth"></h2>
+       <div class="calendar-nav"><button id="prevMonth">◀ Zurück</button> <button id="nextMonth">Weiter ▶</button>
+       </div>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+     </div>
+    </div><!-- Notes Tab -->
+    <div class="tab-content" id="notesTab">
+     <div class="main-content"><!-- Add Note Form -->
+      <div class="card">
+       <h2>✏️ Neue Notiz</h2>
+       <form id="noteForm">
+        <div class="form-field"><label for="noteDate">Datum</label> <input type="date" id="noteDate" required>
+        </div>
+        <div class="form-field"><label for="noteContent">Notiz</label> <textarea id="noteContent" required placeholder="Trading-Gedanken, Strategien, Marktanalysen..."></textarea>
+        </div><button type="submit" class="submit-btn">Notiz speichern</button>
+       </form>
+      </div><!-- Notes List -->
+      <div class="card">
+       <h2>📝 Meine Notizen</h2>
+       <div class="notes-list" id="notesList">
+        <div class="empty-state">
+         <div class="empty-state-icon">
+          📭
+         </div>
+         <p>Noch keine Notizen vorhanden</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Export Tab -->
+    <div class="tab-content" id="exportTab">
+     <div class="card">
+      <h2>💾 Daten Export</h2>
+      <div class="filter-section">
+       <h3>Filter</h3>
+       <div class="filter-row">
+        <div class="form-field"><label for="filterFrom">Von Datum</label> <input type="date" id="filterFrom">
+        </div>
+        <div class="form-field"><label for="filterTo">Bis Datum</label> <input type="date" id="filterTo">
+        </div>
+        <div class="form-field"><label for="filterAsset">Asset</label> <select id="filterAsset"> <option value="">Alle Assets</option> </select>
+        </div>
+       </div>
+      </div>
+      <div class="export-options"><button class="export-btn" id="exportCSV"> 📄 Als CSV exportieren </button> <button class="export-btn" id="exportJSON"> 🔧 Als JSON exportieren </button> <button class="export-btn" id="printReport"> 🖨️ Bericht drucken </button>
+      </div>
+      <div class="stat-card">
+       <div class="stat-label">
+        Trades zum Export
+       </div>
+       <div class="stat-value" id="exportCount">
+        0
        </div>
       </div>
      </div>
@@ -680,6 +1036,7 @@
   measurementId: "G-36WT75DLEL"
 };
 
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -688,7 +1045,9 @@
         // Global State
         let currentUser = null;
         let trades = [];
+        let notes = [];
         let editingTradeId = null;
+        let currentMonth = new Date();
 
         // DOM Elements
         const loginScreen = document.getElementById('loginScreen');
@@ -703,6 +1062,23 @@
         const editModal = document.getElementById('editModal');
         const editForm = document.getElementById('editForm');
         const closeModal = document.getElementById('closeModal');
+        const noteForm = document.getElementById('noteForm');
+        const notesList = document.getElementById('notesList');
+
+        // Navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(targetTab + 'Tab').classList.add('active');
+                
+                if (targetTab === 'calendar') renderCalendar();
+                if (targetTab === 'analytics') renderAnalytics();
+                if (targetTab === 'export') updateExportFilters();
+            });
+        });
 
         // Auth Tabs
         document.querySelectorAll('.auth-tab').forEach(tab => {
@@ -762,7 +1138,7 @@
             try {
                 await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                     showError('Falsche E-Mail oder Passwort!');
                 } else if (error.code === 'auth/invalid-email') {
                     showError('Ungültige E-Mail Adresse!');
@@ -785,17 +1161,20 @@
                 loginScreen.style.display = 'none';
                 appContainer.classList.add('active');
                 loadTrades();
+                loadNotes();
             } else {
                 currentUser = null;
                 loginScreen.style.display = 'flex';
                 appContainer.classList.remove('active');
                 trades = [];
+                notes = [];
             }
         });
 
         // Set today's date as default
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').value = today;
+        document.getElementById('noteDate').value = today;
 
         // Add Trade
         tradeForm.addEventListener('submit', async (e) => {
@@ -811,7 +1190,7 @@
                 lots: parseFloat(document.getElementById('lots').value),
                 pl: parseFloat(document.getElementById('pl').value),
                 date: document.getElementById('date').value,
-                notes: document.getElementById('notes').value,
+                notes: document.getElementById('tradeNotes').value,
                 timestamp: Date.now()
             };
 
@@ -947,13 +1326,29 @@
         window.deleteTrade = async function(id) {
             if (!currentUser) return;
             
-            if (!confirm('Trade wirklich löschen?')) return;
+            // Simple inline confirmation
+            const tradeElement = event.target.closest('.trade-item');
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = '✓ Bestätigen';
+            confirmBtn.className = 'action-btn delete-btn';
+            confirmBtn.style.background = '#d32f2f';
+            
+            const originalBtn = event.target;
+            originalBtn.style.display = 'none';
+            originalBtn.parentElement.insertBefore(confirmBtn, originalBtn);
 
-            try {
-                await deleteDoc(doc(db, 'users', currentUser.uid, 'trades', id));
-            } catch (error) {
-                showError('Fehler beim Löschen: ' + error.message);
-            }
+            confirmBtn.onclick = async () => {
+                try {
+                    await deleteDoc(doc(db, 'users', currentUser.uid, 'trades', id));
+                } catch (error) {
+                    showError('Fehler beim Löschen: ' + error.message);
+                }
+            };
+
+            setTimeout(() => {
+                confirmBtn.remove();
+                originalBtn.style.display = '';
+            }, 3000);
         };
 
         // Close Modal
@@ -962,13 +1357,424 @@
             editingTradeId = null;
         });
 
-        // Close modal on backdrop click
         editModal.addEventListener('click', (e) => {
             if (e.target === editModal) {
                 editModal.classList.remove('active');
                 editingTradeId = null;
             }
         });
+
+        // Notes Functions
+        noteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const note = {
+                date: document.getElementById('noteDate').value,
+                content: document.getElementById('noteContent').value,
+                timestamp: Date.now()
+            };
+
+            try {
+                await addDoc(collection(db, 'users', currentUser.uid, 'notes'), note);
+                noteForm.reset();
+                document.getElementById('noteDate').value = today;
+            } catch (error) {
+                showError('Fehler beim Speichern: ' + error.message);
+            }
+        });
+
+        function loadNotes() {
+            if (!currentUser) return;
+
+            const q = query(
+                collection(db, 'users', currentUser.uid, 'notes'),
+                orderBy('timestamp', 'desc')
+            );
+
+            onSnapshot(q, (snapshot) => {
+                notes = [];
+                snapshot.forEach((doc) => {
+                    notes.push({ id: doc.id, ...doc.data() });
+                });
+                renderNotes();
+            });
+        }
+
+        function renderNotes() {
+            if (notes.length === 0) {
+                notesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>Noch keine Notizen vorhanden</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notesList.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <div class="note-header">
+                        <span class="note-date">📅 ${formatDate(note.date)}</span>
+                        <button class="action-btn delete-btn" onclick="window.deleteNote('${note.id}')">🗑️</button>
+                    </div>
+                    <div class="note-content">${note.content}</div>
+                </div>
+            `).join('');
+        }
+
+        window.deleteNote = async function(id) {
+            if (!currentUser) return;
+            try {
+                await deleteDoc(doc(db, 'users', currentUser.uid, 'notes', id));
+            } catch (error) {
+                showError('Fehler beim Löschen: ' + error.message);
+            }
+        };
+
+        // Calendar Functions
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            renderCalendar();
+        });
+
+        function renderCalendar() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            
+            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 
+                              'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            let html = `
+                <div class="calendar-day-header">Mo</div>
+                <div class="calendar-day-header">Di</div>
+                <div class="calendar-day-header">Mi</div>
+                <div class="calendar-day-header">Do</div>
+                <div class="calendar-day-header">Fr</div>
+                <div class="calendar-day-header">Sa</div>
+                <div class="calendar-day-header">So</div>
+            `;
+
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                html += '<div class="calendar-day other-month"></div>';
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayTrades = trades.filter(t => t.date === dateStr);
+                const dayPL = dayTrades.reduce((sum, t) => sum + t.pl, 0);
+
+                html += `
+                    <div class="calendar-day ${dayTrades.length > 0 ? 'has-trades' : ''}">
+                        <div class="calendar-day-number">${day}</div>
+                        ${dayTrades.length > 0 ? `
+                            <div class="calendar-day-pl ${dayPL >= 0 ? 'positive' : 'negative'}">
+                                ${dayPL >= 0 ? '+' : ''}€${dayPL.toFixed(0)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            document.getElementById('calendarGrid').innerHTML = html;
+        }
+
+        // Analytics Functions
+        function renderAnalytics() {
+            renderAssetChart();
+            renderWinLossChart();
+            renderMonthlyChart();
+            renderTypeChart();
+        }
+
+        function renderAssetChart() {
+            const assetData = {};
+            trades.forEach(trade => {
+                if (!assetData[trade.asset]) {
+                    assetData[trade.asset] = 0;
+                }
+                assetData[trade.asset] += trade.pl;
+            });
+
+            const sorted = Object.entries(assetData)
+                .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+                .slice(0, 5);
+
+            const maxValue = Math.max(...sorted.map(([_, v]) => Math.abs(v)));
+
+            let html = '';
+            sorted.forEach(([asset, pl]) => {
+                const width = (Math.abs(pl) / maxValue) * 100;
+                html += `
+                    <div class="chart-bar">
+                        <div class="bar-label">${asset}</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${width}%; background: ${pl >= 0 ? 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)' : 'linear-gradient(135deg, #f44336 0%, #e57373 100%)'}">
+                            </div>
+                        </div>
+                        <div class="bar-value" style="color: ${pl >= 0 ? '#4caf50' : '#f44336'}">
+                            ${pl >= 0 ? '+' : ''}€${pl.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('assetChart').innerHTML = html || '<p style="color: #999;">Keine Daten verfügbar</p>';
+        }
+
+        function renderWinLossChart() {
+            const wins = trades.filter(t => t.pl > 0).length;
+            const losses = trades.filter(t => t.pl < 0).length;
+            const total = wins + losses;
+
+            if (total === 0) {
+                document.getElementById('winLossChart').innerHTML = '<p style="color: #999;">Keine Daten verfügbar</p>';
+                return;
+            }
+
+            const winPercent = (wins / total) * 100;
+            const lossPercent = (losses / total) * 100;
+
+            document.getElementById('winLossChart').innerHTML = `
+                <div class="chart-bar">
+                    <div class="bar-label">Gewinn</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${winPercent}%; background: linear-gradient(135deg, #4caf50 0%, #81c784 100%)">
+                            ${winPercent.toFixed(0)}%
+                        </div>
+                    </div>
+                    <div class="bar-value">${wins}</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar-label">Verlust</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${lossPercent}%; background: linear-gradient(135deg, #f44336 0%, #e57373 100%)">
+                            ${lossPercent.toFixed(0)}%
+                        </div>
+                    </div>
+                    <div class="bar-value">${losses}</div>
+                </div>
+            `;
+        }
+
+        function renderMonthlyChart() {
+            const monthlyData = {};
+            trades.forEach(trade => {
+                const month = trade.date.substring(0, 7);
+                if (!monthlyData[month]) {
+                    monthlyData[month] = 0;
+                }
+                monthlyData[month] += trade.pl;
+            });
+
+            const sorted = Object.entries(monthlyData).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 6);
+            const maxValue = Math.max(...sorted.map(([_, v]) => Math.abs(v)));
+
+            let html = '';
+            sorted.forEach(([month, pl]) => {
+                const width = (Math.abs(pl) / maxValue) * 100;
+                const [year, monthNum] = month.split('-');
+                const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+                const label = `${monthNames[parseInt(monthNum) - 1]} ${year}`;
+
+                html += `
+                    <div class="chart-bar">
+                        <div class="bar-label">${label}</div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${width}%; background: ${pl >= 0 ? 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)' : 'linear-gradient(135deg, #f44336 0%, #e57373 100%)'}">
+                            </div>
+                        </div>
+                        <div class="bar-value" style="color: ${pl >= 0 ? '#4caf50' : '#f44336'}">
+                            ${pl >= 0 ? '+' : ''}€${pl.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('monthlyChart').innerHTML = html || '<p style="color: #999;">Keine Daten verfügbar</p>';
+        }
+
+        function renderTypeChart() {
+            const longTrades = trades.filter(t => t.type === 'Long');
+            const shortTrades = trades.filter(t => t.type === 'Short');
+
+            const longPL = longTrades.reduce((sum, t) => sum + t.pl, 0);
+            const shortPL = shortTrades.reduce((sum, t) => sum + t.pl, 0);
+
+            const maxValue = Math.max(Math.abs(longPL), Math.abs(shortPL));
+
+            document.getElementById('typeChart').innerHTML = `
+                <div class="chart-bar">
+                    <div class="bar-label">Long 📈</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${maxValue ? (Math.abs(longPL) / maxValue) * 100 : 0}%; background: ${longPL >= 0 ? 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)' : 'linear-gradient(135deg, #f44336 0%, #e57373 100%)'}">
+                        </div>
+                    </div>
+                    <div class="bar-value" style="color: ${longPL >= 0 ? '#4caf50' : '#f44336'}">
+                        ${longPL >= 0 ? '+' : ''}€${longPL.toFixed(2)}
+                    </div>
+                </div>
+                <div class="chart-bar">
+                    <div class="bar-label">Short 📉</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${maxValue ? (Math.abs(shortPL) / maxValue) * 100 : 0}%; background: ${shortPL >= 0 ? 'linear-gradient(135deg, #4caf50 0%, #81c784 100%)' : 'linear-gradient(135deg, #f44336 0%, #e57373 100%)'}">
+                        </div>
+                    </div>
+                    <div class="bar-value" style="color: ${shortPL >= 0 ? '#4caf50' : '#f44336'}">
+                        ${shortPL >= 0 ? '+' : ''}€${shortPL.toFixed(2)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Export Functions
+        function updateExportFilters() {
+            const assets = [...new Set(trades.map(t => t.asset))].sort();
+            const filterAsset = document.getElementById('filterAsset');
+            filterAsset.innerHTML = '<option value="">Alle Assets</option>' + 
+                assets.map(a => `<option value="${a}">${a}</option>`).join('');
+            
+            updateExportCount();
+        }
+
+        function updateExportCount() {
+            document.getElementById('exportCount').textContent = getFilteredTrades().length;
+        }
+
+        function getFilteredTrades() {
+            const from = document.getElementById('filterFrom').value;
+            const to = document.getElementById('filterTo').value;
+            const asset = document.getElementById('filterAsset').value;
+
+            return trades.filter(t => {
+                if (from && t.date < from) return false;
+                if (to && t.date > to) return false;
+                if (asset && t.asset !== asset) return false;
+                return true;
+            });
+        }
+
+        document.getElementById('filterFrom').addEventListener('change', updateExportCount);
+        document.getElementById('filterTo').addEventListener('change', updateExportCount);
+        document.getElementById('filterAsset').addEventListener('change', updateExportCount);
+
+        document.getElementById('exportCSV').addEventListener('click', () => {
+            const filtered = getFilteredTrades();
+            if (filtered.length === 0) {
+                showError('Keine Trades zum Export!');
+                return;
+            }
+
+            const csv = [
+                ['Datum', 'Asset', 'Typ', 'Einstieg', 'Ausstieg', 'Lots', 'P&L', 'Notizen'],
+                ...filtered.map(t => [
+                    t.date,
+                    t.asset,
+                    t.type,
+                    t.entry,
+                    t.exit,
+                    t.lots,
+                    t.pl,
+                    t.notes || ''
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `trading-journal-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        });
+
+        document.getElementById('exportJSON').addEventListener('click', () => {
+            const filtered = getFilteredTrades();
+            if (filtered.length === 0) {
+                showError('Keine Trades zum Export!');
+                return;
+            }
+
+            const json = JSON.stringify(filtered, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `trading-journal-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        });
+
+        document.getElementById('printReport').addEventListener('click', () => {
+            const filtered = getFilteredTrades();
+            if (filtered.length === 0) {
+                showError('Keine Trades zum Export!');
+                return;
+            }
+
+            const totalPL = filtered.reduce((sum, t) => sum + t.pl, 0);
+            const wins = filtered.filter(t => t.pl > 0).length;
+            const winRate = (wins / filtered.length * 100).toFixed(1);
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Trading Journal Bericht</title>
+                    <style>
+                        body { font-family: Arial; padding: 20px; }
+                        h1 { color: #667eea; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background: #667eea; color: white; }
+                        .stats { margin: 20px 0; }
+                        .positive { color: green; }
+                        .negative { color: red; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Trading Journal Bericht</h1>
+                    <div class="stats">
+                        <p><strong>Gesamt P&L:</strong> <span class="${totalPL >= 0 ? 'positive' : 'negative'}">€${totalPL.toFixed(2)}</span></p>
+                        <p><strong>Anzahl Trades:</strong> ${filtered.length}</p>
+                        <p><strong>Winrate:</strong> ${winRate}%</p>
+                    </div>
+                    <table>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Asset</th>
+                            <th>Typ</th>
+                            <th>Entry</th>
+                            <th>Exit</th>
+                            <th>Lots</th>
+                            <th>P&L</th>
+                        </tr>
+                        ${filtered.map(t => `
+                            <tr>
+                                <td>${formatDate(t.date)}</td>
+                                <td>${t.asset}</td>
+                                <td>${t.type}</td>
+                                <td>${t.entry}</td>
+                                <td>${t.exit}</td>
+                                <td>${t.lots}</td>
+                                <td class="${t.pl >= 0 ? 'positive' : 'negative'}">€${t.pl.toFixed(2)}</td>
+                            </tr>
+                        `).join('')}
+                    </table>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b71e1cdb4b5e0d3',t:'MTc2NzI2OTA5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b71f7e23155e0d3',t:'MTc2NzI3MDAwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
