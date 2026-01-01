@@ -4,47 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professional Trading Journal</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Tailwind CSS Production Alternative -->
-  <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet"><!-- Firebase SDK v9 -->
-  <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        
-        // Firebase Configuration - Using public demo project
-        const firebaseConfig = {
-  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
-  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
-  projectId: "trading-journal-pro-8212f",
-  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
-  messagingSenderId: "927047992152",
-  appId: "1:927047992152:web:2269467aa95689e0955b2d",
-  measurementId: "G-36WT75DLEL"
-};
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        // Make available globally
-        window.firebaseAuth = auth;
-        window.firebaseDb = db;
-        window.firebaseModules = {
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            signOut,
-            onAuthStateChanged,
-            collection,
-            addDoc,
-            updateDoc,
-            deleteDoc,
-            doc,
-            query,
-            where,
-            onSnapshot,
-            orderBy
-        };
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Tailwind CSS Production Alternative -->
+  <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
   <style>
         body {
             box-sizing: border-box;
@@ -370,6 +334,31 @@
             right: 2px;
             font-size: 10px;
         }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.3s ease-out;
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -382,18 +371,18 @@
     <div class="glass-card rounded-2xl p-8 max-w-md w-full animate-fade-in">
      <div class="text-center mb-8">
       <div class="text-6xl mb-4">
-         
+       📊
       </div>
       <h1 class="text-3xl font-bold mb-2">Trading Journal</h1>
       <p class="text-gray-400">Professionelles Trade Management</p>
      </div>
-     <form id="loginForm" class="space-y-4">
-      <div><label class="block text-sm font-semibold mb-2">E-Mail Adresse</label> <input type="email" id="loginEmail" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="deine@email.com" required>
+     <form id="loginForm" class="space-y-4 mb-4">
+      <div><label class="block text-sm font-semibold mb-2">E-Mail</label> <input type="email" id="loginEmail" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="deine@email.de" required>
       </div>
       <div><label class="block text-sm font-semibold mb-2">Passwort</label> <input type="password" id="loginPassword" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Anmelden </button>
      </form>
-     <div class="text-center mt-6"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Noch kein Konto? Jetzt registrieren </button>
+     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Noch kein Konto? Jetzt registrieren </button>
      </div>
     </div>
    </div><!-- Register Screen -->
@@ -401,18 +390,18 @@
     <div class="glass-card rounded-2xl p-8 max-w-md w-full animate-fade-in">
      <div class="text-center mb-8">
       <div class="text-6xl mb-4">
-       📝
+       📊
       </div>
       <h1 class="text-3xl font-bold mb-2">Registrierung</h1>
       <p class="text-gray-400">Erstelle dein Trading Journal</p>
      </div>
-     <form id="registerForm" class="space-y-4">
-      <div><label class="block text-sm font-semibold mb-2">E-Mail Adresse</label> <input type="email" id="registerEmail" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="deine@email.com" required>
+     <form id="registerForm" class="space-y-4 mb-4">
+      <div><label class="block text-sm font-semibold mb-2">E-Mail</label> <input type="email" id="registerEmail" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-semibold mb-2">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="••••••••" required minlength="6">
+      <div><label class="block text-sm font-semibold mb-2">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
       </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Registrieren </button>
      </form>
-     <div class="text-center mt-6"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Bereits registriert? Jetzt anmelden </button>
+     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 text-sm"> Bereits registriert? Jetzt anmelden </button>
      </div>
     </div>
    </div><!-- Main App -->
@@ -435,7 +424,7 @@
           <div class="text-2xl font-bold" id="headerCapital">
            €0.00
           </div>
-         </div><button id="logoutBtn" class="bg-red-500 bg-opacity-80 hover:bg-opacity-100 px-4 py-2 rounded-lg transition font-semibold"> Abmelden </button>
+         </div><button id="logoutBtn" class="bg-red-500 bg-opacity-80 hover:bg-opacity-100 px-4 py-2 rounded-lg transition"> Abmelden </button>
         </div>
        </div>
       </div><!-- Mobile User Info -->
@@ -445,7 +434,7 @@
          €0.00
         </div>
        </div>
-       <div class="flex items-center gap-2"><select id="languageSelectorMobile" class="input-modern px-2 py-1 rounded text-xs"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select> <button id="themeToggleMobile" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition"> <span id="themeIconMobile">🌙</span> </button> <button id="logoutBtnMobile" class="bg-red-500 bg-opacity-80 hover:bg-opacity-100 p-2 rounded-lg transition"> 🚪 </button>
+       <div class="flex items-center gap-2"><select id="languageSelectorMobile" class="input-modern px-2 py-1 rounded text-xs"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select> <button id="themeToggleMobile" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition"> <span id="themeIconMobile">🌙</span> </button> <button id="logoutBtnMobile" class="bg-red-500 bg-opacity-80 hover:bg-opacity-100 p-2 rounded-lg transition text-xs"> 🚪 </button>
        </div>
       </div>
      </div>
@@ -556,7 +545,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
           <div class="text-2xl sm:text-3xl mb-2">
-              
+           💳
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Auszahlungen
@@ -609,9 +598,11 @@
           </div>
          </div>
          <div id="tradeHistoryList" class="space-y-4 max-h-[70vh] overflow-y-auto">
-          <div class="flex flex-col items-center justify-center py-12">
-           <div class="loading-spinner mb-4"></div>
-           <p class="text-gray-400">Lade Trades...</p>
+          <div class="text-center py-12 text-gray-400">
+           <div class="text-6xl mb-4">
+            📭
+           </div>
+           <p>Noch keine Trades vorhanden</p>
           </div>
          </div>
         </div>
@@ -654,91 +645,6 @@
             </div>
            </div>
           </div>
-         </div><!-- Streak Analysis -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>🔥</span> <span>Streak Analyse</span></h2><!-- Streak Statistics -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
-            <div class="text-3xl mb-2">
-             🔥
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Beste Winning Streak
-            </div>
-            <div class="text-2xl font-bold text-green-400" id="maxWinStreak">
-             0
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Aufeinanderfolgende Gewinne
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-red-500/20 to-red-600/10 border-red-500/30">
-            <div class="text-3xl mb-2">
-             💔
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Längste Losing Streak
-            </div>
-            <div class="text-2xl font-bold text-red-400" id="maxLoseStreak">
-             0
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Aufeinanderfolgende Verluste
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-500/30">
-            <div class="text-3xl mb-2">
-             📊
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Aktuelle Streak
-            </div>
-            <div class="text-2xl font-bold" id="currentStreak">
-             0
-            </div>
-            <div class="text-xs mt-1" id="currentStreakType">
-             -
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-purple-500/20 to-purple-600/10 border-purple-500/30">
-            <div class="text-3xl mb-2">
-             ⚖️
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Streak Ratio
-            </div>
-            <div class="text-2xl font-bold text-purple-400" id="streakRatio">
-             0.0
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Win/Loss Verhältnis
-            </div>
-           </div>
-          </div><!-- Streak Timeline Chart -->
-          <div>
-           <h3 class="text-lg font-semibold mb-4">Streak Timeline</h3>
-           <div class="chart-container" style="height: 300px;">
-            <canvas id="streakChart"></canvas>
-           </div>
-          </div>
-         </div><!-- Asset Distribution -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>🥧</span> <span>Asset Verteilung</span></h2>
-          <div class="chart-container">
-           <canvas id="assetDistributionChart"></canvas>
-          </div>
-         </div><!-- Asset Performance -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>💹</span> <span>Asset Performance (P/L)</span></h2>
-          <div class="chart-container">
-           <canvas id="assetPerformanceChart"></canvas>
-          </div>
-         </div><!-- Monthly Performance -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
-          <div class="chart-container">
-           <canvas id="monthlyPerformanceChart"></canvas>
-          </div>
          </div>
         </div>
        </div><!-- Emotions Tab -->
@@ -766,8 +672,7 @@
            </div>
           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Berechnen </button>
          </form>
-         <div id="compoundResults" class="hidden space-y-6"><!-- Performance Status Banner -->
-          <div id="performanceStatus" class="rounded-xl p-6 text-center"></div>
+         <div id="compoundResults" class="hidden space-y-6">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
@@ -776,76 +681,7 @@
             <div class="text-2xl font-bold text-purple-400" id="monthsToGoal">
              0
             </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Mit Zielrendite
-            </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             Aktuelle Performance
-            </div>
-            <div class="text-2xl font-bold" id="currentMonthlyReturn">
-             0%
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Ø pro Monat
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             Gewünschte Rendite
-            </div>
-            <div class="text-2xl font-bold text-blue-400" id="requiredReturn">
-             0%
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Ø pro Monat
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             Differenz
-            </div>
-            <div class="text-2xl font-bold" id="returnDifference">
-             0%
-            </div>
-            <div class="text-xs text-gray-500 mt-1" id="returnDifferenceLabel">
-             -
-            </div>
-           </div>
-          </div><!-- Projected Timeline Comparison -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
-            <div class="text-3xl mb-2">
-             🎯
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Bei aktueller Performance
-            </div>
-            <div class="text-2xl font-bold text-green-400" id="monthsWithCurrentPerformance">
-             0
-            </div>
-            <div class="text-xs text-gray-500 mt-1">
-             Monate bis Ziel
-            </div>
-           </div>
-           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-500/30">
-            <div class="text-3xl mb-2">
-             ⏱️
-            </div>
-            <div class="text-sm text-gray-400 mb-1">
-             Zeitdifferenz
-            </div>
-            <div class="text-2xl font-bold" id="timeDifference">
-             0
-            </div>
-            <div class="text-xs mt-1" id="timeDifferenceLabel">
-             Monate
-            </div>
-           </div>
-          </div>
-          <div class="chart-container" style="height: 400px;">
-           <canvas id="compoundChart"></canvas>
           </div>
          </div>
         </div>
@@ -881,113 +717,24 @@
         </div>
        </div><!-- Calendar Tab -->
        <div id="calendarTab" class="tab-content hidden">
-        <div class="space-y-6 animate-fade-in"><!-- Calendar Header -->
-         <div class="glass-card rounded-xl p-6">
-          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-           <h2 class="text-2xl font-bold flex items-center gap-2"><span>📅</span> <span>Trading Kalender</span></h2>
-           <div class="flex items-center gap-3"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg font-semibold transition"> ◀ Zurück </button> <button id="todayBtn" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition"> Heute </button> <button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg font-semibold transition"> Weiter ▶ </button>
-           </div>
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Trading Kalender</span></h2>
+         <div class="text-center py-12 text-gray-400">
+          <div class="text-6xl mb-4">
+           🗓️
           </div>
-          <div class="text-center mb-6">
-           <h3 id="currentMonthYear" class="text-3xl font-bold text-purple-400"></h3>
-          </div><!-- Legend -->
-          <div class="flex flex-wrap justify-center gap-4 mb-6 text-sm">
-           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-green-500"></div><span>Gewinn</span>
-           </div>
-           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-red-500"></div><span>Verlust</span>
-           </div>
-           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-orange-500"></div><span>Break Even</span>
-           </div>
-           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-purple-500"></div><span>Mehrere Trades</span>
-           </div>
-           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-blue-500"></div><span>News Event</span>
-           </div>
-          </div><!-- Calendar Grid -->
-          <div class="grid grid-cols-7 gap-2 mb-4">
-           <div class="text-center font-bold text-gray-400 py-2">
-            Mo
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            Di
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            Mi
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            Do
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            Fr
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            Sa
-           </div>
-           <div class="text-center font-bold text-gray-400 py-2">
-            So
-           </div>
-          </div>
-          <div id="calendarGrid" class="grid grid-cols-7 gap-2"><!-- Calendar days will be inserted here -->
-          </div>
-         </div><!-- Day Details -->
-         <div id="dayDetails" class="glass-card rounded-xl p-6 hidden">
-          <h3 class="text-xl font-bold mb-4" id="selectedDayTitle"></h3>
-          <div id="dayDetailsContent"></div>
-         </div><!-- Add News Event -->
-         <div class="glass-card rounded-xl p-6">
-          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📰</span> <span>News Event hinzufügen</span></h3>
-          <form id="newsEventForm" class="space-y-4">
-           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="newsDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
-            </div>
-            <div><label class="block text-sm font-semibold mb-2">Uhrzeit (optional)</label> <input type="time" id="newsTime" class="input-modern w-full px-4 py-3 rounded-lg">
-            </div>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Event Titel</label> <input type="text" id="newsTitle" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Fed Zinsentscheid, NFP, EZB Meeting" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Wichtigkeit</label> <select id="newsImpact" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="low">🟢 Niedrig</option> <option value="medium">🟡 Mittel</option> <option value="high">🔴 Hoch</option> </select>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Betroffene Währungen/Assets</label> <input type="text" id="newsAssets" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. EUR, USD, Gold">
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="newsNotes" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Weitere Details zum Event..."></textarea>
-           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> News Event speichern </button>
-          </form>
+          <p>Kalender in Entwicklung</p>
          </div>
         </div>
        </div><!-- Calculators Tab -->
        <div id="calculatorsTab" class="tab-content hidden">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in"><!-- Position Size Calculator -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>🎯</span> <span>Positionsgrößen-Rechner</span></h2>
-          <form id="positionSizeForm" class="space-y-4">
-           <div><label class="block text-sm font-semibold mb-2">Kontogröße (€)</label> <input type="number" id="accountSize" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Risiko pro Trade (%)</label> <input type="number" id="riskPercent" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Stop Loss (Pips)</label> <input type="number" id="stopLossPips" step="0.1" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 20" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Pip Wert (€)</label> <input type="number" id="pipValue" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10" required>
-           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold">Berechnen</button>
-          </form>
-          <div id="positionSizeResult" class="mt-6"></div>
-         </div><!-- Pip Calculator -->
-         <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>    </span> <span>Pip-Rechner</span></h2>
-          <form id="pipCalculatorForm" class="space-y-4">
-           <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pipEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08450" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Exit Preis</label> <input type="number" id="pipExitPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08550" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="pipLotSize" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 0.10" required>
-           </div>
-           <div><label class="block text-sm font-semibold mb-2">Pip Wert (€)</label> <input type="number" id="pipValueCalc" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10" required>
-           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold">Berechnen</button>
-          </form>
-          <div id="pipCalculatorResult" class="mt-6"></div>
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>🔢</span> <span>Trading Rechner</span></h2>
+         <div class="text-center py-12 text-gray-400">
+          <div class="text-6xl mb-4">
+           🧮
+          </div>
+          <p>Rechner in Entwicklung</p>
          </div>
         </div>
        </div>
@@ -995,194 +742,114 @@
      </main>
     </div>
    </div>
-  </div><!-- Edit Modal -->
-  <div id="editModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-   <div class="glass-card rounded-xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-    <div class="flex items-center justify-between mb-6">
-     <h2 class="text-2xl font-bold">✏️ Trade bearbeiten</h2><button id="closeEditModal" class="text-gray-400 hover:text-white text-3xl">×</button>
-    </div>
-    <form id="editTradeForm" class="space-y-6"><input type="hidden" id="editTradeId">
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="editTradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
-      </div>
-      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="    Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
-      </div>
-     </div>
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div><label class="block text-sm font-semibold mb-2">Lot Size</label> <input type="number" id="editTradeLotSize" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
-      </div>
-      <div><label class="block text-sm font-semibold mb-2">Ergebnis</label> <select id="editTradeResult" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Gewinn">✅ Gewinn</option> <option value="Verlust">❌ Verlust</option> <option value="Break Even">➖ Break Even</option> </select>
-      </div>
-     </div>
-     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="editTradeEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg">
-      </div>
-      <div><label class="block text-sm font-semibold mb-2">Exit Preis</label> <input type="number" id="editTradeExitPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg">
-      </div>
-     </div>
-     <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="editTradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
-     </div>
-     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
-     </div>
-     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">   Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
-     </div>
-     <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="editTradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg"></textarea>
-     </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Änderungen speichern </button>
-    </form>
-   </div>
   </div>
-  <script type="module">
-        // Wait for Firebase to load
-        await new Promise(resolve => {
-            const checkFirebase = setInterval(() => {
-                if (window.firebaseAuth && window.firebaseDb && window.firebaseModules) {
-                    clearInterval(checkFirebase);
-                    resolve();
-                }
-            }, 100);
-        });
+  <script>
+        // Firebase Configuration - REPLACE WITH YOUR OWN CONFIG
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
+  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
+  projectId: "trading-journal-pro-8212f",
+  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
+  messagingSenderId: "927047992152",
+  appId: "1:927047992152:web:2269467aa95689e0955b2d",
+  measurementId: "G-36WT75DLEL"
+};
 
-        const auth = window.firebaseAuth;
-        const db = window.firebaseDb;
-        const { 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            signOut, 
-            onAuthStateChanged,
-            collection,
-            addDoc,
-            updateDoc,
-            deleteDoc,
-            doc,
-            query,
-            where,
-            onSnapshot,
-            orderBy
-        } = window.firebaseModules;
+        // Initialize Firebase
+        let app, auth, db;
+        let currentUser = null;
         
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+            showConfigModal();
+        }
+
+        // Show configuration modal
+        function showConfigModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2 class="text-2xl font-bold mb-4">⚠️ Firebase Konfiguration erforderlich</h2>
+                    <p class="text-gray-300 mb-4">
+                        Bitte ersetzen Sie die Firebase-Konfiguration im Code mit Ihren eigenen Werten.
+                    </p>
+                    <div class="bg-slate-800 p-4 rounded-lg mb-4 text-sm text-left overflow-x-auto">
+                        <pre class="text-purple-300">const firebaseConfig = {
+  apiKey: "IHR_API_KEY",
+  authDomain: "IHR_PROJEKT_ID.firebaseapp.com",
+  projectId: "IHR_PROJEKT_ID",
+  storageBucket: "IHR_PROJEKT_ID.appspot.com",
+  messagingSenderId: "IHRE_SENDER_ID",
+  appId: "IHRE_APP_ID"
+};</pre>
+                    </div>
+                    <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" class="btn-primary px-6 py-3 rounded-lg font-bold inline-block">
+                        Firebase Console öffnen
+                    </a>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
         // Global data variables
-        let allData = [];
         let trades = [];
         let withdrawals = [];
-        let newsEvents = [];
-        let startCapitalRecord = null;
-        let currentUser = null;
-        let editingTradeId = null;
+        let startCapitalData = null;
         let equityCurveChart = null;
-        let assetDistributionChart = null;
-        let assetPerformanceChart = null;
-        let monthlyPerformanceChart = null;
-        let compoundChart = null;
-        let streakChart = null;
-        let unsubscribeData = null;
         
-        // Calendar state
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-
         // Auth State Observer
-        onAuthStateChanged(auth, (user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('registerScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
-                
-                // Subscribe to user's data
-                subscribeToUserData(user.uid);
+                loadAllData();
             } else {
                 currentUser = null;
-                if (unsubscribeData) {
-                    unsubscribeData();
-                    unsubscribeData = null;
-                }
-                document.getElementById('loginScreen').classList.remove('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.add('hidden');
+                document.getElementById('registerScreen').classList.add('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
             }
         });
-
-        // Subscribe to user's data in real-time
-        function subscribeToUserData(userId) {
-            const q = query(
-                collection(db, 'tradingData'),
-                where('userId', '==', userId)
-            );
-            
-            unsubscribeData = onSnapshot(q, (snapshot) => {
-                allData = [];
-                snapshot.forEach((doc) => {
-                    allData.push({ id: doc.id, ...doc.data() });
-                });
-                
-                // Sort by timestamp descending
-                allData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                
-                trades = allData.filter(item => item.type === 'trade');
-                withdrawals = allData.filter(item => item.type === 'withdrawal');
-                newsEvents = allData.filter(item => item.type === 'newsEvent');
-                startCapitalRecord = allData.find(item => item.type === 'startCapital');
-                
-                updateDashboard();
-                renderTradeHistory();
-                renderWithdrawals();
-                renderCalendar();
-            }, (error) => {
-                console.error('Firestore error:', error);
-                showToast('Datenbankfehler: Bitte überprüfen Sie Ihre Firestore-Regeln', 'error');
-            });
-        }
 
         // Login Form
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Anmeldung läuft...';
-            
             try {
-                await signInWithEmailAndPassword(auth, email, password);
+                await auth.signInWithEmailAndPassword(email, password);
                 showToast('Erfolgreich angemeldet!');
             } catch (error) {
-                console.error('Login error:', error);
-                let message = 'Anmeldung fehlgeschlagen';
-                if (error.code === 'auth/user-not-found') message = 'Benutzer nicht gefunden';
-                else if (error.code === 'auth/wrong-password') message = 'Falsches Passwort';
-                else if (error.code === 'auth/invalid-email') message = 'Ungültige E-Mail';
-                else if (error.code === 'auth/invalid-credential') message = 'Ungültige Anmeldedaten';
-                showToast(message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Anmelden';
+                showToast('Anmeldung fehlgeschlagen: ' + error.message, 'error');
             }
         });
 
         // Register Form
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Registrierung läuft...';
+            if (password.length < 6) {
+                showToast('Passwort muss mindestens 6 Zeichen lang sein', 'error');
+                return;
+            }
             
             try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                showToast('Erfolgreich registriert!');
+                await auth.createUserWithEmailAndPassword(email, password);
+                showToast('Registrierung erfolgreich!');
             } catch (error) {
-                console.error('Register error:', error);
-                let message = 'Registrierung fehlgeschlagen';
-                if (error.code === 'auth/email-already-in-use') message = 'E-Mail bereits registriert';
-                else if (error.code === 'auth/invalid-email') message = 'Ungültige E-Mail';
-                else if (error.code === 'auth/weak-password') message = 'Passwort zu schwach';
-                showToast(message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Registrieren';
+                showToast('Registrierung fehlgeschlagen: ' + error.message, 'error');
             }
         });
 
@@ -1198,26 +865,42 @@
         });
 
         // Logout
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                showToast('Erfolgreich abgemeldet');
-            } catch (error) {
-                console.error('Logout error:', error);
-                showToast('Abmeldung fehlgeschlagen', 'error');
-            }
-        });
+        function logout() {
+            auth.signOut();
+            showToast('Erfolgreich abgemeldet');
+        }
 
-        document.getElementById('logoutBtnMobile').addEventListener('click', async () => {
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('logoutBtnMobile').addEventListener('click', logout);
+
+        // Load all data from Firestore
+        async function loadAllData() {
+            if (!currentUser) return;
+            
             try {
-                await signOut(auth);
-                showToast('Erfolgreich abgemeldet');
+                // Load trades
+                const tradesSnapshot = await db.collection('users').doc(currentUser.uid).collection('trades').get();
+                trades = tradesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Load withdrawals
+                const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').get();
+                withdrawals = withdrawalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                // Load start capital
+                const startCapitalDoc = await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').get();
+                if (startCapitalDoc.exists) {
+                    startCapitalData = startCapitalDoc.data();
+                }
+                
+                updateDashboard();
+                renderTradeHistory();
+                renderWithdrawals();
             } catch (error) {
-                console.error('Logout error:', error);
-                showToast('Abmeldung fehlgeschlagen', 'error');
+                console.error('Error loading data:', error);
+                showToast('Fehler beim Laden der Daten', 'error');
             }
-        });
-        
+        }
+
         // Toast Notification
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
@@ -1233,385 +916,24 @@
             setTimeout(() => toast.remove(), 3000);
         }
 
-        // Language System
-        const translations = {
-            de: {
-                // Header
-                headerTitle: 'Professional Trading Journal',
-                headerSubtitle: 'Professionelles Trade Management & Performance Tracking',
-                currentCapital: 'Aktuelles Kapital',
-                logout: 'Abmelden',
-                
-                // Navigation
-                navDashboard: 'Dashboard',
-                navNewTrade: 'Neuer Trade',
-                navHistory: 'Historie',
-                navPerformance: 'Performance',
-                navEmotions: 'Emotionen',
-                navCompound: 'Zinseszins',
-                navWithdrawals: 'Auszahlungen',
-                navCalculators: 'Rechner',
-                
-                // Dashboard
-                setStartCapital: 'Startkapital festlegen',
-                startCapitalLabel: 'Startkapital (€)',
-                startCapitalPlaceholder: 'z.B. 10000',
-                saveButton: 'Speichern',
-                yourStartCapital: 'Ihr Startkapital',
-                currentCapitalStat: 'Aktuelles Kapital',
-                totalPL: 'Gesamt P/L',
-                maxDrawdown: 'Max Drawdown',
-                profitFactor: 'Profit Factor',
-                equityCurve: 'Equity Curve',
-                winrate: 'Winrate',
-                numberOfTrades: 'Anzahl Trades',
-                withdrawals: 'Auszahlungen',
-                
-                // New Trade
-                newTradeTitle: 'Neuen Trade eintragen',
-                date: 'Datum',
-                asset: 'Asset',
-                optionalSelect: 'Optional auswählen...',
-                lotSize: 'Lot Size',
-                result: 'Ergebnis',
-                profit: '✅ Gewinn',
-                loss: '❌ Verlust',
-                breakEven: '➖ Break Even',
-                entryPrice: 'Entry Preis',
-                exitPrice: 'Exit Preis',
-                profitLoss: 'Profit/Loss (€)',
-                strategy: 'Strategie',
-                emotion: 'Emotion',
-                notes: 'Notizen',
-                notesPlaceholder: 'Weitere Gedanken zum Trade...',
-                saveTrade: 'Trade speichern',
-                
-                // History
-                tradeHistory: 'Trade Historie',
-                trades: 'Trades',
-                noTrades: 'Noch keine Trades vorhanden',
-                edit: '✏️ Bearbeiten',
-                delete: '🗑️ Löschen',
-                
-                // Performance
-                performanceMetrics: 'Performance Metriken',
-                avgWin: 'Durchschn. Gewinn',
-                avgLoss: 'Durchschn. Verlust',
-                largestWin: 'Größter Gewinn',
-                largestLoss: 'Größter Verlust',
-                streakAnalysis: 'Streak Analyse',
-                bestWinStreak: 'Beste Winning Streak',
-                longestLoseStreak: 'Längste Losing Streak',
-                currentStreak: 'Aktuelle Streak',
-                streakRatio: 'Streak Ratio',
-                assetDistribution: 'Asset Verteilung',
-                assetPerformance: 'Asset Performance (P/L)',
-                monthlyPerformance: 'Monatliche Performance',
-                
-                // Emotions
-                emotionsAnalysis: 'Emotions-Analyse',
-                noEmotionData: 'Keine Emotionsdaten verfügbar',
-                
-                // Compound
-                compoundCalculator: 'Zinseszins-Rechner',
-                targetCapital: 'Zielkapital (€)',
-                desiredMonthlyReturn: 'Gewünschte monatliche Rendite (%)',
-                calculate: 'Berechnen',
-                monthsToGoal: 'Monate bis Ziel',
-                currentPerformance: 'Aktuelle Performance',
-                desiredReturn: 'Gewünschte Rendite',
-                difference: 'Differenz',
-                
-                // Withdrawals
-                enterWithdrawal: 'Auszahlung eintragen',
-                amount: 'Betrag (€)',
-                noteOptional: 'Notiz (optional)',
-                notePlaceholder: 'Grund der Auszahlung...',
-                saveWithdrawal: 'Auszahlung speichern',
-                withdrawalHistory: 'Auszahlungshistorie',
-                noWithdrawals: 'Keine Auszahlungen vorhanden',
-                withdrawal: 'Auszahlung',
-                
-                // Calculators
-                positionSizeCalc: 'Positionsgrößen-Rechner',
-                accountSize: 'Kontogröße (€)',
-                riskPerTrade: 'Risiko pro Trade (%)',
-                stopLossPips: 'Stop Loss (Pips)',
-                pipValue: 'Pip Wert (€)',
-                pipCalculator: 'Pip-Rechner',
-                recommendedLotSize: 'Empfohlene Lot Size',
-                risk: 'Risiko',
-                pipDifference: 'Pip Differenz'
-            },
-            en: {
-                // Header
-                headerTitle: 'Professional Trading Journal',
-                headerSubtitle: 'Professional Trade Management & Performance Tracking',
-                currentCapital: 'Current Capital',
-                logout: 'Logout',
-                
-                // Navigation
-                navDashboard: 'Dashboard',
-                navNewTrade: 'New Trade',
-                navHistory: 'History',
-                navPerformance: 'Performance',
-                navEmotions: 'Emotions',
-                navCompound: 'Compound',
-                navWithdrawals: 'Withdrawals',
-                navCalculators: 'Calculators',
-                
-                // Dashboard
-                setStartCapital: 'Set Start Capital',
-                startCapitalLabel: 'Start Capital (€)',
-                startCapitalPlaceholder: 'e.g. 10000',
-                saveButton: 'Save',
-                yourStartCapital: 'Your Start Capital',
-                currentCapitalStat: 'Current Capital',
-                totalPL: 'Total P/L',
-                maxDrawdown: 'Max Drawdown',
-                profitFactor: 'Profit Factor',
-                equityCurve: 'Equity Curve',
-                winrate: 'Winrate',
-                numberOfTrades: 'Number of Trades',
-                withdrawals: 'Withdrawals',
-                
-                // New Trade
-                newTradeTitle: 'Enter New Trade',
-                date: 'Date',
-                asset: 'Asset',
-                optionalSelect: 'Optional select...',
-                lotSize: 'Lot Size',
-                result: 'Result',
-                profit: '✅ Profit',
-                loss: '❌ Loss',
-                breakEven: '➖ Break Even',
-                entryPrice: 'Entry Price',
-                exitPrice: 'Exit Price',
-                profitLoss: 'Profit/Loss (€)',
-                strategy: 'Strategy',
-                emotion: 'Emotion',
-                notes: 'Notes',
-                notesPlaceholder: 'Additional thoughts about the trade...',
-                saveTrade: 'Save Trade',
-                
-                // History
-                tradeHistory: 'Trade History',
-                trades: 'Trades',
-                noTrades: 'No trades yet',
-                edit: '✏️ Edit',
-                delete: '🗑️ Delete',
-                
-                // Performance
-                performanceMetrics: 'Performance Metrics',
-                avgWin: 'Avg. Win',
-                avgLoss: 'Avg. Loss',
-                largestWin: 'Largest Win',
-                largestLoss: 'Largest Loss',
-                streakAnalysis: 'Streak Analysis',
-                bestWinStreak: 'Best Win Streak',
-                longestLoseStreak: 'Longest Lose Streak',
-                currentStreak: 'Current Streak',
-                streakRatio: 'Streak Ratio',
-                assetDistribution: 'Asset Distribution',
-                assetPerformance: 'Asset Performance (P/L)',
-                monthlyPerformance: 'Monthly Performance',
-                
-                // Emotions
-                emotionsAnalysis: 'Emotions Analysis',
-                noEmotionData: 'No emotion data available',
-                
-                // Compound
-                compoundCalculator: 'Compound Calculator',
-                targetCapital: 'Target Capital (€)',
-                desiredMonthlyReturn: 'Desired Monthly Return (%)',
-                calculate: 'Calculate',
-                monthsToGoal: 'Months to Goal',
-                currentPerformance: 'Current Performance',
-                desiredReturn: 'Desired Return',
-                difference: 'Difference',
-                
-                // Withdrawals
-                enterWithdrawal: 'Enter Withdrawal',
-                amount: 'Amount (€)',
-                noteOptional: 'Note (optional)',
-                notePlaceholder: 'Reason for withdrawal...',
-                saveWithdrawal: 'Save Withdrawal',
-                withdrawalHistory: 'Withdrawal History',
-                noWithdrawals: 'No withdrawals yet',
-                withdrawal: 'Withdrawal',
-                
-                // Calculators
-                positionSizeCalc: 'Position Size Calculator',
-                accountSize: 'Account Size (€)',
-                riskPerTrade: 'Risk per Trade (%)',
-                stopLossPips: 'Stop Loss (Pips)',
-                pipValue: 'Pip Value (€)',
-                pipCalculator: 'Pip Calculator',
-                recommendedLotSize: 'Recommended Lot Size',
-                risk: 'Risk',
-                pipDifference: 'Pip Difference'
-            },
-            es: {
-                // Header
-                headerTitle: 'Diario de Trading Profesional',
-                headerSubtitle: 'Gestión Profesional de Operaciones y Seguimiento de Rendimiento',
-                currentCapital: 'Capital Actual',
-                logout: 'Cerrar Sesión',
-                
-                // Navigation
-                navDashboard: 'Panel',
-                navNewTrade: 'Nueva Operación',
-                navHistory: 'Historial',
-                navPerformance: 'Rendimiento',
-                navEmotions: 'Emociones',
-                navCompound: 'Interés Compuesto',
-                navWithdrawals: 'Retiros',
-                navCalculators: 'Calculadoras',
-                
-                // Dashboard
-                setStartCapital: 'Establecer Capital Inicial',
-                startCapitalLabel: 'Capital Inicial (€)',
-                startCapitalPlaceholder: 'ej. 10000',
-                saveButton: 'Guardar',
-                yourStartCapital: 'Su Capital Inicial',
-                currentCapitalStat: 'Capital Actual',
-                totalPL: 'P/L Total',
-                maxDrawdown: 'Drawdown Máximo',
-                profitFactor: 'Factor de Beneficio',
-                equityCurve: 'Curva de Capital',
-                winrate: 'Tasa de Éxito',
-                numberOfTrades: 'Número de Operaciones',
-                withdrawals: 'Retiros',
-                
-                // New Trade
-                newTradeTitle: 'Registrar Nueva Operación',
-                date: 'Fecha',
-                asset: 'Activo',
-                optionalSelect: 'Seleccionar opcional...',
-                lotSize: 'Tamaño de Lote',
-                result: 'Resultado',
-                profit: '✅ Ganancia',
-                loss: '❌ Pérdida',
-                breakEven: '➖ Punto de Equilibrio',
-                entryPrice: 'Precio de Entrada',
-                exitPrice: 'Precio de Salida',
-                profitLoss: 'Ganancia/Pérdida (€)',
-                strategy: 'Estrategia',
-                emotion: 'Emoción',
-                notes: 'Notas',
-                notesPlaceholder: 'Pensamientos adicionales sobre la operación...',
-                saveTrade: 'Guardar Operación',
-                
-                // History
-                tradeHistory: 'Historial de Operaciones',
-                trades: 'Operaciones',
-                noTrades: 'Aún no hay operaciones',
-                edit: '✏️ Editar',
-                delete: '🗑️ Eliminar',
-                
-                // Performance
-                performanceMetrics: 'Métricas de Rendimiento',
-                avgWin: 'Ganancia Promedio',
-                avgLoss: 'Pérdida Promedio',
-                largestWin: 'Mayor Ganancia',
-                largestLoss: 'Mayor Pérdida',
-                streakAnalysis: 'Análisis de Rachas',
-                bestWinStreak: 'Mejor Racha de Ganancias',
-                longestLoseStreak: 'Racha de Pérdidas Más Larga',
-                currentStreak: 'Racha Actual',
-                streakRatio: 'Ratio de Rachas',
-                assetDistribution: 'Distribución de Activos',
-                assetPerformance: 'Rendimiento de Activos (P/L)',
-                monthlyPerformance: 'Rendimiento Mensual',
-                
-                // Emotions
-                emotionsAnalysis: 'Análisis de Emociones',
-                noEmotionData: 'No hay datos de emociones disponibles',
-                
-                // Compound
-                compoundCalculator: 'Calculadora de Interés Compuesto',
-                targetCapital: 'Capital Objetivo (€)',
-                desiredMonthlyReturn: 'Retorno Mensual Deseado (%)',
-                calculate: 'Calcular',
-                monthsToGoal: 'Meses hasta el Objetivo',
-                currentPerformance: 'Rendimiento Actual',
-                desiredReturn: 'Retorno Deseado',
-                difference: 'Diferencia',
-                
-                // Withdrawals
-                enterWithdrawal: 'Registrar Retiro',
-                amount: 'Cantidad (€)',
-                noteOptional: 'Nota (opcional)',
-                notePlaceholder: 'Razón del retiro...',
-                saveWithdrawal: 'Guardar Retiro',
-                withdrawalHistory: 'Historial de Retiros',
-                noWithdrawals: 'No hay retiros aún',
-                withdrawal: 'Retiro',
-                
-                // Calculators
-                positionSizeCalc: 'Calculadora de Tamaño de Posición',
-                accountSize: 'Tamaño de Cuenta (€)',
-                riskPerTrade: 'Riesgo por Operación (%)',
-                stopLossPips: 'Stop Loss (Pips)',
-                pipValue: 'Valor del Pip (€)',
-                pipCalculator: 'Calculadora de Pips',
-                recommendedLotSize: 'Tamaño de Lote Recomendado',
-                risk: 'Riesgo',
-                pipDifference: 'Diferencia de Pips'
-            }
-        };
-
-        let currentLanguage = localStorage.getItem('tradingJournalLanguage') || 'de';
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            localStorage.setItem('tradingJournalLanguage', lang);
-            
-            // Sync both selectors
-            document.getElementById('languageSelector').value = lang;
-            document.getElementById('languageSelectorMobile').value = lang;
-            
-            // Update all text elements with data-i18n attribute
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    if (element.tagName === 'INPUT' && element.placeholder !== undefined) {
-                        element.placeholder = translations[lang][key];
-                    } else {
-                        element.textContent = translations[lang][key];
-                    }
-                }
-            });
-            
-            showToast(lang === 'de' ? 'Sprache geändert!' : lang === 'en' ? 'Language changed!' : '¡Idioma cambiado!');
-        }
-
-        // Initialize language
-        changeLanguage(currentLanguage);
-
-        document.getElementById('languageSelector').addEventListener('change', (e) => {
-            changeLanguage(e.target.value);
-        });
-
-        document.getElementById('languageSelectorMobile').addEventListener('change', (e) => {
-            changeLanguage(e.target.value);
-        });
-
-        // Theme System
+        // Theme Toggle
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('themeIcon');
             const themeText = document.getElementById('themeText');
+            const themeIconMobile = document.getElementById('themeIconMobile');
             
             if (body.classList.contains('light-theme')) {
                 body.classList.remove('light-theme');
                 themeIcon.textContent = '🌙';
                 themeText.textContent = 'Dark';
+                themeIconMobile.textContent = '🌙';
                 localStorage.setItem('tradingJournalTheme', 'dark');
             } else {
                 body.classList.add('light-theme');
                 themeIcon.textContent = '☀️';
                 themeText.textContent = 'Light';
+                themeIconMobile.textContent = '☀️';
                 localStorage.setItem('tradingJournalTheme', 'light');
             }
         }
@@ -1625,7 +947,10 @@
             document.getElementById('themeIconMobile').textContent = '☀️';
         }
 
-        // Mobile Menu Toggle
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const sidebar = document.getElementById('sidebar');
         const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
@@ -1647,13 +972,6 @@
         closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
         mobileMenuOverlay.addEventListener('click', closeMobileMenuFunc);
 
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-        document.getElementById('themeToggleMobile').addEventListener('click', () => {
-            toggleTheme();
-            const icon = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
-            document.getElementById('themeIconMobile').textContent = icon;
-        });
-
         // Tab Navigation
         document.querySelectorAll('.nav-button').forEach(button => {
             button.addEventListener('click', () => {
@@ -1674,10 +992,6 @@
                 if (window.innerWidth < 1024) {
                     closeMobileMenuFunc();
                 }
-                
-                if (tabName === 'performance') renderPerformanceCharts();
-                if (tabName === 'emotions') renderEmotions();
-                if (tabName === 'calendar') renderCalendar();
             });
         });
 
@@ -1685,17 +999,13 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tradeDate').value = today;
         document.getElementById('withdrawalDate').value = today;
-        document.getElementById('newsDate').value = today;
 
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            if (!currentUser) {
-                showToast('Bitte melden Sie sich zuerst an', 'error');
-                return;
-            }
-
+            if (!currentUser) return;
+            
             const capital = parseFloat(document.getElementById('startCapital').value);
             
             if (!capital || capital <= 0) {
@@ -1703,48 +1013,34 @@
                 return;
             }
 
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Speichere...';
-
             try {
-                if (startCapitalRecord) {
-                    const oldStartCapital = startCapitalRecord.startCapital || 0;
+                if (startCapitalData) {
+                    const oldStartCapital = startCapitalData.startCapital || 0;
                     const difference = capital - oldStartCapital;
-                    const newCurrentCapital = (startCapitalRecord.currentCapital || 0) + difference;
-                    
-                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                        startCapital: capital,
-                        currentCapital: newCurrentCapital
-                    });
+                    startCapitalData.startCapital = capital;
+                    startCapitalData.currentCapital += difference;
                 } else {
-                    await addDoc(collection(db, 'tradingData'), {
-                        type: 'startCapital',
-                        userId: currentUser.uid,
+                    startCapitalData = {
                         startCapital: capital,
-                        currentCapital: capital,
-                        timestamp: Date.now()
-                    });
+                        currentCapital: capital
+                    };
                 }
-
+                
+                await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
                 showToast('Startkapital erfolgreich gespeichert!');
                 document.getElementById('startCapital').value = '';
+                updateDashboard();
             } catch (error) {
-                showToast('Fehler beim Speichern: ' + error.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Speichern';
+                console.error('Error saving start capital:', error);
+                showToast('Fehler beim Speichern', 'error');
             }
         });
 
         // New Trade Form
         document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             if (!currentUser) return;
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Speichere...';
 
             let profitLoss = document.getElementById('tradeProfitLoss').value ? parseFloat(document.getElementById('tradeProfitLoss').value) : null;
             const result = document.getElementById('tradeResult').value;
@@ -1754,8 +1050,6 @@
             }
 
             const trade = {
-                type: 'trade',
-                userId: currentUser.uid,
                 date: document.getElementById('tradeDate').value,
                 asset: document.getElementById('tradeAsset').value || null,
                 lotSize: document.getElementById('tradeLotSize').value ? parseFloat(document.getElementById('tradeLotSize').value) : null,
@@ -1766,319 +1060,66 @@
                 strategy: document.getElementById('tradeStrategy').value || null,
                 emotion: document.getElementById('tradeEmotion').value || null,
                 notes: document.getElementById('tradeNotes').value || null,
-                timestamp: Date.now()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
             try {
-                await addDoc(collection(db, 'tradingData'), trade);
-                
+                await db.collection('users').doc(currentUser.uid).collection('trades').add(trade);
                 showToast('Trade erfolgreich gespeichert!');
                 document.getElementById('newTradeForm').reset();
                 document.getElementById('tradeDate').value = today;
                 
-                if (trade.profitLoss !== null && startCapitalRecord) {
-                    const newCapital = startCapitalRecord.currentCapital + trade.profitLoss;
-                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                        currentCapital: newCapital
-                    });
+                if (trade.profitLoss !== null && startCapitalData) {
+                    startCapitalData.currentCapital += trade.profitLoss;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
                 }
+                
+                await loadAllData();
             } catch (error) {
-                showToast('Fehler beim Speichern: ' + error.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Trade speichern';
+                console.error('Error saving trade:', error);
+                showToast('Fehler beim Speichern', 'error');
             }
         });
 
         // Withdrawal Form
         document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             if (!currentUser) return;
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Speichere...';
 
             const amount = parseFloat(document.getElementById('withdrawalAmount').value);
 
             const withdrawal = {
-                type: 'withdrawal',
-                userId: currentUser.uid,
                 withdrawalDate: document.getElementById('withdrawalDate').value,
                 withdrawalAmount: amount,
                 withdrawalNote: document.getElementById('withdrawalNote').value || null,
-                timestamp: Date.now()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
             try {
-                await addDoc(collection(db, 'tradingData'), withdrawal);
-                
+                await db.collection('users').doc(currentUser.uid).collection('withdrawals').add(withdrawal);
                 showToast('Auszahlung erfolgreich gespeichert!');
                 document.getElementById('withdrawalForm').reset();
                 document.getElementById('withdrawalDate').value = today;
                 
-                if (startCapitalRecord) {
-                    const newCapital = startCapitalRecord.currentCapital - amount;
-                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                        currentCapital: newCapital
-                    });
+                if (startCapitalData) {
+                    startCapitalData.currentCapital -= amount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
                 }
+                
+                await loadAllData();
             } catch (error) {
-                showToast('Fehler beim Speichern: ' + error.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Auszahlung speichern';
+                console.error('Error saving withdrawal:', error);
+                showToast('Fehler beim Speichern', 'error');
             }
-        });
-
-        // News Event Form
-        document.getElementById('newsEventForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Speichere...';
-
-            const newsEvent = {
-                type: 'newsEvent',
-                userId: currentUser.uid,
-                newsDate: document.getElementById('newsDate').value,
-                newsTime: document.getElementById('newsTime').value || null,
-                newsTitle: document.getElementById('newsTitle').value,
-                newsImpact: document.getElementById('newsImpact').value,
-                newsAssets: document.getElementById('newsAssets').value || null,
-                newsNotes: document.getElementById('newsNotes').value || null,
-                timestamp: Date.now()
-            };
-
-            try {
-                await addDoc(collection(db, 'tradingData'), newsEvent);
-                
-                showToast('News Event erfolgreich gespeichert!');
-                document.getElementById('newsEventForm').reset();
-                document.getElementById('newsDate').value = today;
-                document.getElementById('newsImpact').value = 'low';
-            } catch (error) {
-                showToast('Fehler beim Speichern: ' + error.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'News Event speichern';
-            }
-        });
-
-        // Calendar Functions
-        function renderCalendar() {
-            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 
-                               'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-            
-            document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-            
-            const firstDay = new Date(currentYear, currentMonth, 1);
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            
-            let firstDayOfWeek = firstDay.getDay();
-            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-            
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-            
-            // Empty cells before first day
-            for (let i = 0; i < firstDayOfWeek; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'calendar-day empty';
-                grid.appendChild(emptyCell);
-            }
-            
-            // Days of month
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayTrades = trades.filter(t => t.date === dateStr);
-                const dayNews = newsEvents.filter(n => n.newsDate === dateStr);
-                
-                const dayCell = document.createElement('div');
-                dayCell.className = 'calendar-day bg-slate-700';
-                
-                // Check if today
-                const todayDate = new Date();
-                if (currentYear === todayDate.getFullYear() && 
-                    currentMonth === todayDate.getMonth() && 
-                    day === todayDate.getDate()) {
-                    dayCell.classList.add('today');
-                }
-                
-                // Determine trade result
-                if (dayTrades.length > 0) {
-                    const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
-                    if (dayTrades.length > 1) {
-                        dayCell.classList.add('mixed');
-                    } else if (dayPL > 0) {
-                        dayCell.classList.add('profit');
-                    } else if (dayPL < 0) {
-                        dayCell.classList.add('loss');
-                    } else {
-                        dayCell.classList.add('breakeven');
-                    }
-                }
-                
-                // Add news indicator
-                if (dayNews.length > 0) {
-                    dayCell.classList.add('news-event');
-                    const newsIndicator = document.createElement('div');
-                    newsIndicator.className = 'news-indicator';
-                    newsIndicator.textContent = '📰';
-                    dayCell.appendChild(newsIndicator);
-                }
-                
-                const dayNumber = document.createElement('div');
-                dayNumber.className = 'text-lg font-bold';
-                dayNumber.textContent = day;
-                dayCell.appendChild(dayNumber);
-                
-                if (dayTrades.length > 0 || dayNews.length > 0) {
-                    const indicator = document.createElement('div');
-                    indicator.className = 'text-xs mt-1';
-                    indicator.textContent = `${dayTrades.length} Trade${dayTrades.length !== 1 ? 's' : ''}`;
-                    if (dayNews.length > 0) {
-                        indicator.textContent += ` • ${dayNews.length} News`;
-                    }
-                    dayCell.appendChild(indicator);
-                    
-                    dayCell.addEventListener('click', () => showDayDetails(dateStr));
-                }
-                
-                grid.appendChild(dayCell);
-            }
-        }
-
-        function showDayDetails(dateStr) {
-            const dayTrades = trades.filter(t => t.date === dateStr);
-            const dayNews = newsEvents.filter(n => n.newsDate === dateStr);
-            
-            const formattedDate = formatDate(dateStr);
-            document.getElementById('selectedDayTitle').textContent = `📅 ${formattedDate}`;
-            
-            let content = '';
-            
-            // Show trades
-            if (dayTrades.length > 0) {
-                const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
-                const plColor = dayPL >= 0 ? 'text-green-400' : 'text-red-400';
-                
-                content += `
-                    <div class="mb-6">
-                        <h4 class="text-lg font-bold mb-3 flex items-center justify-between">
-                            <span>📊 Trades (${dayTrades.length})</span>
-                            <span class="${plColor} text-2xl font-bold">${formatCurrency(dayPL)}</span>
-                        </h4>
-                        <div class="space-y-3">
-                            ${dayTrades.map(trade => {
-                                const resultColor = trade.profitLoss > 0 ? 'text-green-400' : trade.profitLoss < 0 ? 'text-red-400' : 'text-orange-400';
-                                return `
-                                    <div class="bg-slate-700 rounded-lg p-4">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <div class="font-bold">${trade.asset || 'Kein Asset'}</div>
-                                            <div class="${resultColor} font-bold">${trade.profitLoss !== null ? formatCurrency(trade.profitLoss) : 'N/A'}</div>
-                                        </div>
-                                        ${trade.strategy ? `<div class="text-sm text-gray-400">📈 ${trade.strategy}</div>` : ''}
-                                        ${trade.emotion ? `<div class="text-sm text-gray-400">${getEmotionEmoji(trade.emotion)} ${trade.emotion}</div>` : ''}
-                                        ${trade.notes ? `<div class="text-sm text-gray-300 mt-2">📝 ${trade.notes}</div>` : ''}
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // Show news events
-            if (dayNews.length > 0) {
-                content += `
-                    <div>
-                        <h4 class="text-lg font-bold mb-3">📰 News Events (${dayNews.length})</h4>
-                        <div class="space-y-3">
-                            ${dayNews.map(news => {
-                                const impactEmoji = {
-                                    'low': '🟢',
-                                    'medium': '🟡',
-                                    'high': '🔴'
-                                };
-                                const impactText = {
-                                    'low': 'Niedrig',
-                                    'medium': 'Mittel',
-                                    'high': 'Hoch'
-                                };
-                                return `
-                                    <div class="bg-slate-700 rounded-lg p-4 border-l-4 border-blue-500">
-                                        <div class="flex items-start justify-between mb-2">
-                                            <div class="font-bold flex-1">${news.newsTitle}</div>
-                                            <button onclick="window.deleteNews('${news.id}')" class="text-red-400 hover:text-red-300 ml-2">🗑️</button>
-                                        </div>
-                                        ${news.newsTime ? `<div class="text-sm text-gray-400">🕐 ${news.newsTime} Uhr</div>` : ''}
-                                        <div class="text-sm text-gray-400 mt-1">${impactEmoji[news.newsImpact]} Wichtigkeit: ${impactText[news.newsImpact]}</div>
-                                        ${news.newsAssets ? `<div class="text-sm text-gray-400">💹 Betroffene Assets: ${news.newsAssets}</div>` : ''}
-                                        ${news.newsNotes ? `<div class="text-sm text-gray-300 mt-2">📝 ${news.newsNotes}</div>` : ''}
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (!content) {
-                content = '<div class="text-center text-gray-400 py-8">Keine Aktivität an diesem Tag</div>';
-            }
-            
-            document.getElementById('dayDetailsContent').innerHTML = content;
-            document.getElementById('dayDetails').classList.remove('hidden');
-        }
-
-        // Delete News Event
-        window.deleteNews = async function(id) {
-            if (!confirm('News Event wirklich löschen?')) return;
-            
-            try {
-                await deleteDoc(doc(db, 'tradingData', id));
-                showToast('News Event gelöscht!');
-            } catch (error) {
-                showToast('Fehler beim Löschen: ' + error.message, 'error');
-            }
-        };
-
-        // Calendar Navigation
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            renderCalendar();
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            renderCalendar();
-        });
-
-        document.getElementById('todayBtn').addEventListener('click', () => {
-            const today = new Date();
-            currentMonth = today.getMonth();
-            currentYear = today.getFullYear();
-            renderCalendar();
         });
 
         // Update Dashboard
         function updateDashboard() {
-            const startCapital = startCapitalRecord ? (startCapitalRecord.startCapital || 0) : 0;
-            const currentCapital = startCapitalRecord ? (startCapitalRecord.currentCapital || 0) : 0;
+            const startCapital = startCapitalData ? (startCapitalData.startCapital || 0) : 0;
+            const currentCapital = startCapitalData ? (startCapitalData.currentCapital || 0) : 0;
             
-            if (startCapitalRecord && startCapital > 0) {
+            if (startCapitalData && startCapital > 0) {
                 document.getElementById('startCapitalDisplay').classList.remove('hidden');
                 document.getElementById('startCapitalValue').textContent = formatCurrency(startCapital);
             } else {
@@ -2132,7 +1173,7 @@
             const ctx = document.getElementById('equityCurveChart');
             if (!ctx) return;
             
-            const startCapital = startCapitalRecord ? startCapitalRecord.startCapital : 0;
+            const startCapital = startCapitalData ? startCapitalData.startCapital : 0;
             const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
             
             const labels = ['Start'];
@@ -2193,11 +1234,7 @@
                         x: {
                             ticks: { 
                                 color: '#9ca3af',
-                                maxTicksLimit: 10,
-                                font: {
-                                    size: 11,
-                                    weight: 'bold'
-                                }
+                                maxTicksLimit: 10
                             },
                             grid: { 
                                 color: 'rgba(255, 255, 255, 0.05)',
@@ -2207,10 +1244,6 @@
                         y: {
                             ticks: { 
                                 color: '#9ca3af',
-                                font: {
-                                    size: 12,
-                                    weight: 'bold'
-                                },
                                 callback: function(value) {
                                     return '€' + value.toFixed(0);
                                 }
@@ -2255,7 +1288,6 @@
                                 <div class="text-sm font-bold">${trade.asset || 'Kein Asset'}</div>
                                 <span class="text-xs text-gray-400">•</span>
                                 <div class="text-xs text-gray-400">${formatDate(trade.date)}</div>
-                                ${trade.result ? `<span class="text-xs px-2 py-0.5 rounded bg-gray-700">${trade.result}</span>` : ''}
                             </div>
                             <div class="text-lg font-bold ${resultColor}">
                                 ${trade.profitLoss !== null ? (trade.profitLoss >= 0 ? '+' : '') + formatCurrency(trade.profitLoss) : 'N/A'}
@@ -2264,150 +1296,71 @@
                         
                         <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-2">
                             ${trade.lotSize !== null ? `<span>Lot: <span class="text-white font-medium">${trade.lotSize}</span></span>` : ''}
-                            ${trade.entryPrice !== null ? `<span>Entry: <span class="text-white font-medium">${trade.entryPrice}</span></span>` : ''}
-                            ${trade.exitPrice !== null ? `<span>Exit: <span class="text-white font-medium">${trade.exitPrice}</span></span>` : ''}
                             ${trade.strategy ? `<span>📈 <span class="text-white font-medium">${trade.strategy}</span></span>` : ''}
                             ${trade.emotion ? `<span>${getEmotionEmoji(trade.emotion)} <span class="text-purple-300 font-medium">${trade.emotion}</span></span>` : ''}
                         </div>
                         
                         ${trade.notes ? `
-                            <div class="bg-slate-700 bg-opacity-50 rounded p-2 mb-2 text-xs text-gray-300 line-clamp-2">
+                            <div class="bg-slate-700 bg-opacity-50 rounded p-2 mb-2 text-xs text-gray-300">
                                 📝 ${trade.notes}
                             </div>
                         ` : ''}
                         
-                        <div class="flex gap-2">
-                            <button onclick="window.editTrade('${trade.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
-                                ✏️ Bearbeiten
-                            </button>
-                            <button onclick="window.deleteTrade('${trade.id}')" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
-                                🗑️ Löschen
-                            </button>
-                        </div>
+                        <button onclick="deleteTrade('${trade.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
+                            🗑️ Löschen
+                        </button>
                     </div>
                 `;
             }).join('');
         }
 
-        // Edit Trade
-        window.editTrade = function(id) {
-            const trade = allData.find(t => t.id === id);
-            if (!trade) return;
-            
-            editingTradeId = id;
-            document.getElementById('editTradeId').value = id;
-            document.getElementById('editTradeDate').value = trade.date;
-            document.getElementById('editTradeAsset').value = trade.asset || '';
-            document.getElementById('editTradeLotSize').value = trade.lotSize !== null ? trade.lotSize : '';
-            document.getElementById('editTradeResult').value = trade.result || '';
-            document.getElementById('editTradeEntryPrice').value = trade.entryPrice !== null ? trade.entryPrice : '';
-            document.getElementById('editTradeExitPrice').value = trade.exitPrice !== null ? trade.exitPrice : '';
-            document.getElementById('editTradeProfitLoss').value = trade.profitLoss !== null ? trade.profitLoss : '';
-            document.getElementById('editTradeStrategy').value = trade.strategy || '';
-            document.getElementById('editTradeEmotion').value = trade.emotion || '';
-            document.getElementById('editTradeNotes').value = trade.notes || '';
-            
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
-        };
-
-        // Update Trade
-        document.getElementById('editTradeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!editingTradeId) return;
-            
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Speichere...';
-            
-            const trade = allData.find(t => t.id === editingTradeId);
-            const oldPL = trade.profitLoss || 0;
-            
-            const updatedData = {
-                date: document.getElementById('editTradeDate').value,
-                asset: document.getElementById('editTradeAsset').value || null,
-                lotSize: document.getElementById('editTradeLotSize').value ? parseFloat(document.getElementById('editTradeLotSize').value) : null,
-                result: document.getElementById('editTradeResult').value || null,
-                entryPrice: document.getElementById('editTradeEntryPrice').value ? parseFloat(document.getElementById('editTradeEntryPrice').value) : null,
-                exitPrice: document.getElementById('editTradeExitPrice').value ? parseFloat(document.getElementById('editTradeExitPrice').value) : null,
-                profitLoss: document.getElementById('editTradeProfitLoss').value ? parseFloat(document.getElementById('editTradeProfitLoss').value) : null,
-                strategy: document.getElementById('editTradeStrategy').value || null,
-                emotion: document.getElementById('editTradeEmotion').value || null,
-                notes: document.getElementById('editTradeNotes').value || null
-            };
-            
-            try {
-                await updateDoc(doc(db, 'tradingData', editingTradeId), updatedData);
-                
-                showToast('Trade erfolgreich aktualisiert!');
-                document.getElementById('editModal').classList.add('hidden');
-                document.getElementById('editModal').classList.remove('flex');
-                editingTradeId = null;
-                
-                const newPL = updatedData.profitLoss || 0;
-                if (newPL !== oldPL && startCapitalRecord) {
-                    const diff = newPL - oldPL;
-                    const newCapital = startCapitalRecord.currentCapital + diff;
-                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                        currentCapital: newCapital
-                    });
-                }
-            } catch (error) {
-                showToast('Fehler beim Aktualisieren: ' + error.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Änderungen speichern';
-            }
-        });
-
         // Delete Trade
         window.deleteTrade = async function(id) {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '✓ Bestätigen';
-            button.style.background = '#991b1b';
+            if (!currentUser) return;
             
-            const confirmHandler = async () => {
-                button.disabled = true;
-                button.textContent = 'Lösche...';
-                
-                const trade = allData.find(t => t.id === id);
-                const oldPL = trade.profitLoss || 0;
-                
-                try {
-                    await deleteDoc(doc(db, 'tradingData', id));
-                    
-                    showToast('Trade gelöscht!');
-                    
-                    if (startCapitalRecord && oldPL !== 0) {
-                        const newCapital = startCapitalRecord.currentCapital - oldPL;
-                        await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                            currentCapital: newCapital
-                        });
-                    }
-                } catch (error) {
-                    showToast('Fehler beim Löschen: ' + error.message, 'error');
-                    button.textContent = originalText;
-                    button.style.background = '';
-                    button.disabled = false;
-                }
-            };
+            // Create inline confirmation instead of browser dialog
+            const tradeCard = event.target.closest('.trade-card');
+            const originalHTML = tradeCard.innerHTML;
             
-            button.onclick = confirmHandler;
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-                button.onclick = () => deleteTrade(id);
-            }, 3000);
+            tradeCard.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-white font-semibold mb-3">Trade wirklich löschen?</p>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="confirmDeleteTrade('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Ja, löschen
+                        </button>
+                        <button onclick="cancelDeleteTrade(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Abbrechen
+                        </button>
+                    </div>
+                </div>
+            `;
         };
 
-        // Close Edit Modal
-        document.getElementById('closeEditModal').addEventListener('click', () => {
-            document.getElementById('editModal').classList.add('hidden');
-            document.getElementById('editModal').classList.remove('flex');
-            editingTradeId = null;
-        });
+        window.confirmDeleteTrade = async function(id) {
+            const trade = trades.find(t => t.id === id);
+            const oldPL = trade.profitLoss || 0;
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('trades').doc(id).delete();
+                showToast('Trade gelöscht!');
+                
+                if (startCapitalData && oldPL !== 0) {
+                    startCapitalData.currentCapital -= oldPL;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error deleting trade:', error);
+                showToast('Fehler beim Löschen', 'error');
+            }
+        };
+
+        window.cancelDeleteTrade = function(button, originalHTML) {
+            const tradeCard = button.closest('.trade-card');
+            tradeCard.innerHTML = originalHTML;
+        };
 
         // Render Withdrawals
         function renderWithdrawals() {
@@ -2441,7 +1394,7 @@
                             📝 ${w.withdrawalNote}
                         </div>
                     ` : ''}
-                    <button onclick="window.deleteWithdrawal('${w.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                    <button onclick="deleteWithdrawal('${w.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
                         🗑️ Löschen
                     </button>
                 </div>
@@ -2450,221 +1403,79 @@
 
         // Delete Withdrawal
         window.deleteWithdrawal = async function(id) {
-            const button = event.target;
-            const originalText = button.textContent;
-            button.textContent = '✓ Bestätigen';
-            button.style.background = '#991b1b';
+            if (!currentUser) return;
             
-            const confirmHandler = async () => {
-                button.disabled = true;
-                button.textContent = 'Lösche...';
-                
-                const withdrawal = allData.find(w => w.id === id);
-                
-                try {
-                    await deleteDoc(doc(db, 'tradingData', id));
-                    
-                    showToast('Auszahlung gelöscht!');
-                    
-                    if (startCapitalRecord) {
-                        const newCapital = startCapitalRecord.currentCapital + withdrawal.withdrawalAmount;
-                        await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
-                            currentCapital: newCapital
-                        });
-                    }
-                } catch (error) {
-                    showToast('Fehler beim Löschen: ' + error.message, 'error');
-                    button.textContent = originalText;
-                    button.style.background = '';
-                    button.disabled = false;
-                }
-            };
+            // Create inline confirmation
+            const withdrawalCard = event.target.closest('.trade-card');
+            const originalHTML = withdrawalCard.innerHTML;
             
-            button.onclick = confirmHandler;
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = '';
-                button.onclick = () => deleteWithdrawal(id);
-            }, 3000);
+            withdrawalCard.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-white font-semibold mb-3">Auszahlung wirklich löschen?</p>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="confirmDeleteWithdrawal('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Ja, löschen
+                        </button>
+                        <button onclick="cancelDeleteWithdrawal(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Abbrechen
+                        </button>
+                    </div>
+                </div>
+            `;
         };
 
-        // Render Performance Charts
-        function renderPerformanceCharts() {
-            const tradesWithPL = trades.filter(t => t.profitLoss !== null);
+        window.confirmDeleteWithdrawal = async function(id) {
+            const withdrawal = withdrawals.find(w => w.id === id);
             
-            const wins = tradesWithPL.filter(t => t.profitLoss > 0);
-            const losses = tradesWithPL.filter(t => t.profitLoss < 0);
-            
-            const avgWin = wins.length > 0 ? wins.reduce((sum, t) => sum + t.profitLoss, 0) / wins.length : 0;
-            const avgLoss = losses.length > 0 ? losses.reduce((sum, t) => sum + t.profitLoss, 0) / losses.length : 0;
-            const maxWin = wins.length > 0 ? Math.max(...wins.map(t => t.profitLoss)) : 0;
-            const maxLoss = losses.length > 0 ? Math.min(...losses.map(t => t.profitLoss)) : 0;
-            
-            // Calculate winning and losing streaks
-            const sortedTrades = [...tradesWithPL].sort((a, b) => new Date(a.date) - new Date(b.date));
-            let currentStreak = 0;
-            let maxWinStreak = 0;
-            let maxLoseStreak = 0;
-            let lastWasWin = null;
-            let currentStreakValue = 0;
-            let currentStreakType = '-';
-            
-            // Track all streaks for visualization
-            const streakData = [];
-            let streakStartIndex = 0;
-            
-            sortedTrades.forEach((trade, index) => {
-                const isWin = trade.profitLoss > 0;
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('withdrawals').doc(id).delete();
+                showToast('Auszahlung gelöscht!');
                 
-                if (lastWasWin === null || lastWasWin === isWin) {
-                    currentStreak++;
-                } else {
-                    // Record completed streak
-                    streakData.push({
-                        type: lastWasWin ? 'win' : 'loss',
-                        length: currentStreak,
-                        startIndex: streakStartIndex,
-                        endIndex: index - 1
-                    });
-                    
-                    if (lastWasWin) {
-                        maxWinStreak = Math.max(maxWinStreak, currentStreak);
-                    } else {
-                        maxLoseStreak = Math.max(maxLoseStreak, currentStreak);
-                    }
-                    currentStreak = 1;
-                    streakStartIndex = index;
+                if (startCapitalData) {
+                    startCapitalData.currentCapital += withdrawal.withdrawalAmount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
                 }
                 
-                lastWasWin = isWin;
-                
-                // Track current streak (for most recent trades)
-                if (index === sortedTrades.length - 1) {
-                    currentStreakValue = currentStreak;
-                    currentStreakType = isWin ? 'Gewinne' : 'Verluste';
-                }
-            });
-            
-            // Final streak check
-            if (lastWasWin !== null) {
-                streakData.push({
-                    type: lastWasWin ? 'win' : 'loss',
-                    length: currentStreak,
-                    startIndex: streakStartIndex,
-                    endIndex: sortedTrades.length - 1
-                });
-                
-                if (lastWasWin) {
-                    maxWinStreak = Math.max(maxWinStreak, currentStreak);
-                } else {
-                    maxLoseStreak = Math.max(maxLoseStreak, currentStreak);
-                }
+                await loadAllData();
+            } catch (error) {
+                console.error('Error deleting withdrawal:', error);
+                showToast('Fehler beim Löschen', 'error');
             }
-            
-            // Calculate streak ratio
-            const streakRatio = maxLoseStreak > 0 ? (maxWinStreak / maxLoseStreak).toFixed(2) : maxWinStreak.toFixed(2);
-            
-            document.getElementById('avgWin').textContent = formatCurrency(avgWin);
-            document.getElementById('avgLoss').textContent = formatCurrency(avgLoss);
-            document.getElementById('maxWin').textContent = formatCurrency(maxWin);
-            document.getElementById('maxLoss').textContent = formatCurrency(maxLoss);
-            document.getElementById('maxWinStreak').textContent = maxWinStreak;
-            document.getElementById('maxLoseStreak').textContent = maxLoseStreak;
-            document.getElementById('currentStreak').textContent = currentStreakValue;
-            document.getElementById('currentStreakType').textContent = currentStreakType;
-            document.getElementById('currentStreakType').className = `text-xs mt-1 font-semibold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
-            document.getElementById('currentStreak').className = `text-2xl font-bold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
-            document.getElementById('streakRatio').textContent = streakRatio;
-            
-            // Render Streak Chart - Professional Timeline View
-            const ctxStreak = document.getElementById('streakChart');
-            if (streakChart) streakChart.destroy();
-            
-            if (streakData.length > 0) {
-                // Show all streaks for complete timeline view
-                const allStreaks = streakData;
-                
-                // Prepare data for stacked area visualization
-                const winStreakData = [];
-                const loseStreakData = [];
-                const labels = [];
-                
-                allStreaks.forEach((streak, index) => {
-                    labels.push(`Streak ${index + 1}`);
-                    if (streak.type === 'win') {
-                        winStreakData.push(streak.length);
-                        loseStreakData.push(0);
-                    } else {
-                        winStreakData.push(0);
-                        loseStreakData.push(streak.length);
-                    }
-                });
-                
-                streakChart = new Chart(ctxStreak, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: '🔥 Winning Streaks',
-                                data: winStreakData,
-                                backgroundColor: 'rgba(16, 185, 129, 0.3)',
-                                borderColor: '#10b981',
-                                borderWidth: 3,
-                                fill: true,
-                                tension: 0.1,
-                                pointRadius: 6,
-                                pointHoverRadius: 8,
-                                pointBackgroundColor: '#10b981',
-                                pointBorderColor: '#fff',
-                                pointBorderWidth: 2,
-                                pointStyle: 'circle'
-                            },
-                            {
-                                label: '💔 Losing Streaks',
-                                data: loseStreakData,
-                                backgroundColor: 'rgba(239, 68, 68, 0.3)',
-                                borderColor: '#ef4444',
-                                borderWidth: 3,
-                                fill: true,
-                                tension: 0.1,
-                                pointRadius: 6,
-                                pointHoverRadius: 8,
-                                pointBackgroundColor: '#ef4444',
-                                pointBorderColor: '#fff',
-                                pointBorderWidth: 2,
-                                pointStyle: 'circle'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: {
-                            mode: 'index',
-                            intersect: false
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: { 
-                                    color: '#fff',
-                                    font: {
-                                        size: 13,
-                                        weight: 'bold'
-                                    },
-                                    padding: 15,
-                                    usePointStyle: true,
-                                    pointStyle: 'circle'
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.95)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                padding:
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73e112b232e0d3',t:'MTc2NzI5MDAzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        };
+
+        window.cancelDeleteWithdrawal = function(button, originalHTML) {
+            const withdrawalCard = button.closest('.trade-card');
+            withdrawalCard.innerHTML = originalHTML;
+        };
+
+        // Helper Functions
+        function formatCurrency(value) {
+            return '€' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('de-DE', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+        }
+
+        function getEmotionEmoji(emotion) {
+            const emojis = {
+                'Ruhig': '😌',
+                'Zuversichtlich': '😊',
+                'Nervös': '😰',
+                'Gestresst': '😫',
+                'Euphorisch': '🤩',
+                'Frustriert': '😤',
+                'Ängstlich': '😨',
+                'Neutral': '😐',
+                'Fokussiert': '🎯'
+            };
+            return emojis[emotion] || '😐';
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73f1576462e0d3',t:'MTc2NzI5MDcwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
