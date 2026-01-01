@@ -593,7 +593,7 @@
        </div><!-- New Trade Tab -->
        <div id="newtradeTab" class="tab-content hidden">
         <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>➕</span> <span>Neuen Trade hinzufügen</span></h2>
+         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>     </span> <span>Neuen Trade hinzufügen</span></h2>
          <form id="newTradeForm" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
@@ -872,51 +872,121 @@
            <form id="compoundForm" class="space-y-4">
             <div><label class="block text-sm font-semibold mb-2">💰 Startkapital (€)</label> <input type="number" id="compoundInitialCapital" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="10000" required>
             </div>
-            <div><label class="block text-sm font-semibold mb-2">📈 Monatliche Rendite (%)</label> <input type="number" id="compoundMonthlyReturn" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="5.0" required>
+            <div><label class="block text-sm font-semibold mb-2">🎯 Zielsumme (€)</label> <input type="number" id="compoundTargetAmount" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="50000" required>
             </div>
-            <div><label class="block text-sm font-semibold mb-2">📅 Zeitraum (Monate)</label> <input type="number" id="compoundMonths" step="1" min="1" max="120" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="12" required>
+            <div><label class="block text-sm font-semibold mb-2">📈 Planbare Rendite (%/Monat)</label> <select id="compoundPlannedReturn" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="1">1% - Konservativ</option> <option value="2">2% - Stabil</option> <option value="3">3% - Moderat</option> <option value="4">4% - Ambitioniert</option> <option value="5" selected>5% - Anspruchsvoll</option> <option value="6">6% - Aggressiv</option> <option value="7">7% - Sehr aggressiv</option> <option value="8">8% - Hochriskant</option> <option value="10">10% - Extrem riskant</option> <option value="custom">✏️ Eigene Rendite eingeben</option> </select> <input type="number" id="compoundCustomReturn" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg mt-2 hidden" placeholder="z.B. 5.5">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">📅 Zeitraum (Monate)</label> <input type="number" id="compoundMonths" step="1" min="1" max="120" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="12" value="12" required>
             </div>
             <div><label class="block text-sm font-semibold mb-2">💳 Monatliche Auszahlung (€)</label> <input type="number" id="compoundMonthlyWithdrawal" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="0" value="0">
-            </div>
-            <div class="bg-blue-900 bg-opacity-30 border border-blue-500 border-opacity-30 rounded-lg p-3"><label class="flex items-start gap-3 cursor-pointer"> <input type="checkbox" id="useCurrentPerformance" class="mt-1 w-5 h-5 rounded bg-slate-600 border-slate-500">
-              <div class="flex-1">
-               <div class="text-sm font-semibold text-blue-300">
-                📊 Meine Performance nutzen
-               </div>
-               <div class="text-xs text-gray-400 mt-1">
-                Ø <span id="currentPerfRate">0%</span>/Monat
-               </div>
-              </div></label>
             </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> 🧮 Berechnen </button>
            </form>
           </div><!-- Right Column: Results & Chart -->
           <div class="lg:col-span-2">
-           <div id="compoundResults" class="hidden space-y-6"><!-- Key Results -->
+           <div id="compoundResults" class="hidden space-y-6"><!-- Comparison Card - Main Focus -->
+            <div class="bg-gradient-to-br from-blue-900 to-indigo-900 bg-opacity-50 rounded-xl p-6 border-2 border-blue-500 border-opacity-40">
+             <h3 class="text-xl font-bold mb-5 flex items-center gap-2 text-blue-200"><span>⚖️</span> <span>Performance Vergleich</span></h3>
+             <div class="grid grid-cols-2 gap-6 mb-5"><!-- Your Performance -->
+              <div class="bg-slate-800 bg-opacity-60 rounded-xl p-5 border-2 border-blue-400 border-opacity-40">
+               <div class="text-center mb-3">
+                <div class="text-4xl mb-2">
+                 👤
+                </div>
+                <div class="text-sm text-blue-300 font-semibold mb-3">
+                 Deine Performance
+                </div>
+               </div>
+               <div class="space-y-3">
+                <div class="bg-slate-700 bg-opacity-50 rounded-lg p-3">
+                 <div class="text-xs text-gray-400 mb-1">
+                  Rendite/Monat
+                 </div>
+                 <div class="text-2xl font-bold text-blue-300" id="compoundYourRate">
+                  0%
+                 </div>
+                </div>
+                <div class="bg-slate-700 bg-opacity-50 rounded-lg p-3">
+                 <div class="text-xs text-gray-400 mb-1">
+                  Endkapital nach <span id="compoundYourMonths">12</span> Monaten
+                 </div>
+                 <div class="text-2xl font-bold text-blue-300" id="compoundYourProjection">
+                  €0.00
+                 </div>
+                </div>
+               </div>
+              </div><!-- Target Performance -->
+              <div class="bg-slate-800 bg-opacity-60 rounded-xl p-5 border-2 border-purple-400 border-opacity-40">
+               <div class="text-center mb-3">
+                <div class="text-4xl mb-2">
+                 🎯
+                </div>
+                <div class="text-sm text-purple-300 font-semibold mb-3">
+                 Zielvorgabe
+                </div>
+               </div>
+               <div class="space-y-3">
+                <div class="bg-slate-700 bg-opacity-50 rounded-lg p-3">
+                 <div class="text-xs text-gray-400 mb-1">
+                  Rendite/Monat
+                 </div>
+                 <div class="text-2xl font-bold text-purple-300" id="compoundTargetRate">
+                  0%
+                 </div>
+                </div>
+                <div class="bg-slate-700 bg-opacity-50 rounded-lg p-3">
+                 <div class="text-xs text-gray-400 mb-1">
+                  Endkapital nach <span id="compoundTargetMonths">12</span> Monaten
+                 </div>
+                 <div class="text-2xl font-bold text-purple-300" id="compoundTargetProjection">
+                  €0.00
+                 </div>
+                </div>
+               </div>
+              </div>
+             </div><!-- Difference -->
+             <div class="bg-gradient-to-r from-slate-800 to-slate-700 bg-opacity-60 rounded-xl p-5 text-center border border-slate-600">
+              <div class="text-sm text-gray-400 mb-2">
+               💫 Differenz zum Ziel
+              </div>
+              <div class="text-3xl font-bold mb-2" id="compoundDifference">
+               €0.00
+              </div>
+              <div class="text-xs text-gray-400" id="compoundDifferencePercent">
+               0%
+              </div>
+             </div>
+            </div><!-- Chart -->
+            <div class="bg-slate-800 bg-opacity-30 rounded-xl p-5 border border-slate-700">
+             <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📊</span> <span>Kapitalentwicklung im Vergleich</span></h3>
+             <div class="chart-container" style="height: 400px;">
+              <canvas id="compoundChart"></canvas>
+             </div>
+            </div><!-- Additional Stats -->
             <div class="grid grid-cols-3 gap-4">
              <div class="bg-gradient-to-br from-green-900 to-green-800 bg-opacity-40 rounded-xl p-4 text-center border border-green-500 border-opacity-30">
-              <div class="text-3xl mb-2">
+              <div class="text-2xl mb-2">
                🎯
               </div>
               <div class="text-xs text-green-200 uppercase mb-2">
-               Endkapital
+               Ziel erreicht in
               </div>
-              <div class="text-xl font-bold text-green-300" id="compoundFinalCapital">
-               €0.00
+              <div class="text-xl font-bold text-green-300" id="compoundMonthsToTarget">
+               -- Monate
               </div>
              </div>
              <div class="bg-gradient-to-br from-purple-900 to-purple-800 bg-opacity-40 rounded-xl p-4 text-center border border-purple-500 border-opacity-30">
-              <div class="text-3xl mb-2">
+              <div class="text-2xl mb-2">
                📈
               </div>
               <div class="text-xs text-purple-200 uppercase mb-2">
-               Gesamtgewinn
+               Gesamtgewinn (Ziel)
               </div>
               <div class="text-xl font-bold text-purple-300" id="compoundTotalProfit">
                €0.00
               </div>
              </div>
              <div class="bg-gradient-to-br from-orange-900 to-orange-800 bg-opacity-40 rounded-xl p-4 text-center border border-orange-500 border-opacity-30">
-              <div class="text-3xl mb-2">
+              <div class="text-2xl mb-2">
                💳
               </div>
               <div class="text-xs text-orange-200 uppercase mb-2">
@@ -926,46 +996,6 @@
                €0.00
               </div>
              </div>
-            </div><!-- Comparison Card -->
-            <div id="compoundComparison" class="bg-gradient-to-br from-blue-900 to-indigo-900 bg-opacity-40 rounded-xl p-5 border border-blue-500 border-opacity-30 hidden">
-             <h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-blue-200"><span>⚖️</span> <span>Performance Vergleich</span></h3>
-             <div class="grid grid-cols-2 gap-4 mb-4">
-              <div class="bg-slate-800 bg-opacity-50 rounded-lg p-4">
-               <div class="text-xs text-gray-400 mb-1">
-                Deine Performance
-               </div>
-               <div class="text-2xl font-bold text-blue-300" id="compoundYourProjection">
-                €0.00
-               </div>
-               <div class="text-xs text-blue-400 mt-1" id="compoundYourRate">
-                0%/Monat
-               </div>
-              </div>
-              <div class="bg-slate-800 bg-opacity-50 rounded-lg p-4">
-               <div class="text-xs text-gray-400 mb-1">
-                Zielvorgabe
-               </div>
-               <div class="text-2xl font-bold text-purple-300" id="compoundTargetProjection">
-                €0.00
-               </div>
-               <div class="text-xs text-purple-400 mt-1" id="compoundTargetRate">
-                0%/Monat
-               </div>
-              </div>
-             </div>
-             <div class="bg-slate-800 bg-opacity-50 rounded-lg p-3 text-center">
-              <div class="text-xs text-gray-400 mb-1">
-               Differenz
-              </div>
-              <div class="text-2xl font-bold" id="compoundDifference">
-               €0.00
-              </div>
-             </div>
-            </div><!-- Chart -->
-            <div class="bg-slate-800 bg-opacity-30 rounded-xl p-4 border border-slate-700">
-             <div class="chart-container" style="height: 350px;">
-              <canvas id="compoundChart"></canvas>
-             </div>
             </div>
            </div><!-- Empty State -->
            <div id="compoundEmptyState" class="flex flex-col items-center justify-center h-full py-20 text-gray-400">
@@ -973,7 +1003,8 @@
              📊
             </div>
             <p class="text-lg font-semibold mb-2">Zinseszins berechnen</p>
-            <p class="text-sm">Gib deine Werte ein und klicke auf "Berechnen"</p>
+            <p class="text-sm text-center">Gib deine Werte ein und klicke auf "Berechnen"<br>
+             um deine Performance mit dem Ziel zu vergleichen</p>
            </div>
           </div>
          </div>
@@ -1207,7 +1238,7 @@
       </div><!-- Calculators Tab -->
       <div id="calculatorsTab" class="tab-content hidden"><!-- Position Size Calculator -->
        <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Positionsgrößen-Rechner</span></h2>
+        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Positionsgr  ßen-Rechner</span></h2>
         <form id="positionSizeForm" class="space-y-4 mb-6">
          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div><label class="block text-sm font-semibold mb-2">Kontostand (€)</label> <input type="number" id="psAccountBalance" step="0.01" min="0" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
@@ -2668,7 +2699,7 @@
                         </div>
                     ` : ''}
                     <button onclick="deleteWithdrawal('${w.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                        🗑️ Löschen
+                            ️ Löschen
                     </button>
                 </div>
             `).join('');
@@ -3417,7 +3448,6 @@
             // Calculate average monthly return
             const avgMonthlyReturn = calculateAverageMonthlyReturn();
             document.getElementById('compoundAvgMonthly').textContent = avgMonthlyReturn.toFixed(2) + '%';
-            document.getElementById('currentPerfRate').textContent = avgMonthlyReturn.toFixed(2) + '%';
             
             // Prefill form with current data
             if (startCapital > 0) {
@@ -3454,87 +3484,114 @@
             return avgMonthlyReturn;
         }
 
+        // Handle custom return input
+        document.getElementById('compoundPlannedReturn').addEventListener('change', function() {
+            const customInput = document.getElementById('compoundCustomReturn');
+            if (this.value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+            }
+        });
+
         // Compound Calculator Form
         document.getElementById('compoundForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const useCurrentPerf = document.getElementById('useCurrentPerformance').checked;
-            let monthlyReturn = parseFloat(document.getElementById('compoundMonthlyReturn').value);
-            
-            if (useCurrentPerf) {
-                monthlyReturn = calculateAverageMonthlyReturn();
-            }
-            
+            // Get values
             const initialCapital = parseFloat(document.getElementById('compoundInitialCapital').value);
+            const targetAmount = parseFloat(document.getElementById('compoundTargetAmount').value);
             const months = parseInt(document.getElementById('compoundMonths').value);
             const monthlyWithdrawal = parseFloat(document.getElementById('compoundMonthlyWithdrawal').value) || 0;
             
-            calculateCompound(initialCapital, monthlyReturn, months, monthlyWithdrawal, useCurrentPerf);
+            // Get planned return
+            let plannedReturn;
+            const returnSelect = document.getElementById('compoundPlannedReturn').value;
+            if (returnSelect === 'custom') {
+                plannedReturn = parseFloat(document.getElementById('compoundCustomReturn').value);
+            } else {
+                plannedReturn = parseFloat(returnSelect);
+            }
+            
+            // Get current performance
+            const currentPerformance = calculateAverageMonthlyReturn();
+            
+            calculateCompoundWithComparison(initialCapital, targetAmount, plannedReturn, currentPerformance, months, monthlyWithdrawal);
         });
 
-        // Calculate compound interest
-        function calculateCompound(initialCapital, monthlyReturn, months, monthlyWithdrawal, compareWithCurrent) {
-            const returnRate = monthlyReturn / 100;
+        // Calculate compound interest with comparison
+        function calculateCompoundWithComparison(initialCapital, targetAmount, plannedReturn, currentPerformance, months, monthlyWithdrawal) {
+            const plannedRate = plannedReturn / 100;
+            const currentRate = currentPerformance / 100;
             
-            // Calculate with target return
-            let capitalTarget = initialCapital;
-            const monthlyDataTarget = [initialCapital];
+            // Calculate with planned return
+            let capitalPlanned = initialCapital;
+            const monthlyDataPlanned = [initialCapital];
             let totalWithdrawn = 0;
             
             for (let i = 1; i <= months; i++) {
-                capitalTarget = capitalTarget * (1 + returnRate);
-                capitalTarget -= monthlyWithdrawal;
+                capitalPlanned = capitalPlanned * (1 + plannedRate);
+                capitalPlanned -= monthlyWithdrawal;
                 totalWithdrawn += monthlyWithdrawal;
-                monthlyDataTarget.push(capitalTarget);
+                monthlyDataPlanned.push(capitalPlanned);
             }
             
-            const finalCapitalTarget = capitalTarget;
-            const totalProfitTarget = finalCapitalTarget - initialCapital + totalWithdrawn;
+            // Calculate with current performance
+            let capitalCurrent = initialCapital;
+            const monthlyDataCurrent = [initialCapital];
             
-            // Update results
-            document.getElementById('compoundFinalCapital').textContent = formatCurrency(finalCapitalTarget);
-            document.getElementById('compoundTotalProfit').textContent = formatCurrency(totalProfitTarget);
+            for (let i = 1; i <= months; i++) {
+                capitalCurrent = capitalCurrent * (1 + currentRate);
+                capitalCurrent -= monthlyWithdrawal;
+                monthlyDataCurrent.push(capitalCurrent);
+            }
+            
+            // Calculate months to reach target with planned return
+            let monthsToTarget = 0;
+            let tempCapital = initialCapital;
+            while (tempCapital < targetAmount && monthsToTarget < 240) { // Max 20 years
+                monthsToTarget++;
+                tempCapital = tempCapital * (1 + plannedRate);
+                tempCapital -= monthlyWithdrawal;
+            }
+            
+            const finalCapitalPlanned = capitalPlanned;
+            const finalCapitalCurrent = capitalCurrent;
+            const totalProfitPlanned = finalCapitalPlanned - initialCapital + totalWithdrawn;
+            const difference = finalCapitalPlanned - finalCapitalCurrent;
+            const differencePercent = ((difference / finalCapitalCurrent) * 100).toFixed(1);
+            
+            // Update comparison card
+            document.getElementById('compoundYourRate').textContent = currentPerformance.toFixed(2) + '%';
+            document.getElementById('compoundYourMonths').textContent = months;
+            document.getElementById('compoundYourProjection').textContent = formatCurrency(finalCapitalCurrent);
+            
+            document.getElementById('compoundTargetRate').textContent = plannedReturn.toFixed(2) + '%';
+            document.getElementById('compoundTargetMonths').textContent = months;
+            document.getElementById('compoundTargetProjection').textContent = formatCurrency(finalCapitalPlanned);
+            
+            document.getElementById('compoundDifference').textContent = formatCurrency(Math.abs(difference));
+            document.getElementById('compoundDifference').className = difference >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+            document.getElementById('compoundDifferencePercent').textContent = (difference >= 0 ? '+' : '') + differencePercent + '% ' + (difference >= 0 ? 'über' : 'unter') + ' dem Ziel';
+            
+            // Update additional stats
+            document.getElementById('compoundMonthsToTarget').textContent = monthsToTarget >= 240 ? 'Nicht erreichbar' : monthsToTarget + ' Monate';
+            document.getElementById('compoundTotalProfit').textContent = formatCurrency(totalProfitPlanned);
             document.getElementById('compoundTotalWithdrawn').textContent = formatCurrency(totalWithdrawn);
             
+            // Show results
             document.getElementById('compoundResults').classList.remove('hidden');
-            
-            // If comparing with current performance
-            let monthlyDataCurrent = null;
-            let finalCapitalCurrent = null;
-            
-            if (compareWithCurrent) {
-                const currentReturn = calculateAverageMonthlyReturn() / 100;
-                let capitalCurrent = initialCapital;
-                monthlyDataCurrent = [initialCapital];
-                
-                for (let i = 1; i <= months; i++) {
-                    capitalCurrent = capitalCurrent * (1 + currentReturn);
-                    capitalCurrent -= monthlyWithdrawal;
-                    monthlyDataCurrent.push(capitalCurrent);
-                }
-                
-                finalCapitalCurrent = capitalCurrent;
-                
-                // Show comparison
-                document.getElementById('compoundComparison').classList.remove('hidden');
-                document.getElementById('compoundYourProjection').textContent = formatCurrency(finalCapitalCurrent);
-                document.getElementById('compoundYourRate').textContent = calculateAverageMonthlyReturn().toFixed(2) + '%/Monat';
-                document.getElementById('compoundTargetProjection').textContent = formatCurrency(finalCapitalTarget);
-                document.getElementById('compoundTargetRate').textContent = monthlyReturn.toFixed(2) + '%/Monat';
-                
-                const difference = finalCapitalTarget - finalCapitalCurrent;
-                document.getElementById('compoundDifference').textContent = formatCurrency(Math.abs(difference));
-                document.getElementById('compoundDifference').className = difference >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
-            } else {
-                document.getElementById('compoundComparison').classList.add('hidden');
-            }
+            document.getElementById('compoundEmptyState').classList.add('hidden');
             
             // Render chart
-            renderCompoundChart(months, monthlyDataTarget, monthlyDataCurrent, monthlyReturn, compareWithCurrent);
+            renderCompoundComparisonChart(months, monthlyDataPlanned, monthlyDataCurrent, plannedReturn, currentPerformance, targetAmount);
         }
 
-        // Render compound chart
-        function renderCompoundChart(months, dataTarget, dataCurrent, targetReturn, showComparison) {
+        // Render compound comparison chart
+        function renderCompoundComparisonChart(months, dataPlanned, dataCurrent, plannedReturn, currentReturn, targetAmount) {
             const ctx = document.getElementById('compoundChart');
             if (!ctx) return;
             
@@ -3547,35 +3604,50 @@
                 labels.push(`Monat ${i}`);
             }
             
-            const datasets = [{
-                label: `Zielvorgabe (${targetReturn.toFixed(2)}%/Monat)`,
-                data: dataTarget,
-                borderColor: '#a78bfa',
-                backgroundColor: 'rgba(167, 139, 250, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4,
-                pointBackgroundColor: '#a78bfa',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2
-            }];
+            // Create target line data
+            const targetLine = new Array(months + 1).fill(targetAmount);
             
-            if (showComparison && dataCurrent) {
-                datasets.push({
-                    label: `Deine Performance (${calculateAverageMonthlyReturn().toFixed(2)}%/Monat)`,
-                    data: dataCurrent,
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            const datasets = [
+                {
+                    label: `🎯 Zielvorgabe (${plannedReturn.toFixed(1)}%/Monat)`,
+                    data: dataPlanned,
+                    borderColor: '#a78bfa',
+                    backgroundColor: 'rgba(167, 139, 250, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
-                    pointRadius: 4,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#a78bfa',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: `👤 Deine Performance (${currentReturn.toFixed(1)}%/Monat)`,
+                    data: dataCurrent,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
                     pointBackgroundColor: '#3b82f6',
                     pointBorderColor: '#fff',
                     pointBorderWidth: 2
-                });
-            }
+                },
+                {
+                    label: `💫 Zielsumme`,
+                    data: targetLine,
+                    borderColor: '#10b981',
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    borderDash: [10, 5],
+                    fill: false,
+                    pointRadius: 0,
+                    pointHoverRadius: 0
+                }
+            ];
             
             compoundChart = new Chart(ctx, {
                 type: 'line',
@@ -3586,6 +3658,10 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
                     plugins: {
                         legend: {
                             display: true,
@@ -3594,9 +3670,11 @@
                                 color: '#9ca3af',
                                 padding: 15,
                                 font: {
-                                    size: 12,
+                                    size: 13,
                                     weight: 'bold'
-                                }
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'line'
                             }
                         },
                         tooltip: {
@@ -3606,7 +3684,20 @@
                             padding: 12,
                             callbacks: {
                                 label: function(context) {
+                                    if (context.datasetIndex === 2) {
+                                        return `Zielsumme: ${formatCurrency(context.parsed.y)}`;
+                                    }
                                     return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
+                                },
+                                afterBody: function(context) {
+                                    if (context[0].datasetIndex === 0 || context[0].datasetIndex === 1) {
+                                        const diff = context[0].parsed.y - targetAmount;
+                                        if (Math.abs(diff) > 0.01) {
+                                            return diff >= 0 ? `✅ ${formatCurrency(diff)} über Ziel` : `❌ ${formatCurrency(Math.abs(diff))} unter Ziel`;
+                                        } else {
+                                            return '🎯 Ziel erreicht!';
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -3615,7 +3706,7 @@
                         x: {
                             ticks: { 
                                 color: '#9ca3af',
-                                maxTicksLimit: 12
+                                maxTicksLimit: 15
                             },
                             grid: { 
                                 color: 'rgba(255, 255, 255, 0.05)',
@@ -3626,7 +3717,7 @@
                             ticks: { 
                                 color: '#9ca3af',
                                 callback: function(value) {
-                                    return '€' + value.toFixed(0);
+                                    return '€' + (value / 1000).toFixed(0) + 'k';
                                 }
                             },
                             grid: { 
@@ -3638,19 +3729,6 @@
                 }
             });
         }
-
-        // Toggle current performance checkbox
-        document.getElementById('useCurrentPerformance').addEventListener('change', (e) => {
-            const monthlyReturnInput = document.getElementById('compoundMonthlyReturn');
-            if (e.target.checked) {
-                monthlyReturnInput.value = calculateAverageMonthlyReturn().toFixed(2);
-                monthlyReturnInput.disabled = true;
-                monthlyReturnInput.style.opacity = '0.5';
-            } else {
-                monthlyReturnInput.disabled = false;
-                monthlyReturnInput.style.opacity = '1';
-            }
-        });
 
         // Position Size Calculator
         document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
@@ -3735,9 +3813,9 @@
             document.getElementById('pipValue1000').textContent = formatCurrency(standardPipValue * 10) + '/pip';
             
             document.getElementById('pipCalculatorResults').classList.remove('hidden');
-            showToast('✅ Pips berechnet!');
+            showToast('   Pips berechnet!');
         });
         
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74e0af3333e0d3',t:'MTc2NzMwMDUwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74ea5cf0d2e0d3',t:'MTc2NzMwMDkwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
