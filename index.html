@@ -380,7 +380,7 @@
         <div class="glass-card rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in">
          <h2 class="text-lg sm:text-xl font-bold mb-4 flex items-center gap-2"><span>💼</span> <span>Startkapital festlegen</span></h2>
          <form id="startCapitalForm" class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end">
-          <div class="flex-1"><label class="block text-sm font-semibold mb-2">Startkapital (€)</label> <input type="number" id="startCapital" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
+          <div class="flex-1"><label class="block text-sm font-semibold mb-2">Startkapital (€)</label> <input type="number" id="startCapital" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 10000" required>
           </div><button type="submit" class="btn-primary px-6 py-3 rounded-lg font-bold text-white whitespace-nowrap"> Speichern </button>
          </form>
          <div id="startCapitalDisplay" class="mt-4 hidden">
@@ -504,9 +504,9 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 150.00 oder -50.00">
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">     Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">   Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="tradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Weitere Gedanken zum Trade..."></textarea>
           </div><button type="submit" class="btn-primary w-full py-4 rounded-lg font-bold text-white text-lg"> Trade speichern </button>
@@ -560,7 +560,7 @@
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Grö  ter Verlust
+             Größter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
              €0.00
@@ -569,7 +569,7 @@
           </div>
          </div><!-- Asset Distribution -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Asset Verteilung</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>🥧</span> <span>Asset Verteilung</span></h2>
           <div class="chart-container">
            <canvas id="assetDistributionChart"></canvas>
           </div>
@@ -932,7 +932,7 @@
                 nav_history: "Historial",
                 nav_performance: "Rendimiento",
                 nav_emotions: "Emociones",
-                nav_compound: "Inter  s Compuesto",
+                nav_compound: "Interés Compuesto",
                 nav_withdrawals: "Retiros",
                 nav_calculators: "Calculadoras"
             }
@@ -1106,7 +1106,14 @@
             e.preventDefault();
             if (!window.dataSdk || isLoading) return;
 
-            if (allData.length >= 999) {
+            const capital = parseFloat(document.getElementById('startCapital').value);
+            
+            if (isNaN(capital) || capital <= 0) {
+                showToast('Bitte gültiges Startkapital eingeben', 'error');
+                return;
+            }
+
+            if (!startCapitalRecord && allData.length >= 999) {
                 showToast('Maximum von 999 Einträgen erreicht!', 'error');
                 return;
             }
@@ -1116,13 +1123,13 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
 
-            const capital = parseFloat(document.getElementById('startCapital').value);
-
             let result;
             if (startCapitalRecord) {
-                const updated = { ...startCapitalRecord, startCapital: capital, currentCapital: capital };
+                // Update existing - keep currentCapital as is, only update startCapital
+                const updated = { ...startCapitalRecord, startCapital: capital };
                 result = await window.dataSdk.update(updated);
             } else {
+                // Create new record
                 const record = {
                     type: 'startCapital',
                     startCapital: capital,
@@ -1138,8 +1145,10 @@
 
             if (result.isOk) {
                 showToast('Startkapital erfolgreich gespeichert!');
+                document.getElementById('startCapital').value = '';
             } else {
                 showToast('Fehler beim Speichern', 'error');
+                console.error('Error saving start capital:', result.error);
             }
         });
 
@@ -1856,7 +1865,7 @@
                 'Euphorisch': '🤩',
                 'Frustriert': '😤',
                 'Ängstlich': '😨',
-                'Neutral': '    ',
+                'Neutral': '😐',
                 'Fokussiert': '🎯'
             };
             return emojis[emotion] || '😐';
@@ -1986,5 +1995,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7260f092e7e0d3',t:'MTc2NzI3NDMwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b727a7b9060e0d3',t:'MTc2NzI3NTM1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
