@@ -5,10 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professional Trading Journal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script><!-- Data SDK -->
-  <script src="/_sdk/data_sdk.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK v9 -->
+  <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // Firebase Configuration - ERSETZEN SIE DIESE MIT IHREN EIGENEN FIREBASE-DATEN
+        const firebaseConfig = {
+  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
+  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
+  projectId: "trading-journal-pro-8212f",
+  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
+  messagingSenderId: "927047992152",
+  appId: "1:927047992152:web:2269467aa95689e0955b2d",
+  measurementId: "G-36WT75DLEL"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // Make available globally
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseModules = {
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            onAuthStateChanged,
+            collection,
+            addDoc,
+            updateDoc,
+            deleteDoc,
+            doc,
+            query,
+            where,
+            onSnapshot,
+            orderBy
+        };
+    </script>
   <style>
         body {
             box-sizing: border-box;
@@ -277,6 +314,7 @@
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
@@ -361,7 +399,7 @@
         Menü
        </div><button id="closeMobileMenu" class="text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>    </span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>   </span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🧮</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🧮</span> <span>Rechner</span> </button>
       </nav>
      </aside><!-- Main Content -->
      <main class="flex-1 overflow-auto w-full">
@@ -477,7 +515,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="    Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -494,7 +532,7 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 150.00 oder -50.00">
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">   Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
@@ -550,7 +588,7 @@
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Gr      ßter Verlust
+             Größter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
              €0.00
@@ -565,13 +603,13 @@
           </div>
          </div><!-- Asset Performance -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Asset Performance (P/L)</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>💹</span> <span>Asset Performance (P/L)</span></h2>
           <div class="chart-container">
            <canvas id="assetPerformanceChart"></canvas>
           </div>
          </div><!-- Monthly Performance -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
           <div class="chart-container">
            <canvas id="monthlyPerformanceChart"></canvas>
           </div>
@@ -707,7 +745,7 @@
     <div class="flex items-center justify-between mb-6">
      <h2 class="text-2xl font-bold">✏️ Trade bearbeiten</h2><button id="closeEditModal" class="text-gray-400 hover:text-white text-3xl">×</button>
     </div>
-    <form id="editTradeForm" class="space-y-6">
+    <form id="editTradeForm" class="space-y-6"><input type="hidden" id="editTradeId">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="editTradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
       </div>
@@ -728,38 +766,49 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="editTradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">    Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">   Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">   Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="editTradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg"></textarea>
      </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Änderungen speichern </button>
     </form>
    </div>
   </div>
-  <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
-  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
-  projectId: "trading-journal-pro-8212f",
-  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
-  messagingSenderId: "927047992152",
-  appId: "1:927047992152:web:2269467aa95689e0955b2d",
-  measurementId: "G-36WT75DLEL"
-};
+  <script type="module">
+        // Wait for Firebase to load
+        await new Promise(resolve => {
+            const checkFirebase = setInterval(() => {
+                if (window.firebaseAuth && window.firebaseDb && window.firebaseModules) {
+                    clearInterval(checkFirebase);
+                    resolve();
+                }
+            }, 100);
+        });
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        const auth = window.firebaseAuth;
+        const db = window.firebaseDb;
+        const { 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            collection,
+            addDoc,
+            updateDoc,
+            deleteDoc,
+            doc,
+            query,
+            where,
+            onSnapshot,
+            orderBy
+        } = window.firebaseModules;
         
         // Global data variables
         let allData = [];
         let trades = [];
         let withdrawals = [];
         let startCapitalRecord = null;
-        let sdkInitialized = false;
-        let isLoading = false;
         let currentUser = null;
         let editingTradeId = null;
         let equityCurveChart = null;
@@ -767,14 +816,44 @@
         let assetPerformanceChart = null;
         let monthlyPerformanceChart = null;
         let compoundChart = null;
-        
-        // Data SDK Handler
-        const dataHandler = {
-            onDataChanged(data) {
-                if (!currentUser) return;
+        let unsubscribeData = null;
+
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('registerScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
                 
-                const userEmail = currentUser.email;
-                allData = data.filter(item => item.userEmail === userEmail);
+                // Subscribe to user's data
+                subscribeToUserData(user.uid);
+            } else {
+                currentUser = null;
+                if (unsubscribeData) {
+                    unsubscribeData();
+                    unsubscribeData = null;
+                }
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('registerScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.add('hidden');
+            }
+        });
+
+        // Subscribe to user's data in real-time
+        function subscribeToUserData(userId) {
+            const q = query(
+                collection(db, 'tradingData'),
+                where('userId', '==', userId),
+                orderBy('timestamp', 'desc')
+            );
+            
+            unsubscribeData = onSnapshot(q, (snapshot) => {
+                allData = [];
+                snapshot.forEach((doc) => {
+                    allData.push({ id: doc.id, ...doc.data() });
+                });
+                
                 trades = allData.filter(item => item.type === 'trade');
                 withdrawals = allData.filter(item => item.type === 'withdrawal');
                 startCapitalRecord = allData.find(item => item.type === 'startCapital');
@@ -782,59 +861,8 @@
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
-            }
-        };
-
-        // Initialize Data SDK
-        async function initializeDataSDK() {
-            if (sdkInitialized) {
-                return true;
-            }
-            
-            if (!window.dataSdk) {
-                console.error('❌ Data SDK not available');
-                return false;
-            }
-            
-            try {
-                const result = await window.dataSdk.init(dataHandler);
-                if (result.isOk) {
-                    sdkInitialized = true;
-                    console.log('✅ Data SDK initialized');
-                    return true;
-                } else {
-                    console.error('❌ SDK init failed:', result.error);
-                    return false;
-                }
-            } catch (error) {
-                console.error('❌ SDK init error:', error);
-                return false;
-            }
+            });
         }
-
-
-        // Auth State Observer
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-                
-                // Wait a bit for SDK to be ready, then initialize
-                setTimeout(async () => {
-                    const initialized = await initializeDataSDK();
-                    if (!initialized) {
-                        console.error('Failed to initialize SDK after login');
-                    }
-                }, 100);
-            } else {
-                currentUser = null;
-                document.getElementById('loginScreen').classList.remove('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.add('hidden');
-            }
-        });
 
         // Login Form
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -847,7 +875,7 @@
             submitBtn.textContent = 'Anmeldung läuft...';
             
             try {
-                await auth.signInWithEmailAndPassword(email, password);
+                await signInWithEmailAndPassword(auth, email, password);
                 showToast('Erfolgreich angemeldet!');
             } catch (error) {
                 console.error('Login error:', error);
@@ -855,6 +883,7 @@
                 if (error.code === 'auth/user-not-found') message = 'Benutzer nicht gefunden';
                 else if (error.code === 'auth/wrong-password') message = 'Falsches Passwort';
                 else if (error.code === 'auth/invalid-email') message = 'Ungültige E-Mail';
+                else if (error.code === 'auth/invalid-credential') message = 'Ungültige Anmeldedaten';
                 showToast(message, 'error');
             } finally {
                 submitBtn.disabled = false;
@@ -873,7 +902,7 @@
             submitBtn.textContent = 'Registrierung läuft...';
             
             try {
-                await auth.createUserWithEmailAndPassword(email, password);
+                await createUserWithEmailAndPassword(auth, email, password);
                 showToast('Erfolgreich registriert!');
             } catch (error) {
                 console.error('Register error:', error);
@@ -902,7 +931,7 @@
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', async () => {
             try {
-                await auth.signOut();
+                await signOut(auth);
                 showToast('Erfolgreich abgemeldet');
             } catch (error) {
                 console.error('Logout error:', error);
@@ -912,7 +941,7 @@
 
         document.getElementById('logoutBtnMobile').addEventListener('click', async () => {
             try {
-                await auth.signOut();
+                await signOut(auth);
                 showToast('Erfolgreich abgemeldet');
             } catch (error) {
                 console.error('Logout error:', error);
@@ -927,7 +956,7 @@
             toast.style.background = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
             toast.innerHTML = `
                 <div class="flex items-center gap-2">
-                    <span>${type === 'error' ? '❌' : '  '}</span>
+                    <span>${type === 'error' ? '❌' : '✅'}</span>
                     <span>${message}</span>
                 </div>
             `;
@@ -1031,16 +1060,6 @@
                 showToast('Bitte melden Sie sich zuerst an', 'error');
                 return;
             }
-            
-            if (!sdkInitialized) {
-                const initialized = await initializeDataSDK();
-                if (!initialized) {
-                    showToast('Datenbank nicht verfügbar', 'error');
-                    return;
-                }
-            }
-            
-            if (isLoading) return;
 
             const capital = parseFloat(document.getElementById('startCapital').value);
             
@@ -1049,50 +1068,35 @@
                 return;
             }
 
-            if (!startCapitalRecord && allData.length >= 999) {
-                showToast('Maximum von 999 Einträgen erreicht!', 'error');
-                return;
-            }
-
-            isLoading = true;
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
 
             try {
-                let result;
                 if (startCapitalRecord) {
                     const oldStartCapital = startCapitalRecord.startCapital || 0;
                     const difference = capital - oldStartCapital;
                     const newCurrentCapital = (startCapitalRecord.currentCapital || 0) + difference;
                     
-                    const updated = { 
-                        ...startCapitalRecord, 
+                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
                         startCapital: capital,
                         currentCapital: newCurrentCapital
-                    };
-                    result = await window.dataSdk.update(updated);
+                    });
                 } else {
-                    const record = {
+                    await addDoc(collection(db, 'tradingData'), {
                         type: 'startCapital',
-                        userEmail: currentUser.email,
+                        userId: currentUser.uid,
                         startCapital: capital,
                         currentCapital: capital,
                         timestamp: Date.now()
-                    };
-                    result = await window.dataSdk.create(record);
+                    });
                 }
 
-                if (result.isOk) {
-                    showToast('Startkapital erfolgreich gespeichert!');
-                    document.getElementById('startCapital').value = '';
-                } else {
-                    showToast('Fehler beim Speichern', 'error');
-                }
+                showToast('Startkapital erfolgreich gespeichert!');
+                document.getElementById('startCapital').value = '';
             } catch (error) {
-                showToast('Fehler: ' + error.message, 'error');
+                showToast('Fehler beim Speichern: ' + error.message, 'error');
             } finally {
-                isLoading = false;
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Speichern';
             }
@@ -1101,14 +1105,8 @@
         // New Trade Form
         document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !sdkInitialized || !currentUser || isLoading) return;
+            if (!currentUser) return;
 
-            if (allData.length >= 999) {
-                showToast('Maximum von 999 Einträgen erreicht!', 'error');
-                return;
-            }
-
-            isLoading = true;
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
@@ -1122,7 +1120,7 @@
 
             const trade = {
                 type: 'trade',
-                userEmail: currentUser.email,
+                userId: currentUser.uid,
                 date: document.getElementById('tradeDate').value,
                 asset: document.getElementById('tradeAsset').value || null,
                 lotSize: document.getElementById('tradeLotSize').value ? parseFloat(document.getElementById('tradeLotSize').value) : null,
@@ -1136,38 +1134,32 @@
                 timestamp: Date.now()
             };
 
-            const result_sdk = await window.dataSdk.create(trade);
-
-            isLoading = false;
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Trade speichern';
-
-            if (result_sdk.isOk) {
+            try {
+                await addDoc(collection(db, 'tradingData'), trade);
+                
                 showToast('Trade erfolgreich gespeichert!');
                 document.getElementById('newTradeForm').reset();
                 document.getElementById('tradeDate').value = today;
                 
                 if (trade.profitLoss !== null && startCapitalRecord) {
                     const newCapital = startCapitalRecord.currentCapital + trade.profitLoss;
-                    const updated = { ...startCapitalRecord, currentCapital: newCapital };
-                    await window.dataSdk.update(updated);
+                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
+                        currentCapital: newCapital
+                    });
                 }
-            } else {
-                showToast('Fehler beim Speichern', 'error');
+            } catch (error) {
+                showToast('Fehler beim Speichern: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Trade speichern';
             }
         });
 
         // Withdrawal Form
         document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !sdkInitialized || !currentUser || isLoading) return;
+            if (!currentUser) return;
 
-            if (allData.length >= 999) {
-                showToast('Maximum von 999 Einträgen erreicht!', 'error');
-                return;
-            }
-
-            isLoading = true;
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
@@ -1176,54 +1168,44 @@
 
             const withdrawal = {
                 type: 'withdrawal',
-                userEmail: currentUser.email,
+                userId: currentUser.uid,
                 withdrawalDate: document.getElementById('withdrawalDate').value,
                 withdrawalAmount: amount,
                 withdrawalNote: document.getElementById('withdrawalNote').value || null,
                 timestamp: Date.now()
             };
 
-            const result = await window.dataSdk.create(withdrawal);
-
-            isLoading = false;
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Auszahlung speichern';
-
-            if (result.isOk) {
+            try {
+                await addDoc(collection(db, 'tradingData'), withdrawal);
+                
                 showToast('Auszahlung erfolgreich gespeichert!');
                 document.getElementById('withdrawalForm').reset();
                 document.getElementById('withdrawalDate').value = today;
                 
                 if (startCapitalRecord) {
                     const newCapital = startCapitalRecord.currentCapital - amount;
-                    const updated = { ...startCapitalRecord, currentCapital: newCapital };
-                    await window.dataSdk.update(updated);
+                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
+                        currentCapital: newCapital
+                    });
                 }
-            } else {
-                showToast('Fehler beim Speichern', 'error');
+            } catch (error) {
+                showToast('Fehler beim Speichern: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Auszahlung speichern';
             }
         });
 
         // Update Dashboard
         function updateDashboard() {
-            console.log('📊 Updating dashboard...', { 
-                hasStartCapitalRecord: !!startCapitalRecord, 
-                startCapital: startCapitalRecord?.startCapital,
-                currentCapital: startCapitalRecord?.currentCapital,
-                tradesCount: trades.length,
-                withdrawalsCount: withdrawals.length
-            });
-            
             const startCapital = startCapitalRecord ? (startCapitalRecord.startCapital || 0) : 0;
             const currentCapital = startCapitalRecord ? (startCapitalRecord.currentCapital || 0) : 0;
             
             if (startCapitalRecord && startCapital > 0) {
                 document.getElementById('startCapitalDisplay').classList.remove('hidden');
                 document.getElementById('startCapitalValue').textContent = formatCurrency(startCapital);
-                console.log('✅ Displaying start capital:', formatCurrency(startCapital));
             } else {
                 document.getElementById('startCapitalDisplay').classList.add('hidden');
-                console.log('⚠️ No start capital to display');
             }
             
             const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
@@ -1380,10 +1362,10 @@
                         ` : ''}
                         
                         <div class="flex gap-2">
-                            <button onclick="editTrade('${trade.__backendId}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
+                            <button onclick="window.editTrade('${trade.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
                                 ✏️ Bearbeiten
                             </button>
-                            <button onclick="deleteTrade('${trade.__backendId}')" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
+                            <button onclick="window.deleteTrade('${trade.id}')" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
                                 🗑️ Löschen
                             </button>
                         </div>
@@ -1394,10 +1376,11 @@
 
         // Edit Trade
         window.editTrade = function(id) {
-            const trade = trades.find(t => t.__backendId === id);
+            const trade = allData.find(t => t.id === id);
             if (!trade) return;
             
             editingTradeId = id;
+            document.getElementById('editTradeId').value = id;
             document.getElementById('editTradeDate').value = trade.date;
             document.getElementById('editTradeAsset').value = trade.asset || '';
             document.getElementById('editTradeLotSize').value = trade.lotSize !== null ? trade.lotSize : '';
@@ -1416,18 +1399,16 @@
         // Update Trade
         document.getElementById('editTradeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !editingTradeId || isLoading || !sdkInitialized) return;
+            if (!editingTradeId) return;
             
-            isLoading = true;
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Speichere...';
             
-            const trade = allData.find(t => t.__backendId === editingTradeId);
+            const trade = allData.find(t => t.id === editingTradeId);
             const oldPL = trade.profitLoss || 0;
             
-            const updatedTrade = {
-                ...trade,
+            const updatedData = {
                 date: document.getElementById('editTradeDate').value,
                 asset: document.getElementById('editTradeAsset').value || null,
                 lotSize: document.getElementById('editTradeLotSize').value ? parseFloat(document.getElementById('editTradeLotSize').value) : null,
@@ -1440,64 +1421,60 @@
                 notes: document.getElementById('editTradeNotes').value || null
             };
             
-            const result = await window.dataSdk.update(updatedTrade);
-            
-            isLoading = false;
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Änderungen speichern';
-            
-            if (result.isOk) {
+            try {
+                await updateDoc(doc(db, 'tradingData', editingTradeId), updatedData);
+                
                 showToast('Trade erfolgreich aktualisiert!');
                 document.getElementById('editModal').classList.add('hidden');
                 document.getElementById('editModal').classList.remove('flex');
                 editingTradeId = null;
                 
-                const newPL = updatedTrade.profitLoss || 0;
+                const newPL = updatedData.profitLoss || 0;
                 if (newPL !== oldPL && startCapitalRecord) {
                     const diff = newPL - oldPL;
                     const newCapital = startCapitalRecord.currentCapital + diff;
-                    const updated = { ...startCapitalRecord, currentCapital: newCapital };
-                    await window.dataSdk.update(updated);
+                    await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
+                        currentCapital: newCapital
+                    });
                 }
-            } else {
-                showToast('Fehler beim Aktualisieren', 'error');
+            } catch (error) {
+                showToast('Fehler beim Aktualisieren: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Änderungen speichern';
             }
         });
 
         // Delete Trade
         window.deleteTrade = async function(id) {
-            if (!window.dataSdk || isLoading || !sdkInitialized) return;
-            
             const button = event.target;
             const originalText = button.textContent;
             button.textContent = '✓ Bestätigen';
             button.style.background = '#991b1b';
             
             const confirmHandler = async () => {
-                isLoading = true;
                 button.disabled = true;
                 button.textContent = 'Lösche...';
                 
-                const trade = allData.find(t => t.__backendId === id);
+                const trade = allData.find(t => t.id === id);
                 const oldPL = trade.profitLoss || 0;
                 
-                const result = await window.dataSdk.delete(trade);
-                
-                isLoading = false;
-                button.disabled = false;
-                
-                if (result.isOk) {
+                try {
+                    await deleteDoc(doc(db, 'tradingData', id));
+                    
                     showToast('Trade gelöscht!');
                     
                     if (startCapitalRecord && oldPL !== 0) {
                         const newCapital = startCapitalRecord.currentCapital - oldPL;
-                        const updated = { ...startCapitalRecord, currentCapital: newCapital };
-                        await window.dataSdk.update(updated);
+                        await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
+                            currentCapital: newCapital
+                        });
                     }
-                } else {
-                    showToast('Fehler beim Löschen', 'error');
+                } catch (error) {
+                    showToast('Fehler beim Löschen: ' + error.message, 'error');
                     button.textContent = originalText;
                     button.style.background = '';
+                    button.disabled = false;
                 }
             };
             
@@ -1549,7 +1526,7 @@
                             📝 ${w.withdrawalNote}
                         </div>
                     ` : ''}
-                    <button onclick="deleteWithdrawal('${w.__backendId}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                    <button onclick="window.deleteWithdrawal('${w.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
                         🗑️ Löschen
                     </button>
                 </div>
@@ -1558,36 +1535,33 @@
 
         // Delete Withdrawal
         window.deleteWithdrawal = async function(id) {
-            if (!window.dataSdk || isLoading || !sdkInitialized) return;
-            
             const button = event.target;
             const originalText = button.textContent;
             button.textContent = '✓ Bestätigen';
             button.style.background = '#991b1b';
             
             const confirmHandler = async () => {
-                isLoading = true;
                 button.disabled = true;
                 button.textContent = 'Lösche...';
                 
-                const withdrawal = allData.find(w => w.__backendId === id);
-                const result = await window.dataSdk.delete(withdrawal);
+                const withdrawal = allData.find(w => w.id === id);
                 
-                isLoading = false;
-                button.disabled = false;
-                
-                if (result.isOk) {
+                try {
+                    await deleteDoc(doc(db, 'tradingData', id));
+                    
                     showToast('Auszahlung gelöscht!');
                     
                     if (startCapitalRecord) {
                         const newCapital = startCapitalRecord.currentCapital + withdrawal.withdrawalAmount;
-                        const updated = { ...startCapitalRecord, currentCapital: newCapital };
-                        await window.dataSdk.update(updated);
+                        await updateDoc(doc(db, 'tradingData', startCapitalRecord.id), {
+                            currentCapital: newCapital
+                        });
                     }
-                } else {
-                    showToast('Fehler beim Löschen', 'error');
+                } catch (error) {
+                    showToast('Fehler beim Löschen: ' + error.message, 'error');
                     button.textContent = originalText;
                     button.style.background = '';
+                    button.disabled = false;
                 }
             };
             
@@ -1934,5 +1908,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72dd85c2e9e0d3',t:'MTc2NzI3OTQwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72e9d8601be0d3',t:'MTc2NzI3OTkxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
