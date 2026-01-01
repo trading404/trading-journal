@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trading Journal Pro</title>
+  <title>Professional Trading Journal</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Tailwind CSS Production Alternative -->
   <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet"><!-- Firebase SDK v9 -->
   <script type="module">
@@ -312,6 +312,65 @@
             position: relative;
             height: 300px;
         }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            min-height: 60px;
+        }
+        
+        .calendar-day:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .calendar-day.empty {
+            cursor: default;
+            opacity: 0.3;
+        }
+        
+        .calendar-day.empty:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .calendar-day.today {
+            border: 2px solid #3b82f6;
+        }
+        
+        .calendar-day.profit {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.3));
+        }
+        
+        .calendar-day.loss {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.3));
+        }
+        
+        .calendar-day.breakeven {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.3));
+        }
+        
+        .calendar-day.mixed {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(124, 58, 237, 0.3));
+        }
+        
+        .calendar-day.news-event {
+            border: 2px solid #3b82f6;
+        }
+        
+        .calendar-day .news-indicator {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 10px;
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -400,7 +459,7 @@
         Menü
        </div><button id="closeMobileMenu" class="text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🧮</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calendar"> <span>📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🔢</span> <span>Rechner</span> </button>
       </nav>
      </aside><!-- Main Content -->
      <main class="flex-1 overflow-auto w-full">
@@ -516,7 +575,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="   Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -533,7 +592,7 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 150.00 oder -50.00">
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">   Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
@@ -568,7 +627,7 @@
              Durchschn. Gewinn
             </div>
             <div class="text-xl font-bold text-green-400" id="avgWin">
-                0.00
+             €0.00
             </div>
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
@@ -592,7 +651,7 @@
              Größter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
-               0.00
+             €0.00
             </div>
            </div>
           </div>
@@ -602,7 +661,7 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
            <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
             <div class="text-3xl mb-2">
-                
+             🔥
             </div>
             <div class="text-sm text-gray-400 mb-1">
              Beste Winning Streak
@@ -677,7 +736,7 @@
           </div>
          </div><!-- Monthly Performance -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
           <div class="chart-container">
            <canvas id="monthlyPerformanceChart"></canvas>
           </div>
@@ -821,6 +880,85 @@
           </div>
          </div>
         </div>
+       </div><!-- Calendar Tab -->
+       <div id="calendarTab" class="tab-content hidden">
+        <div class="space-y-6 animate-fade-in"><!-- Calendar Header -->
+         <div class="glass-card rounded-xl p-6">
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+           <h2 class="text-2xl font-bold flex items-center gap-2"><span>📅</span> <span>Trading Kalender</span></h2>
+           <div class="flex items-center gap-3"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg font-semibold transition"> ◀ Zurück </button> <button id="todayBtn" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg font-semibold transition"> Heute </button> <button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg font-semibold transition"> Weiter ▶ </button>
+           </div>
+          </div>
+          <div class="text-center mb-6">
+           <h3 id="currentMonthYear" class="text-3xl font-bold text-purple-400"></h3>
+          </div><!-- Legend -->
+          <div class="flex flex-wrap justify-center gap-4 mb-6 text-sm">
+           <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-green-500"></div><span>Gewinn</span>
+           </div>
+           <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-red-500"></div><span>Verlust</span>
+           </div>
+           <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-orange-500"></div><span>Break Even</span>
+           </div>
+           <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-purple-500"></div><span>Mehrere Trades</span>
+           </div>
+           <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-blue-500"></div><span>News Event</span>
+           </div>
+          </div><!-- Calendar Grid -->
+          <div class="grid grid-cols-7 gap-2 mb-4">
+           <div class="text-center font-bold text-gray-400 py-2">
+            Mo
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            Di
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            Mi
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            Do
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            Fr
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            Sa
+           </div>
+           <div class="text-center font-bold text-gray-400 py-2">
+            So
+           </div>
+          </div>
+          <div id="calendarGrid" class="grid grid-cols-7 gap-2"><!-- Calendar days will be inserted here -->
+          </div>
+         </div><!-- Day Details -->
+         <div id="dayDetails" class="glass-card rounded-xl p-6 hidden">
+          <h3 class="text-xl font-bold mb-4" id="selectedDayTitle"></h3>
+          <div id="dayDetailsContent"></div>
+         </div><!-- Add News Event -->
+         <div class="glass-card rounded-xl p-6">
+          <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📰</span> <span>News Event hinzufügen</span></h3>
+          <form id="newsEventForm" class="space-y-4">
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="newsDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Uhrzeit (optional)</label> <input type="time" id="newsTime" class="input-modern w-full px-4 py-3 rounded-lg">
+            </div>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Event Titel</label> <input type="text" id="newsTitle" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Fed Zinsentscheid, NFP, EZB Meeting" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Wichtigkeit</label> <select id="newsImpact" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="low">🟢 Niedrig</option> <option value="medium">🟡 Mittel</option> <option value="high">🔴 Hoch</option> </select>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Betroffene Währungen/Assets</label> <input type="text" id="newsAssets" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. EUR, USD, Gold">
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="newsNotes" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Weitere Details zum Event..."></textarea>
+           </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> News Event speichern </button>
+          </form>
+         </div>
+        </div>
        </div><!-- Calculators Tab -->
        <div id="calculatorsTab" class="tab-content hidden">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in"><!-- Position Size Calculator -->
@@ -868,7 +1006,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="editTradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
       </div>
-      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="     Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -885,7 +1023,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="editTradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">     Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">    Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
@@ -927,6 +1065,7 @@
         let allData = [];
         let trades = [];
         let withdrawals = [];
+        let newsEvents = [];
         let startCapitalRecord = null;
         let currentUser = null;
         let editingTradeId = null;
@@ -937,6 +1076,10 @@
         let compoundChart = null;
         let streakChart = null;
         let unsubscribeData = null;
+        
+        // Calendar state
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
 
         // Auth State Observer
         onAuthStateChanged(auth, (user) => {
@@ -978,11 +1121,13 @@
                 
                 trades = allData.filter(item => item.type === 'trade');
                 withdrawals = allData.filter(item => item.type === 'withdrawal');
+                newsEvents = allData.filter(item => item.type === 'newsEvent');
                 startCapitalRecord = allData.find(item => item.type === 'startCapital');
                 
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
+                renderCalendar();
             }, (error) => {
                 console.error('Firestore error:', error);
                 showToast('Datenbankfehler: Bitte überprüfen Sie Ihre Firestore-Regeln', 'error');
@@ -1146,7 +1291,7 @@
                 tradeHistory: 'Trade Historie',
                 trades: 'Trades',
                 noTrades: 'Noch keine Trades vorhanden',
-                edit: '  ️ Bearbeiten',
+                edit: '✏️ Bearbeiten',
                 delete: '🗑️ Löschen',
                 
                 // Performance
@@ -1301,7 +1446,7 @@
                 accountSize: 'Account Size (€)',
                 riskPerTrade: 'Risk per Trade (%)',
                 stopLossPips: 'Stop Loss (Pips)',
-                pipValue: 'Pip Value (  )',
+                pipValue: 'Pip Value (€)',
                 pipCalculator: 'Pip Calculator',
                 recommendedLotSize: 'Recommended Lot Size',
                 risk: 'Risk',
@@ -1371,7 +1516,7 @@
                 avgLoss: 'Pérdida Promedio',
                 largestWin: 'Mayor Ganancia',
                 largestLoss: 'Mayor Pérdida',
-                streakAnalysis: 'An  lisis de Rachas',
+                streakAnalysis: 'Análisis de Rachas',
                 bestWinStreak: 'Mejor Racha de Ganancias',
                 longestLoseStreak: 'Racha de Pérdidas Más Larga',
                 currentStreak: 'Racha Actual',
@@ -1506,7 +1651,7 @@
         document.getElementById('themeToggle').addEventListener('click', toggleTheme);
         document.getElementById('themeToggleMobile').addEventListener('click', () => {
             toggleTheme();
-            const icon = document.body.classList.contains('light-theme') ? '☀    ' : '🌙';
+            const icon = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
             document.getElementById('themeIconMobile').textContent = icon;
         });
 
@@ -1533,6 +1678,7 @@
                 
                 if (tabName === 'performance') renderPerformanceCharts();
                 if (tabName === 'emotions') renderEmotions();
+                if (tabName === 'calendar') renderCalendar();
             });
         });
 
@@ -1540,6 +1686,7 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tradeDate').value = today;
         document.getElementById('withdrawalDate').value = today;
+        document.getElementById('newsDate').value = today;
 
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
@@ -1683,6 +1830,248 @@
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Auszahlung speichern';
             }
+        });
+
+        // News Event Form
+        document.getElementById('newsEventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Speichere...';
+
+            const newsEvent = {
+                type: 'newsEvent',
+                userId: currentUser.uid,
+                newsDate: document.getElementById('newsDate').value,
+                newsTime: document.getElementById('newsTime').value || null,
+                newsTitle: document.getElementById('newsTitle').value,
+                newsImpact: document.getElementById('newsImpact').value,
+                newsAssets: document.getElementById('newsAssets').value || null,
+                newsNotes: document.getElementById('newsNotes').value || null,
+                timestamp: Date.now()
+            };
+
+            try {
+                await addDoc(collection(db, 'tradingData'), newsEvent);
+                
+                showToast('News Event erfolgreich gespeichert!');
+                document.getElementById('newsEventForm').reset();
+                document.getElementById('newsDate').value = today;
+                document.getElementById('newsImpact').value = 'low';
+            } catch (error) {
+                showToast('Fehler beim Speichern: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'News Event speichern';
+            }
+        });
+
+        // Calendar Functions
+        function renderCalendar() {
+            const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 
+                               'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            
+            document.getElementById('currentMonthYear').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            let firstDayOfWeek = firstDay.getDay();
+            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+            
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+            
+            // Empty cells before first day
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day empty';
+                grid.appendChild(emptyCell);
+            }
+            
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayTrades = trades.filter(t => t.date === dateStr);
+                const dayNews = newsEvents.filter(n => n.newsDate === dateStr);
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day bg-slate-700';
+                
+                // Check if today
+                const todayDate = new Date();
+                if (currentYear === todayDate.getFullYear() && 
+                    currentMonth === todayDate.getMonth() && 
+                    day === todayDate.getDate()) {
+                    dayCell.classList.add('today');
+                }
+                
+                // Determine trade result
+                if (dayTrades.length > 0) {
+                    const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
+                    if (dayTrades.length > 1) {
+                        dayCell.classList.add('mixed');
+                    } else if (dayPL > 0) {
+                        dayCell.classList.add('profit');
+                    } else if (dayPL < 0) {
+                        dayCell.classList.add('loss');
+                    } else {
+                        dayCell.classList.add('breakeven');
+                    }
+                }
+                
+                // Add news indicator
+                if (dayNews.length > 0) {
+                    dayCell.classList.add('news-event');
+                    const newsIndicator = document.createElement('div');
+                    newsIndicator.className = 'news-indicator';
+                    newsIndicator.textContent = '📰';
+                    dayCell.appendChild(newsIndicator);
+                }
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'text-lg font-bold';
+                dayNumber.textContent = day;
+                dayCell.appendChild(dayNumber);
+                
+                if (dayTrades.length > 0 || dayNews.length > 0) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'text-xs mt-1';
+                    indicator.textContent = `${dayTrades.length} Trade${dayTrades.length !== 1 ? 's' : ''}`;
+                    if (dayNews.length > 0) {
+                        indicator.textContent += ` • ${dayNews.length} News`;
+                    }
+                    dayCell.appendChild(indicator);
+                    
+                    dayCell.addEventListener('click', () => showDayDetails(dateStr));
+                }
+                
+                grid.appendChild(dayCell);
+            }
+        }
+
+        function showDayDetails(dateStr) {
+            const dayTrades = trades.filter(t => t.date === dateStr);
+            const dayNews = newsEvents.filter(n => n.newsDate === dateStr);
+            
+            const formattedDate = formatDate(dateStr);
+            document.getElementById('selectedDayTitle').textContent = `📅 ${formattedDate}`;
+            
+            let content = '';
+            
+            // Show trades
+            if (dayTrades.length > 0) {
+                const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
+                const plColor = dayPL >= 0 ? 'text-green-400' : 'text-red-400';
+                
+                content += `
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold mb-3 flex items-center justify-between">
+                            <span>📊 Trades (${dayTrades.length})</span>
+                            <span class="${plColor} text-2xl font-bold">${formatCurrency(dayPL)}</span>
+                        </h4>
+                        <div class="space-y-3">
+                            ${dayTrades.map(trade => {
+                                const resultColor = trade.profitLoss > 0 ? 'text-green-400' : trade.profitLoss < 0 ? 'text-red-400' : 'text-orange-400';
+                                return `
+                                    <div class="bg-slate-700 rounded-lg p-4">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <div class="font-bold">${trade.asset || 'Kein Asset'}</div>
+                                            <div class="${resultColor} font-bold">${trade.profitLoss !== null ? formatCurrency(trade.profitLoss) : 'N/A'}</div>
+                                        </div>
+                                        ${trade.strategy ? `<div class="text-sm text-gray-400">📈 ${trade.strategy}</div>` : ''}
+                                        ${trade.emotion ? `<div class="text-sm text-gray-400">${getEmotionEmoji(trade.emotion)} ${trade.emotion}</div>` : ''}
+                                        ${trade.notes ? `<div class="text-sm text-gray-300 mt-2">📝 ${trade.notes}</div>` : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Show news events
+            if (dayNews.length > 0) {
+                content += `
+                    <div>
+                        <h4 class="text-lg font-bold mb-3">📰 News Events (${dayNews.length})</h4>
+                        <div class="space-y-3">
+                            ${dayNews.map(news => {
+                                const impactEmoji = {
+                                    'low': '🟢',
+                                    'medium': '🟡',
+                                    'high': '🔴'
+                                };
+                                const impactText = {
+                                    'low': 'Niedrig',
+                                    'medium': 'Mittel',
+                                    'high': 'Hoch'
+                                };
+                                return `
+                                    <div class="bg-slate-700 rounded-lg p-4 border-l-4 border-blue-500">
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div class="font-bold flex-1">${news.newsTitle}</div>
+                                            <button onclick="window.deleteNews('${news.id}')" class="text-red-400 hover:text-red-300 ml-2">🗑️</button>
+                                        </div>
+                                        ${news.newsTime ? `<div class="text-sm text-gray-400">🕐 ${news.newsTime} Uhr</div>` : ''}
+                                        <div class="text-sm text-gray-400 mt-1">${impactEmoji[news.newsImpact]} Wichtigkeit: ${impactText[news.newsImpact]}</div>
+                                        ${news.newsAssets ? `<div class="text-sm text-gray-400">💹 Betroffene Assets: ${news.newsAssets}</div>` : ''}
+                                        ${news.newsNotes ? `<div class="text-sm text-gray-300 mt-2">📝 ${news.newsNotes}</div>` : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (!content) {
+                content = '<div class="text-center text-gray-400 py-8">Keine Aktivität an diesem Tag</div>';
+            }
+            
+            document.getElementById('dayDetailsContent').innerHTML = content;
+            document.getElementById('dayDetails').classList.remove('hidden');
+        }
+
+        // Delete News Event
+        window.deleteNews = async function(id) {
+            if (!confirm('News Event wirklich löschen?')) return;
+            
+            try {
+                await deleteDoc(doc(db, 'tradingData', id));
+                showToast('News Event gelöscht!');
+            } catch (error) {
+                showToast('Fehler beim Löschen: ' + error.message, 'error');
+            }
+        };
+
+        // Calendar Navigation
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
+
+        document.getElementById('todayBtn').addEventListener('click', () => {
+            const today = new Date();
+            currentMonth = today.getMonth();
+            currentYear = today.getFullYear();
+            renderCalendar();
         });
 
         // Update Dashboard
@@ -2189,156 +2578,78 @@
             document.getElementById('currentStreak').className = `text-2xl font-bold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
             document.getElementById('streakRatio').textContent = streakRatio;
             
-            // Render Streak Chart - Simplified horizontal bar chart
+            // Render Streak Chart - Professional Timeline View
             const ctxStreak = document.getElementById('streakChart');
             if (streakChart) streakChart.destroy();
             
             if (streakData.length > 0) {
-                // Limit to last 15 streaks for better readability
-                const recentStreaks = streakData.slice(-15);
+                // Show all streaks for complete timeline view
+                const allStreaks = streakData;
                 
-                // Create labels with streak type
-                const streakLabels = recentStreaks.map((s, i) => {
-                    const streakNumber = streakData.length - recentStreaks.length + i + 1;
-                    return `#${streakNumber}`;
-                });
+                // Prepare data for stacked area visualization
+                const winStreakData = [];
+                const loseStreakData = [];
+                const labels = [];
                 
-                const streakValues = recentStreaks.map(s => s.length);
-                const streakColors = recentStreaks.map(s => s.type === 'win' ? 
-                    'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)');
-                
-                streakChart = new Chart(ctxStreak, {
-                    type: 'bar',
-                    data: {
-                        labels: streakLabels,
-                        datasets: [{
-                            label: 'Streak Länge',
-                            data: streakValues,
-                            backgroundColor: streakColors,
-                            borderColor: recentStreaks.map(s => s.type === 'win' ? '#10b981' : '#ef4444'),
-                            borderWidth: 2,
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                padding: 12,
-                                displayColors: false,
-                                callbacks: {
-                                    title: function(context) {
-                                        const index = context[0].dataIndex;
-                                        const type = recentStreaks[index].type === 'win' ? '🔥 Winning Streak' : '💔 Losing Streak';
-                                        return type;
-                                    },
-                                    label: function(context) {
-                                        const value = context.parsed.x;
-                                        const type = recentStreaks[context.dataIndex].type === 'win' ? 'Gewinne' : 'Verluste';
-                                        return `${value} aufeinanderfolgende ${type}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                beginAtZero: true,
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    },
-                                    stepSize: 1
-                                },
-                                grid: { 
-                                    color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Anzahl aufeinanderfolgender Trades',
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 13,
-                                        weight: 'bold'
-                                    }
-                                }
-                            },
-                            y: {
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    }
-                                },
-                                grid: { 
-                                    display: false,
-                                    drawBorder: false
-                                }
-                            }
-                        }
+                allStreaks.forEach((streak, index) => {
+                    labels.push(`Streak ${index + 1}`);
+                    if (streak.type === 'win') {
+                        winStreakData.push(streak.length);
+                        loseStreakData.push(0);
+                    } else {
+                        winStreakData.push(0);
+                        loseStreakData.push(streak.length);
                     }
                 });
-            }
-            
-            const assetCounts = {};
-            trades.forEach(t => {
-                if (t.asset) {
-                    assetCounts[t.asset] = (assetCounts[t.asset] || 0) + 1;
-                }
-            });
-            
-            if (Object.keys(assetCounts).length > 0) {
-                const ctx1 = document.getElementById('assetDistributionChart');
-                if (assetDistributionChart) assetDistributionChart.destroy();
                 
-                // Limit to top 10 assets for better readability
-                const sortedAssets = Object.entries(assetCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10);
-                
-                assetDistributionChart = new Chart(ctx1, {
-                    type: 'doughnut',
+                streakChart = new Chart(ctxStreak, {
+                    type: 'line',
                     data: {
-                        labels: sortedAssets.map(([asset]) => asset),
-                        datasets: [{
-                            data: sortedAssets.map(([_, count]) => count),
-                            backgroundColor: [
-                                'rgba(102, 126, 234, 0.85)',
-                                'rgba(118, 75, 162, 0.85)',
-                                'rgba(16, 185, 129, 0.85)',
-                                'rgba(245, 158, 11, 0.85)',
-                                'rgba(239, 68, 68, 0.85)',
-                                'rgba(6, 182, 212, 0.85)',
-                                'rgba(139, 92, 246, 0.85)',
-                                'rgba(236, 72, 153, 0.85)',
-                                'rgba(20, 184, 166, 0.85)',
-                                'rgba(249, 115, 22, 0.85)'
-                            ],
-                            borderColor: [
-                                '#667eea', '#764ba2', '#10b981', '#f59e0b', '#ef4444',
-                                '#06b6d4', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
-                            ],
-                            borderWidth: 2,
-                            hoverOffset: 10
-                        }]
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '🔥 Winning Streaks',
+                                data: winStreakData,
+                                backgroundColor: 'rgba(16, 185, 129, 0.3)',
+                                borderColor: '#10b981',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.1,
+                                pointRadius: 6,
+                                pointHoverRadius: 8,
+                                pointBackgroundColor: '#10b981',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointStyle: 'circle'
+                            },
+                            {
+                                label: '💔 Losing Streaks',
+                                data: loseStreakData,
+                                backgroundColor: 'rgba(239, 68, 68, 0.3)',
+                                borderColor: '#ef4444',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.1,
+                                pointRadius: 6,
+                                pointHoverRadius: 8,
+                                pointBackgroundColor: '#ef4444',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointStyle: 'circle'
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
                         plugins: {
                             legend: {
-                                position: 'right',
+                                display: true,
+                                position: 'top',
                                 labels: { 
                                     color: '#fff',
                                     font: {
@@ -2351,530 +2662,9 @@
                                 }
                             },
                             tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                backgroundColor: 'rgba(0, 0, 0, 0.95)',
                                 titleColor: '#fff',
                                 bodyColor: '#fff',
-                                padding: 12,
-                                callbacks: {
-                                    label: function(context) {
-                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                        return `${context.label}: ${context.parsed} Trades (${percentage}%)`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            const assetPL = {};
-            tradesWithPL.forEach(t => {
-                if (t.asset) {
-                    assetPL[t.asset] = (assetPL[t.asset] || 0) + t.profitLoss;
-                }
-            });
-            
-            if (Object.keys(assetPL).length > 0) {
-                const ctx2 = document.getElementById('assetPerformanceChart');
-                if (assetPerformanceChart) assetPerformanceChart.destroy();
-                
-                // Sort by P/L and limit to top 10 most traded
-                const sortedAssetPL = Object.entries(assetPL)
-                    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
-                    .slice(0, 10);
-                
-                assetPerformanceChart = new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: sortedAssetPL.map(([asset]) => asset),
-                        datasets: [{
-                            label: 'P/L (€)',
-                            data: sortedAssetPL.map(([_, pl]) => pl),
-                            backgroundColor: sortedAssetPL.map(([_, pl]) => 
-                                pl >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                            ),
-                            borderColor: sortedAssetPL.map(([_, pl]) => 
-                                pl >= 0 ? '#10b981' : '#ef4444'
-                            ),
-                            borderWidth: 2,
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                padding: 12,
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = context.parsed.y;
-                                        return `P/L: ${formatCurrency(value)}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    }
-                                },
-                                grid: { 
-                                    display: false,
-                                    drawBorder: false
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    },
-                                    callback: function(value) {
-                                        return '€' + value.toFixed(0);
-                                    }
-                                },
-                                grid: { 
-                                    color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-            
-            const monthlyPL = {};
-            tradesWithPL.forEach(t => {
-                const month = t.date.substring(0, 7);
-                monthlyPL[month] = (monthlyPL[month] || 0) + t.profitLoss;
-            });
-            
-            if (Object.keys(monthlyPL).length > 0) {
-                const sorted = Object.entries(monthlyPL).sort((a, b) => a[0].localeCompare(b[0]));
-                
-                // Limit to last 12 months for better readability
-                const recentMonths = sorted.slice(-12);
-                
-                const ctx3 = document.getElementById('monthlyPerformanceChart');
-                if (monthlyPerformanceChart) monthlyPerformanceChart.destroy();
-                
-                monthlyPerformanceChart = new Chart(ctx3, {
-                    type: 'bar',
-                    data: {
-                        labels: recentMonths.map(([month]) => {
-                            const [y, m] = month.split('-');
-                            const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-                            return `${monthNames[parseInt(m) - 1]} ${y}`;
-                        }),
-                        datasets: [{
-                            label: 'Monatliche P/L (€)',
-                            data: recentMonths.map(([_, pl]) => pl),
-                            backgroundColor: recentMonths.map(([_, pl]) => 
-                                pl >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                            ),
-                            borderColor: recentMonths.map(([_, pl]) => 
-                                pl >= 0 ? '#10b981' : '#ef4444'
-                            ),
-                            borderWidth: 2,
-                            borderRadius: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                padding: 12,
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = context.parsed.y;
-                                        return `P/L: ${formatCurrency(value)}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    }
-                                },
-                                grid: { 
-                                    display: false,
-                                    drawBorder: false
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                ticks: { 
-                                    color: '#9ca3af',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    },
-                                    callback: function(value) {
-                                        return '€' + value.toFixed(0);
-                                    }
-                                },
-                                grid: { 
-                                    color: 'rgba(255, 255, 255, 0.05)',
-                                    drawBorder: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Render Emotions
-        function renderEmotions() {
-            const emotionCounts = {};
-            const emotionPL = {};
-            
-            trades.forEach(t => {
-                if (t.emotion) {
-                    emotionCounts[t.emotion] = (emotionCounts[t.emotion] || 0) + 1;
-                    if (t.profitLoss !== null) {
-                        emotionPL[t.emotion] = (emotionPL[t.emotion] || 0) + t.profitLoss;
-                    }
-                }
-            });
-            
-            const content = document.getElementById('emotionsContent');
-            
-            if (Object.keys(emotionCounts).length === 0) {
-                content.innerHTML = `
-                    <div class="text-center py-12 text-gray-400">
-                        <div class="text-6xl mb-4">📭</div>
-                        <p>Keine Emotionsdaten verfügbar</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const sorted = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1]);
-            
-            content.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    ${sorted.map(([emotion, count]) => {
-                        const pl = emotionPL[emotion] || 0;
-                        const plColor = pl >= 0 ? 'text-green-400' : 'text-red-400';
-                        return `
-                            <div class="stat-card rounded-xl p-6">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="text-xl font-bold">${emotion}</div>
-                                    <div class="text-3xl">${getEmotionEmoji(emotion)}</div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <div class="text-gray-400">Anzahl Trades: ${count}</div>
-                                    <div class="font-bold ${plColor}">${formatCurrency(pl)}</div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-        }
-
-        // Get Emotion Emoji
-        function getEmotionEmoji(emotion) {
-            const emojis = {
-                'Ruhig': '😌',
-                'Zuversichtlich': '😊',
-                'Nervös': '😰',
-                'Gestresst': '😫',
-                'Euphorisch': '🤩',
-                'Frustriert': '😤',
-                'Ängstlich': '😨',
-                'Neutral': '😐',
-                'Fokussiert': '🎯'
-            };
-            return emojis[emotion] || '😐';
-        }
-
-        // Compound Interest Calculator
-        document.getElementById('compoundForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const currentCapital = startCapitalRecord ? startCapitalRecord.currentCapital : 0;
-            const startCapital = startCapitalRecord ? startCapitalRecord.startCapital : 0;
-            const targetCapital = parseFloat(document.getElementById('targetCapital').value);
-            const desiredMonthlyReturn = parseFloat(document.getElementById('monthlyReturn').value) / 100;
-            
-            // Calculate actual trading performance
-            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            // Group trades by month to calculate monthly returns
-            const monthlyReturns = [];
-            const monthlyData = {};
-            
-            let runningCapital = startCapital;
-            sortedTrades.forEach(trade => {
-                if (trade.profitLoss && trade.date) {
-                    const month = trade.date.substring(0, 7); // YYYY-MM
-                    
-                    if (!monthlyData[month]) {
-                        monthlyData[month] = {
-                            startCapital: runningCapital,
-                            pl: 0
-                        };
-                    }
-                    
-                    monthlyData[month].pl += trade.profitLoss;
-                    runningCapital += trade.profitLoss;
-                }
-            });
-            
-            // Calculate monthly return percentages
-            Object.values(monthlyData).forEach(data => {
-                if (data.startCapital > 0) {
-                    const returnPercent = (data.pl / data.startCapital);
-                    monthlyReturns.push(returnPercent);
-                }
-            });
-            
-            // Calculate average monthly return
-            const avgMonthlyReturn = monthlyReturns.length > 0 
-                ? monthlyReturns.reduce((sum, r) => sum + r, 0) / monthlyReturns.length 
-                : 0;
-            
-            // Calculate months to goal with DESIRED return
-            let monthsToGoalDesired = 0;
-            let projectedDesired = currentCapital;
-            const projectedDesiredData = [currentCapital];
-            
-            while (projectedDesired < targetCapital && monthsToGoalDesired < 360) {
-                projectedDesired *= (1 + desiredMonthlyReturn);
-                projectedDesiredData.push(projectedDesired);
-                monthsToGoalDesired++;
-            }
-            
-            // Calculate months to goal with CURRENT performance
-            let monthsToGoalCurrent = 0;
-            let projectedCurrent = currentCapital;
-            const projectedCurrentData = [currentCapital];
-            
-            if (avgMonthlyReturn > 0) {
-                while (projectedCurrent < targetCapital && monthsToGoalCurrent < 360) {
-                    projectedCurrent *= (1 + avgMonthlyReturn);
-                    projectedCurrentData.push(projectedCurrent);
-                    monthsToGoalCurrent++;
-                }
-            } else {
-                monthsToGoalCurrent = 360; // Set to max if performance is negative
-            }
-            
-            // Calculate differences
-            const returnDifference = ((avgMonthlyReturn - desiredMonthlyReturn) * 100);
-            const timeDifference = monthsToGoalDesired - monthsToGoalCurrent;
-            
-            // Determine status
-            let statusHTML = '';
-            let statusClass = '';
-            
-            if (avgMonthlyReturn > desiredMonthlyReturn) {
-                statusClass = 'bg-gradient-to-br from-green-500/30 to-green-600/20 border-2 border-green-500/50';
-                statusHTML = `
-                    <div class="text-5xl mb-3">🚀</div>
-                    <div class="text-2xl font-bold text-green-400 mb-2">Hervorragend! Sie sind schneller als geplant!</div>
-                    <div class="text-gray-300">
-                        Mit Ihrer aktuellen Performance von <span class="font-bold text-green-400">${(avgMonthlyReturn * 100).toFixed(2)}%</span> pro Monat 
-                        erreichen Sie Ihr Ziel <span class="font-bold text-green-400">${Math.abs(timeDifference)} Monate früher</span> als geplant!
-                    </div>
-                `;
-            } else if (avgMonthlyReturn < desiredMonthlyReturn && avgMonthlyReturn > 0) {
-                statusClass = 'bg-gradient-to-br from-orange-500/30 to-orange-600/20 border-2 border-orange-500/50';
-                statusHTML = `
-                    <div class="text-5xl mb-3">⚠️</div>
-                    <div class="text-2xl font-bold text-orange-400 mb-2">Sie liegen etwas zurück</div>
-                    <div class="text-gray-300">
-                        Ihre aktuelle Performance von <span class="font-bold text-orange-400">${(avgMonthlyReturn * 100).toFixed(2)}%</span> pro Monat 
-                        liegt unter dem Ziel. Sie brauchen <span class="font-bold text-orange-400">${Math.abs(timeDifference)} Monate länger</span> als geplant.
-                    </div>
-                `;
-            } else {
-                statusClass = 'bg-gradient-to-br from-red-500/30 to-red-600/20 border-2 border-red-500/50';
-                statusHTML = `
-                    <div class="text-5xl mb-3">    </div>
-                    <div class="text-2xl font-bold text-red-400 mb-2">Achtung: Negative Performance</div>
-                    <div class="text-gray-300">
-                        Ihre aktuelle Performance ist negativ. Überprüfen Sie Ihre Strategie und konzentrieren Sie sich auf Risikomanagement.
-                    </div>
-                `;
-            }
-            
-            document.getElementById('performanceStatus').className = `rounded-xl p-6 text-center ${statusClass}`;
-            document.getElementById('performanceStatus').innerHTML = statusHTML;
-            
-            // Update statistics
-            document.getElementById('monthsToGoal').textContent = monthsToGoalDesired;
-            document.getElementById('currentMonthlyReturn').textContent = (avgMonthlyReturn * 100).toFixed(2) + '%';
-            document.getElementById('currentMonthlyReturn').className = avgMonthlyReturn >= desiredMonthlyReturn ? 'text-2xl font-bold text-green-400' : avgMonthlyReturn > 0 ? 'text-2xl font-bold text-orange-400' : 'text-2xl font-bold text-red-400';
-            
-            document.getElementById('requiredReturn').textContent = (desiredMonthlyReturn * 100).toFixed(2) + '%';
-            document.getElementById('returnDifference').textContent = (returnDifference >= 0 ? '+' : '') + returnDifference.toFixed(2) + '%';
-            document.getElementById('returnDifference').className = returnDifference >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
-            document.getElementById('returnDifferenceLabel').textContent = returnDifference >= 0 ? 'Über Ziel' : 'Unter Ziel';
-            
-            document.getElementById('monthsWithCurrentPerformance').textContent = monthsToGoalCurrent >= 360 ? '360+' : monthsToGoalCurrent;
-            document.getElementById('timeDifference').textContent = Math.abs(timeDifference);
-            document.getElementById('timeDifference').className = timeDifference > 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-orange-400';
-            document.getElementById('timeDifferenceLabel').textContent = timeDifference > 0 ? 'Monate früher' : 'Monate später';
-            document.getElementById('timeDifferenceLabel').className = timeDifference > 0 ? 'text-xs mt-1 font-semibold text-green-400' : 'text-xs mt-1 font-semibold text-orange-400';
-            
-            document.getElementById('compoundResults').classList.remove('hidden');
-            
-            // Create chart with both projections
-            const ctx = document.getElementById('compoundChart');
-            if (compoundChart) compoundChart.destroy();
-            
-            const maxLength = Math.max(projectedDesiredData.length, projectedCurrentData.length);
-            const labels = Array.from({length: maxLength}, (_, i) => `Monat ${i}`);
-            
-            const datasets = [
-                {
-                    label: 'Gewünschte Rendite (' + (desiredMonthlyReturn * 100).toFixed(1) + '%/Monat)',
-                    data: projectedDesiredData,
-                    borderColor: '#667eea',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    borderWidth: 3,
-                    fill: false,
-                    tension: 0.4,
-                    borderDash: [5, 5]
-                }
-            ];
-            
-            // Only add current performance line if it's positive
-            if (avgMonthlyReturn > 0) {
-                datasets.push({
-                    label: 'Aktuelle Performance (' + (avgMonthlyReturn * 100).toFixed(2) + '%/Monat)',
-                    data: projectedCurrentData,
-                    borderColor: avgMonthlyReturn >= desiredMonthlyReturn ? '#10b981' : '#f59e0b',
-                    backgroundColor: avgMonthlyReturn >= desiredMonthlyReturn ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                });
-            }
-            
-            compoundChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#fff' }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                maxTicksLimit: 12
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        },
-                        y: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                callback: function(value) {
-                                    return '€' + value.toFixed(0);
-                                }
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        }
-                    }
-                }
-            });
-        });
-
-        // Position Size Calculator
-        document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const accountSize = parseFloat(document.getElementById('accountSize').value);
-            const riskPercent = parseFloat(document.getElementById('riskPercent').value);
-            const stopLossPips = parseFloat(document.getElementById('stopLossPips').value);
-            const pipValue = parseFloat(document.getElementById('pipValue').value);
-            
-            const riskAmount = accountSize * (riskPercent / 100);
-            const lotSize = riskAmount / (stopLossPips * pipValue);
-            
-            document.getElementById('positionSizeResult').innerHTML = `
-                <div class="gradient-success rounded-xl p-6 text-center">
-                    <div class="text-sm text-green-100 mb-2">Empfohlene Lot Size</div>
-                    <div class="text-4xl font-bold text-white mb-2">${lotSize.toFixed(2)}</div>
-                    <div class="text-sm text-green-100">Risiko: ${formatCurrency(riskAmount)}</div>
-                </div>
-            `;
-        });
-
-        // Pip Calculator
-        document.getElementById('pipCalculatorForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const entry = parseFloat(document.getElementById('pipEntryPrice').value);
-            const exit = parseFloat(document.getElementById('pipExitPrice').value);
-            const lotSize = parseFloat(document.getElementById('pipLotSize').value);
-            const pipValue = parseFloat(document.getElementById('pipValueCalc').value);
-            
-            const pips = Math.abs(exit - entry) * 10000;
-            const profit = pips * pipValue * lotSize;
-            
-            document.getElementById('pipCalculatorResult').innerHTML = `
-                <div class="gradient-primary rounded-xl p-6 text-center">
-                    <div class="text-sm text-purple-100 mb-2">Pip Differenz</div>
-                    <div class="text-4xl font-bold text-white mb-2">${pips.toFixed(1)}</div>
-                    <div class="text-sm text-purple-100">P/L: ${formatCurrency(profit)}</div>
-                </div>
-            `;
-        });
-
-        // Utility Functions
-        function formatCurrency(value) {
-            return '€' + value.toFixed(2);
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73bc992212e0d3',t:'MTc2NzI4ODU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                                padding:</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73d29200a0e0d3',t:'MTc2NzI4OTQ0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
