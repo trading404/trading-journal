@@ -516,7 +516,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="   Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -568,7 +568,7 @@
              Durchschn. Gewinn
             </div>
             <div class="text-xl font-bold text-green-400" id="avgWin">
-             €0.00
+                0.00
             </div>
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
@@ -592,7 +592,7 @@
              Größter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
-             €0.00
+               0.00
             </div>
            </div>
           </div>
@@ -602,7 +602,7 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
            <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
             <div class="text-3xl mb-2">
-             🔥
+                
             </div>
             <div class="text-sm text-gray-400 mb-1">
              Beste Winning Streak
@@ -677,7 +677,7 @@
           </div>
          </div><!-- Monthly Performance -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>   </span> <span>Monatliche Performance</span></h2>
           <div class="chart-container">
            <canvas id="monthlyPerformanceChart"></canvas>
           </div>
@@ -868,7 +868,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="editTradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
       </div>
-      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="     Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -885,7 +885,7 @@
      </div>
      <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="editTradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg">
      </div>
-     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+     <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="editTradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">     Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">    Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
      </div>
      <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="editTradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
      </div>
@@ -1088,6 +1088,370 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // Language System
+        const translations = {
+            de: {
+                // Header
+                headerTitle: 'Professional Trading Journal',
+                headerSubtitle: 'Professionelles Trade Management & Performance Tracking',
+                currentCapital: 'Aktuelles Kapital',
+                logout: 'Abmelden',
+                
+                // Navigation
+                navDashboard: 'Dashboard',
+                navNewTrade: 'Neuer Trade',
+                navHistory: 'Historie',
+                navPerformance: 'Performance',
+                navEmotions: 'Emotionen',
+                navCompound: 'Zinseszins',
+                navWithdrawals: 'Auszahlungen',
+                navCalculators: 'Rechner',
+                
+                // Dashboard
+                setStartCapital: 'Startkapital festlegen',
+                startCapitalLabel: 'Startkapital (€)',
+                startCapitalPlaceholder: 'z.B. 10000',
+                saveButton: 'Speichern',
+                yourStartCapital: 'Ihr Startkapital',
+                currentCapitalStat: 'Aktuelles Kapital',
+                totalPL: 'Gesamt P/L',
+                maxDrawdown: 'Max Drawdown',
+                profitFactor: 'Profit Factor',
+                equityCurve: 'Equity Curve',
+                winrate: 'Winrate',
+                numberOfTrades: 'Anzahl Trades',
+                withdrawals: 'Auszahlungen',
+                
+                // New Trade
+                newTradeTitle: 'Neuen Trade eintragen',
+                date: 'Datum',
+                asset: 'Asset',
+                optionalSelect: 'Optional auswählen...',
+                lotSize: 'Lot Size',
+                result: 'Ergebnis',
+                profit: '✅ Gewinn',
+                loss: '❌ Verlust',
+                breakEven: '➖ Break Even',
+                entryPrice: 'Entry Preis',
+                exitPrice: 'Exit Preis',
+                profitLoss: 'Profit/Loss (€)',
+                strategy: 'Strategie',
+                emotion: 'Emotion',
+                notes: 'Notizen',
+                notesPlaceholder: 'Weitere Gedanken zum Trade...',
+                saveTrade: 'Trade speichern',
+                
+                // History
+                tradeHistory: 'Trade Historie',
+                trades: 'Trades',
+                noTrades: 'Noch keine Trades vorhanden',
+                edit: '  ️ Bearbeiten',
+                delete: '🗑️ Löschen',
+                
+                // Performance
+                performanceMetrics: 'Performance Metriken',
+                avgWin: 'Durchschn. Gewinn',
+                avgLoss: 'Durchschn. Verlust',
+                largestWin: 'Größter Gewinn',
+                largestLoss: 'Größter Verlust',
+                streakAnalysis: 'Streak Analyse',
+                bestWinStreak: 'Beste Winning Streak',
+                longestLoseStreak: 'Längste Losing Streak',
+                currentStreak: 'Aktuelle Streak',
+                streakRatio: 'Streak Ratio',
+                assetDistribution: 'Asset Verteilung',
+                assetPerformance: 'Asset Performance (P/L)',
+                monthlyPerformance: 'Monatliche Performance',
+                
+                // Emotions
+                emotionsAnalysis: 'Emotions-Analyse',
+                noEmotionData: 'Keine Emotionsdaten verfügbar',
+                
+                // Compound
+                compoundCalculator: 'Zinseszins-Rechner',
+                targetCapital: 'Zielkapital (€)',
+                desiredMonthlyReturn: 'Gewünschte monatliche Rendite (%)',
+                calculate: 'Berechnen',
+                monthsToGoal: 'Monate bis Ziel',
+                currentPerformance: 'Aktuelle Performance',
+                desiredReturn: 'Gewünschte Rendite',
+                difference: 'Differenz',
+                
+                // Withdrawals
+                enterWithdrawal: 'Auszahlung eintragen',
+                amount: 'Betrag (€)',
+                noteOptional: 'Notiz (optional)',
+                notePlaceholder: 'Grund der Auszahlung...',
+                saveWithdrawal: 'Auszahlung speichern',
+                withdrawalHistory: 'Auszahlungshistorie',
+                noWithdrawals: 'Keine Auszahlungen vorhanden',
+                withdrawal: 'Auszahlung',
+                
+                // Calculators
+                positionSizeCalc: 'Positionsgrößen-Rechner',
+                accountSize: 'Kontogröße (€)',
+                riskPerTrade: 'Risiko pro Trade (%)',
+                stopLossPips: 'Stop Loss (Pips)',
+                pipValue: 'Pip Wert (€)',
+                pipCalculator: 'Pip-Rechner',
+                recommendedLotSize: 'Empfohlene Lot Size',
+                risk: 'Risiko',
+                pipDifference: 'Pip Differenz'
+            },
+            en: {
+                // Header
+                headerTitle: 'Professional Trading Journal',
+                headerSubtitle: 'Professional Trade Management & Performance Tracking',
+                currentCapital: 'Current Capital',
+                logout: 'Logout',
+                
+                // Navigation
+                navDashboard: 'Dashboard',
+                navNewTrade: 'New Trade',
+                navHistory: 'History',
+                navPerformance: 'Performance',
+                navEmotions: 'Emotions',
+                navCompound: 'Compound',
+                navWithdrawals: 'Withdrawals',
+                navCalculators: 'Calculators',
+                
+                // Dashboard
+                setStartCapital: 'Set Start Capital',
+                startCapitalLabel: 'Start Capital (€)',
+                startCapitalPlaceholder: 'e.g. 10000',
+                saveButton: 'Save',
+                yourStartCapital: 'Your Start Capital',
+                currentCapitalStat: 'Current Capital',
+                totalPL: 'Total P/L',
+                maxDrawdown: 'Max Drawdown',
+                profitFactor: 'Profit Factor',
+                equityCurve: 'Equity Curve',
+                winrate: 'Winrate',
+                numberOfTrades: 'Number of Trades',
+                withdrawals: 'Withdrawals',
+                
+                // New Trade
+                newTradeTitle: 'Enter New Trade',
+                date: 'Date',
+                asset: 'Asset',
+                optionalSelect: 'Optional select...',
+                lotSize: 'Lot Size',
+                result: 'Result',
+                profit: '✅ Profit',
+                loss: '❌ Loss',
+                breakEven: '➖ Break Even',
+                entryPrice: 'Entry Price',
+                exitPrice: 'Exit Price',
+                profitLoss: 'Profit/Loss (€)',
+                strategy: 'Strategy',
+                emotion: 'Emotion',
+                notes: 'Notes',
+                notesPlaceholder: 'Additional thoughts about the trade...',
+                saveTrade: 'Save Trade',
+                
+                // History
+                tradeHistory: 'Trade History',
+                trades: 'Trades',
+                noTrades: 'No trades yet',
+                edit: '✏️ Edit',
+                delete: '🗑️ Delete',
+                
+                // Performance
+                performanceMetrics: 'Performance Metrics',
+                avgWin: 'Avg. Win',
+                avgLoss: 'Avg. Loss',
+                largestWin: 'Largest Win',
+                largestLoss: 'Largest Loss',
+                streakAnalysis: 'Streak Analysis',
+                bestWinStreak: 'Best Win Streak',
+                longestLoseStreak: 'Longest Lose Streak',
+                currentStreak: 'Current Streak',
+                streakRatio: 'Streak Ratio',
+                assetDistribution: 'Asset Distribution',
+                assetPerformance: 'Asset Performance (P/L)',
+                monthlyPerformance: 'Monthly Performance',
+                
+                // Emotions
+                emotionsAnalysis: 'Emotions Analysis',
+                noEmotionData: 'No emotion data available',
+                
+                // Compound
+                compoundCalculator: 'Compound Calculator',
+                targetCapital: 'Target Capital (€)',
+                desiredMonthlyReturn: 'Desired Monthly Return (%)',
+                calculate: 'Calculate',
+                monthsToGoal: 'Months to Goal',
+                currentPerformance: 'Current Performance',
+                desiredReturn: 'Desired Return',
+                difference: 'Difference',
+                
+                // Withdrawals
+                enterWithdrawal: 'Enter Withdrawal',
+                amount: 'Amount (€)',
+                noteOptional: 'Note (optional)',
+                notePlaceholder: 'Reason for withdrawal...',
+                saveWithdrawal: 'Save Withdrawal',
+                withdrawalHistory: 'Withdrawal History',
+                noWithdrawals: 'No withdrawals yet',
+                withdrawal: 'Withdrawal',
+                
+                // Calculators
+                positionSizeCalc: 'Position Size Calculator',
+                accountSize: 'Account Size (€)',
+                riskPerTrade: 'Risk per Trade (%)',
+                stopLossPips: 'Stop Loss (Pips)',
+                pipValue: 'Pip Value (  )',
+                pipCalculator: 'Pip Calculator',
+                recommendedLotSize: 'Recommended Lot Size',
+                risk: 'Risk',
+                pipDifference: 'Pip Difference'
+            },
+            es: {
+                // Header
+                headerTitle: 'Diario de Trading Profesional',
+                headerSubtitle: 'Gestión Profesional de Operaciones y Seguimiento de Rendimiento',
+                currentCapital: 'Capital Actual',
+                logout: 'Cerrar Sesión',
+                
+                // Navigation
+                navDashboard: 'Panel',
+                navNewTrade: 'Nueva Operación',
+                navHistory: 'Historial',
+                navPerformance: 'Rendimiento',
+                navEmotions: 'Emociones',
+                navCompound: 'Interés Compuesto',
+                navWithdrawals: 'Retiros',
+                navCalculators: 'Calculadoras',
+                
+                // Dashboard
+                setStartCapital: 'Establecer Capital Inicial',
+                startCapitalLabel: 'Capital Inicial (€)',
+                startCapitalPlaceholder: 'ej. 10000',
+                saveButton: 'Guardar',
+                yourStartCapital: 'Su Capital Inicial',
+                currentCapitalStat: 'Capital Actual',
+                totalPL: 'P/L Total',
+                maxDrawdown: 'Drawdown Máximo',
+                profitFactor: 'Factor de Beneficio',
+                equityCurve: 'Curva de Capital',
+                winrate: 'Tasa de Éxito',
+                numberOfTrades: 'Número de Operaciones',
+                withdrawals: 'Retiros',
+                
+                // New Trade
+                newTradeTitle: 'Registrar Nueva Operación',
+                date: 'Fecha',
+                asset: 'Activo',
+                optionalSelect: 'Seleccionar opcional...',
+                lotSize: 'Tamaño de Lote',
+                result: 'Resultado',
+                profit: '✅ Ganancia',
+                loss: '❌ Pérdida',
+                breakEven: '➖ Punto de Equilibrio',
+                entryPrice: 'Precio de Entrada',
+                exitPrice: 'Precio de Salida',
+                profitLoss: 'Ganancia/Pérdida (€)',
+                strategy: 'Estrategia',
+                emotion: 'Emoción',
+                notes: 'Notas',
+                notesPlaceholder: 'Pensamientos adicionales sobre la operación...',
+                saveTrade: 'Guardar Operación',
+                
+                // History
+                tradeHistory: 'Historial de Operaciones',
+                trades: 'Operaciones',
+                noTrades: 'Aún no hay operaciones',
+                edit: '✏️ Editar',
+                delete: '🗑️ Eliminar',
+                
+                // Performance
+                performanceMetrics: 'Métricas de Rendimiento',
+                avgWin: 'Ganancia Promedio',
+                avgLoss: 'Pérdida Promedio',
+                largestWin: 'Mayor Ganancia',
+                largestLoss: 'Mayor Pérdida',
+                streakAnalysis: 'An  lisis de Rachas',
+                bestWinStreak: 'Mejor Racha de Ganancias',
+                longestLoseStreak: 'Racha de Pérdidas Más Larga',
+                currentStreak: 'Racha Actual',
+                streakRatio: 'Ratio de Rachas',
+                assetDistribution: 'Distribución de Activos',
+                assetPerformance: 'Rendimiento de Activos (P/L)',
+                monthlyPerformance: 'Rendimiento Mensual',
+                
+                // Emotions
+                emotionsAnalysis: 'Análisis de Emociones',
+                noEmotionData: 'No hay datos de emociones disponibles',
+                
+                // Compound
+                compoundCalculator: 'Calculadora de Interés Compuesto',
+                targetCapital: 'Capital Objetivo (€)',
+                desiredMonthlyReturn: 'Retorno Mensual Deseado (%)',
+                calculate: 'Calcular',
+                monthsToGoal: 'Meses hasta el Objetivo',
+                currentPerformance: 'Rendimiento Actual',
+                desiredReturn: 'Retorno Deseado',
+                difference: 'Diferencia',
+                
+                // Withdrawals
+                enterWithdrawal: 'Registrar Retiro',
+                amount: 'Cantidad (€)',
+                noteOptional: 'Nota (opcional)',
+                notePlaceholder: 'Razón del retiro...',
+                saveWithdrawal: 'Guardar Retiro',
+                withdrawalHistory: 'Historial de Retiros',
+                noWithdrawals: 'No hay retiros aún',
+                withdrawal: 'Retiro',
+                
+                // Calculators
+                positionSizeCalc: 'Calculadora de Tamaño de Posición',
+                accountSize: 'Tamaño de Cuenta (€)',
+                riskPerTrade: 'Riesgo por Operación (%)',
+                stopLossPips: 'Stop Loss (Pips)',
+                pipValue: 'Valor del Pip (€)',
+                pipCalculator: 'Calculadora de Pips',
+                recommendedLotSize: 'Tamaño de Lote Recomendado',
+                risk: 'Riesgo',
+                pipDifference: 'Diferencia de Pips'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('tradingJournalLanguage') || 'de';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('tradingJournalLanguage', lang);
+            
+            // Sync both selectors
+            document.getElementById('languageSelector').value = lang;
+            document.getElementById('languageSelectorMobile').value = lang;
+            
+            // Update all text elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' && element.placeholder !== undefined) {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            showToast(lang === 'de' ? 'Sprache geändert!' : lang === 'en' ? 'Language changed!' : '¡Idioma cambiado!');
+        }
+
+        // Initialize language
+        changeLanguage(currentLanguage);
+
+        document.getElementById('languageSelector').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+
+        document.getElementById('languageSelectorMobile').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
 
         // Theme System
         function toggleTheme() {
@@ -1407,10 +1771,15 @@
                         label: 'Kapital (€)',
                         data: data,
                         borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.15)',
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#667eea',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6
                     }]
                 },
                 options: {
@@ -1418,17 +1787,50 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            labels: { color: '#fff' }
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Kapital: ${formatCurrency(context.parsed.y)}`;
+                                }
+                            }
                         }
                     },
                     scales: {
                         x: {
-                            ticks: { color: '#9ca3af' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            ticks: { 
+                                color: '#9ca3af',
+                                maxTicksLimit: 10,
+                                font: {
+                                    size: 11,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: { 
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            }
                         },
                         y: {
-                            ticks: { color: '#9ca3af' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            ticks: { 
+                                color: '#9ca3af',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                callback: function(value) {
+                                    return '€' + value.toFixed(0);
+                                }
+                            },
+                            grid: { 
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            }
                         }
                     }
                 }
@@ -1787,15 +2189,23 @@
             document.getElementById('currentStreak').className = `text-2xl font-bold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
             document.getElementById('streakRatio').textContent = streakRatio;
             
-            // Render Streak Chart
+            // Render Streak Chart - Simplified horizontal bar chart
             const ctxStreak = document.getElementById('streakChart');
             if (streakChart) streakChart.destroy();
             
             if (streakData.length > 0) {
-                // Create data for bar chart showing each streak
-                const streakLabels = streakData.map((s, i) => `Streak ${i + 1}`);
-                const streakValues = streakData.map(s => s.type === 'win' ? s.length : -s.length);
-                const streakColors = streakData.map(s => s.type === 'win' ? '#10b981' : '#ef4444');
+                // Limit to last 15 streaks for better readability
+                const recentStreaks = streakData.slice(-15);
+                
+                // Create labels with streak type
+                const streakLabels = recentStreaks.map((s, i) => {
+                    const streakNumber = streakData.length - recentStreaks.length + i + 1;
+                    return `#${streakNumber}`;
+                });
+                
+                const streakValues = recentStreaks.map(s => s.length);
+                const streakColors = recentStreaks.map(s => s.type === 'win' ? 
+                    'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)');
                 
                 streakChart = new Chart(ctxStreak, {
                     type: 'bar',
@@ -1805,11 +2215,13 @@
                             label: 'Streak Länge',
                             data: streakValues,
                             backgroundColor: streakColors,
-                            borderColor: streakColors,
-                            borderWidth: 2
+                            borderColor: recentStreaks.map(s => s.type === 'win' ? '#10b981' : '#ef4444'),
+                            borderWidth: 2,
+                            borderRadius: 8
                         }]
                     },
                     options: {
+                        indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
@@ -1817,10 +2229,20 @@
                                 display: false
                             },
                             tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 12,
+                                displayColors: false,
                                 callbacks: {
+                                    title: function(context) {
+                                        const index = context[0].dataIndex;
+                                        const type = recentStreaks[index].type === 'win' ? '🔥 Winning Streak' : '💔 Losing Streak';
+                                        return type;
+                                    },
                                     label: function(context) {
-                                        const value = Math.abs(context.parsed.y);
-                                        const type = context.parsed.y > 0 ? 'Gewinne' : 'Verluste';
+                                        const value = context.parsed.x;
+                                        const type = recentStreaks[context.dataIndex].type === 'win' ? 'Gewinne' : 'Verluste';
                                         return `${value} aufeinanderfolgende ${type}`;
                                     }
                                 }
@@ -1828,17 +2250,41 @@
                         },
                         scales: {
                             x: {
-                                ticks: { color: '#9ca3af' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                beginAtZero: true,
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    },
+                                    stepSize: 1
+                                },
+                                grid: { 
+                                    color: 'rgba(255, 255, 255, 0.05)',
+                                    drawBorder: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Anzahl aufeinanderfolgender Trades',
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 13,
+                                        weight: 'bold'
+                                    }
+                                }
                             },
                             y: {
                                 ticks: { 
                                     color: '#9ca3af',
-                                    callback: function(value) {
-                                        return Math.abs(value);
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
                                     }
                                 },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                grid: { 
+                                    display: false,
+                                    drawBorder: false
+                                }
                             }
                         }
                     }
@@ -1856,16 +2302,35 @@
                 const ctx1 = document.getElementById('assetDistributionChart');
                 if (assetDistributionChart) assetDistributionChart.destroy();
                 
+                // Limit to top 10 assets for better readability
+                const sortedAssets = Object.entries(assetCounts)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 10);
+                
                 assetDistributionChart = new Chart(ctx1, {
                     type: 'doughnut',
                     data: {
-                        labels: Object.keys(assetCounts),
+                        labels: sortedAssets.map(([asset]) => asset),
                         datasets: [{
-                            data: Object.values(assetCounts),
+                            data: sortedAssets.map(([_, count]) => count),
                             backgroundColor: [
+                                'rgba(102, 126, 234, 0.85)',
+                                'rgba(118, 75, 162, 0.85)',
+                                'rgba(16, 185, 129, 0.85)',
+                                'rgba(245, 158, 11, 0.85)',
+                                'rgba(239, 68, 68, 0.85)',
+                                'rgba(6, 182, 212, 0.85)',
+                                'rgba(139, 92, 246, 0.85)',
+                                'rgba(236, 72, 153, 0.85)',
+                                'rgba(20, 184, 166, 0.85)',
+                                'rgba(249, 115, 22, 0.85)'
+                            ],
+                            borderColor: [
                                 '#667eea', '#764ba2', '#10b981', '#f59e0b', '#ef4444',
                                 '#06b6d4', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'
-                            ]
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 10
                         }]
                     },
                     options: {
@@ -1874,7 +2339,29 @@
                         plugins: {
                             legend: {
                                 position: 'right',
-                                labels: { color: '#fff' }
+                                labels: { 
+                                    color: '#fff',
+                                    font: {
+                                        size: 13,
+                                        weight: 'bold'
+                                    },
+                                    padding: 15,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return `${context.label}: ${context.parsed} Trades (${percentage}%)`;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1892,14 +2379,26 @@
                 const ctx2 = document.getElementById('assetPerformanceChart');
                 if (assetPerformanceChart) assetPerformanceChart.destroy();
                 
+                // Sort by P/L and limit to top 10 most traded
+                const sortedAssetPL = Object.entries(assetPL)
+                    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+                    .slice(0, 10);
+                
                 assetPerformanceChart = new Chart(ctx2, {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(assetPL),
+                        labels: sortedAssetPL.map(([asset]) => asset),
                         datasets: [{
                             label: 'P/L (€)',
-                            data: Object.values(assetPL),
-                            backgroundColor: Object.values(assetPL).map(v => v >= 0 ? '#10b981' : '#ef4444')
+                            data: sortedAssetPL.map(([_, pl]) => pl),
+                            backgroundColor: sortedAssetPL.map(([_, pl]) => 
+                                pl >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                            ),
+                            borderColor: sortedAssetPL.map(([_, pl]) => 
+                                pl >= 0 ? '#10b981' : '#ef4444'
+                            ),
+                            borderWidth: 2,
+                            borderRadius: 8
                         }]
                     },
                     options: {
@@ -1907,17 +2406,51 @@
                         maintainAspectRatio: false,
                         plugins: {
                             legend: {
-                                labels: { color: '#fff' }
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.parsed.y;
+                                        return `P/L: ${formatCurrency(value)}`;
+                                    }
+                                }
                             }
                         },
                         scales: {
                             x: {
-                                ticks: { color: '#9ca3af' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: { 
+                                    display: false,
+                                    drawBorder: false
+                                }
                             },
                             y: {
-                                ticks: { color: '#9ca3af' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                beginAtZero: true,
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    },
+                                    callback: function(value) {
+                                        return '€' + value.toFixed(0);
+                                    }
+                                },
+                                grid: { 
+                                    color: 'rgba(255, 255, 255, 0.05)',
+                                    drawBorder: false
+                                }
                             }
                         }
                     }
@@ -1933,24 +2466,31 @@
             if (Object.keys(monthlyPL).length > 0) {
                 const sorted = Object.entries(monthlyPL).sort((a, b) => a[0].localeCompare(b[0]));
                 
+                // Limit to last 12 months for better readability
+                const recentMonths = sorted.slice(-12);
+                
                 const ctx3 = document.getElementById('monthlyPerformanceChart');
                 if (monthlyPerformanceChart) monthlyPerformanceChart.destroy();
                 
                 monthlyPerformanceChart = new Chart(ctx3, {
-                    type: 'line',
+                    type: 'bar',
                     data: {
-                        labels: sorted.map(([month]) => {
+                        labels: recentMonths.map(([month]) => {
                             const [y, m] = month.split('-');
-                            return `${m}/${y}`;
+                            const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+                            return `${monthNames[parseInt(m) - 1]} ${y}`;
                         }),
                         datasets: [{
                             label: 'Monatliche P/L (€)',
-                            data: sorted.map(([_, pl]) => pl),
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
+                            data: recentMonths.map(([_, pl]) => pl),
+                            backgroundColor: recentMonths.map(([_, pl]) => 
+                                pl >= 0 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                            ),
+                            borderColor: recentMonths.map(([_, pl]) => 
+                                pl >= 0 ? '#10b981' : '#ef4444'
+                            ),
+                            borderWidth: 2,
+                            borderRadius: 8
                         }]
                     },
                     options: {
@@ -1958,17 +2498,51 @@
                         maintainAspectRatio: false,
                         plugins: {
                             legend: {
-                                labels: { color: '#fff' }
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.parsed.y;
+                                        return `P/L: ${formatCurrency(value)}`;
+                                    }
+                                }
                             }
                         },
                         scales: {
                             x: {
-                                ticks: { color: '#9ca3af' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: { 
+                                    display: false,
+                                    drawBorder: false
+                                }
                             },
                             y: {
-                                ticks: { color: '#9ca3af' },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                                beginAtZero: true,
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    },
+                                    callback: function(value) {
+                                        return '€' + value.toFixed(0);
+                                    }
+                                },
+                                grid: { 
+                                    color: 'rgba(255, 255, 255, 0.05)',
+                                    drawBorder: false
+                                }
                             }
                         }
                     }
@@ -2145,7 +2719,7 @@
             } else {
                 statusClass = 'bg-gradient-to-br from-red-500/30 to-red-600/20 border-2 border-red-500/50';
                 statusHTML = `
-                    <div class="text-5xl mb-3">📉</div>
+                    <div class="text-5xl mb-3">    </div>
                     <div class="text-2xl font-bold text-red-400 mb-2">Achtung: Negative Performance</div>
                     <div class="text-gray-300">
                         Ihre aktuelle Performance ist negativ. Überprüfen Sie Ihre Strategie und konzentrieren Sie sich auf Risikomanagement.
@@ -2302,5 +2876,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73083693ade0d3',t:'MTc2NzI4MTE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73bc992212e0d3',t:'MTc2NzI4ODU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
