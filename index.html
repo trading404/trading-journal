@@ -7,7 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Note: Element SDK and Data SDK are NOT needed for this Firebase-based app --> <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
         body {
@@ -1129,7 +1129,7 @@
           </div>
           <div class="stat-card rounded-2xl p-6 text-center">
            <div class="text-4xl mb-3">
-            📝
+              
            </div>
            <div class="text-xs text-gray-400 uppercase mb-2 font-bold">
             Trades mit Emotion
@@ -2274,7 +2274,7 @@
 
         function getEmotionEmoji(emotion) {
             const emojis = {
-                'Ruhig': '😌',
+                'Ruhig': '  ',
                 'Zuversichtlich': '😊',
                 'Nervös': '😰',
                 'Gestresst': '😫',
@@ -2727,5 +2727,5 @@
                 const plClass = trade.profitLoss > 0 ? 'profit text-green-400' : trade.profitLoss < 0 ? 'loss text-red-400' : 'breakeven text-yellow-400';
                 const resultBadge = trade.profitLoss > 0 ? 'badge-success' : trade.profitLoss < 0 ? 'badge-danger' : 'badge-warning';
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b758dd49078e0d3',t:'MTc2NzMwNzYwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b75922eb1b1e0d3',t:'MTc2NzMwNzc3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
