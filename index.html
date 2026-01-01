@@ -1471,7 +1471,7 @@
           </div>
           <div><label class="block text-sm font-bold mb-3 text-purple-300">Pip-Wert pro Standard-Lot (€)</label> <input type="number" id="psPipValue" step="0.01" min="0" class="input-modern w-full px-5 py-4 rounded-xl" placeholder="z.B. 10 für EURUSD" value="10" required>
            <p class="text-sm text-gray-400 mt-2">💡 Standard: 10€ für EUR/USD, GBP/USD | 8€ für USD/JPY</p>
-          </div><button type="submit" class="btn-primary w-full py-5 rounded-xl font-bold text-white text-lg"> 📊 Berechnen </button>
+          </div><button type="submit" class="btn-primary w-full py-5 rounded-xl font-bold text-white text-lg">      Berechnen </button>
          </form><!-- Position Size Results -->
          <div id="positionSizeResults" class="hidden">
           <div class="bg-gradient-to-br from-purple-900 to-blue-900 rounded-2xl p-8 mb-6">
@@ -1588,7 +1588,7 @@
   <script>
         console.log('🚀 Script wird ausgeführt...');
         
-        // Firebase Configuration - KOMPLETT NEU
+        // Firebase Configuration - SETZE HIER DEINE WERTE EIN
         const firebaseConfig = {
   apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
   authDomain: "trading-journal-pro-8212f.firebaseapp.com",
@@ -1598,6 +1598,13 @@
   appId: "1:927047992152:web:2269467aa95689e0955b2d",
   measurementId: "G-36WT75DLEL"
 };
+        
+        // DEBUG: Firebase Config anzeigen (entferne die API Key Zeile nach dem Test!)
+        console.log('📋 Firebase Config:', {
+            authDomain: firebaseConfig.authDomain,
+            projectId: firebaseConfig.projectId,
+            hasApiKey: firebaseConfig.apiKey !== "DEIN_API_KEY"
+        });
 
         // Initialize Firebase
         let app, auth, db;
@@ -1972,7 +1979,7 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            console.log('🔐 Login-Versuch gestartet...');
+            console.log('    Login-Versuch gestartet...');
             
             if (!firebaseReady || !auth) {
                 console.error('❌ Firebase noch nicht bereit!');
@@ -2720,5 +2727,5 @@
                 const plClass = trade.profitLoss > 0 ? 'profit text-green-400' : trade.profitLoss < 0 ? 'loss text-red-400' : 'breakeven text-yellow-400';
                 const resultBadge = trade.profitLoss > 0 ? 'badge-success' : trade.profitLoss < 0 ? 'badge-danger' : 'badge-warning';
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7588d9f729e0d3',t:'MTc2NzMwNzM5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b758dd49078e0d3',t:'MTc2NzMwNzYwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
