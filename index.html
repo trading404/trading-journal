@@ -792,13 +792,20 @@
             }
         };
 
-        // Initialize Data SDK when page loads
+        // Initialize Data SDK - Wait for both user auth AND SDK to be ready
         async function initializeDataSDK() {
             console.log('=== Attempting to initialize Data SDK ===');
             console.log('window.dataSdk exists:', !!window.dataSdk);
+            console.log('currentUser exists:', !!currentUser);
             
             if (!window.dataSdk) {
                 console.error('❌ Data SDK not loaded yet, waiting...');
+                setTimeout(initializeDataSDK, 100);
+                return;
+            }
+            
+            if (!currentUser) {
+                console.log('⏳ Waiting for user authentication...');
                 setTimeout(initializeDataSDK, 100);
                 return;
             }
@@ -824,13 +831,6 @@
             }
         }
         
-        // Wait for DOM and SDK to be ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeDataSDK);
-        } else {
-            initializeDataSDK();
-        }
-        
         // Auth State Observer
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -839,6 +839,10 @@
                 document.getElementById('mainApp').classList.remove('hidden');
                 document.getElementById('userEmail').textContent = user.email;
                 document.getElementById('userEmailMobile').textContent = user.email;
+                
+                // Start SDK initialization now that user is authenticated
+                console.log('User authenticated, starting SDK initialization...');
+                initializeDataSDK();
                 
                 // Wait for SDK initialization before proceeding
                 let waitCount = 0;
@@ -858,6 +862,7 @@
                 }, 1000);
             } else {
                 currentUser = null;
+                sdkInitialized = false;
                 document.getElementById('authScreen').classList.remove('hidden');
                 document.getElementById('mainApp').classList.add('hidden');
             }
@@ -2110,5 +2115,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729ba35101e0d3',t:'MTc2NzI3NjcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729f25c61de0d3',t:'MTc2NzI3Njg1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
