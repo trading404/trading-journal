@@ -417,7 +417,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center animate-fade-in" style="animation-delay: 0.2s">
           <div class="text-2xl sm:text-4xl mb-2">
-           📉
+             
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Max Drawdown
@@ -767,7 +767,26 @@
         let currentUser = null;
         let sdkInitialized = false;
         
-        // Initialize Data SDK immediately when script loads
+        // Data SDK Handler - MUST be defined before initialization
+        const dataHandler = {
+            onDataChanged(data) {
+                console.log('onDataChanged called with', data.length, 'records');
+                allData = data;
+                trades = data.filter(item => item.type === 'trade');
+                withdrawals = data.filter(item => item.type === 'withdrawal');
+                startCapitalRecord = data.find(item => item.type === 'startCapital');
+                
+                console.log('Start capital record:', startCapitalRecord);
+                console.log('Trades:', trades.length);
+                console.log('Withdrawals:', withdrawals.length);
+                
+                updateDashboard();
+                renderTradeHistory();
+                renderWithdrawals();
+            }
+        };
+
+        // Initialize Data SDK when page loads
         async function initializeDataSDK() {
             console.log('=== Attempting to initialize Data SDK ===');
             console.log('window.dataSdk exists:', !!window.dataSdk);
@@ -793,16 +812,18 @@
                     console.log('✅ Data SDK initialized successfully');
                 } else {
                     console.error('❌ Failed to initialize Data SDK:', result.error);
-                    showToast('Fehler beim Initialisieren der Datenbank', 'error');
                 }
             } catch (error) {
                 console.error('❌ Exception during SDK init:', error);
-                showToast('Fehler beim Initialisieren der Datenbank', 'error');
             }
         }
         
-        // Start initialization immediately
-        initializeDataSDK();
+        // Wait for DOM and SDK to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeDataSDK);
+        } else {
+            initializeDataSDK();
+        }
         
         // Auth State Observer
         auth.onAuthStateChanged(async (user) => {
@@ -813,10 +834,22 @@
                 document.getElementById('userEmail').textContent = user.email;
                 document.getElementById('userEmailMobile').textContent = user.email;
                 
-                // Ensure SDK is initialized
-                if (!sdkInitialized && window.dataSdk) {
-                    await initializeDataSDK();
-                }
+                // Wait for SDK initialization before proceeding
+                let waitCount = 0;
+                const waitForSDK = setInterval(() => {
+                    if (sdkInitialized) {
+                        clearInterval(waitForSDK);
+                        console.log('✅ User logged in and SDK ready');
+                    } else {
+                        waitCount++;
+                        console.log(`⏳ Waiting for SDK initialization... (${waitCount}s)`);
+                        if (waitCount > 10) {
+                            clearInterval(waitForSDK);
+                            console.error('❌ SDK initialization timeout');
+                            showToast('Datenbank konnte nicht initialisiert werden', 'error');
+                        }
+                    }
+                }, 1000);
             } else {
                 currentUser = null;
                 document.getElementById('authScreen').classList.remove('hidden');
@@ -981,6 +1014,21 @@
         let startCapitalRecord = null;
         let editingTradeId = null;
         let isLoading = false;
+        
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span>${type === 'error' ? '❌' : '✅'}</span>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
         
         let equityCurveChart = null;
         let assetDistributionChart = null;
@@ -2096,5 +2144,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729119403fe0d3',t:'MTc2NzI3NjI3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729690b42de0d3',t:'MTc2NzI3NjUwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
