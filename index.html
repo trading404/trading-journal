@@ -1012,7 +1012,11 @@
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!window.dataSdk || !sdkInitialized || !currentUser || isLoading) return;
+            if (!window.dataSdk || !sdkInitialized || !currentUser || isLoading) {
+                console.log('SDK not ready:', { dataSdk: !!window.dataSdk, sdkInitialized, currentUser: !!currentUser, isLoading });
+                showToast('Bitte warten Sie, bis die Verbindung hergestellt ist', 'error');
+                return;
+            }
 
             const capital = parseFloat(document.getElementById('startCapital').value);
             if (!capital || capital <= 0) {
@@ -1034,16 +1038,16 @@
                 let result;
                 if (startCapitalRecord) {
                     // Calculate the difference to adjust current capital
-                    const oldStartCapital = startCapitalRecord.startCapital;
+                    const oldStartCapital = startCapitalRecord.startCapital || 0;
                     const difference = capital - oldStartCapital;
-                    const newCurrentCapital = startCapitalRecord.currentCapital + difference;
+                    const newCurrentCapital = (startCapitalRecord.currentCapital || 0) + difference;
                     
                     const updated = { 
                         ...startCapitalRecord, 
                         startCapital: capital,
                         currentCapital: newCurrentCapital
                     };
-                    console.log('Updating start capital:', updated);
+                    console.log('📝 Updating start capital:', { old: oldStartCapital, new: capital, diff: difference, newCurrentCapital });
                     result = await window.dataSdk.update(updated);
                 } else {
                     const record = {
@@ -1053,19 +1057,20 @@
                         currentCapital: capital,
                         timestamp: Date.now()
                     };
-                    console.log('Creating start capital:', record);
+                    console.log('✨ Creating new start capital:', record);
                     result = await window.dataSdk.create(record);
                 }
 
                 if (result.isOk) {
                     showToast('Startkapital erfolgreich gespeichert!');
                     document.getElementById('startCapital').value = '';
+                    console.log('✅ Start capital saved successfully');
                 } else {
-                    console.error('SDK Error:', result.error);
+                    console.error('❌ SDK Error:', result.error);
                     showToast('Fehler beim Speichern: ' + (result.error?.message || 'Unbekannter Fehler'), 'error');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Exception:', error);
                 showToast('Fehler beim Speichern', 'error');
             } finally {
                 isLoading = false;
@@ -1182,12 +1187,24 @@
 
         // Update Dashboard
         function updateDashboard() {
-            const startCapital = startCapitalRecord ? startCapitalRecord.startCapital : 0;
-            const currentCapital = startCapitalRecord ? startCapitalRecord.currentCapital : 0;
+            console.log('📊 Updating dashboard...', { 
+                hasStartCapitalRecord: !!startCapitalRecord, 
+                startCapital: startCapitalRecord?.startCapital,
+                currentCapital: startCapitalRecord?.currentCapital,
+                tradesCount: trades.length,
+                withdrawalsCount: withdrawals.length
+            });
             
-            if (startCapitalRecord) {
+            const startCapital = startCapitalRecord ? (startCapitalRecord.startCapital || 0) : 0;
+            const currentCapital = startCapitalRecord ? (startCapitalRecord.currentCapital || 0) : 0;
+            
+            if (startCapitalRecord && startCapital > 0) {
                 document.getElementById('startCapitalDisplay').classList.remove('hidden');
                 document.getElementById('startCapitalValue').textContent = formatCurrency(startCapital);
+                console.log('✅ Displaying start capital:', formatCurrency(startCapital));
+            } else {
+                document.getElementById('startCapitalDisplay').classList.add('hidden');
+                console.log('⚠️ No start capital to display');
             }
             
             const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
@@ -1898,5 +1915,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72b751b466e0d3',t:'MTc2NzI3Nzg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72bc2c446fe0d3',t:'MTc2NzI3ODA0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
