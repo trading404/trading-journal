@@ -574,7 +574,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="   Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -649,7 +649,7 @@
            </div>
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
-             Größter Verlust
+             Grö  ter Verlust
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
              €0.00
@@ -712,14 +712,46 @@
         </div>
        </div><!-- Emotions Tab -->
        <div id="emotionsTab" class="tab-content hidden">
-        <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>😊</span> <span>Emotions-Analyse</span></h2>
-         <div id="emotionsContent" class="space-y-6">
-          <div class="text-center py-12 text-gray-400">
-           <div class="text-6xl mb-4">
-            📭
+        <div class="space-y-8 animate-fade-in"><!-- Emotion Stats Overview -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>😊</span> <span>Emotions-Analyse</span></h2>
+          <div id="emotionStatsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+           <div class="text-center py-12 text-gray-400 col-span-full">
+            <div class="text-6xl mb-4">
+             📭
+            </div>
+            <p>Keine Emotionsdaten verfügbar</p>
            </div>
-           <p>Keine Emotionsdaten verfügbar</p>
+          </div>
+         </div><!-- Emotion Performance Chart -->
+         <div class="glass-card rounded-xl p-6">
+          <h3 class="text-xl font-bold mb-4">Performance nach Emotion</h3>
+          <div class="chart-container">
+           <canvas id="emotionPerformanceChart"></canvas>
+          </div>
+         </div><!-- Emotion Breakdown -->
+         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Emotion Distribution -->
+          <div class="glass-card rounded-xl p-6">
+           <h3 class="text-xl font-bold mb-4">Emotionsverteilung</h3>
+           <div class="chart-container">
+            <canvas id="emotionDistributionChart"></canvas>
+           </div>
+          </div><!-- Best/Worst Emotions -->
+          <div class="glass-card rounded-xl p-6">
+           <h3 class="text-xl font-bold mb-4">Beste &amp; Schlechteste Emotionen</h3>
+           <div id="emotionRankings" class="space-y-4">
+            <div class="text-center py-8 text-gray-400">
+             <p>Keine Daten verfügbar</p>
+            </div>
+           </div>
+          </div>
+         </div><!-- Detailed Emotion Analysis -->
+         <div class="glass-card rounded-xl p-6">
+          <h3 class="text-xl font-bold mb-4">Detaillierte Analyse</h3>
+          <div id="emotionDetails" class="space-y-4">
+           <div class="text-center py-8 text-gray-400">
+            <p>Keine Daten verfügbar</p>
+           </div>
           </div>
          </div>
         </div>
@@ -860,7 +892,7 @@
            </form>
           </div><!-- Upcoming Events -->
           <div class="glass-card rounded-xl p-6">
-           <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Kommende Termine</span></h3>
+           <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>   </span> <span>Kommende Termine</span></h3>
            <div id="upcomingEventsList" class="space-y-3 max-h-[400px] overflow-y-auto">
             <div class="text-center py-8 text-gray-400 text-sm">
              <div class="text-4xl mb-2">
@@ -1726,7 +1758,7 @@
                                     <optgroup label="🥇 Rohstoffe">
                                         <option value="XAU/USD" ${trade.asset === 'XAU/USD' ? 'selected' : ''}>Gold</option>
                                         <option value="XAG/USD" ${trade.asset === 'XAG/USD' ? 'selected' : ''}>Silber</option>
-                                        <option value="WTI" ${trade.asset === 'WTI' ? 'selected' : ''}>Öl WTI</option>
+                                        <option value="WTI" ${trade.asset === 'WTI' ? 'selected' : ''}>  l WTI</option>
                                         <option value="BRENT" ${trade.asset === 'BRENT' ? 'selected' : ''}>Öl Brent</option>
                                     </optgroup>
                                     <optgroup label="📉 Indizes">
@@ -2032,7 +2064,7 @@
         }
 
         // Performance Charts
-        let assetChart, strategyChart, monthlyChart;
+        let assetChart, strategyChart, monthlyChart, emotionPerformanceChart, emotionDistributionChart;
 
         function renderPerformanceCharts() {
             // Asset Performance Chart
@@ -2160,6 +2192,267 @@
                     }
                 });
             }
+            
+            // Render emotion analysis
+            renderEmotionAnalysis();
+        }
+
+        // Render Emotion Analysis
+        function renderEmotionAnalysis() {
+            const tradesWithEmotions = trades.filter(t => t.emotion);
+            
+            if (tradesWithEmotions.length === 0) {
+                document.getElementById('emotionStatsGrid').innerHTML = `
+                    <div class="text-center py-12 text-gray-400 col-span-full">
+                        <div class="text-6xl mb-4">📭</div>
+                        <p>Keine Emotionsdaten verfügbar</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calculate emotion statistics
+            const emotionStats = {};
+            tradesWithEmotions.forEach(trade => {
+                if (!emotionStats[trade.emotion]) {
+                    emotionStats[trade.emotion] = {
+                        count: 0,
+                        totalPL: 0,
+                        wins: 0,
+                        losses: 0
+                    };
+                }
+                
+                emotionStats[trade.emotion].count++;
+                emotionStats[trade.emotion].totalPL += trade.profitLoss || 0;
+                
+                if (trade.profitLoss > 0) emotionStats[trade.emotion].wins++;
+                else if (trade.profitLoss < 0) emotionStats[trade.emotion].losses++;
+            });
+            
+            // Render emotion stats grid
+            const statsGrid = document.getElementById('emotionStatsGrid');
+            statsGrid.innerHTML = Object.entries(emotionStats).map(([emotion, stats]) => {
+                const avgPL = stats.totalPL / stats.count;
+                const winRate = stats.count > 0 ? (stats.wins / stats.count * 100) : 0;
+                const plColor = stats.totalPL >= 0 ? 'text-green-400' : 'text-red-400';
+                
+                return `
+                    <div class="stat-card rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">${getEmotionEmoji(emotion)}</div>
+                        <div class="text-sm font-bold mb-1">${emotion}</div>
+                        <div class="text-xs text-gray-400 mb-2">${stats.count} Trade${stats.count !== 1 ? 's' : ''}</div>
+                        <div class="text-lg font-bold ${plColor}">${formatCurrency(stats.totalPL)}</div>
+                        <div class="text-xs text-gray-400 mt-1">Winrate: ${winRate.toFixed(0)}%</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Emotion Performance Chart
+            const emotionLabels = Object.keys(emotionStats);
+            const emotionPLValues = emotionLabels.map(e => emotionStats[e].totalPL);
+            
+            const emotionPerfCtx = document.getElementById('emotionPerformanceChart');
+            if (emotionPerfCtx) {
+                if (emotionPerformanceChart) emotionPerformanceChart.destroy();
+                emotionPerformanceChart = new Chart(emotionPerfCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: emotionLabels,
+                        datasets: [{
+                            label: 'Profit/Loss (€)',
+                            data: emotionPLValues,
+                            backgroundColor: emotionPLValues.map(v => v >= 0 ? 'rgba(16, 185, 129, 0.6)' : 'rgba(239, 68, 68, 0.6)'),
+                            borderColor: emotionPLValues.map(v => v >= 0 ? '#10b981' : '#ef4444'),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                callbacks: {
+                                    label: function(context) {
+                                        return `P/L: ${formatCurrency(context.parsed.y)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                            y: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.05)' } }
+                        }
+                    }
+                });
+            }
+            
+            // Emotion Distribution Chart
+            const emotionCounts = emotionLabels.map(e => emotionStats[e].count);
+            
+            const emotionDistCtx = document.getElementById('emotionDistributionChart');
+            if (emotionDistCtx) {
+                if (emotionDistributionChart) emotionDistributionChart.destroy();
+                emotionDistributionChart = new Chart(emotionDistCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: emotionLabels,
+                        datasets: [{
+                            data: emotionCounts,
+                            backgroundColor: [
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(236, 72, 153, 0.8)',
+                                'rgba(14, 165, 233, 0.8)',
+                                'rgba(251, 146, 60, 0.8)'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#1e293b'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { 
+                                    color: '#9ca3af',
+                                    generateLabels: function(chart) {
+                                        const data = chart.data;
+                                        return data.labels.map((label, i) => ({
+                                            text: `${label} (${data.datasets[0].data[i]})`,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            hidden: false,
+                                            index: i
+                                        }));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Best and Worst Emotions
+            const sortedByPL = Object.entries(emotionStats).sort((a, b) => b[1].totalPL - a[1].totalPL);
+            const best3 = sortedByPL.slice(0, 3);
+            const worst3 = sortedByPL.slice(-3).reverse();
+            
+            const rankingsHTML = `
+                <div class="mb-6">
+                    <h4 class="font-bold text-green-400 mb-3 flex items-center gap-2">
+                        <span>🏆</span>
+                        <span>Beste Emotionen</span>
+                    </h4>
+                    ${best3.map(([emotion, stats], index) => {
+                        const avgPL = stats.totalPL / stats.count;
+                        const winRate = (stats.wins / stats.count * 100);
+                        return `
+                            <div class="bg-slate-700 bg-opacity-30 rounded-lg p-3 mb-2">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-2xl">${index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</span>
+                                        <span class="text-lg">${getEmotionEmoji(emotion)}</span>
+                                        <span class="font-bold">${emotion}</span>
+                                    </div>
+                                    <span class="text-lg font-bold text-green-400">${formatCurrency(stats.totalPL)}</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-xs text-gray-400">
+                                    <div>${stats.count} Trades</div>
+                                    <div>Ø ${formatCurrency(avgPL)}</div>
+                                    <div>WR: ${winRate.toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-red-400 mb-3 flex items-center gap-2">
+                        <span>⚠️</span>
+                        <span>Problematische Emotionen</span>
+                    </h4>
+                    ${worst3.map(([emotion, stats], index) => {
+                        const avgPL = stats.totalPL / stats.count;
+                        const winRate = (stats.wins / stats.count * 100);
+                        return `
+                            <div class="bg-slate-700 bg-opacity-30 rounded-lg p-3 mb-2">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg">${getEmotionEmoji(emotion)}</span>
+                                        <span class="font-bold">${emotion}</span>
+                                    </div>
+                                    <span class="text-lg font-bold text-red-400">${formatCurrency(stats.totalPL)}</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-xs text-gray-400">
+                                    <div>${stats.count} Trades</div>
+                                    <div>Ø ${formatCurrency(avgPL)}</div>
+                                    <div>WR: ${winRate.toFixed(0)}%</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            document.getElementById('emotionRankings').innerHTML = rankingsHTML;
+            
+            // Detailed Analysis
+            const detailsHTML = Object.entries(emotionStats)
+                .sort((a, b) => b[1].count - a[1].count)
+                .map(([emotion, stats]) => {
+                    const avgPL = stats.totalPL / stats.count;
+                    const winRate = (stats.wins / stats.count * 100);
+                    const plColor = stats.totalPL >= 0 ? 'text-green-400' : 'text-red-400';
+                    
+                    return `
+                        <div class="bg-slate-700 bg-opacity-30 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-3xl">${getEmotionEmoji(emotion)}</span>
+                                    <div>
+                                        <div class="text-lg font-bold">${emotion}</div>
+                                        <div class="text-sm text-gray-400">${stats.count} Trade${stats.count !== 1 ? 's' : ''}</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold ${plColor}">${formatCurrency(stats.totalPL)}</div>
+                                    <div class="text-xs text-gray-400">Ø ${formatCurrency(avgPL)}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-3 mb-3">
+                                <div class="bg-slate-800 bg-opacity-50 rounded p-2 text-center">
+                                    <div class="text-xs text-gray-400">Wins</div>
+                                    <div class="text-lg font-bold text-green-400">${stats.wins}</div>
+                                </div>
+                                <div class="bg-slate-800 bg-opacity-50 rounded p-2 text-center">
+                                    <div class="text-xs text-gray-400">Losses</div>
+                                    <div class="text-lg font-bold text-red-400">${stats.losses}</div>
+                                </div>
+                                <div class="bg-slate-800 bg-opacity-50 rounded p-2 text-center">
+                                    <div class="text-xs text-gray-400">Winrate</div>
+                                    <div class="text-lg font-bold text-purple-400">${winRate.toFixed(0)}%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Win/Loss Bar -->
+                            <div class="h-2 bg-slate-800 rounded-full overflow-hidden flex">
+                                <div class="bg-green-500" style="width: ${(stats.wins / stats.count * 100)}%"></div>
+                                <div class="bg-red-500" style="width: ${(stats.losses / stats.count * 100)}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            
+            document.getElementById('emotionDetails').innerHTML = detailsHTML;
         }
 
         // Calendar
@@ -2643,5 +2936,5 @@
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b740a364171e0d3',t:'MTc2NzI5MTcyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7410f4d41ae0d3',t:'MTc2NzI5MTk5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
