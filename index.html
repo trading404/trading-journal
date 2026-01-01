@@ -11,7 +11,7 @@
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, query, where, onSnapshot, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         
-        // Firebase Configuration - ERSETZEN SIE DIESE MIT IHREN EIGENEN FIREBASE-DATEN
+        // Firebase Configuration
         const firebaseConfig = {
   apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
   authDomain: "trading-journal-pro-8212f.firebaseapp.com",
@@ -383,7 +383,7 @@
     <div class="glass-card rounded-2xl p-8 max-w-md w-full animate-fade-in">
      <div class="text-center mb-8">
       <div class="text-6xl mb-4">
-       📊
+         
       </div>
       <h1 class="text-3xl font-bold mb-2">Trading Journal</h1>
       <p class="text-gray-400">Professionelles Trade Management</p>
@@ -557,7 +557,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
           <div class="text-2xl sm:text-3xl mb-2">
-           💳
+              
           </div>
           <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
            Auszahlungen
@@ -977,7 +977,7 @@
           <div id="positionSizeResult" class="mt-6"></div>
          </div><!-- Pip Calculator -->
          <div class="glass-card rounded-xl p-6">
-          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📏</span> <span>Pip-Rechner</span></h2>
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>    </span> <span>Pip-Rechner</span></h2>
           <form id="pipCalculatorForm" class="space-y-4">
            <div><label class="block text-sm font-semibold mb-2">Entry Preis</label> <input type="number" id="pipEntryPrice" step="0.00001" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1.08450" required>
            </div>
@@ -1006,7 +1006,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="editTradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
       </div>
-      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+      <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="editTradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="    Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2665,6 +2665,7 @@
                                 backgroundColor: 'rgba(0, 0, 0, 0.95)',
                                 titleColor: '#fff',
                                 bodyColor: '#fff',
-                                padding:</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73d29200a0e0d3',t:'MTc2NzI4OTQ0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                                padding:
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b73dd35b28ee0d3',t:'MTc2NzI4OTg4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
