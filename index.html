@@ -458,7 +458,7 @@
         Menü
        </div><button id="closeMobileMenu" class="text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calendar"> <span>📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🔢</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="deposits"> <span>💰</span> <span>Einzahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calendar"> <span>📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🔢</span> <span>Rechner</span> </button>
       </nav>
      </aside><!-- Main Content -->
      <main class="flex-1 overflow-auto w-full">
@@ -562,6 +562,30 @@
            Auszahlungen
           </div>
           <div class="text-xl sm:text-2xl font-bold text-orange-400" id="totalWithdrawals">
+           €0.00
+          </div>
+         </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6">
+         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-3xl mb-2">
+           💰
+          </div>
+          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+           Einzahlungen
+          </div>
+          <div class="text-xl sm:text-2xl font-bold text-green-400" id="totalDeposits">
+           €0.00
+          </div>
+         </div>
+         <div class="stat-card rounded-xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-3xl mb-2">
+           📊
+          </div>
+          <div class="text-xs sm:text-sm text-gray-400 uppercase tracking-wide mb-2">
+           Kapital aus Trading
+          </div>
+          <div class="text-xl sm:text-2xl font-bold text-purple-400" id="capitalFromTrading">
            €0.00
           </div>
          </div>
@@ -674,7 +698,7 @@
          </div>
          <div class="stat-card rounded-xl p-4 text-center">
           <div class="text-2xl mb-2">
-           ❄️
+           ❄  
           </div>
           <div class="text-xs text-gray-400 uppercase mb-1">
            Längste Verluststrähne
@@ -953,6 +977,25 @@
         <div class="glass-card rounded-xl p-6 animate-fade-in">
          <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Auszahlungen Historie</span></h2>
          <div id="withdrawalsList" class="space-y-4"></div>
+        </div>
+       </div><!-- Deposits Tab -->
+       <div id="depositsTab" class="tab-content hidden">
+        <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
+         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2"><span>💰</span> <span>Neue Einzahlung</span></h2>
+         <form id="depositForm" class="space-y-4 mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+           <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="depositDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
+           </div>
+           <div><label class="block text-sm font-semibold mb-2">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" min="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 1000.00" required>
+           </div>
+          </div>
+          <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Nachschuss fürs Trading"></textarea>
+          </div><button type="submit" class="btn-primary w-full py-3 rounded-lg font-bold text-white"> Einzahlung speichern </button>
+         </form>
+        </div>
+        <div class="glass-card rounded-xl p-6 animate-fade-in">
+         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Einzahlungen Historie</span></h2>
+         <div id="depositsList" class="space-y-4"></div>
         </div>
        </div><!-- Calendar Tab -->
        <div id="calendarTab" class="tab-content hidden">
@@ -1263,6 +1306,7 @@
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
+                renderDeposits();
                 renderCalendar();
                 renderUpcomingEvents();
                 renderPerformanceCharts();
@@ -1273,7 +1317,7 @@
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                showToast('❌ Fehler beim Laden: ' + error.message, 'error');
+                showToast('   Fehler beim Laden: ' + error.message, 'error');
                 
                 // Still render empty UI
                 updateDashboard();
@@ -1440,6 +1484,7 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tradeDate').value = today;
         document.getElementById('withdrawalDate').value = today;
+        document.getElementById('depositDate').value = today;
         document.getElementById('eventDate').value = today;
 
         // Helper Functions
@@ -1485,6 +1530,10 @@
             
             const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
             const totalWithdrawalAmount = withdrawals.reduce((sum, w) => sum + w.withdrawalAmount, 0);
+            const totalDepositAmount = deposits.reduce((sum, d) => sum + d.depositAmount, 0);
+            
+            // Calculate capital from trading only (current - start - deposits + withdrawals)
+            const capitalFromTrading = currentCapital - startCapital - totalDepositAmount + totalWithdrawalAmount;
             
             document.getElementById('headerCapital').textContent = formatCurrency(currentCapital);
             document.getElementById('headerCapitalMobile').textContent = formatCurrency(currentCapital);
@@ -1493,6 +1542,9 @@
             document.getElementById('totalPL').className = totalPL >= 0 ? 'text-lg sm:text-3xl font-bold text-green-400' : 'text-lg sm:text-3xl font-bold text-red-400';
             document.getElementById('totalTrades').textContent = trades.length;
             document.getElementById('totalWithdrawals').textContent = formatCurrency(totalWithdrawalAmount);
+            document.getElementById('totalDeposits').textContent = formatCurrency(totalDepositAmount);
+            document.getElementById('capitalFromTrading').textContent = formatCurrency(capitalFromTrading);
+            document.getElementById('capitalFromTrading').className = capitalFromTrading >= 0 ? 'text-xl sm:text-2xl font-bold text-green-400' : 'text-xl sm:text-2xl font-bold text-red-400';
             
             const wins = trades.filter(t => t.profitLoss && t.profitLoss > 0);
             const losses = trades.filter(t => t.profitLoss && t.profitLoss < 0);
@@ -2211,7 +2263,28 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold mb-1">Asset</label>
-                            <input type="text" id="edit-asset-${id}" value="${trade.asset || ''}" class="input-modern w-full px-2 py-2 rounded text-sm">
+                            <select id="edit-asset-${id}" class="input-modern w-full px-2 py-2 rounded text-sm" onchange="toggleCustomAsset('${id}')">
+                                <option value="">Wählen...</option>
+                                <option value="EURUSD" ${trade.asset === 'EURUSD' ? 'selected' : ''}>EUR/USD</option>
+                                <option value="GBPUSD" ${trade.asset === 'GBPUSD' ? 'selected' : ''}>GBP/USD</option>
+                                <option value="USDJPY" ${trade.asset === 'USDJPY' ? 'selected' : ''}>USD/JPY</option>
+                                <option value="USDCHF" ${trade.asset === 'USDCHF' ? 'selected' : ''}>USD/CHF</option>
+                                <option value="AUDUSD" ${trade.asset === 'AUDUSD' ? 'selected' : ''}>AUD/USD</option>
+                                <option value="USDCAD" ${trade.asset === 'USDCAD' ? 'selected' : ''}>USD/CAD</option>
+                                <option value="NZDUSD" ${trade.asset === 'NZDUSD' ? 'selected' : ''}>NZD/USD</option>
+                                <option value="EURGBP" ${trade.asset === 'EURGBP' ? 'selected' : ''}>EUR/GBP</option>
+                                <option value="EURJPY" ${trade.asset === 'EURJPY' ? 'selected' : ''}>EUR/JPY</option>
+                                <option value="GBPJPY" ${trade.asset === 'GBPJPY' ? 'selected' : ''}>GBP/JPY</option>
+                                <option value="XAUUSD" ${trade.asset === 'XAUUSD' ? 'selected' : ''}>XAU/USD (Gold)</option>
+                                <option value="XAGUSD" ${trade.asset === 'XAGUSD' ? 'selected' : ''}>XAG/USD (Silber)</option>
+                                <option value="US30" ${trade.asset === 'US30' ? 'selected' : ''}>US30 (Dow Jones)</option>
+                                <option value="NAS100" ${trade.asset === 'NAS100' ? 'selected' : ''}>NAS100 (Nasdaq)</option>
+                                <option value="SPX500" ${trade.asset === 'SPX500' ? 'selected' : ''}>SPX500 (S&P 500)</option>
+                                <option value="BTCUSD" ${trade.asset === 'BTCUSD' ? 'selected' : ''}>BTC/USD (Bitcoin)</option>
+                                <option value="ETHUSD" ${trade.asset === 'ETHUSD' ? 'selected' : ''}>ETH/USD (Ethereum)</option>
+                                <option value="CUSTOM" ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? 'selected' : ''}>🔧 Eigenes Asset</option>
+                            </select>
+                            <input type="text" id="edit-asset-custom-${id}" value="${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? trade.asset : ''}" placeholder="Asset eingeben" class="input-modern w-full px-2 py-2 rounded text-sm mt-1 ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? '' : 'hidden'}" style="display: ${trade.asset && !['EURUSD','GBPUSD','USDJPY','USDCHF','AUDUSD','USDCAD','NZDUSD','EURGBP','EURJPY','GBPJPY','XAUUSD','XAGUSD','US30','NAS100','SPX500','BTCUSD','ETHUSD'].includes(trade.asset) ? 'block' : 'none'}">
                         </div>
                     </div>
                     
@@ -2301,9 +2374,17 @@
                 profitLoss = -Math.abs(profitLoss);
             }
             
+            // Get asset value - check if custom asset is selected
+            let assetValue = document.getElementById(`edit-asset-${id}`).value;
+            if (assetValue === 'CUSTOM') {
+                assetValue = document.getElementById(`edit-asset-custom-${id}`).value || null;
+            } else if (assetValue === '') {
+                assetValue = null;
+            }
+            
             const updatedTrade = {
                 date: document.getElementById(`edit-date-${id}`).value,
-                asset: document.getElementById(`edit-asset-${id}`).value || null,
+                asset: assetValue,
                 lotSize: document.getElementById(`edit-lotsize-${id}`).value ? parseFloat(document.getElementById(`edit-lotsize-${id}`).value) : null,
                 result: result || null,
                 entryPrice: document.getElementById(`edit-entry-${id}`).value ? parseFloat(document.getElementById(`edit-entry-${id}`).value) : null,
@@ -2332,6 +2413,22 @@
             } catch (error) {
                 console.error('Error updating trade:', error);
                 showToast('Fehler beim Aktualisieren', 'error');
+            }
+        };
+
+        // Toggle Custom Asset Input
+        window.toggleCustomAsset = function(id) {
+            const select = document.getElementById(`edit-asset-${id}`);
+            const customInput = document.getElementById(`edit-asset-custom-${id}`);
+            
+            if (select.value === 'CUSTOM') {
+                customInput.style.display = 'block';
+                customInput.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+                customInput.classList.add('hidden');
+                customInput.value = '';
             }
         };
 
@@ -2426,6 +2523,45 @@
             `).join('');
         }
 
+        // Render Deposits
+        function renderDeposits() {
+            const list = document.getElementById('depositsList');
+            
+            if (deposits.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="text-6xl mb-4">📭</div>
+                        <p>Keine Einzahlungen vorhanden</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const sorted = [...deposits].sort((a, b) => new Date(b.depositDate) - new Date(a.depositDate));
+            
+            list.innerHTML = sorted.map(d => `
+                <div class="trade-card rounded-lg p-4 animate-slide-in">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <div class="text-lg font-bold">Einzahlung</div>
+                            <div class="text-sm text-gray-400">${formatDate(d.depositDate)}</div>
+                        </div>
+                        <div class="text-2xl font-bold text-green-400">
+                            +${formatCurrency(d.depositAmount)}
+                        </div>
+                    </div>
+                    ${d.depositNote ? `
+                        <div class="bg-slate-700 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                            📝 ${d.depositNote}
+                        </div>
+                    ` : ''}
+                    <button onclick="deleteDeposit('${d.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                        🗑️ Löschen
+                    </button>
+                </div>
+            `).join('');
+        }
+
         window.deleteWithdrawal = async function(id) {
             if (!currentUser) return;
             
@@ -2469,6 +2605,52 @@
         window.cancelDeleteWithdrawal = function(button, originalHTML) {
             const withdrawalCard = button.closest('.trade-card');
             withdrawalCard.innerHTML = originalHTML;
+        };
+
+        // Delete Deposit
+        window.deleteDeposit = async function(id) {
+            if (!currentUser) return;
+            
+            const depositCard = event.target.closest('.trade-card');
+            const originalHTML = depositCard.innerHTML;
+            
+            depositCard.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-white font-semibold mb-3">Einzahlung wirklich löschen?</p>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="confirmDeleteDeposit('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Ja, löschen
+                        </button>
+                        <button onclick="cancelDeleteDeposit(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
+                            Abbrechen
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        window.confirmDeleteDeposit = async function(id) {
+            const deposit = deposits.find(d => d.id === id);
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('deposits').doc(id).delete();
+                showToast('Einzahlung gelöscht!');
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital -= deposit.depositAmount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error deleting deposit:', error);
+                showToast('Fehler beim Löschen', 'error');
+            }
+        };
+
+        window.cancelDeleteDeposit = function(button, originalHTML) {
+            const depositCard = button.closest('.trade-card');
+            depositCard.innerHTML = originalHTML;
         };
 
         // Render Emotion Analysis
@@ -3010,6 +3192,39 @@
             }
         });
 
+        // Deposit Form
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+
+            const deposit = {
+                depositDate: document.getElementById('depositDate').value,
+                depositAmount: amount,
+                depositNote: document.getElementById('depositNote').value || null,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('deposits').add(deposit);
+                showToast('Einzahlung erfolgreich gespeichert!');
+                document.getElementById('depositForm').reset();
+                document.getElementById('depositDate').value = today;
+                
+                if (startCapitalData) {
+                    startCapitalData.currentCapital += amount;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error saving deposit:', error);
+                showToast('Fehler beim Speichern', 'error');
+            }
+        });
+
         // Event Form
         document.getElementById('eventForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -3374,5 +3589,5 @@
         
     </script>
   </div>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74cda965f3e0d3',t:'MTc2NzI5OTcyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b74d91ee0b7e0d3',t:'MTc2NzMwMDE5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
