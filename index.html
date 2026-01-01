@@ -680,7 +680,7 @@
         Menü
        </div><button id="closeMobileMenu" class="text-2xl text-gray-400 hover:text-white">×</button>
       </div>
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="deposits"> <span>💰</span> <span>Einzahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calendar"> <span>📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🔢</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition hover:bg-slate-700 flex items-center gap-3" data-tab="dashboard"> <span>📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="newtrade"> <span>➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="history"> <span>📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="performance"> <span>📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="emotions"> <span>😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="compound"> <span>  </span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="withdrawals"> <span>💳</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="deposits"> <span>💰</span> <span>Einzahlungen</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calendar"> <span>📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-4 py-3 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition hover:bg-slate-700 flex items-center gap-3" data-tab="calculators"> <span>🔢</span> <span>Rechner</span> </button>
       </nav>
      </aside><!-- Main Content -->
      <main class="flex-1 overflow-auto w-full">
@@ -1023,7 +1023,7 @@
        <div id="emotionsTab" class="tab-content hidden"><!-- Emotion Stats Grid -->
         <div class="mb-6">
          <div class="section-header">
-          <h2 class="text-xl font-bold">Emotionen Übersicht</h2>
+          <h2 class="text-xl font-bold">Emotionen   bersicht</h2>
          </div>
          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="stat-card rounded-xl p-4 text-center">
@@ -1529,14 +1529,39 @@
         let app, auth, db;
         let currentUser = null;
         
-        try {
-            app = firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            db = firebase.firestore();
-            console.log('Firebase initialized successfully');
-        } catch (error) {
-            console.error('Firebase initialization error:', error);
-            showToast('❌ Firebase-Fehler: ' + error.message, 'error');
+        // Wait for Firebase to be ready
+        function initFirebase() {
+            try {
+                if (typeof firebase === 'undefined') {
+                    console.error('Firebase SDK not loaded');
+                    setTimeout(initFirebase, 500);
+                    return;
+                }
+                
+                app = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                console.log('Firebase initialized successfully');
+                
+                // Set up auth state observer
+                setupAuthObserver();
+            } catch (error) {
+                console.error('Firebase initialization error:', error);
+                // Retry if already initialized
+                if (error.code === 'app/duplicate-app') {
+                    app = firebase.app();
+                    auth = firebase.auth();
+                    db = firebase.firestore();
+                    setupAuthObserver();
+                }
+            }
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFirebase);
+        } else {
+            initFirebase();
         }
 
         // Global data variables
@@ -1557,20 +1582,22 @@
         let compoundChart = null;
         
         // Auth State Observer
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-                loadAllData();
-            } else {
-                currentUser = null;
-                document.getElementById('mainApp').classList.add('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('loginScreen').classList.remove('hidden');
-            }
-        });
+        function setupAuthObserver() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('registerScreen').classList.add('hidden');
+                    document.getElementById('mainApp').classList.remove('hidden');
+                    loadAllData();
+                } else {
+                    currentUser = null;
+                    document.getElementById('mainApp').classList.add('hidden');
+                    document.getElementById('registerScreen').classList.add('hidden');
+                    document.getElementById('loginScreen').classList.remove('hidden');
+                }
+            });
+        }
 
         // Load all data from Firestore
         async function loadAllData() {
@@ -1647,14 +1674,44 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
+            if (!auth) {
+                showToast('❌ Firebase wird geladen, bitte warten...', 'error');
+                return;
+            }
+            
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('❌ Bitte E-Mail und Passwort eingeben', 'error');
+                return;
+            }
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Anmeldung läuft...';
             
             try {
                 await auth.signInWithEmailAndPassword(email, password);
                 showToast('✅ Erfolgreich angemeldet!');
             } catch (error) {
-                showToast('❌ Anmeldung fehlgeschlagen: ' + error.message, 'error');
+                console.error('Login error:', error);
+                let errorMessage = 'Anmeldung fehlgeschlagen';
+                
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'Benutzer nicht gefunden';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Falsches Passwort';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Ungültige E-Mail-Adresse';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Zu viele Versuche. Bitte später versuchen.';
+                }
+                
+                showToast('❌ ' + errorMessage, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Anmelden';
             }
         });
 
@@ -2822,5 +2879,5 @@
                         y: {
 </script>
   </div>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b751151b556e0d3',t:'MTc2NzMwMjUwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7516294052e0d3',t:'MTc2NzMwMjY5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
