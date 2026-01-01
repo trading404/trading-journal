@@ -334,6 +334,17 @@
             right: 2px;
             font-size: 10px;
         }
+        
+        .calendar-day .event-dot {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #3b82f6;
+            border-radius: 50%;
+        }
 
         .modal-overlay {
             position: fixed;
@@ -797,36 +808,68 @@
         </div>
        </div><!-- Calendar Tab -->
        <div id="calendarTab" class="tab-content hidden">
-        <div class="glass-card rounded-xl p-6 animate-fade-in">
-         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold flex items-center gap-2"><span>📅</span> <span id="calendarTitle">Trading Kalender</span></h2>
-          <div class="flex gap-2"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ◀ </button> <button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ▶ </button>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in"><!-- Calendar View -->
+         <div class="lg:col-span-2">
+          <div class="glass-card rounded-xl p-6">
+           <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold flex items-center gap-2"><span>📅</span> <span id="calendarTitle">Trading Kalender</span></h2>
+            <div class="flex gap-2"><button id="prevMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ◀ </button> <button id="nextMonth" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition"> ▶ </button>
+            </div>
+           </div>
+           <div class="grid grid-cols-7 gap-2 mb-4">
+            <div class="text-center font-bold text-gray-400 py-2">
+             Mo
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             Di
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             Mi
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             Do
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             Fr
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             Sa
+            </div>
+            <div class="text-center font-bold text-gray-400 py-2">
+             So
+            </div>
+           </div>
+           <div id="calendarGrid" class="grid grid-cols-7 gap-2">
+           </div>
           </div>
-         </div>
-         <div class="grid grid-cols-7 gap-2 mb-4">
-          <div class="text-center font-bold text-gray-400 py-2">
-           Mo
+         </div><!-- Event Management -->
+         <div class="lg:col-span-1"><!-- Add Event Form -->
+          <div class="glass-card rounded-xl p-6 mb-6">
+           <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>➕</span> <span>Termin hinzufügen</span></h3>
+           <form id="eventForm" class="space-y-4">
+            <div><label class="block text-sm font-semibold mb-2">Datum</label> <input type="date" id="eventDate" class="input-modern w-full px-3 py-2 rounded-lg text-sm" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Uhrzeit (optional)</label> <input type="time" id="eventTime" class="input-modern w-full px-3 py-2 rounded-lg text-sm">
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Titel</label> <input type="text" id="eventTitle" class="input-modern w-full px-3 py-2 rounded-lg text-sm" placeholder="z.B. FOMC Meeting" required>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Typ</label> <select id="eventType" class="input-modern w-full px-3 py-2 rounded-lg text-sm"> <option value="news">📰 News Event</option> <option value="earnings">💼 Earnings</option> <option value="meeting">🤝 Meeting</option> <option value="reminder">⏰ Erinnerung</option> <option value="other">📌 Sonstiges</option> </select>
+            </div>
+            <div><label class="block text-sm font-semibold mb-2">Notiz (optional)</label> <textarea id="eventNote" rows="3" class="input-modern w-full px-3 py-2 rounded-lg text-sm" placeholder="Weitere Details..."></textarea>
+            </div><button type="submit" class="btn-primary w-full py-2 rounded-lg font-bold text-white text-sm"> Termin speichern </button>
+           </form>
+          </div><!-- Upcoming Events -->
+          <div class="glass-card rounded-xl p-6">
+           <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📋</span> <span>Kommende Termine</span></h3>
+           <div id="upcomingEventsList" class="space-y-3 max-h-[400px] overflow-y-auto">
+            <div class="text-center py-8 text-gray-400 text-sm">
+             <div class="text-4xl mb-2">
+              📭
+             </div>
+             <p>Keine Termine</p>
+            </div>
+           </div>
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           Di
-          </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           Mi
-          </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           Do
-          </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           Fr
-          </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           Sa
-          </div>
-          <div class="text-center font-bold text-gray-400 py-2">
-           So
-          </div>
-         </div>
-         <div id="calendarGrid" class="grid grid-cols-7 gap-2">
          </div>
         </div>
        </div><!-- Calculators Tab -->
@@ -1014,6 +1057,7 @@
         // Global data variables
         let trades = [];
         let withdrawals = [];
+        let events = [];
         let startCapitalData = null;
         let equityCurveChart = null;
         
@@ -1101,6 +1145,10 @@
                 const withdrawalsSnapshot = await db.collection('users').doc(currentUser.uid).collection('withdrawals').get();
                 withdrawals = withdrawalsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
+                // Load events
+                const eventsSnapshot = await db.collection('users').doc(currentUser.uid).collection('events').get();
+                events = eventsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
                 // Load start capital
                 const startCapitalDoc = await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').get();
                 if (startCapitalDoc.exists) {
@@ -1110,6 +1158,8 @@
                 updateDashboard();
                 renderTradeHistory();
                 renderWithdrawals();
+                renderCalendar();
+                renderUpcomingEvents();
             } catch (error) {
                 console.error('Error loading data:', error);
                 showToast('Fehler beim Laden der Daten', 'error');
@@ -1214,6 +1264,34 @@
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tradeDate').value = today;
         document.getElementById('withdrawalDate').value = today;
+        document.getElementById('eventDate').value = today;
+
+        // Event Form
+        document.getElementById('eventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentUser) return;
+
+            const event = {
+                eventDate: document.getElementById('eventDate').value,
+                eventTime: document.getElementById('eventTime').value || null,
+                eventTitle: document.getElementById('eventTitle').value,
+                eventType: document.getElementById('eventType').value,
+                eventNote: document.getElementById('eventNote').value || null,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('events').add(event);
+                showToast('Termin erfolgreich gespeichert!');
+                document.getElementById('eventForm').reset();
+                document.getElementById('eventDate').value = today;
+                await loadAllData();
+            } catch (error) {
+                console.error('Error saving event:', error);
+                showToast('Fehler beim Speichern', 'error');
+            }
+        });
 
         // Start Capital Form
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
@@ -1523,56 +1601,289 @@
             list.innerHTML = sortedTrades.map(trade => {
                 const resultClass = trade.profitLoss > 0 ? 'profit' : trade.profitLoss < 0 ? 'loss' : 'breakeven';
                 const resultColor = trade.profitLoss > 0 ? 'text-green-400' : trade.profitLoss < 0 ? 'text-red-400' : 'text-orange-400';
+                const resultIcon = trade.profitLoss > 0 ? '✅' : trade.profitLoss < 0 ? '❌' : '➖';
                 
                 return `
-                    <div class="trade-card ${resultClass} rounded-lg p-3 animate-slide-in">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="text-sm font-bold">${trade.asset || 'Kein Asset'}</div>
-                                <span class="text-xs text-gray-400">•</span>
-                                <div class="text-xs text-gray-400">${formatDate(trade.date)}</div>
+                    <div class="trade-card ${resultClass} rounded-lg overflow-hidden animate-slide-in" id="trade-${trade.id}">
+                        <div class="p-4">
+                            <!-- Header Row -->
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-xl">${resultIcon}</span>
+                                        <div class="text-lg font-bold">${trade.asset || 'Kein Asset'}</div>
+                                    </div>
+                                    <div class="text-sm text-gray-400">${formatDate(trade.date)}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold ${resultColor}">
+                                        ${trade.profitLoss !== null ? (trade.profitLoss >= 0 ? '+' : '') + formatCurrency(trade.profitLoss) : 'N/A'}
+                                    </div>
+                                    ${trade.result ? `<div class="text-xs text-gray-400 mt-1">${trade.result}</div>` : ''}
+                                </div>
                             </div>
-                            <div class="text-lg font-bold ${resultColor}">
-                                ${trade.profitLoss !== null ? (trade.profitLoss >= 0 ? '+' : '') + formatCurrency(trade.profitLoss) : 'N/A'}
+                            
+                            <!-- Trade Details Grid -->
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                ${trade.lotSize !== null ? `
+                                    <div class="bg-slate-700 bg-opacity-30 rounded p-2">
+                                        <div class="text-xs text-gray-400">Lot Size</div>
+                                        <div class="font-semibold">${trade.lotSize}</div>
+                                    </div>
+                                ` : ''}
+                                ${trade.entryPrice !== null ? `
+                                    <div class="bg-slate-700 bg-opacity-30 rounded p-2">
+                                        <div class="text-xs text-gray-400">Entry</div>
+                                        <div class="font-semibold">${trade.entryPrice}</div>
+                                    </div>
+                                ` : ''}
+                                ${trade.exitPrice !== null ? `
+                                    <div class="bg-slate-700 bg-opacity-30 rounded p-2">
+                                        <div class="text-xs text-gray-400">Exit</div>
+                                        <div class="font-semibold">${trade.exitPrice}</div>
+                                    </div>
+                                ` : ''}
+                                ${trade.strategy ? `
+                                    <div class="bg-slate-700 bg-opacity-30 rounded p-2">
+                                        <div class="text-xs text-gray-400">Strategie</div>
+                                        <div class="font-semibold">📈 ${trade.strategy}</div>
+                                    </div>
+                                ` : ''}
+                                ${trade.emotion ? `
+                                    <div class="bg-slate-700 bg-opacity-30 rounded p-2">
+                                        <div class="text-xs text-gray-400">Emotion</div>
+                                        <div class="font-semibold">${getEmotionEmoji(trade.emotion)} ${trade.emotion}</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            
+                            ${trade.notes ? `
+                                <div class="bg-slate-700 bg-opacity-50 rounded-lg p-3 mb-3 text-sm text-gray-300">
+                                    <div class="text-xs text-gray-400 mb-1">📝 Notizen</div>
+                                    <div>${trade.notes}</div>
+                                </div>
+                            ` : ''}
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex gap-2">
+                                <button onclick="editTrade('${trade.id}')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+                                    ✏️ Bearbeiten
+                                </button>
+                                <button onclick="deleteTrade('${trade.id}')" class="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+                                    🗑️ Löschen
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-2">
-                            ${trade.lotSize !== null ? `<span>Lot: <span class="text-white font-medium">${trade.lotSize}</span></span>` : ''}
-                            ${trade.strategy ? `<span>📈 <span class="text-white font-medium">${trade.strategy}</span></span>` : ''}
-                            ${trade.emotion ? `<span>${getEmotionEmoji(trade.emotion)} <span class="text-purple-300 font-medium">${trade.emotion}</span></span>` : ''}
-                        </div>
-                        
-                        ${trade.notes ? `
-                            <div class="bg-slate-700 bg-opacity-50 rounded p-2 mb-2 text-xs text-gray-300">
-                                📝 ${trade.notes}
-                            </div>
-                        ` : ''}
-                        
-                        <button onclick="deleteTrade('${trade.id}')" class="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
-                            🗑️ Löschen
-                        </button>
                     </div>
                 `;
             }).join('');
         }
+
+        // Edit Trade
+        window.editTrade = function(id) {
+            if (!currentUser) return;
+            
+            const trade = trades.find(t => t.id === id);
+            if (!trade) return;
+            
+            const tradeCard = document.getElementById(`trade-${id}`);
+            const originalHTML = tradeCard.innerHTML;
+            
+            // Build edit form
+            tradeCard.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold">✏️ Trade bearbeiten</h3>
+                        <button onclick="cancelEditTrade('${id}', \`${originalHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" class="text-gray-400 hover:text-white">✕</button>
+                    </div>
+                    <form onsubmit="saveEditedTrade(event, '${id}')" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Datum</label>
+                                <input type="date" id="edit-date-${id}" value="${trade.date}" class="input-modern w-full px-3 py-2 rounded text-sm" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Asset</label>
+                                <select id="edit-asset-${id}" class="input-modern w-full px-3 py-2 rounded text-sm">
+                                    <option value="">Optional...</option>
+                                    <optgroup label="🌍 Forex Majors">
+                                        <option value="EUR/USD" ${trade.asset === 'EUR/USD' ? 'selected' : ''}>EUR/USD</option>
+                                        <option value="GBP/USD" ${trade.asset === 'GBP/USD' ? 'selected' : ''}>GBP/USD</option>
+                                        <option value="USD/JPY" ${trade.asset === 'USD/JPY' ? 'selected' : ''}>USD/JPY</option>
+                                        <option value="USD/CHF" ${trade.asset === 'USD/CHF' ? 'selected' : ''}>USD/CHF</option>
+                                        <option value="AUD/USD" ${trade.asset === 'AUD/USD' ? 'selected' : ''}>AUD/USD</option>
+                                        <option value="USD/CAD" ${trade.asset === 'USD/CAD' ? 'selected' : ''}>USD/CAD</option>
+                                        <option value="NZD/USD" ${trade.asset === 'NZD/USD' ? 'selected' : ''}>NZD/USD</option>
+                                    </optgroup>
+                                    <optgroup label="💎 Forex Minors">
+                                        <option value="EUR/GBP" ${trade.asset === 'EUR/GBP' ? 'selected' : ''}>EUR/GBP</option>
+                                        <option value="EUR/JPY" ${trade.asset === 'EUR/JPY' ? 'selected' : ''}>EUR/JPY</option>
+                                        <option value="GBP/JPY" ${trade.asset === 'GBP/JPY' ? 'selected' : ''}>GBP/JPY</option>
+                                        <option value="EUR/AUD" ${trade.asset === 'EUR/AUD' ? 'selected' : ''}>EUR/AUD</option>
+                                        <option value="EUR/CAD" ${trade.asset === 'EUR/CAD' ? 'selected' : ''}>EUR/CAD</option>
+                                        <option value="EUR/CHF" ${trade.asset === 'EUR/CHF' ? 'selected' : ''}>EUR/CHF</option>
+                                    </optgroup>
+                                    <optgroup label="🥇 Rohstoffe">
+                                        <option value="XAU/USD" ${trade.asset === 'XAU/USD' ? 'selected' : ''}>Gold</option>
+                                        <option value="XAG/USD" ${trade.asset === 'XAG/USD' ? 'selected' : ''}>Silber</option>
+                                        <option value="WTI" ${trade.asset === 'WTI' ? 'selected' : ''}>Öl WTI</option>
+                                        <option value="BRENT" ${trade.asset === 'BRENT' ? 'selected' : ''}>Öl Brent</option>
+                                    </optgroup>
+                                    <optgroup label="📉 Indizes">
+                                        <option value="US30" ${trade.asset === 'US30' ? 'selected' : ''}>US30 (Dow Jones)</option>
+                                        <option value="NAS100" ${trade.asset === 'NAS100' ? 'selected' : ''}>NAS100 (NASDAQ)</option>
+                                        <option value="SPX500" ${trade.asset === 'SPX500' ? 'selected' : ''}>SPX500 (S&P 500)</option>
+                                        <option value="GER40" ${trade.asset === 'GER40' ? 'selected' : ''}>GER40 (DAX)</option>
+                                        <option value="UK100" ${trade.asset === 'UK100' ? 'selected' : ''}>UK100 (FTSE)</option>
+                                    </optgroup>
+                                    <optgroup label="₿ Kryptowährungen">
+                                        <option value="BTC/USD" ${trade.asset === 'BTC/USD' ? 'selected' : ''}>Bitcoin</option>
+                                        <option value="ETH/USD" ${trade.asset === 'ETH/USD' ? 'selected' : ''}>Ethereum</option>
+                                        <option value="XRP/USD" ${trade.asset === 'XRP/USD' ? 'selected' : ''}>Ripple</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Lot Size</label>
+                                <input type="number" id="edit-lotsize-${id}" value="${trade.lotSize !== null ? trade.lotSize : ''}" step="0.01" class="input-modern w-full px-3 py-2 rounded text-sm" placeholder="z.B. 0.10">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Ergebnis</label>
+                                <select id="edit-result-${id}" class="input-modern w-full px-3 py-2 rounded text-sm">
+                                    <option value="">Optional...</option>
+                                    <option value="Gewinn" ${trade.result === 'Gewinn' ? 'selected' : ''}>✅ Gewinn</option>
+                                    <option value="Verlust" ${trade.result === 'Verlust' ? 'selected' : ''}>❌ Verlust</option>
+                                    <option value="Break Even" ${trade.result === 'Break Even' ? 'selected' : ''}>➖ Break Even</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Entry Preis</label>
+                                <input type="number" id="edit-entry-${id}" value="${trade.entryPrice !== null ? trade.entryPrice : ''}" step="0.00001" class="input-modern w-full px-3 py-2 rounded text-sm" placeholder="z.B. 1.08450">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold mb-1">Exit Preis</label>
+                                <input type="number" id="edit-exit-${id}" value="${trade.exitPrice !== null ? trade.exitPrice : ''}" step="0.00001" class="input-modern w-full px-3 py-2 rounded text-sm" placeholder="z.B. 1.08550">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Profit/Loss (€)</label>
+                            <input type="number" id="edit-pl-${id}" value="${trade.profitLoss !== null ? trade.profitLoss : ''}" step="0.01" class="input-modern w-full px-3 py-2 rounded text-sm" placeholder="z.B. 150.00">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Strategie</label>
+                            <select id="edit-strategy-${id}" class="input-modern w-full px-3 py-2 rounded text-sm">
+                                <option value="">Optional...</option>
+                                <option value="Trendfolge" ${trade.strategy === 'Trendfolge' ? 'selected' : ''}>📈 Trendfolge</option>
+                                <option value="Breakout" ${trade.strategy === 'Breakout' ? 'selected' : ''}>💥 Breakout</option>
+                                <option value="Range Trading" ${trade.strategy === 'Range Trading' ? 'selected' : ''}>📊 Range Trading</option>
+                                <option value="Scalping" ${trade.strategy === 'Scalping' ? 'selected' : ''}>⚡ Scalping</option>
+                                <option value="Swing Trading" ${trade.strategy === 'Swing Trading' ? 'selected' : ''}>🌊 Swing Trading</option>
+                                <option value="News Trading" ${trade.strategy === 'News Trading' ? 'selected' : ''}>📰 News Trading</option>
+                                <option value="Support/Resistance" ${trade.strategy === 'Support/Resistance' ? 'selected' : ''}>🎯 Support/Resistance</option>
+                                <option value="Price Action" ${trade.strategy === 'Price Action' ? 'selected' : ''}>📉 Price Action</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Emotion</label>
+                            <select id="edit-emotion-${id}" class="input-modern w-full px-3 py-2 rounded text-sm">
+                                <option value="">Optional...</option>
+                                <option value="Ruhig" ${trade.emotion === 'Ruhig' ? 'selected' : ''}>😌 Ruhig</option>
+                                <option value="Zuversichtlich" ${trade.emotion === 'Zuversichtlich' ? 'selected' : ''}>😊 Zuversichtlich</option>
+                                <option value="Nervös" ${trade.emotion === 'Nervös' ? 'selected' : ''}>😰 Nervös</option>
+                                <option value="Gestresst" ${trade.emotion === 'Gestresst' ? 'selected' : ''}>😫 Gestresst</option>
+                                <option value="Euphorisch" ${trade.emotion === 'Euphorisch' ? 'selected' : ''}>🤩 Euphorisch</option>
+                                <option value="Frustriert" ${trade.emotion === 'Frustriert' ? 'selected' : ''}>😤 Frustriert</option>
+                                <option value="Ängstlich" ${trade.emotion === 'Ängstlich' ? 'selected' : ''}>😨 Ängstlich</option>
+                                <option value="Neutral" ${trade.emotion === 'Neutral' ? 'selected' : ''}>😐 Neutral</option>
+                                <option value="Fokussiert" ${trade.emotion === 'Fokussiert' ? 'selected' : ''}>🎯 Fokussiert</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold mb-1">Notizen</label>
+                            <textarea id="edit-notes-${id}" rows="3" class="input-modern w-full px-3 py-2 rounded text-sm" placeholder="Weitere Gedanken...">${trade.notes || ''}</textarea>
+                        </div>
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                💾 Speichern
+                            </button>
+                            <button type="button" onclick="cancelEditTrade('${id}', \`${originalHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                                ❌ Abbrechen
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        };
+
+        window.cancelEditTrade = function(id, originalHTML) {
+            const tradeCard = document.getElementById(`trade-${id}`);
+            tradeCard.innerHTML = originalHTML;
+        };
+
+        window.saveEditedTrade = async function(event, id) {
+            event.preventDefault();
+            if (!currentUser) return;
+            
+            const trade = trades.find(t => t.id === id);
+            const oldPL = trade.profitLoss || 0;
+            
+            let profitLoss = document.getElementById(`edit-pl-${id}`).value ? parseFloat(document.getElementById(`edit-pl-${id}`).value) : null;
+            const result = document.getElementById(`edit-result-${id}`).value;
+            
+            if (result === 'Verlust' && profitLoss !== null && profitLoss > 0) {
+                profitLoss = -Math.abs(profitLoss);
+            }
+            
+            const updatedTrade = {
+                date: document.getElementById(`edit-date-${id}`).value,
+                asset: document.getElementById(`edit-asset-${id}`).value || null,
+                lotSize: document.getElementById(`edit-lotsize-${id}`).value ? parseFloat(document.getElementById(`edit-lotsize-${id}`).value) : null,
+                result: result || null,
+                entryPrice: document.getElementById(`edit-entry-${id}`).value ? parseFloat(document.getElementById(`edit-entry-${id}`).value) : null,
+                exitPrice: document.getElementById(`edit-exit-${id}`).value ? parseFloat(document.getElementById(`edit-exit-${id}`).value) : null,
+                profitLoss: profitLoss,
+                strategy: document.getElementById(`edit-strategy-${id}`).value || null,
+                emotion: document.getElementById(`edit-emotion-${id}`).value || null,
+                notes: document.getElementById(`edit-notes-${id}`).value || null
+            };
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('trades').doc(id).update(updatedTrade);
+                showToast('Trade erfolgreich aktualisiert!');
+                
+                if (startCapitalData) {
+                    const plDifference = (updatedTrade.profitLoss || 0) - oldPL;
+                    startCapitalData.currentCapital += plDifference;
+                    await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                }
+                
+                await loadAllData();
+            } catch (error) {
+                console.error('Error updating trade:', error);
+                showToast('Fehler beim Aktualisieren', 'error');
+            }
+        };
 
         // Delete Trade
         window.deleteTrade = async function(id) {
             if (!currentUser) return;
             
             // Create inline confirmation instead of browser dialog
-            const tradeCard = event.target.closest('.trade-card');
+            const tradeCard = document.getElementById(`trade-${id}`);
             const originalHTML = tradeCard.innerHTML;
             
             tradeCard.innerHTML = `
-                <div class="text-center py-4">
+                <div class="p-4 text-center">
                     <p class="text-white font-semibold mb-3">Trade wirklich löschen?</p>
                     <div class="flex gap-2 justify-center">
                         <button onclick="confirmDeleteTrade('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition">
                             Ja, löschen
                         </button>
-                        <button onclick="cancelDeleteTrade(this, \`${originalHTML.replace(/`/g, '\\`')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
+                        <button onclick="cancelDeleteTrade('${id}', \`${originalHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`)" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded transition">
                             Abbrechen
                         </button>
                     </div>
@@ -1600,8 +1911,8 @@
             }
         };
 
-        window.cancelDeleteTrade = function(button, originalHTML) {
-            const tradeCard = button.closest('.trade-card');
+        window.cancelDeleteTrade = function(id, originalHTML) {
+            const tradeCard = document.getElementById(`trade-${id}`);
             tradeCard.innerHTML = originalHTML;
         };
 
@@ -1877,32 +2188,214 @@
             for (let day = 1; day <= numberOfDays; day++) {
                 const dateStr = `${currentCalendarYear}-${String(currentCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const dayTrades = trades.filter(t => t.date === dateStr);
+                const dayEvents = events.filter(e => e.eventDate === dateStr);
                 
                 const dayDiv = document.createElement('div');
                 dayDiv.className = 'calendar-day';
+                dayDiv.style.cursor = 'pointer';
                 
                 if (today.getFullYear() === currentCalendarYear && today.getMonth() === currentCalendarMonth && today.getDate() === day) {
                     dayDiv.classList.add('today');
                 }
 
+                let content = `<div class="text-sm font-bold">${day}</div>`;
+                
                 if (dayTrades.length > 0) {
                     const dayPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
                     if (dayPL > 0) dayDiv.classList.add('profit');
                     else if (dayPL < 0) dayDiv.classList.add('loss');
                     else dayDiv.classList.add('breakeven');
 
-                    dayDiv.innerHTML = `
-                        <div class="text-sm font-bold">${day}</div>
-                        <div class="text-xs ${dayPL >= 0 ? 'text-green-300' : 'text-red-300'}">${formatCurrency(dayPL)}</div>
-                    `;
+                    content += `<div class="text-xs ${dayPL >= 0 ? 'text-green-300' : 'text-red-300'}">${formatCurrency(dayPL)}</div>`;
                 } else {
                     dayDiv.classList.add('empty');
-                    dayDiv.innerHTML = `<div class="text-sm">${day}</div>`;
                 }
+                
+                if (dayEvents.length > 0) {
+                    content += `<div class="event-dot"></div>`;
+                    const eventIcon = getEventIcon(dayEvents[0].eventType);
+                    content += `<div class="news-indicator">${eventIcon}</div>`;
+                }
+
+                dayDiv.innerHTML = content;
+                
+                // Click handler to show day details
+                dayDiv.addEventListener('click', () => showDayDetails(dateStr, dayTrades, dayEvents));
 
                 grid.appendChild(dayDiv);
             }
         }
+
+        function getEventIcon(type) {
+            const icons = {
+                'news': '📰',
+                'earnings': '💼',
+                'meeting': '🤝',
+                'reminder': '⏰',
+                'other': '📌'
+            };
+            return icons[type] || '📌';
+        }
+
+        function showDayDetails(dateStr, dayTrades, dayEvents) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            let tradesHTML = '';
+            if (dayTrades.length > 0) {
+                tradesHTML = `
+                    <div class="mb-4">
+                        <h4 class="font-bold text-purple-300 mb-2">📊 Trades (${dayTrades.length})</h4>
+                        ${dayTrades.map(t => {
+                            const resultColor = t.profitLoss > 0 ? 'text-green-400' : t.profitLoss < 0 ? 'text-red-400' : 'text-orange-400';
+                            return `
+                                <div class="bg-slate-700 bg-opacity-50 rounded p-2 mb-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span>${t.asset || 'N/A'}</span>
+                                        <span class="${resultColor}">${t.profitLoss !== null ? formatCurrency(t.profitLoss) : 'N/A'}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            
+            let eventsHTML = '';
+            if (dayEvents.length > 0) {
+                eventsHTML = `
+                    <div class="mb-4">
+                        <h4 class="font-bold text-blue-300 mb-2">📅 Termine (${dayEvents.length})</h4>
+                        ${dayEvents.map(e => `
+                            <div class="bg-slate-700 bg-opacity-50 rounded p-3 mb-2 text-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <span>${getEventIcon(e.eventType)}</span>
+                                        <span class="font-semibold">${e.eventTitle}</span>
+                                    </div>
+                                    ${e.eventTime ? `<span class="text-xs text-gray-400">${e.eventTime}</span>` : ''}
+                                </div>
+                                ${e.eventNote ? `<div class="text-xs text-gray-400 mt-1">${e.eventNote}</div>` : ''}
+                                <button onclick="deleteEvent('${e.id}')" class="mt-2 text-xs text-red-400 hover:text-red-300">
+                                    🗑️ Löschen
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (!tradesHTML && !eventsHTML) {
+                tradesHTML = '<div class="text-gray-400 text-center py-4">Keine Einträge für diesen Tag</div>';
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-content max-w-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">${formatDate(dateStr)}</h3>
+                        <button class="text-2xl text-gray-400 hover:text-white" onclick="this.closest('.modal-overlay').remove()">×</button>
+                    </div>
+                    <div class="max-h-[60vh] overflow-y-auto">
+                        ${tradesHTML}
+                        ${eventsHTML}
+                    </div>
+                    <button onclick="this.closest('.modal-overlay').remove()" class="btn-primary w-full py-2 rounded-lg font-bold text-white mt-4">
+                        Schließen
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+        }
+
+        window.deleteEvent = async function(id) {
+            if (!currentUser) return;
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('events').doc(id).delete();
+                showToast('Termin gelöscht!');
+                await loadAllData();
+                // Close modal
+                document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                showToast('Fehler beim Löschen', 'error');
+            }
+        };
+
+        function renderUpcomingEvents() {
+            const list = document.getElementById('upcomingEventsList');
+            
+            if (events.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <div class="text-4xl mb-2">📭</div>
+                        <p>Keine Termine</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Filter future events and sort by date
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            
+            const upcomingEvents = events
+                .filter(e => e.eventDate >= todayStr)
+                .sort((a, b) => {
+                    const dateCompare = a.eventDate.localeCompare(b.eventDate);
+                    if (dateCompare !== 0) return dateCompare;
+                    if (a.eventTime && b.eventTime) return a.eventTime.localeCompare(b.eventTime);
+                    if (a.eventTime) return -1;
+                    if (b.eventTime) return 1;
+                    return 0;
+                })
+                .slice(0, 10); // Show max 10 upcoming events
+            
+            if (upcomingEvents.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <div class="text-4xl mb-2">✅</div>
+                        <p>Keine kommenden Termine</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = upcomingEvents.map(e => `
+                <div class="bg-slate-700 bg-opacity-40 rounded-lg p-3 text-sm hover:bg-opacity-60 transition">
+                    <div class="flex items-start gap-2 mb-2">
+                        <span class="text-lg">${getEventIcon(e.eventType)}</span>
+                        <div class="flex-1">
+                            <div class="font-semibold text-white">${e.eventTitle}</div>
+                            <div class="text-xs text-gray-400 mt-1">
+                                ${formatDate(e.eventDate)}${e.eventTime ? ` • ${e.eventTime}` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    ${e.eventNote ? `<div class="text-xs text-gray-400 ml-7 mb-2">${e.eventNote}</div>` : ''}
+                    <button onclick="deleteEventFromList('${e.id}')" class="text-xs text-red-400 hover:text-red-300 ml-7">
+                        🗑️ Löschen
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        window.deleteEventFromList = async function(id) {
+            if (!currentUser) return;
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).collection('events').doc(id).delete();
+                showToast('Termin gelöscht!');
+                await loadAllData();
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                showToast('Fehler beim Löschen', 'error');
+            }
+        };
 
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentCalendarMonth--;
@@ -2150,5 +2643,5 @@
             document.getElementById('compoundResults').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7401fd1610e0d3',t:'MTc2NzI5MTM4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b740a364171e0d3',t:'MTc2NzI5MTcyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
