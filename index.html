@@ -8,7 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script><!-- Tailwind CSS -->
-  <link href="https://unpkg.com/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
         body {
             box-sizing: border-box;
@@ -640,7 +640,6 @@
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body class="h-full text-white">
   <div class="min-h-full w-full flex flex-col overflow-auto"><!-- Login Screen -->
@@ -650,7 +649,7 @@
       <div class="text-7xl mb-6 animate-pulse-slow">
        📊
       </div>
-      <h1 class="text-4xl font-bold mb-3 gradient-primary bg-clip-text text-transparent" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Trading Journal Pro</h1>
+      <h1 class="text-4xl font-bold mb-3" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Trading Journal Pro</h1>
       <p class="text-gray-400 text-lg">Professionelles Trade Management</p>
      </div>
      <form id="loginForm" class="space-y-5 mb-6">
@@ -669,7 +668,7 @@
       <div class="text-7xl mb-6 animate-pulse-slow">
        🚀
       </div>
-      <h1 class="text-4xl font-bold mb-3 gradient-primary bg-clip-text text-transparent" style="-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Registrierung</h1>
+      <h1 class="text-4xl font-bold mb-3" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Registrierung</h1>
       <p class="text-gray-400 text-lg">Erstelle dein Trading Journal</p>
      </div>
      <form id="registerForm" class="space-y-5 mb-6">
@@ -722,7 +721,7 @@
     <div class="flex flex-1 overflow-hidden w-full"><!-- Mobile Menu Overlay -->
      <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-80 z-40 hidden lg:hidden"></div><!-- Sidebar Navigation -->
      <aside id="sidebar" class="w-72 bg-slate-800 border-r border-slate-700 overflow-y-auto flex-shrink-0 lg:relative fixed top-0 left-0 h-full z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
-      <div class="lg:hidden flex items-center justify-between p-5 border-b border-slate-700 bg-gradient-primary">
+      <div class="lg:hidden flex items-center justify-between p-5 border-b border-slate-700 gradient-primary">
        <div class="text-xl font-bold flex items-center gap-2"><span>📱</span> <span>Menü</span>
        </div><button id="closeMobileMenu" class="text-3xl text-white hover:text-purple-300 transition">×</button>
       </div>
@@ -1319,7 +1318,7 @@
           <p class="text-gray-400 text-lg">Fülle die Felder aus und klicke auf "Berechnen"</p>
          </div>
         </div>
-       </div><!-- Withdrawals Tab -->
+       </div><!-- Withdrawal Tab -->
        <div id="withdrawalsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8 animate-fade-in">
          <div class="section-header">
@@ -2434,418 +2433,304 @@
             });
         }
 
-        // Render Performance Charts
-        function renderPerformanceCharts() {
+        // Render Trade History
+        function renderTradeHistory() {
+            const container = document.getElementById('tradeHistoryList');
+            
+            document.getElementById('historyCount').textContent = trades.length + ' Trade' + (trades.length !== 1 ? 's' : '');
+            
             if (trades.length === 0) {
-                document.getElementById('perfBestTrade').textContent = '€0.00';
-                document.getElementById('perfWorstTrade').textContent = '€0.00';
-                document.getElementById('perfAvgWin').textContent = '€0.00';
-                document.getElementById('perfAvgLoss').textContent = '€0.00';
-                document.getElementById('perfLongestWinStreak').textContent = '0';
-                document.getElementById('perfLongestLossStreak').textContent = '0';
-                document.getElementById('perfCurrentStreak').textContent = '0';
-                document.getElementById('perfCurrentStreakType').textContent = '-';
+                container.innerHTML = `
+                    <div class="text-center py-20">
+                        <div class="text-6xl mb-4 animate-pulse-slow">📜</div>
+                        <p class="text-gray-400 text-lg">Noch keine Trades vorhanden</p>
+                        <p class="text-gray-500 mt-2">Füge deinen ersten Trade hinzu!</p>
+                    </div>
+                `;
                 return;
             }
-
-            const wins = trades.filter(t => t.profitLoss && t.profitLoss > 0);
-            const losses = trades.filter(t => t.profitLoss && t.profitLoss < 0);
             
-            const bestTrade = Math.max(...trades.map(t => t.profitLoss || 0));
-            const worstTrade = Math.min(...trades.map(t => t.profitLoss || 0));
-            const avgWin = wins.length > 0 ? wins.reduce((sum, t) => sum + t.profitLoss, 0) / wins.length : 0;
-            const avgLoss = losses.length > 0 ? losses.reduce((sum, t) => sum + t.profitLoss, 0) / losses.length : 0;
-
-            document.getElementById('perfBestTrade').textContent = formatCurrency(bestTrade);
-            document.getElementById('perfWorstTrade').textContent = formatCurrency(worstTrade);
-            document.getElementById('perfAvgWin').textContent = formatCurrency(avgWin);
-            document.getElementById('perfAvgLoss').textContent = formatCurrency(avgLoss);
-
-            const streakData = calculateStreaks();
-            document.getElementById('perfLongestWinStreak').textContent = streakData.longestWinStreak.toString();
-            document.getElementById('perfLongestLossStreak').textContent = streakData.longestLossStreak.toString();
-            document.getElementById('perfCurrentStreak').textContent = Math.abs(streakData.currentStreak).toString();
+            let html = '';
             
-            if (streakData.currentStreak > 0) {
-                document.getElementById('perfCurrentStreakType').textContent = '🔥 Gewinne';
-                document.getElementById('perfCurrentStreak').className = 'text-2xl font-bold text-green-400';
-            } else if (streakData.currentStreak < 0) {
-                document.getElementById('perfCurrentStreakType').textContent = '❄️ Verluste';
-                document.getElementById('perfCurrentStreak').className = 'text-2xl font-bold text-red-400';
-            } else {
-                document.getElementById('perfCurrentStreakType').textContent = '-';
-                document.getElementById('perfCurrentStreak').className = 'text-2xl font-bold text-gray-400';
-            }
-
-            renderWinLossChart(wins.length, losses.length, trades.filter(t => t.profitLoss === 0).length);
-            renderStreakChart(streakData.streakHistory);
-            renderStrategyChart();
-            renderMonthlyChart();
-            renderAssetChart();
-        }
-
-        // Calculate Streaks
-        function calculateStreaks() {
-            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            let currentStreak = 0;
-            let longestWinStreak = 0;
-            let longestLossStreak = 0;
-            let streakHistory = [];
-            
-            sortedTrades.forEach((trade, index) => {
-                const pl = trade.profitLoss || 0;
-                
-                if (pl > 0) {
-                    if (currentStreak >= 0) {
-                        currentStreak++;
-                    } else {
-                        currentStreak = 1;
-                    }
-                    if (currentStreak > longestWinStreak) {
-                        longestWinStreak = currentStreak;
-                    }
-                } else if (pl < 0) {
-                    if (currentStreak <= 0) {
-                        currentStreak--;
-                    } else {
-                        currentStreak = -1;
-                    }
-                    if (Math.abs(currentStreak) > longestLossStreak) {
-                        longestLossStreak = Math.abs(currentStreak);
-                    }
-                }
-                
-                streakHistory.push({
-                    trade: index + 1,
-                    streak: currentStreak,
-                    date: trade.date
-                });
-            });
-            
-            return {
-                currentStreak,
-                longestWinStreak,
-                longestLossStreak,
-                streakHistory
-            };
-        }
-
-        // Render Streak Chart
-        function renderStreakChart(streakHistory) {
-            const ctx = document.getElementById('streakChart');
-            if (!ctx) return;
-
-            if (streakChart) {
-                streakChart.destroy();
-            }
-
-            const labels = streakHistory.map(s => `Trade ${s.trade}`);
-            const data = streakHistory.map(s => s.streak);
-            const colors = data.map(val => val > 0 ? 'rgba(16, 185, 129, 0.9)' : val < 0 ? 'rgba(239, 68, 68, 0.9)' : 'rgba(156, 163, 175, 0.9)');
-
-            streakChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Strähne',
-                        data: data,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.9', '1')),
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 16,
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 13
-                            },
-                            callbacks: {
-                                label: function(context) {
-                                    const value = context.parsed.y;
-                                    const absValue = Math.abs(value);
-                                    if (value > 0) {
-                                        return `🔥 ${absValue} Gewinn${absValue !== 1 ? 'e' : ''} in Folge`;
-                                    } else if (value < 0) {
-                                        return `❄️ ${absValue} Verlust${absValue !== 1 ? 'e' : ''} in Folge`;
-                                    } else {
-                                        return 'Breakeven';
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                maxTicksLimit: 20,
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(99, 102, 241, 0.1)',
-                                drawBorder: false
-                            }
-                        },
-                        y: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                font: {
-                                    size: 11
-                                },
-                                callback: function(value) {
-                                    return value > 0 ? `+${value}` : value;
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(99, 102, 241, 0.1)',
-                                drawBorder: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Win/Loss Distribution Chart
-        function renderWinLossChart(winCount, lossCount, breakEvenCount) {
-            const ctx = document.getElementById('winLossChart');
-            if (!ctx) return;
-
-            if (winLossChart) {
-                winLossChart.destroy();
-            }
-
-            winLossChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Gewinn', 'Verlust', 'Breakeven'],
-                    datasets: [{
-                        data: [winCount, lossCount, breakEvenCount],
-                        backgroundColor: [
-                            'rgba(16, 185, 129, 0.9)',
-                            'rgba(239, 68, 68, 0.9)',
-                            'rgba(245, 158, 11, 0.9)'
-                        ],
-                        borderColor: [
-                            '#10b981',
-                            '#ef4444',
-                            '#f59e0b'
-                        ],
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: '#9ca3af',
-                                padding: 20,
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 16,
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 13
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Strategy Performance Chart
-        function renderStrategyChart() {
-            const ctx = document.getElementById('strategyChart');
-            if (!ctx) return;
-
-            const strategyData = {};
             trades.forEach(trade => {
-                const strategy = trade.strategy || 'Keine Strategie';
-                if (!strategyData[strategy]) {
-                    strategyData[strategy] = {
-                        count: 0,
-                        totalPL: 0
-                    };
-                }
-                strategyData[strategy].count++;
-                strategyData[strategy].totalPL += trade.profitLoss || 0;
+                const plClass = trade.profitLoss > 0 ? 'profit text-green-400' : trade.profitLoss < 0 ? 'loss text-red-400' : 'breakeven text-yellow-400';
+                const resultBadge = trade.profitLoss > 0 ? 'badge-success' : trade.profitLoss < 0 ? 'badge-danger' : 'badge-warning';
+                
+                html += `
+                    <div class="trade-card ${plClass.split(' ')[0]} rounded-2xl p-6 hover:shadow-2xl transition-all">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                            <div class="flex items-center gap-4">
+                                <div class="text-4xl">${trade.profitLoss >= 0 ? '📈' : '📉'}</div>
+                                <div>
+                                    <div class="font-bold text-xl">${trade.asset || 'Unbekannt'}</div>
+                                    <div class="text-sm text-gray-400">${formatDate(trade.date)}</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="${plClass.split(' ').slice(1).join(' ')} text-3xl font-bold">${formatCurrency(trade.profitLoss || 0)}</div>
+                                <span class="badge ${resultBadge} mt-2">${trade.result || 'Unbekannt'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
+                            ${trade.lotSize ? `<div><span class="text-gray-400">Lot:</span> <span class="font-semibold">${trade.lotSize}</span></div>` : ''}
+                            ${trade.entryPrice ? `<div><span class="text-gray-400">Entry:</span> <span class="font-semibold">${trade.entryPrice}</span></div>` : ''}
+                            ${trade.exitPrice ? `<div><span class="text-gray-400">Exit:</span> <span class="font-semibold">${trade.exitPrice}</span></div>` : ''}
+                            ${trade.strategy ? `<div><span class="text-gray-400">Strategie:</span> <span class="font-semibold">${trade.strategy}</span></div>` : ''}
+                        </div>
+                        
+                        ${trade.emotion ? `<div class="mb-3"><span class="badge badge-info">${getEmotionEmoji(trade.emotion)} ${trade.emotion}</span></div>` : ''}
+                        
+                        ${trade.notes ? `<div class="text-sm text-gray-400 bg-slate-700 bg-opacity-50 rounded-xl p-4 italic">${trade.notes}</div>` : ''}
+                        
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="deleteTrade('${trade.id}')" class="text-red-400 hover:text-red-300 px-4 py-2 rounded-lg hover:bg-red-900 hover:bg-opacity-30 transition font-semibold">
+                                🗑️ Löschen
+                            </button>
+                        </div>
+                    </div>
+                `;
             });
+            
+            container.innerHTML = html;
+        }
 
-            const strategies = Object.keys(strategyData);
-            const plValues = strategies.map(s => strategyData[s].totalPL);
-            const colors = plValues.map(val => val >= 0 ? 'rgba(16, 185, 129, 0.9)' : 'rgba(239, 68, 68, 0.9)');
-
-            if (strategyChart) {
-                strategyChart.destroy();
-            }
-
-            strategyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: strategies,
-                    datasets: [{
-                        label: 'Profit/Loss (€)',
-                        data: plValues,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.9', '1')),
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 16,
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 13
-                            },
-                            callbacks: {
-                                label: function(context) {
-                                    const strategy = context.label;
-                                    const count = strategyData[strategy].count;
-                                    return [
-                                        `P/L: ${formatCurrency(context.parsed.y)}`,
-                                        `Trades: ${count}`
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(99, 102, 241, 0.1)',
-                                drawBorder: false
-                            }
-                        },
-                        y: {
-                            ticks: { 
-                                color: '#9ca3af',
-                                font: {
-                                    size: 11
-                                },
-                                callback: function(value) {
-                                    return '€' + value.toFixed(0);
-                                }
-                            },
-                            grid: { 
-                                color: 'rgba(99, 102, 241, 0.1)',
-                                drawBorder: false
-                            }
-                        }
+        // Delete Trade
+        async function deleteTrade(id) {
+            if (!currentUser) return;
+            
+            const trade = trades.find(t => t.id === id);
+            if (!trade) return;
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'modal-overlay';
+            confirmDelete.innerHTML = `
+                <div class="modal-content">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Trade löschen?</h3>
+                    <p class="text-gray-400 mb-8 text-center">Möchtest du diesen Trade wirklich löschen?</p>
+                    <div class="flex gap-4">
+                        <button id="cancelDeleteTrade" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-bold transition">
+                            Abbrechen
+                        </button>
+                        <button id="confirmDeleteTrade" class="flex-1 bg-red-500 hover:bg-red-600 py-3 rounded-xl font-bold transition">
+                            Löschen
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+            
+            document.getElementById('cancelDeleteTrade').addEventListener('click', () => {
+                confirmDelete.remove();
+            });
+            
+            document.getElementById('confirmDeleteTrade').addEventListener('click', async () => {
+                confirmDelete.remove();
+                showLoadingOverlay('Lösche Trade...');
+                
+                try {
+                    await db.collection('users').doc(currentUser.uid).collection('trades').doc(id).delete();
+                    
+                    if (startCapitalData) {
+                        startCapitalData.currentCapital -= (trade.profitLoss || 0);
+                        await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
                     }
+                    
+                    hideLoadingOverlay();
+                    showToast('✅ Trade erfolgreich gelöscht!');
+                    await loadAllData();
+                    
+                } catch (error) {
+                    console.error('Error deleting trade:', error);
+                    hideLoadingOverlay();
+                    showToast('❌ Fehler beim Löschen', 'error');
                 }
             });
         }
 
-        // Monthly Performance Chart
-        function renderMonthlyChart() {
-            const ctx = document.getElementById('monthlyChart');
-            if (!ctx) return;
-
-            const monthlyData = {};
-            trades.forEach(trade => {
-                const date = new Date(trade.date);
-                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                if (!monthlyData[monthKey]) {
-                    monthlyData[monthKey] = 0;
-                }
-                monthlyData[monthKey] += trade.profitLoss || 0;
-            });
-
-            const months = Object.keys(monthlyData).sort();
-            const plValues = months.map(m => monthlyData[m]);
-            const colors = plValues.map(val => val >= 0 ? 'rgba(16, 185, 129, 0.9)' : 'rgba(239, 68, 68, 0.9)');
-
-            if (monthlyChart) {
-                monthlyChart.destroy();
+        // Render Withdrawals
+        function renderWithdrawals() {
+            const container = document.getElementById('withdrawalsList');
+            
+            if (withdrawals.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">💳</div>
+                        <p class="text-gray-400">Noch keine Auszahlungen vorhanden</p>
+                    </div>
+                `;
+                return;
             }
+            
+            let html = '';
+            
+            withdrawals.forEach(w => {
+                html += `
+                    <div class="trade-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <div class="font-bold text-lg">${formatDate(w.withdrawalDate)}</div>
+                                ${w.withdrawalNote ? `<div class="text-sm text-gray-400 mt-1">${w.withdrawalNote}</div>` : ''}
+                            </div>
+                            <div class="text-2xl font-bold text-orange-400">${formatCurrency(w.withdrawalAmount)}</div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="deleteWithdrawal('${w.id}')" class="text-red-400 hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-900 hover:bg-opacity-30 transition text-sm">
+                                🗑️ Löschen
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
 
-            monthlyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: months.map(m => {
-                        const [year, month] = m.split('-');
-                        return `${month}/${year}`;
-                    }),
-                    datasets: [{
-                        label: 'Monatliche P/L (€)',
-                        data: plValues,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c.replace('0.9', '1')),
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 16,
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 13
-                            },
-                            callbacks: {
-                                label: function(context) {
-                </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7529eae2b3e0d3',t:'MTc2NzMwMzUwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        // Delete Withdrawal
+        async function deleteWithdrawal(id) {
+            if (!currentUser) return;
+            
+            const withdrawal = withdrawals.find(w => w.id === id);
+            if (!withdrawal) return;
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'modal-overlay';
+            confirmDelete.innerHTML = `
+                <div class="modal-content">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Auszahlung löschen?</h3>
+                    <p class="text-gray-400 mb-8 text-center">Möchtest du diese Auszahlung wirklich löschen?</p>
+                    <div class="flex gap-4">
+                        <button id="cancelDeleteWithdrawal" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-bold transition">
+                            Abbrechen
+                        </button>
+                        <button id="confirmDeleteWithdrawal" class="flex-1 bg-red-500 hover:bg-red-600 py-3 rounded-xl font-bold transition">
+                            Löschen
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+            
+            document.getElementById('cancelDeleteWithdrawal').addEventListener('click', () => {
+                confirmDelete.remove();
+            });
+            
+            document.getElementById('confirmDeleteWithdrawal').addEventListener('click', async () => {
+                confirmDelete.remove();
+                showLoadingOverlay('Lösche Auszahlung...');
+                
+                try {
+                    await db.collection('users').doc(currentUser.uid).collection('withdrawals').doc(id).delete();
+                    
+                    if (startCapitalData) {
+                        startCapitalData.currentCapital += withdrawal.withdrawalAmount;
+                        await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                    }
+                    
+                    hideLoadingOverlay();
+                    showToast('✅ Auszahlung erfolgreich gelöscht!');
+                    await loadAllData();
+                    
+                } catch (error) {
+                    console.error('Error deleting withdrawal:', error);
+                    hideLoadingOverlay();
+                    showToast('❌ Fehler beim Löschen', 'error');
+                }
+            });
+        }
+
+        // Render Deposits
+        function renderDeposits() {
+            const container = document.getElementById('depositsList');
+            
+            if (deposits.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-6xl mb-4">💵</div>
+                        <p class="text-gray-400">Noch keine Einzahlungen vorhanden</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            deposits.forEach(d => {
+                html += `
+                    <div class="trade-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <div class="font-bold text-lg">${formatDate(d.depositDate)}</div>
+                                ${d.depositNote ? `<div class="text-sm text-gray-400 mt-1">${d.depositNote}</div>` : ''}
+                            </div>
+                            <div class="text-2xl font-bold text-green-400">${formatCurrency(d.depositAmount)}</div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button onclick="deleteDeposit('${d.id}')" class="text-red-400 hover:text-red-300 px-3 py-1 rounded-lg hover:bg-red-900 hover:bg-opacity-30 transition text-sm">
+                                🗑️ Löschen
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Delete Deposit
+        async function deleteDeposit(id) {
+            if (!currentUser) return;
+            
+            const deposit = deposits.find(d => d.id === id);
+            if (!deposit) return;
+            
+            const confirmDelete = document.createElement('div');
+            confirmDelete.className = 'modal-overlay';
+            confirmDelete.innerHTML = `
+                <div class="modal-content">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Einzahlung löschen?</h3>
+                    <p class="text-gray-400 mb-8 text-center">Möchtest du diese Einzahlung wirklich löschen?</p>
+                    <div class="flex gap-4">
+                        <button id="cancelDeleteDeposit" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-bold transition">
+                            Abbrechen
+                        </button>
+                        <button id="confirmDeleteDeposit" class="flex-1 bg-red-500 hover:bg-red-600 py-3 rounded-xl font-bold transition">
+                            Löschen
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDelete);
+            
+            document.getElementById('cancelDeleteDeposit').addEventListener('click', () => {
+                confirmDelete.remove();
+            });
+            
+            document.getElementById('confirmDeleteDeposit').addEventListener('click', async () => {
+                confirmDelete.remove();
+                showLoadingOverlay('Lösche Einzahlung...');
+                
+                try {
+                    await db.collection('users').doc(currentUser.uid).collection('deposits').doc(id).delete();
+                    
+                    if (startCapitalData) {
+                        startCapitalData.currentCapital -= deposit.depositAmount;
+                        await db.collection('users').doc(currentUser.uid).collection('settings').doc('startCapital').set(startCapitalData);
+                    }
+                    
+                    hideLoadingOverlay();
+                    showToast('✅ Einzahlung erfolgreich gelöscht!');
+                    await loadAllData();
+                    
+                } catch (error) {
+                    console.error('Error deleting deposit:', error);
+                    hideLoadingOverlay();
+                    showToast('❌ Fehler beim Löschen', 'error');
+                }
+            });
+        }
+
+        // ... CONTINUE DUE TO LENGTH (Teil 2 folgt) ...
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b75356393c3e0d3',t:'MTc2NzMwMzk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
