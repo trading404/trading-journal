@@ -767,6 +767,43 @@
         let currentUser = null;
         let sdkInitialized = false;
         
+        // Initialize Data SDK immediately when script loads
+        async function initializeDataSDK() {
+            console.log('=== Attempting to initialize Data SDK ===');
+            console.log('window.dataSdk exists:', !!window.dataSdk);
+            
+            if (!window.dataSdk) {
+                console.error('❌ Data SDK not loaded yet, waiting...');
+                setTimeout(initializeDataSDK, 100);
+                return;
+            }
+            
+            if (sdkInitialized) {
+                console.log('SDK already initialized');
+                return;
+            }
+            
+            try {
+                console.log('Calling window.dataSdk.init...');
+                const result = await window.dataSdk.init(dataHandler);
+                console.log('Init result:', result);
+                
+                if (result.isOk) {
+                    sdkInitialized = true;
+                    console.log('✅ Data SDK initialized successfully');
+                } else {
+                    console.error('❌ Failed to initialize Data SDK:', result.error);
+                    showToast('Fehler beim Initialisieren der Datenbank', 'error');
+                }
+            } catch (error) {
+                console.error('❌ Exception during SDK init:', error);
+                showToast('Fehler beim Initialisieren der Datenbank', 'error');
+            }
+        }
+        
+        // Start initialization immediately
+        initializeDataSDK();
+        
         // Auth State Observer
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -776,24 +813,12 @@
                 document.getElementById('userEmail').textContent = user.email;
                 document.getElementById('userEmailMobile').textContent = user.email;
                 
-                // Initialize Data SDK
-                console.log('User logged in, initializing Data SDK...');
-                if (window.dataSdk && !sdkInitialized) {
-                    const result = await window.dataSdk.init(dataHandler);
-                    console.log('SDK init result:', result);
-                    if (result.isOk) {
-                        sdkInitialized = true;
-                        console.log('✅ Data SDK initialized successfully');
-                    } else {
-                        console.error('❌ Failed to initialize Data SDK:', result.error);
-                        showToast('Fehler beim Initialisieren der Datenbank', 'error');
-                    }
-                } else if (!window.dataSdk) {
-                    console.error('❌ window.dataSdk is not available!');
+                // Ensure SDK is initialized
+                if (!sdkInitialized && window.dataSdk) {
+                    await initializeDataSDK();
                 }
             } else {
                 currentUser = null;
-                sdkInitialized = false;
                 document.getElementById('authScreen').classList.remove('hidden');
                 document.getElementById('mainApp').classList.add('hidden');
             }
@@ -1942,7 +1967,7 @@
                 'Frustriert': '😤',
                 'Ängstlich': '😨',
                 'Neutral': '😐',
-                'Fokussiert': '🎯'
+                'Fokussiert': '  '
             };
             return emojis[emotion] || '😐';
         }
@@ -2071,5 +2096,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b728c9146dee0d3',t:'MTc2NzI3NjA5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b729119403fe0d3',t:'MTc2NzI3NjI3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
