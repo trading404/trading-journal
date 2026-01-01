@@ -562,7 +562,7 @@
         <div class="space-y-8 animate-fade-in"><!-- Performance Metrics -->
          <div class="glass-card rounded-xl p-6">
           <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Performance Metriken</span></h2>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
              Durchschn. Gewinn
@@ -593,6 +593,22 @@
             </div>
             <div class="text-xl font-bold text-red-400" id="maxLoss">
              €0.00
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             🔥 Winning Streak
+            </div>
+            <div class="text-xl font-bold text-green-400" id="maxWinStreak">
+             0
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center">
+            <div class="text-sm text-gray-400 mb-1">
+             💔 Losing Streak
+            </div>
+            <div class="text-xl font-bold text-red-400" id="maxLoseStreak">
+             0
             </div>
            </div>
           </div>
@@ -1023,7 +1039,7 @@
         document.getElementById('themeToggle').addEventListener('click', toggleTheme);
         document.getElementById('themeToggleMobile').addEventListener('click', () => {
             toggleTheme();
-            const icon = document.body.classList.contains('light-theme') ? '☀  ' : '🌙';
+            const icon = document.body.classList.contains('light-theme') ? '☀    ' : '🌙';
             document.getElementById('themeIconMobile').textContent = icon;
         });
 
@@ -1592,10 +1608,45 @@
             const maxWin = wins.length > 0 ? Math.max(...wins.map(t => t.profitLoss)) : 0;
             const maxLoss = losses.length > 0 ? Math.min(...losses.map(t => t.profitLoss)) : 0;
             
+            // Calculate winning and losing streaks
+            const sortedTrades = [...tradesWithPL].sort((a, b) => new Date(a.date) - new Date(b.date));
+            let currentStreak = 0;
+            let maxWinStreak = 0;
+            let maxLoseStreak = 0;
+            let lastWasWin = null;
+            
+            sortedTrades.forEach(trade => {
+                const isWin = trade.profitLoss > 0;
+                
+                if (lastWasWin === null || lastWasWin === isWin) {
+                    currentStreak++;
+                } else {
+                    if (lastWasWin) {
+                        maxWinStreak = Math.max(maxWinStreak, currentStreak);
+                    } else {
+                        maxLoseStreak = Math.max(maxLoseStreak, currentStreak);
+                    }
+                    currentStreak = 1;
+                }
+                
+                lastWasWin = isWin;
+            });
+            
+            // Final streak check
+            if (lastWasWin !== null) {
+                if (lastWasWin) {
+                    maxWinStreak = Math.max(maxWinStreak, currentStreak);
+                } else {
+                    maxLoseStreak = Math.max(maxLoseStreak, currentStreak);
+                }
+            }
+            
             document.getElementById('avgWin').textContent = formatCurrency(avgWin);
             document.getElementById('avgLoss').textContent = formatCurrency(avgLoss);
             document.getElementById('maxWin').textContent = formatCurrency(maxWin);
             document.getElementById('maxLoss').textContent = formatCurrency(maxLoss);
+            document.getElementById('maxWinStreak').textContent = maxWinStreak;
+            document.getElementById('maxLoseStreak').textContent = maxLoseStreak;
             
             const assetCounts = {};
             trades.forEach(t => {
@@ -1914,5 +1965,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72f125f310e0d3',t:'MTc2NzI4MDIxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72fc697343e0d3',t:'MTc2NzI4MDY3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
