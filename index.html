@@ -857,7 +857,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
            <div><label class="block text-sm font-semibold mb-2">Strategie</label> <input type="text" id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. Breakout">
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Wählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
+           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Wählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">       Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
            </div>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Notizen</label> <textarea id="tradeNotes" rows="4" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="Zusätzliche Notizen..."></textarea>
@@ -1005,7 +1005,7 @@
         </div><!-- Monthly Performance -->
         <div class="glass-card rounded-xl p-6 mb-6 animate-fade-in">
          <div class="section-header">
-          <h2 class="text-xl font-bold flex items-center gap-2"><span>📅</span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-xl font-bold flex items-center gap-2"><span>   </span> <span>Monatliche Performance</span></h2>
          </div>
          <div class="chart-container">
           <canvas id="monthlyChart"></canvas>
@@ -1408,7 +1408,7 @@
            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-black bg-opacity-30 rounded-lg p-4 text-center">
              <div class="text-xs text-gray-300 mb-1">
-              Risiko in €
+              Risiko in    
              </div>
              <div class="text-2xl font-bold text-orange-400" id="psRiskAmount">
               €0.00
@@ -1514,7 +1514,7 @@
     </div>
    </div>
    <script>
-        // Firebase Configuration - REPLACE WITH YOUR OWN CONFIG
+        // Firebase Configuration
         const firebaseConfig = {
   apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
   authDomain: "trading-journal-pro-8212f.firebaseapp.com",
@@ -1533,37 +1533,10 @@
             app = firebase.initializeApp(firebaseConfig);
             auth = firebase.auth();
             db = firebase.firestore();
+            console.log('Firebase initialized successfully');
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            showConfigModal();
-        }
-
-        // Show configuration modal
-        function showConfigModal() {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <h2 class="text-2xl font-bold mb-4">⚠️ Firebase Konfiguration erforderlich</h2>
-                    <p class="text-gray-300 mb-4">
-                        Bitte ersetzen Sie die Firebase-Konfiguration im Code mit Ihren eigenen Werten.
-                    </p>
-                    <div class="bg-slate-800 p-4 rounded-lg mb-4 text-sm text-left overflow-x-auto">
-                        <pre class="text-purple-300">const firebaseConfig = {
-  apiKey: "IHR_API_KEY",
-  authDomain: "IHR_PROJEKT_ID.firebaseapp.com",
-  projectId: "IHR_PROJEKT_ID",
-  storageBucket: "IHR_PROJEKT_ID.appspot.com",
-  messagingSenderId: "IHRE_SENDER_ID",
-  appId: "IHRE_APP_ID"
-};</pre>
-                    </div>
-                    <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer" class="btn-primary px-6 py-3 rounded-lg font-bold inline-block">
-                        Firebase Console öffnen
-                    </a>
-                </div>
-            `;
-            document.body.appendChild(modal);
+            showToast('❌ Firebase-Fehler: ' + error.message, 'error');
         }
 
         // Global data variables
@@ -2847,7 +2820,7 @@
                             }
                         },
                         y: {
-                            </script>
+</script>
   </div>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b750819a75de0d3',t:'MTc2NzMwMjEyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b751151b556e0d3',t:'MTc2NzMwMjUwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
