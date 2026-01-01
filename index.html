@@ -645,39 +645,43 @@
   <div class="min-h-full w-full flex flex-col overflow-auto"><!-- Login Screen -->
    <div id="loginScreen" class="flex-1 flex items-center justify-center px-4">
     <div class="glass-card rounded-3xl p-10 max-w-md w-full animate-fade-in">
+     <div class="flex justify-end mb-4"><select id="languageSelectorLogin" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-xl transition text-sm cursor-pointer"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
+     </div>
      <div class="text-center mb-10">
       <div class="text-7xl mb-6 animate-pulse-slow">
        📊
       </div>
       <h1 class="text-4xl font-bold mb-3" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Trading Journal Pro</h1>
-      <p class="text-gray-400 text-lg">Professionelles Trade Management</p>
+      <p class="text-gray-400 text-lg" id="loginSubtitle">Professionelles Trade Management</p>
      </div>
      <form id="loginForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="loginEmail" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="deine@email.de" required>
+      <div><label id="loginEmailLabel" class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="loginEmail" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">Passwort</label> <input type="password" id="loginPassword" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="••••••••" required>
-      </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg"> 🔐 Anmelden </button>
+      <div><label id="loginPasswordLabel" class="block text-sm font-bold mb-3 text-purple-300">Passwort</label> <input type="password" id="loginPassword" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="••••••••" required>
+      </div><button type="submit" id="loginButton" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg"> 🔐 Anmelden </button>
      </form>
-     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition"> Noch kein Konto? Jetzt registrieren → </button>
+     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition"> <span id="registerPromptText">Noch kein Konto? Jetzt registrieren →</span> </button>
      </div>
     </div>
    </div><!-- Register Screen -->
    <div id="registerScreen" class="flex-1 flex items-center justify-center px-4 hidden">
     <div class="glass-card rounded-3xl p-10 max-w-md w-full animate-fade-in">
+     <div class="flex justify-end mb-4"><select id="languageSelectorRegister" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-xl transition text-sm cursor-pointer"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
+     </div>
      <div class="text-center mb-10">
       <div class="text-7xl mb-6 animate-pulse-slow">
        🚀
       </div>
-      <h1 class="text-4xl font-bold mb-3" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Registrierung</h1>
-      <p class="text-gray-400 text-lg">Erstelle dein Trading Journal</p>
+      <h1 class="text-4xl font-bold mb-3" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="registerTitle">Registrierung</h1>
+      <p class="text-gray-400 text-lg" id="registerSubtitle">Erstelle dein Trading Journal</p>
      </div>
      <form id="registerForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="registerEmail" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="deine@email.de" required>
+      <div><label id="registerEmailLabel" class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="registerEmail" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="••••••••" required>
-      </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg"> ✨ Konto erstellen </button>
+      <div><label id="registerPasswordLabel" class="block text-sm font-bold mb-3 text-purple-300">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="input-modern w-full px-5 py-4 rounded-xl text-lg" placeholder="••••••••" required>
+      </div><button type="submit" id="registerButton" class="btn-primary w-full py-4 rounded-xl font-bold text-white text-lg"> ✨ Konto erstellen </button>
      </form>
-     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition"> ← Bereits registriert? Jetzt anmelden </button>
+     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold transition"> <span id="loginPromptText">← Bereits registriert? Jetzt anmelden</span> </button>
      </div>
     </div>
    </div><!-- Main App -->
@@ -691,7 +695,7 @@
        </div><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="lg:hidden bg-white bg-opacity-20 hover:bg-opacity-30 p-3 rounded-xl transition">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg></button> <!-- Desktop Controls -->
-       <div class="hidden lg:flex items-center gap-4"><!-- Theme Toggle --> <button id="themeToggle" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-3 rounded-xl transition flex items-center gap-2 font-semibold"> <span id="themeIcon" class="text-xl">🌙</span> <span id="themeText">Dark</span> </button> <!-- User Account -->
+       <div class="hidden lg:flex items-center gap-4"><!-- Language Selector --> <select id="languageSelector" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-3 rounded-xl transition font-semibold cursor-pointer"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select> <!-- Theme Toggle --> <button id="themeToggle" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-3 rounded-xl transition flex items-center gap-2 font-semibold"> <span id="themeIcon" class="text-xl">🌙</span> <span id="themeText">Dark</span> </button> <!-- User Account -->
         <div id="userSection" class="flex items-center gap-4">
          <div id="userInfo" class="text-right bg-white bg-opacity-10 px-4 py-2 rounded-xl">
           <div class="text-xs text-purple-100 font-semibold">
@@ -713,7 +717,7 @@
          €0.00
         </div>
        </div>
-       <div class="flex items-center gap-2"><button id="themeToggleMobile" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition"> <span id="themeIconMobile" class="text-xl">🌙</span> </button> <button id="logoutBtnMobile" class="bg-red-500 bg-opacity-90 hover:bg-opacity-100 p-2 rounded-lg transition"> <span class="text-lg">🚪</span> </button>
+       <div class="flex items-center gap-2"><select id="languageSelectorMobile" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition text-sm cursor-pointer"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select> <button id="themeToggleMobile" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-lg transition"> <span id="themeIconMobile" class="text-xl">🌙</span> </button> <button id="logoutBtnMobile" class="bg-red-500 bg-opacity-90 hover:bg-opacity-100 p-2 rounded-lg transition"> <span class="text-lg">🚪</span> </button>
        </div>
       </div>
      </div>
@@ -1050,7 +1054,7 @@
         </div><!-- Monthly Performance -->
         <div class="glass-card rounded-2xl p-8 mb-8 animate-fade-in">
          <div class="section-header">
-          <h2 class="text-2xl font-bold flex items-center gap-3"><span class="text-3xl">📅</span> <span>Monatliche Performance</span></h2>
+          <h2 class="text-2xl font-bold flex items-center gap-3"><span class="text-3xl">  </span> <span>Monatliche Performance</span></h2>
          </div>
          <div class="chart-container">
           <canvas id="monthlyChart"></canvas>
@@ -1249,7 +1253,7 @@
               Endkapital nach <span id="compoundTargetMonths">12</span> Monaten
              </div>
              <div class="text-3xl font-bold text-purple-200" id="compoundTargetProjection">
-              €0.00
+                   0.00
              </div>
             </div>
            </div><!-- Difference -->
@@ -1410,7 +1414,7 @@
             </div>
             <div><label class="block text-sm font-bold mb-3 text-purple-300">Titel</label> <input type="text" id="eventTitle" class="input-modern w-full px-5 py-4 rounded-xl" placeholder="z.B. NFP Daten" required>
             </div>
-            <div><label class="block text-sm font-bold mb-3 text-purple-300">Typ</label> <select id="eventType" class="input-modern w-full px-5 py-4 rounded-xl"> <option value="News">📰 News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">🏦 Zentralbank</option> <option value="Persönlich">👤 Persönlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
+            <div><label class="block text-sm font-bold mb-3 text-purple-300">Typ</label> <select id="eventType" class="input-modern w-full px-5 py-4 rounded-xl"> <option value="News">📰 News</option> <option value="Wirtschaftsdaten">📊 Wirtschaftsdaten</option> <option value="Zentralbank">   Zentralbank</option> <option value="Persönlich">👤 Persönlich</option> <option value="Sonstiges">📌 Sonstiges</option> </select>
             </div>
             <div><label class="block text-sm font-bold mb-3 text-purple-300">Notiz (optional)</label> <textarea id="eventNote" rows="3" class="input-modern w-full px-5 py-4 rounded-xl" placeholder="Details..."></textarea>
             </div><button type="submit" class="btn-primary w-full py-4 rounded-xl font-bold text-white"> 💾 Termin speichern </button>
@@ -1510,7 +1514,7 @@
          </form><!-- Pip Calculator Results -->
          <div id="pipCalculatorResults" class="hidden">
           <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-2xl p-8">
-           <h3 class="text-2xl font-bold mb-6 text-center">📏 Ergebnisse</h3>
+           <h3 class="text-2xl font-bold mb-6 text-center">   Ergebnisse</h3>
            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-black bg-opacity-40 rounded-xl p-6 text-center">
              <div class="text-sm text-gray-300 mb-2 font-bold uppercase">
@@ -1563,6 +1567,12 @@
         console.log('🚀 Script wird ausgeführt...');
         
         // Firebase Configuration
+        // WICHTIG: Bitte ersetze diese Werte mit deiner eigenen Firebase-Konfiguration
+        // Gehe zu: https://console.firebase.google.com/
+        // 1. Erstelle ein neues Projekt oder wähle ein bestehendes aus
+        // 2. Gehe zu Projekteinstellungen > Allgemein
+        // 3. Scrolle zu "Deine Apps" und klicke auf das Web-Symbol (</>)
+        // 4. Registriere deine App und kopiere die Konfigurationswerte hierher
         const firebaseConfig = {
   apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
   authDomain: "trading-journal-pro-8212f.firebaseapp.com",
@@ -1660,6 +1670,192 @@
         let emotionDistributionChart = null;
         let emotionWinrateChart = null;
         let compoundChart = null;
+        let currentLanguage = 'de';
+        
+        // Language Translations
+        const translations = {
+            de: {
+                // Navigation
+                dashboard: 'Dashboard',
+                newtrade: 'Neuer Trade',
+                history: 'Historie',
+                performance: 'Performance',
+                emotions: 'Emotionen',
+                compound: 'Zinseszins',
+                withdrawals: 'Auszahlungen',
+                deposits: 'Einzahlungen',
+                calendar: 'Kalender',
+                calculators: 'Rechner',
+                
+                // Common
+                save: 'Speichern',
+                cancel: 'Abbrechen',
+                delete: 'Löschen',
+                edit: 'Bearbeiten',
+                close: 'Schließen',
+                
+                // Auth
+                login: 'Anmelden',
+                register: 'Registrieren',
+                logout: 'Abmelden',
+                email: 'E-Mail Adresse',
+                password: 'Passwort',
+                passwordMin: 'Passwort (min. 6 Zeichen)',
+                loginButton: '🔐 Anmelden',
+                registerButton: '✨ Konto erstellen',
+                loginSubtitle: 'Professionelles Trade Management',
+                registerTitle: 'Registrierung',
+                registerSubtitle: 'Erstelle dein Trading Journal',
+                registerPrompt: 'Noch kein Konto? Jetzt registrieren →',
+                loginPrompt: '← Bereits registriert? Jetzt anmelden',
+                
+                // Currency
+                currency: '€'
+            },
+            en: {
+                // Navigation
+                dashboard: 'Dashboard',
+                newtrade: 'New Trade',
+                history: 'History',
+                performance: 'Performance',
+                emotions: 'Emotions',
+                compound: 'Compound',
+                withdrawals: 'Withdrawals',
+                deposits: 'Deposits',
+                calendar: 'Calendar',
+                calculators: 'Calculators',
+                
+                // Common
+                save: 'Save',
+                cancel: 'Cancel',
+                delete: 'Delete',
+                edit: 'Edit',
+                close: 'Close',
+                
+                // Auth
+                login: 'Login',
+                register: 'Register',
+                logout: 'Logout',
+                email: 'Email Address',
+                password: 'Password',
+                passwordMin: 'Password (min. 6 characters)',
+                loginButton: '🔐 Login',
+                registerButton: '✨ Create Account',
+                loginSubtitle: 'Professional Trade Management',
+                registerTitle: 'Registration',
+                registerSubtitle: 'Create your Trading Journal',
+                registerPrompt: 'No account yet? Register now →',
+                loginPrompt: '← Already registered? Login now',
+                
+                // Currency
+                currency: '$'
+            },
+            es: {
+                // Navigation
+                dashboard: 'Panel',
+                newtrade: 'Nuevo Trade',
+                history: 'Historial',
+                performance: 'Rendimiento',
+                emotions: 'Emociones',
+                compound: 'Interés Compuesto',
+                withdrawals: 'Retiros',
+                deposits: 'Depósitos',
+                calendar: 'Calendario',
+                calculators: 'Calculadoras',
+                
+                // Common
+                save: 'Guardar',
+                cancel: 'Cancelar',
+                delete: 'Eliminar',
+                edit: 'Editar',
+                close: 'Cerrar',
+                
+                // Auth
+                login: 'Iniciar Sesión',
+                register: 'Registrarse',
+                logout: 'Cerrar Sesión',
+                email: 'Correo Electrónico',
+                password: 'Contraseña',
+                passwordMin: 'Contraseña (mín. 6 caracteres)',
+                loginButton: '🔐 Iniciar Sesión',
+                registerButton: '✨ Crear Cuenta',
+                loginSubtitle: 'Gestión Profesional de Trading',
+                registerTitle: 'Registro',
+                registerSubtitle: 'Crea tu Diario de Trading',
+                registerPrompt: '¿No tienes cuenta? Regístrate ahora →',
+                loginPrompt: '← ¿Ya estás registrado? Inicia sesión',
+                
+                // Currency
+                currency: '€'
+            }
+        };
+        
+        // Language Functions
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('tradingJournalLanguage', lang);
+            updateUILanguage();
+            updateAuthLanguage();
+        }
+        
+        function updateAuthLanguage() {
+            const t = translations[currentLanguage];
+            
+            // Login Screen
+            const loginSubtitle = document.getElementById('loginSubtitle');
+            const loginEmailLabel = document.getElementById('loginEmailLabel');
+            const loginPasswordLabel = document.getElementById('loginPasswordLabel');
+            const loginButton = document.getElementById('loginButton');
+            const registerPromptText = document.getElementById('registerPromptText');
+            
+            if (loginSubtitle) loginSubtitle.textContent = t.loginSubtitle;
+            if (loginEmailLabel) loginEmailLabel.textContent = t.email;
+            if (loginPasswordLabel) loginPasswordLabel.textContent = t.password;
+            if (loginButton) loginButton.textContent = t.loginButton;
+            if (registerPromptText) registerPromptText.textContent = t.registerPrompt;
+            
+            // Register Screen
+            const registerTitle = document.getElementById('registerTitle');
+            const registerSubtitle = document.getElementById('registerSubtitle');
+            const registerEmailLabel = document.getElementById('registerEmailLabel');
+            const registerPasswordLabel = document.getElementById('registerPasswordLabel');
+            const registerButton = document.getElementById('registerButton');
+            const loginPromptText = document.getElementById('loginPromptText');
+            
+            if (registerTitle) registerTitle.textContent = t.registerTitle;
+            if (registerSubtitle) registerSubtitle.textContent = t.registerSubtitle;
+            if (registerEmailLabel) registerEmailLabel.textContent = t.email;
+            if (registerPasswordLabel) registerPasswordLabel.textContent = t.passwordMin;
+            if (registerButton) registerButton.textContent = t.registerButton;
+            if (loginPromptText) loginPromptText.textContent = t.loginPrompt;
+        }
+        
+        function updateUILanguage() {
+            const t = translations[currentLanguage];
+            
+            // Update navigation buttons
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                const tab = btn.dataset.tab;
+                if (t[tab]) {
+                    btn.querySelector('span:last-child').textContent = t[tab];
+                }
+            });
+            
+            // Update all data displays
+            updateDashboard();
+            renderTradeHistory();
+            renderWithdrawals();
+            renderDeposits();
+            renderCalendar();
+            renderUpcomingEvents();
+            renderPerformanceCharts();
+            renderEmotionAnalysis();
+        }
+        
+        function formatCurrency(value) {
+            const symbol = translations[currentLanguage].currency;
+            return symbol + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
         
         // Auth State Observer
         function setupAuthObserver() {
@@ -1945,6 +2141,38 @@
 
         document.getElementById('themeToggle').addEventListener('click', toggleTheme);
         document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+        
+        // Language Change Event Listeners
+        document.getElementById('languageSelector').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+            document.getElementById('languageSelectorMobile').value = e.target.value;
+        });
+        
+        document.getElementById('languageSelectorMobile').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+            document.getElementById('languageSelector').value = e.target.value;
+        });
+        
+        document.getElementById('languageSelectorLogin').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+            document.getElementById('languageSelectorRegister').value = e.target.value;
+        });
+        
+        document.getElementById('languageSelectorRegister').addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+            document.getElementById('languageSelectorLogin').value = e.target.value;
+        });
+        
+        // Load saved language
+        const savedLanguage = localStorage.getItem('tradingJournalLanguage');
+        if (savedLanguage && translations[savedLanguage]) {
+            currentLanguage = savedLanguage;
+            document.getElementById('languageSelector').value = savedLanguage;
+            document.getElementById('languageSelectorMobile').value = savedLanguage;
+            document.getElementById('languageSelectorLogin').value = savedLanguage;
+            document.getElementById('languageSelectorRegister').value = savedLanguage;
+            updateAuthLanguage();
+        }
 
         // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -2012,10 +2240,6 @@
         });
 
         // Helper Functions
-        function formatCurrency(value) {
-            return '€' + value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        }
-
         function formatDate(dateStr) {
             const date = new Date(dateStr);
             return date.toLocaleDateString('de-DE', { 
@@ -2739,7 +2963,7 @@
             if (withdrawals.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12">
-                        <div class="text-6xl mb-4">💳</div>
+                        <div class="text-6xl mb-4">  </div>
                         <p class="text-gray-400">Noch keine Auszahlungen vorhanden</p>
                     </div>
                 `;
@@ -2782,7 +3006,7 @@
             confirmDelete.innerHTML = `
                 <div class="modal-content">
                     <h3 class="text-2xl font-bold mb-6 text-center">Auszahlung löschen?</h3>
-                    <p class="text-gray-400 mb-8 text-center">Möchtest du diese Auszahlung wirklich löschen?</p>
+                    <p class="text-gray-400 mb-8 text-center">M  chtest du diese Auszahlung wirklich löschen?</p>
                     <div class="flex gap-4">
                         <button id="cancelDeleteWithdrawal" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-bold transition">
                             Abbrechen
@@ -4070,5 +4294,5 @@
             document.getElementById('pipCalculatorResults').classList.remove('hidden');
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b75439d57dee0d3',t:'MTc2NzMwNDU2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b754d87336ee0d3',t:'MTc2NzMwNDk2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
