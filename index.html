@@ -562,7 +562,7 @@
         <div class="space-y-8 animate-fade-in"><!-- Performance Metrics -->
          <div class="glass-card rounded-xl p-6">
           <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>📊</span> <span>Performance Metriken</span></h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
            <div class="stat-card rounded-lg p-4 text-center">
             <div class="text-sm text-gray-400 mb-1">
              Durchschn. Gewinn
@@ -595,21 +595,72 @@
              €0.00
             </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             🔥 Winning Streak
+          </div>
+         </div><!-- Streak Analysis -->
+         <div class="glass-card rounded-xl p-6">
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><span>🔥</span> <span>Streak Analyse</span></h2><!-- Streak Statistics -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-green-500/20 to-green-600/10 border-green-500/30">
+            <div class="text-3xl mb-2">
+             🔥
             </div>
-            <div class="text-xl font-bold text-green-400" id="maxWinStreak">
+            <div class="text-sm text-gray-400 mb-1">
+             Beste Winning Streak
+            </div>
+            <div class="text-2xl font-bold text-green-400" id="maxWinStreak">
              0
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Aufeinanderfolgende Gewinne
             </div>
            </div>
-           <div class="stat-card rounded-lg p-4 text-center">
-            <div class="text-sm text-gray-400 mb-1">
-             💔 Losing Streak
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-red-500/20 to-red-600/10 border-red-500/30">
+            <div class="text-3xl mb-2">
+             💔
             </div>
-            <div class="text-xl font-bold text-red-400" id="maxLoseStreak">
+            <div class="text-sm text-gray-400 mb-1">
+             Längste Losing Streak
+            </div>
+            <div class="text-2xl font-bold text-red-400" id="maxLoseStreak">
              0
             </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Aufeinanderfolgende Verluste
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-500/30">
+            <div class="text-3xl mb-2">
+             📊
+            </div>
+            <div class="text-sm text-gray-400 mb-1">
+             Aktuelle Streak
+            </div>
+            <div class="text-2xl font-bold" id="currentStreak">
+             0
+            </div>
+            <div class="text-xs mt-1" id="currentStreakType">
+             -
+            </div>
+           </div>
+           <div class="stat-card rounded-lg p-4 text-center bg-gradient-to-br from-purple-500/20 to-purple-600/10 border-purple-500/30">
+            <div class="text-3xl mb-2">
+             ⚖️
+            </div>
+            <div class="text-sm text-gray-400 mb-1">
+             Streak Ratio
+            </div>
+            <div class="text-2xl font-bold text-purple-400" id="streakRatio">
+             0.0
+            </div>
+            <div class="text-xs text-gray-500 mt-1">
+             Win/Loss Verhältnis
+            </div>
+           </div>
+          </div><!-- Streak Timeline Chart -->
+          <div>
+           <h3 class="text-lg font-semibold mb-4">Streak Timeline</h3>
+           <div class="chart-container" style="height: 300px;">
+            <canvas id="streakChart"></canvas>
            </div>
           </div>
          </div><!-- Asset Distribution -->
@@ -833,6 +884,7 @@
         let assetPerformanceChart = null;
         let monthlyPerformanceChart = null;
         let compoundChart = null;
+        let streakChart = null;
         let unsubscribeData = null;
 
         // Auth State Observer
@@ -1614,26 +1666,54 @@
             let maxWinStreak = 0;
             let maxLoseStreak = 0;
             let lastWasWin = null;
+            let currentStreakValue = 0;
+            let currentStreakType = '-';
             
-            sortedTrades.forEach(trade => {
+            // Track all streaks for visualization
+            const streakData = [];
+            let streakStartIndex = 0;
+            
+            sortedTrades.forEach((trade, index) => {
                 const isWin = trade.profitLoss > 0;
                 
                 if (lastWasWin === null || lastWasWin === isWin) {
                     currentStreak++;
                 } else {
+                    // Record completed streak
+                    streakData.push({
+                        type: lastWasWin ? 'win' : 'loss',
+                        length: currentStreak,
+                        startIndex: streakStartIndex,
+                        endIndex: index - 1
+                    });
+                    
                     if (lastWasWin) {
                         maxWinStreak = Math.max(maxWinStreak, currentStreak);
                     } else {
                         maxLoseStreak = Math.max(maxLoseStreak, currentStreak);
                     }
                     currentStreak = 1;
+                    streakStartIndex = index;
                 }
                 
                 lastWasWin = isWin;
+                
+                // Track current streak (for most recent trades)
+                if (index === sortedTrades.length - 1) {
+                    currentStreakValue = currentStreak;
+                    currentStreakType = isWin ? 'Gewinne' : 'Verluste';
+                }
             });
             
             // Final streak check
             if (lastWasWin !== null) {
+                streakData.push({
+                    type: lastWasWin ? 'win' : 'loss',
+                    length: currentStreak,
+                    startIndex: streakStartIndex,
+                    endIndex: sortedTrades.length - 1
+                });
+                
                 if (lastWasWin) {
                     maxWinStreak = Math.max(maxWinStreak, currentStreak);
                 } else {
@@ -1641,12 +1721,78 @@
                 }
             }
             
+            // Calculate streak ratio
+            const streakRatio = maxLoseStreak > 0 ? (maxWinStreak / maxLoseStreak).toFixed(2) : maxWinStreak.toFixed(2);
+            
             document.getElementById('avgWin').textContent = formatCurrency(avgWin);
             document.getElementById('avgLoss').textContent = formatCurrency(avgLoss);
             document.getElementById('maxWin').textContent = formatCurrency(maxWin);
             document.getElementById('maxLoss').textContent = formatCurrency(maxLoss);
             document.getElementById('maxWinStreak').textContent = maxWinStreak;
             document.getElementById('maxLoseStreak').textContent = maxLoseStreak;
+            document.getElementById('currentStreak').textContent = currentStreakValue;
+            document.getElementById('currentStreakType').textContent = currentStreakType;
+            document.getElementById('currentStreakType').className = `text-xs mt-1 font-semibold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
+            document.getElementById('currentStreak').className = `text-2xl font-bold ${currentStreakType === 'Gewinne' ? 'text-green-400' : currentStreakType === 'Verluste' ? 'text-red-400' : 'text-gray-400'}`;
+            document.getElementById('streakRatio').textContent = streakRatio;
+            
+            // Render Streak Chart
+            const ctxStreak = document.getElementById('streakChart');
+            if (streakChart) streakChart.destroy();
+            
+            if (streakData.length > 0) {
+                // Create data for bar chart showing each streak
+                const streakLabels = streakData.map((s, i) => `Streak ${i + 1}`);
+                const streakValues = streakData.map(s => s.type === 'win' ? s.length : -s.length);
+                const streakColors = streakData.map(s => s.type === 'win' ? '#10b981' : '#ef4444');
+                
+                streakChart = new Chart(ctxStreak, {
+                    type: 'bar',
+                    data: {
+                        labels: streakLabels,
+                        datasets: [{
+                            label: 'Streak Länge',
+                            data: streakValues,
+                            backgroundColor: streakColors,
+                            borderColor: streakColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = Math.abs(context.parsed.y);
+                                        const type = context.parsed.y > 0 ? 'Gewinne' : 'Verluste';
+                                        return `${value} aufeinanderfolgende ${type}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#9ca3af' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            y: {
+                                ticks: { 
+                                    color: '#9ca3af',
+                                    callback: function(value) {
+                                        return Math.abs(value);
+                                    }
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
             
             const assetCounts = {};
             trades.forEach(t => {
@@ -1965,5 +2111,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72fc697343e0d3',t:'MTc2NzI4MDY3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b730136671fe0d3',t:'MTc2NzI4MDg2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
