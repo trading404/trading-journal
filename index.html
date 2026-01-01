@@ -7,21 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script><!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script><!-- Data SDK - Load with error handling -->
-  <script>
-        (function() {
-            const script = document.createElement('script');
-            script.src = '/_sdk/data_sdk.js';
-            script.async = false;
-            script.onerror = function() {
-                console.error('❌ Failed to load Data SDK from /_sdk/data_sdk.js');
-            };
-            script.onload = function() {
-                console.log('✅ Data SDK script loaded');
-            };
-            document.head.appendChild(script);
-        })();
-    </script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script><!-- Data SDK -->
+  <script src="/_sdk/data_sdk.js"></script>
   <style>
         body {
             box-sizing: border-box;
@@ -290,7 +277,6 @@
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
@@ -491,7 +477,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-semibold mb-2">Datum <span class="text-red-400">*</span></label> <input type="date" id="tradeDate" class="input-modern w-full px-4 py-3 rounded-lg" required>
            </div>
-           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="🥇 Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
+           <div><label class="block text-sm font-semibold mb-2">Asset</label> <select id="tradeAsset" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <optgroup label="🌍 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💎 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> </optgroup> <optgroup label="    Rohstoffe"> <option value="XAU/USD">Gold</option> <option value="XAG/USD">Silber</option> <option value="WTI">Öl WTI</option> <option value="BRENT">Öl Brent</option> </optgroup> <optgroup label="📉 Indizes"> <option value="US30">US30 (Dow Jones)</option> <option value="NAS100">NAS100 (NASDAQ)</option> <option value="SPX500">SPX500 (S&amp;P 500)</option> <option value="GER40">GER40 (DAX)</option> <option value="UK100">UK100 (FTSE)</option> </optgroup> <optgroup label="₿ Kryptowährungen"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> <option value="XRP/USD">Ripple</option> </optgroup> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -508,7 +494,7 @@
           </div>
           <div><label class="block text-sm font-semibold mb-2">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="input-modern w-full px-4 py-3 rounded-lg" placeholder="z.B. 150.00 oder -50.00">
           </div>
-          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">⚡ Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
+          <div><label class="block text-sm font-semibold mb-2">Strategie</label> <select id="tradeStrategy" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Trendfolge">📈 Trendfolge</option> <option value="Breakout">💥 Breakout</option> <option value="Range Trading">📊 Range Trading</option> <option value="Scalping">   Scalping</option> <option value="Swing Trading">🌊 Swing Trading</option> <option value="News Trading">📰 News Trading</option> <option value="Support/Resistance">🎯 Support/Resistance</option> <option value="Price Action">📉 Price Action</option> </select>
           </div>
           <div><label class="block text-sm font-semibold mb-2">Emotion</label> <select id="tradeEmotion" class="input-modern w-full px-4 py-3 rounded-lg"> <option value="">Optional auswählen...</option> <option value="Ruhig">😌 Ruhig</option> <option value="Zuversichtlich">😊 Zuversichtlich</option> <option value="Nervös">😰 Nervös</option> <option value="Gestresst">😫 Gestresst</option> <option value="Euphorisch">🤩 Euphorisch</option> <option value="Frustriert">😤 Frustriert</option> <option value="Ängstlich">😨 Ängstlich</option> <option value="Neutral">😐 Neutral</option> <option value="Fokussiert">🎯 Fokussiert</option> </select>
           </div>
@@ -802,42 +788,26 @@
         // Initialize Data SDK
         async function initializeDataSDK() {
             if (sdkInitialized) {
-                console.log('⚠️ SDK already initialized');
                 return true;
             }
             
-            // Wait for SDK to be available with timeout
-            let attempts = 0;
-            const maxAttempts = 50; // 5 seconds max
-            
-            while (!window.dataSdk && attempts < maxAttempts) {
-                console.log(`⏳ Waiting for Data SDK... attempt ${attempts + 1}/${maxAttempts}`);
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
-            }
-            
             if (!window.dataSdk) {
-                console.error('❌ Data SDK not loaded after 5 seconds');
-                showToast('SDK konnte nicht geladen werden. Seite neu laden?', 'error');
+                console.error('❌ Data SDK not available');
                 return false;
             }
-            
-            console.log('🔄 Initializing Data SDK...');
             
             try {
                 const result = await window.dataSdk.init(dataHandler);
                 if (result.isOk) {
                     sdkInitialized = true;
-                    console.log('✅ Data SDK initialized successfully');
+                    console.log('✅ Data SDK initialized');
                     return true;
                 } else {
-                    console.error('❌ Failed to initialize Data SDK:', result.error);
-                    showToast('Datenbank konnte nicht initialisiert werden', 'error');
+                    console.error('❌ SDK init failed:', result.error);
                     return false;
                 }
             } catch (error) {
-                console.error('❌ Exception during SDK init:', error);
-                showToast('Fehler bei Datenbank-Verbindung', 'error');
+                console.error('❌ SDK init error:', error);
                 return false;
             }
         }
@@ -851,8 +821,13 @@
                 document.getElementById('registerScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
                 
-                // Initialize Data SDK after successful login
-                await initializeDataSDK();
+                // Wait a bit for SDK to be ready, then initialize
+                setTimeout(async () => {
+                    const initialized = await initializeDataSDK();
+                    if (!initialized) {
+                        console.error('Failed to initialize SDK after login');
+                    }
+                }, 100);
             } else {
                 currentUser = null;
                 document.getElementById('loginScreen').classList.remove('hidden');
@@ -952,7 +927,7 @@
             toast.style.background = type === 'error' ? 'rgba(239, 68, 68, 0.95)' : 'rgba(16, 185, 129, 0.95)';
             toast.innerHTML = `
                 <div class="flex items-center gap-2">
-                    <span>${type === 'error' ? '❌' : '✅'}</span>
+                    <span>${type === 'error' ? '❌' : '  '}</span>
                     <span>${message}</span>
                 </div>
             `;
@@ -1052,34 +1027,22 @@
         document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            console.log('💼 Start Capital Form submitted');
-            console.log('Current User:', currentUser?.email);
-            console.log('SDK Initialized:', sdkInitialized);
-            console.log('Window dataSdk exists:', !!window.dataSdk);
-            
             if (!currentUser) {
                 showToast('Bitte melden Sie sich zuerst an', 'error');
                 return;
             }
             
-            // Try to initialize SDK if not already done
             if (!sdkInitialized) {
-                console.log('🔄 SDK not initialized, attempting initialization...');
-                showToast('Initialisiere Datenbank...', 'info');
                 const initialized = await initializeDataSDK();
                 if (!initialized) {
-                    showToast('SDK konnte nicht initialisiert werden', 'error');
+                    showToast('Datenbank nicht verfügbar', 'error');
                     return;
                 }
             }
             
-            if (isLoading) {
-                showToast('Vorheriger Vorgang läuft noch...', 'error');
-                return;
-            }
+            if (isLoading) return;
 
             const capital = parseFloat(document.getElementById('startCapital').value);
-            console.log('Capital entered:', capital);
             
             if (!capital || capital <= 0) {
                 showToast('Bitte gültiges Startkapital eingeben', 'error');
@@ -1099,7 +1062,6 @@
             try {
                 let result;
                 if (startCapitalRecord) {
-                    console.log('📝 Updating existing start capital record');
                     const oldStartCapital = startCapitalRecord.startCapital || 0;
                     const difference = capital - oldStartCapital;
                     const newCurrentCapital = (startCapitalRecord.currentCapital || 0) + difference;
@@ -1109,10 +1071,8 @@
                         startCapital: capital,
                         currentCapital: newCurrentCapital
                     };
-                    console.log('Update payload:', updated);
                     result = await window.dataSdk.update(updated);
                 } else {
-                    console.log('✨ Creating new start capital record');
                     const record = {
                         type: 'startCapital',
                         userEmail: currentUser.email,
@@ -1120,23 +1080,17 @@
                         currentCapital: capital,
                         timestamp: Date.now()
                     };
-                    console.log('Create payload:', record);
                     result = await window.dataSdk.create(record);
                 }
-
-                console.log('SDK Result:', result);
 
                 if (result.isOk) {
                     showToast('Startkapital erfolgreich gespeichert!');
                     document.getElementById('startCapital').value = '';
-                    console.log('✅ Start capital saved successfully');
                 } else {
-                    console.error('❌ SDK Error:', result.error);
-                    showToast('Fehler beim Speichern: ' + (result.error?.message || 'Unbekannter Fehler'), 'error');
+                    showToast('Fehler beim Speichern', 'error');
                 }
             } catch (error) {
-                console.error('❌ Exception:', error);
-                showToast('Fehler beim Speichern: ' + error.message, 'error');
+                showToast('Fehler: ' + error.message, 'error');
             } finally {
                 isLoading = false;
                 submitBtn.disabled = false;
@@ -1980,5 +1934,5 @@
             return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72d8d2e118e0d3',t:'MTc2NzI3OTIxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b72dd85c2e9e0d3',t:'MTc2NzI3OTQwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
