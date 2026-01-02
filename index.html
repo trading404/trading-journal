@@ -482,7 +482,7 @@
          <div class="grid grid-cols-2 gap-3 mb-4">
           <div class="glass-card rounded-xl p-4 text-center" style="background: rgba(59, 130, 246, 0.1);">
            <div class="text-2xl mb-2">
-            📈
+              
            </div>
            <div class="text-sm font-bold mb-2">
             Long Trades
@@ -1042,7 +1042,7 @@
                 deposit_history: 'Historial de Depósitos',
                 amount: 'Cantidad',
                 add_event: '📅 Agregar Evento',
-                title: 'Título',
+                title: 'T  tulo',
                 position_size_calc: 'Calculadora de Tamaño de Posición',
                 account_balance: 'Saldo de Cuenta',
                 risk_per_trade: 'Riesgo por Operación',
@@ -1628,7 +1628,7 @@
             document.getElementById('withdrawalForm').reset();
             document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
             
-            showToast('✅ ' + translations[currentLang].add_withdrawal);
+            showToast('    ' + translations[currentLang].add_withdrawal);
         });
 
         function renderWithdrawals() {
@@ -1936,19 +1936,21 @@
 
         // Render History
         function renderHistory() {
-            const resultFilter = document.getElementById('filterResult').value;
-            let filtered = trades;
+            const resultFilter = document.getElementById('filterResult') ? document.getElementById('filterResult').value : 'all';
+            let filtered = [...trades];
 
-            if (resultFilter !== 'all') {
+            if (resultFilter && resultFilter !== 'all') {
                 filtered = filtered.filter(t => t.result === resultFilter);
             }
 
             const container = document.getElementById('tradeHistoryList');
+            if (!container) return;
+            
             if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12">
                         <div class="text-5xl mb-3">📜</div>
-                        <p class="opacity-50">${translations[currentLang].history}</p>
+                        <p class="opacity-50">${trades.length === 0 ? (currentLang === 'de' ? 'Noch keine Trades' : currentLang === 'es' ? 'Sin operaciones' : 'No trades yet') : (currentLang === 'de' ? 'Keine Trades mit diesem Filter' : currentLang === 'es' ? 'Sin operaciones con este filtro' : 'No trades with this filter')}</p>
                     </div>
                 `;
                 return;
@@ -2383,5 +2385,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a0a68a09ee0d3',t:'MTc2NzM1NDY0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a0f654196e0d3',t:'MTc2NzM1NDg1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
