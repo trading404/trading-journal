@@ -1363,17 +1363,27 @@
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
+            const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('❌ ' + (currentLang === 'de' ? 'Bitte alle Felder ausfüllen' : 
+                    currentLang === 'es' ? 'Por favor complete todos los campos' : 'Please fill all fields'));
+                return;
+            }
             
             try {
                 // Firebase Authentication Login
-                await auth.signInWithEmailAndPassword(email, password);
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 
-                currentUser = { email };
+                currentUser = { email: userCredential.user.email };
                 
-                // Lade Daten aus Firestore
-                const userDoc = await db.collection('users').doc(email).get();
+                // Lade Daten aus Firestore mit Timeout
+                const userDoc = await Promise.race([
+                    db.collection('users').doc(currentUser.email).get(),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
+                ]);
+                
                 if (userDoc.exists) {
                     const userData = userDoc.data();
                     trades = userData.trades || [];
@@ -1383,6 +1393,15 @@
                     events = userData.events || [];
                 } else {
                     // Erstelle leere Daten wenn nicht vorhanden
+                    await db.collection('users').doc(currentUser.email).set({
+                        trades: [],
+                        startCapital: 0,
+                        withdrawals: [],
+                        deposits: [],
+                        events: [],
+                        createdAt: new Date().toISOString()
+                    });
+                    
                     trades = [];
                     startCapital = 0;
                     withdrawals = [];
@@ -1395,20 +1414,34 @@
                 
                 renderNavigation();
                 updateDashboard();
-                showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet' : currentLang === 'es' ? 'Sesión iniciada' : 'Logged in'));
+                showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
             } catch (error) {
                 console.error('Login-Fehler:', error);
-                let errorMsg = '❌ Login fehlgeschlagen';
-                if (error.code === 'auth/user-not-found') {
-                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Kein Konto gefunden!' : 
-                        currentLang === 'es' ? '¡Cuenta no encontrada!' : 'Account not found!');
+                let errorMsg = '❌ ';
+                
+                if (error.message === 'Timeout') {
+                    errorMsg += currentLang === 'de' ? 'Zeitüberschreitung - Bitte erneut versuchen' : 
+                        currentLang === 'es' ? 'Tiempo de espera agotado - Inténtalo de nuevo' : 'Timeout - Please try again';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMsg += currentLang === 'de' ? 'Kein Konto gefunden! Bitte registrieren.' : 
+                        currentLang === 'es' ? '¡Cuenta no encontrada! Por favor regístrate.' : 'Account not found! Please register.';
                 } else if (error.code === 'auth/wrong-password') {
-                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Falsches Passwort!' : 
-                        currentLang === 'es' ? '¡Contraseña incorrecta!' : 'Wrong password!');
+                    errorMsg += currentLang === 'de' ? 'Falsches Passwort!' : 
+                        currentLang === 'es' ? '¡Contraseña incorrecta!' : 'Wrong password!';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Ungültige E-Mail!' : 
-                        currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!');
+                    errorMsg += currentLang === 'de' ? 'Ungültige E-Mail-Adresse!' : 
+                        currentLang === 'es' ? '¡Dirección de correo inválida!' : 'Invalid email address!';
+                } else if (error.code === 'auth/invalid-credential') {
+                    errorMsg += currentLang === 'de' ? 'Ungültige Anmeldedaten! Bitte prüfen.' : 
+                        currentLang === 'es' ? '¡Credenciales inválidas! Por favor verifica.' : 'Invalid credentials! Please check.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMsg += currentLang === 'de' ? 'Netzwerkfehler - Bitte Verbindung prüfen' : 
+                        currentLang === 'es' ? 'Error de red - Por favor verifica tu conexión' : 'Network error - Please check connection';
+                } else {
+                    errorMsg += currentLang === 'de' ? 'Login fehlgeschlagen. Bitte erneut versuchen.' : 
+                        currentLang === 'es' ? 'Inicio de sesión fallido. Inténtalo de nuevo.' : 'Login failed. Please try again.';
                 }
+                
                 showToast(errorMsg);
             }
         });
@@ -2605,5 +2638,5 @@
         
         renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a90fba63ee0d3',t:'MTc2NzM2MDE1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a97a8c459e0d3',t:'MTc2NzM2MDQzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
