@@ -250,7 +250,7 @@
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full">
      <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold flex items-center gap-2"><span class="text-3xl">💎</span> <span id="loginTitle" data-i18n="trading_journal_pro">Trading Journal Pro</span></h1>
-      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
+      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩   Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
       </div>
      </div>
      <form id="loginForm" class="space-y-4">
@@ -260,7 +260,7 @@
       </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span id="loginBtn" data-i18n="login">Anmelden</span> </button> <button type="button" id="registerToggle" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span id="registerBtn" data-i18n="register">Noch kein Konto? Registrieren</span> </button>
      </form>
      <div class="mt-4 text-center text-xs opacity-70" id="demoNote" data-i18n="demo_note">
-      Demo-Modus: Beliebige E-Mail verwenden
+      Passwort erforderlich für Login
      </div>
     </div>
    </div><!-- Main App -->
@@ -928,7 +928,7 @@
                 your_pace: 'Dein Tempo',
                 performance_diff: 'Differenz',
                 vs_plan: 'vs. Plan',
-                add_withdrawal: '💸 Auszahlung hinzufügen',
+                add_withdrawal: '   Auszahlung hinzufügen',
                 withdrawal_history: 'Auszahlungshistorie',
                 add_deposit: '💰 Einzahlung hinzufügen',
                 deposit_history: 'Einzahlungshistorie',
@@ -1306,10 +1306,24 @@
             });
         }
 
-        // Login/Auth (Demo Mode)
+        // Login/Auth mit Passwortschutz
+        // WICHTIG: Ändere dieses Passwort zu deinem eigenen!
+        const CORRECT_PASSWORD = 'TradingPro2024';
+        
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Passwort überprüfen
+            if (password !== CORRECT_PASSWORD) {
+                const errorMsg = currentLang === 'de' ? '❌ Falsches Passwort!' : 
+                                currentLang === 'es' ? '❌ ¡Contraseña incorrecta!' : 
+                                '❌ Wrong password!';
+                showToast(errorMsg);
+                return;
+            }
+            
             currentUser = { email };
             
             document.getElementById('loginScreen').classList.add('hidden');
@@ -1365,7 +1379,7 @@
             currentUser = null;
             document.getElementById('mainApp').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
-            showToast('👋 ' + translations[currentLang].logout);
+            showToast('    ' + translations[currentLang].logout);
         });
 
         // Theme Toggle
@@ -2534,5 +2548,5 @@
         // Render initial history
         renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a6138d24be0d3',t:'MTc2NzM1ODIwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a6cb6660ae0d3',t:'MTc2NzM1ODY3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
