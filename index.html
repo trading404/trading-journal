@@ -67,6 +67,130 @@
             font-size: 12px;
             font-weight: bold;
         }
+        
+        /* Light Mode Styles */
+        body.light-mode {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 25%, #ddd6fe 50%, #e0e7ff 75%, #f0f4ff 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #1e293b;
+        }
+        
+        body.light-mode .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            color: #1e293b;
+        }
+        
+        body.light-mode .modal-overlay {
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        body.light-mode * {
+            scrollbar-color: #8b5cf6 #e0e7ff;
+        }
+        
+        body.light-mode *::-webkit-scrollbar-track {
+            background: #e0e7ff;
+        }
+        
+        body.light-mode *::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+        }
+        
+        body.light-mode .text-white {
+            color: #1e293b !important;
+        }
+        
+        body.light-mode .text-gray-400 {
+            color: #64748b !important;
+        }
+        
+        body.light-mode .text-gray-300 {
+            color: #475569 !important;
+        }
+        
+        body.light-mode .bg-slate-800 {
+            background-color: #f1f5f9 !important;
+            border: 1px solid #e2e8f0;
+        }
+        
+        body.light-mode .bg-slate-700 {
+            background-color: #e2e8f0 !important;
+        }
+        
+        body.light-mode aside {
+            background-color: #f8fafc !important;
+            border-right-color: #e2e8f0 !important;
+        }
+        
+        body.light-mode input,
+        body.light-mode select,
+        body.light-mode textarea {
+            background-color: #ffffff !important;
+            border-color: #d1d5db !important;
+            color: #1e293b !important;
+        }
+        
+        body.light-mode input::placeholder,
+        body.light-mode textarea::placeholder {
+            color: #9ca3af !important;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        body.light-mode .theme-toggle {
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        body.light-mode .theme-toggle:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+        
+        .lang-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .lang-btn.active {
+            background: #8b5cf6;
+        }
+        
+        body.light-mode .lang-btn {
+            background: rgba(139, 92, 246, 0.1);
+            color: #1e293b;
+        }
+        
+        body.light-mode .lang-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+        
+        body.light-mode .lang-btn.active {
+            background: #8b5cf6;
+            color: white;
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -75,40 +199,52 @@
  <body class="h-full text-white">
   <div class="min-h-full w-full flex flex-col overflow-auto"><!-- Login Screen -->
    <div id="loginScreen" class="flex-1 flex items-center justify-center px-4">
-    <div class="glass-card rounded-3xl p-10 max-w-md w-full">
+    <div class="glass-card rounded-3xl p-10 max-w-md w-full"><!-- Theme & Language Controls -->
+     <div class="flex justify-end gap-2 mb-6">
+      <div class="flex gap-1"><button class="lang-btn active" data-lang="de">DE</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="es">ES</button>
+      </div>
+      <div class="theme-toggle" id="themeToggleLogin"><span id="themeIconLogin">🌙</span>
+      </div>
+     </div>
      <div class="text-center mb-10">
       <div class="text-7xl mb-6">
        📊
       </div>
-      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Trading Journal Pro</h1>
-      <p class="text-gray-400 text-lg">Professionelles Trade Management</p>
+      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="loginTitle">Trading Journal Pro</h1>
+      <p class="text-gray-400 text-lg" data-i18n="loginSubtitle">Professionelles Trade Management</p>
      </div>
      <form id="loginForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="deine@email.de" required>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
-      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 🔐 Anmelden </button>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
+      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="loginButton">🔐 Anmelden</span> </button>
      </form>
-     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold"> Noch kein Konto? Jetzt registrieren → </button>
+     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showRegister"> Noch kein Konto? Jetzt registrieren → </button>
      </div>
     </div>
    </div><!-- Register Screen -->
    <div id="registerScreen" class="flex-1 flex items-center justify-center px-4 hidden">
-    <div class="glass-card rounded-3xl p-10 max-w-md w-full">
+    <div class="glass-card rounded-3xl p-10 max-w-md w-full"><!-- Theme & Language Controls -->
+     <div class="flex justify-end gap-2 mb-6">
+      <div class="flex gap-1"><button class="lang-btn active" data-lang="de">DE</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="es">ES</button>
+      </div>
+      <div class="theme-toggle" id="themeToggleRegister"><span id="themeIconRegister">🌙</span>
+      </div>
+     </div>
      <div class="text-center mb-10">
       <div class="text-7xl mb-6">
        🚀
       </div>
-      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Registrierung</h1>
-      <p class="text-gray-400 text-lg">Erstelle dein Trading Journal</p>
+      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="registerTitle">Registrierung</h1>
+      <p class="text-gray-400 text-lg" data-i18n="registerSubtitle">Erstelle dein Trading Journal</p>
      </div>
      <form id="registerForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">E-Mail Adresse</label> <input type="email" id="registerEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="deine@email.de" required>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="registerEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
-      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> ✨ Konto erstellen </button>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabelMin">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
+      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="registerButton">✨ Konto erstellen</span> </button>
      </form>
-     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold"> ← Bereits registriert? Jetzt anmelden </button>
+     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showLogin"> ← Bereits registriert? Jetzt anmelden </button>
      </div>
     </div>
    </div><!-- Main App -->
@@ -116,34 +252,38 @@
     <header class="bg-gradient-to-r from-purple-600 to-blue-600 shadow-2xl w-full sticky top-0 z-50">
      <div class="max-w-7xl mx-auto px-6 py-6">
       <div class="flex items-center justify-between flex-wrap gap-4">
-       <h1 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3"><span class="text-4xl">💎</span> <span>Trading Journal Pro</span></h1>
+       <h1 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3"><span class="text-4xl">💎</span> <span data-i18n="appTitle">Trading Journal Pro</span></h1>
        <div class="flex items-center gap-4">
+        <div class="flex gap-1"><button class="lang-btn text-white active" data-lang="de">DE</button> <button class="lang-btn text-white" data-lang="en">EN</button> <button class="lang-btn text-white" data-lang="es">ES</button>
+        </div>
+        <div class="theme-toggle" id="themeToggleMain"><span id="themeIconMain">🌙</span>
+        </div>
         <div class="bg-white bg-opacity-10 px-4 py-2 rounded-xl">
-         <div class="text-xs text-purple-100">
+         <div class="text-xs text-purple-100" data-i18n="capital">
           Kapital
          </div>
          <div class="text-xl font-bold" id="headerCapital">
           €0.00
          </div>
-        </div><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl font-bold transition"> 🚪 Abmelden </button>
+        </div><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl font-bold transition"> <span data-i18n="logout">🚪 Abmelden</span> </button>
        </div>
       </div>
      </div>
     </header>
     <div class="flex flex-1 overflow-hidden w-full">
      <aside class="w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto flex-shrink-0">
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-5 py-4 rounded-xl font-bold bg-purple-600 text-white flex items-center gap-3 transition" data-tab="dashboard"> <span class="text-xl">📊</span> <span>Dashboard</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="newtrade"> <span class="text-xl">➕</span> <span>Neuer Trade</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="history"> <span class="text-xl">📜</span> <span>Historie</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="performance"> <span class="text-xl">📈</span> <span>Performance</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="emotions"> <span class="text-xl">😊</span> <span>Emotionen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="compound"> <span class="text-xl">💰</span> <span>Zinseszins</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calendar"> <span class="text-xl">📅</span> <span>Kalender</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="withdrawals"> <span class="text-xl">💸</span> <span>Auszahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="deposits"> <span class="text-xl">💵</span> <span>Einzahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calculator"> <span class="text-xl">🧮</span> <span>Rechner</span> </button>
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-5 py-4 rounded-xl font-bold bg-purple-600 text-white flex items-center gap-3 transition" data-tab="dashboard"> <span class="text-xl">📊</span> <span data-i18n="navDashboard">Dashboard</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="newtrade"> <span class="text-xl">➕</span> <span data-i18n="navNewTrade">Neuer Trade</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="history"> <span class="text-xl">📜</span> <span data-i18n="navHistory">Historie</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="performance"> <span class="text-xl">📈</span> <span data-i18n="navPerformance">Performance</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="emotions"> <span class="text-xl">😊</span> <span data-i18n="navEmotions">Emotionen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="compound"> <span class="text-xl">💰</span> <span data-i18n="navCompound">Zinseszins</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calendar"> <span class="text-xl">📅</span> <span data-i18n="navCalendar">Kalender</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="withdrawals"> <span class="text-xl">💸</span> <span data-i18n="navWithdrawals">Auszahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="deposits"> <span class="text-xl">💵</span> <span data-i18n="navDeposits">Einzahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calculator"> <span class="text-xl">🧮</span> <span data-i18n="navCalculator">Rechner</span> </button>
       </nav>
      </aside>
      <main class="flex-1 overflow-auto w-full">
       <div class="max-w-7xl mx-auto px-6 py-8"><!-- Dashboard Tab -->
        <div id="dashboardTab" class="tab-content"><!-- Startkapital festlegen -->
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💼</span> <span>Startkapital festlegen</span></h2>
-         <form id="startCapitalForm" class="flex gap-4 flex-wrap"><input type="number" id="startCapital" step="0.01" class="flex-1 min-w-[200px] px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. 10000" required> <button type="submit" class="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 💾 Speichern </button>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💼</span> <span data-i18n="startCapitalTitle">Startkapital festlegen</span></h2>
+         <form id="startCapitalForm" class="flex gap-4 flex-wrap"><input type="number" id="startCapital" step="0.01" class="flex-1 min-w-[200px] px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="startCapitalPlaceholder" placeholder="z.B. 10000" required> <button type="submit" class="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="save">💾 Speichern</span> </button>
          </form>
          <div id="startCapitalDisplay" class="mt-6 hidden">
-          <div class="text-sm text-gray-400 font-bold">
+          <div class="text-sm text-gray-400 font-bold" data-i18n="startCapital">
            Startkapital
           </div>
           <div class="text-4xl font-bold text-purple-400 mt-2" id="startCapitalValue">
@@ -156,7 +296,7 @@
           <div class="text-4xl mb-3">
            💰
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="currentCapital">
            Aktuelles Kapital
           </div>
           <div class="text-3xl font-bold text-purple-400" id="currentCapital">
@@ -167,7 +307,7 @@
           <div class="text-4xl mb-3">
            📊
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="totalPL">
            Gesamt P/L
           </div>
           <div class="text-3xl font-bold" id="totalPL">
@@ -176,9 +316,9 @@
          </div>
          <div class="glass-card rounded-2xl p-6 text-center transform hover:scale-105 transition">
           <div class="text-4xl mb-3">
-           🎯
+              
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="winRate">
            Winrate
           </div>
           <div class="text-3xl font-bold" id="winRate">
@@ -189,7 +329,7 @@
           <div class="text-4xl mb-3">
            📝
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="trades">
            Trades
           </div>
           <div class="text-3xl font-bold" id="totalTrades">
@@ -198,51 +338,51 @@
          </div>
         </div><!-- Equity Curve -->
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📈</span> <span>Equity Curve</span></h3>
+         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📈</span> <span data-i18n="equityCurve">Equity Curve</span></h3>
          <div class="h-96">
           <canvas id="dashboardEquityChart"></canvas>
          </div>
         </div><!-- Deine aktuelle Performance -->
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>🎯</span> <span>Deine aktuelle Performance</span></h3>
+         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>🎯</span> <span data-i18n="currentPerformanceTitle">Deine aktuelle Performance</span></h3>
          <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="currentPerformanceGrid"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Neuer Trade Tab -->
        <div id="newtradeTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>➕</span> <span>Neuen Trade hinzufügen</span></h2>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>➕</span> <span data-i18n="newTradeTitle">Neuen Trade hinzufügen</span></h2>
          <form id="newTradeForm" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Datum *</label> <input type="date" id="tradeDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum *</label> <input type="date" id="tradeDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Asset</label> <select id="tradeAsset" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="">-- Bitte wählen --</option> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> </select>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="pleaseSelect">-- Bitte wählen --</option> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Ergebnis</label> <select id="tradeResult" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">Win</option> <option value="loss">Loss</option> <option value="breakeven">Break Even</option> </select>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="0.00">
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="profitLoss">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="0.00">
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Position</label> <select id="tradePosition" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="position">Position</label> <select id="tradePosition" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. Breakout">
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="strategyPlaceholder" placeholder="z.B. Breakout">
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Emotion</label> <select id="tradeEmotion" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">   Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="Details zum Trade, Setup, Fehler, Learnings..."></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition transform hover:scale-105"> 💾 Trade speichern </button>
+          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="notesPlaceholder" placeholder="Details zum Trade, Setup, Fehler, Learnings..."></textarea>
+          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition transform hover:scale-105"> <span data-i18n="saveTrade">💾 Trade speichern</span> </button>
          </form>
         </div>
        </div><!-- Historie Tab -->
        <div id="historyTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-6">
          <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
-          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📜</span> <span>Trade Historie</span></h2>
-          <div class="flex gap-3 flex-wrap"><select id="filterAsset" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all">Alle Assets</option> </select> <select id="filterResult" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all">Alle Ergebnisse</option> <option value="win">Wins</option> <option value="loss">Loss</option> <option value="breakeven">Break Even</option> </select>
+          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📜</span> <span data-i18n="tradeHistory">Trade Historie</span></h2>
+          <div class="flex gap-3 flex-wrap"><select id="filterAsset" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allAssets">Alle Assets</option> </select> <select id="filterResult" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allResults">Alle Ergebnisse</option> <option value="win">✅ Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
           </div>
          </div>
          <div id="tradeHistoryList" class="space-y-4"></div>
@@ -250,40 +390,40 @@
        </div><!-- Auszahlungen Tab -->
        <div id="withdrawalsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💸</span> <span>Auszahlung erfassen</span></h2>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💸</span> <span data-i18n="withdrawalTitle">Auszahlung erfassen</span></h2>
          <form id="withdrawalForm" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. 5000" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="amountPlaceholder" placeholder="z.B. 5000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Datum</label> <input type="date" id="withdrawalDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="withdrawalDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. Gewinnausschüttung Q1"></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition transform hover:scale-105"> 💸 Auszahlung speichern </button>
+          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="withdrawalNotePlaceholder" placeholder="z.B. Gewinnausschüttung Q1"></textarea>
+          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition transform hover:scale-105"> <span data-i18n="saveWithdrawal">💸 Auszahlung speichern</span> </button>
          </form>
         </div>
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span>Auszahlungs-Historie</span></h3>
+         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="withdrawalHistory">Auszahlungs-Historie</span></h3>
          <div id="withdrawalsList" class="space-y-4"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Einzahlungen Tab -->
        <div id="depositsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💵</span> <span>Nachträgliche Einzahlung</span></h2>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💵</span> <span data-i18n="depositTitle">Nachträgliche Einzahlung</span></h2>
          <form id="depositForm" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. 10000" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositAmountPlaceholder" placeholder="z.B. 10000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Datum</label> <input type="date" id="depositDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="depositDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="z.B. Kapitalerhöhung"></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition transform hover:scale-105"> 💵 Einzahlung speichern </button>
+          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositNotePlaceholder" placeholder="z.B. Kapitalerhöhung"></textarea>
+          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition transform hover:scale-105"> <span data-i18n="saveDeposit">💵 Einzahlung speichern</span> </button>
          </form>
         </div>
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span>Einzahlungs-Historie</span></h3>
+         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="depositHistory">Einzahlungs-Historie</span></h3>
          <div id="depositsList" class="space-y-4"><!-- Dynamisch gefüllt -->
          </div>
         </div>
@@ -294,7 +434,7 @@
           <div class="text-4xl mb-3">
            🏆
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="bestTrade">
            Bester Trade
           </div>
           <div class="text-2xl font-bold text-green-400" id="perfBestTrade">
@@ -305,7 +445,7 @@
           <div class="text-4xl mb-3">
            💔
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="worstTrade">
            Schlechtester Trade
           </div>
           <div class="text-2xl font-bold text-red-400" id="perfWorstTrade">
@@ -316,7 +456,7 @@
           <div class="text-4xl mb-3">
            🔥
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="winStreak">
            Win Streak
           </div>
           <div class="text-2xl font-bold text-green-400" id="perfWinStreak">
@@ -327,7 +467,7 @@
           <div class="text-4xl mb-3">
            ❄️
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="lossStreak">
            Loss Streak
           </div>
           <div class="text-2xl font-bold text-red-400" id="perfLossStreak">
@@ -340,7 +480,7 @@
           <div class="text-4xl mb-3">
            📈
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="avgWin">
            Ø Gewinn
           </div>
           <div class="text-2xl font-bold text-green-400" id="perfAvgWin">
@@ -351,7 +491,7 @@
           <div class="text-4xl mb-3">
            📉
           </div>
-          <div class="text-sm text-gray-400 mb-2">
+          <div class="text-sm text-gray-400 mb-2" data-i18n="avgLoss">
            Ø Verlust
           </div>
           <div class="text-2xl font-bold text-red-400" id="perfAvgLoss">
@@ -361,13 +501,13 @@
         </div><!-- Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4">📊 Gewinn/Verlust Strähnen</h3>
+          <h3 class="text-xl font-bold mb-4" data-i18n="streakChart">📊 Gewinn/Verlust Strähnen</h3>
           <div class="h-64">
            <canvas id="streakChart"></canvas>
           </div>
          </div>
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4">🎯 Gewinn/Verlust Verteilung</h3>
+          <h3 class="text-xl font-bold mb-4" data-i18n="distributionChart">🎯 Gewinn/Verlust Verteilung</h3>
           <div class="h-64">
            <canvas id="distributionChart"></canvas>
           </div>
@@ -375,26 +515,26 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4">🎲 Performance nach Strategie</h3>
+          <h3 class="text-xl font-bold mb-4" data-i18n="strategyChart">🎲 Performance nach Strategie</h3>
           <div class="h-64">
            <canvas id="strategyChart"></canvas>
           </div>
          </div>
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4">📅 Monatliche Performance</h3>
+          <h3 class="text-xl font-bold mb-4" data-i18n="monthlyChart">📅 Monatliche Performance</h3>
           <div class="h-64">
            <canvas id="monthlyChart"></canvas>
           </div>
          </div>
         </div>
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h3 class="text-xl font-bold mb-4">💱 Performance nach Asset</h3>
+         <h3 class="text-xl font-bold mb-4" data-i18n="assetChart">💱 Performance nach Asset</h3>
          <div class="h-96">
           <canvas id="assetChart"></canvas>
          </div>
         </div>
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-xl font-bold mb-4">🎯 Deine aktuelle Performance</h3>
+         <h3 class="text-xl font-bold mb-4" data-i18n="currentPerfChart">🎯 Deine aktuelle Performance</h3>
          <div class="h-96">
           <canvas id="currentPerfChart"></canvas>
          </div>
@@ -402,7 +542,7 @@
        </div><!-- Emotionen Tab -->
        <div id="emotionsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>😊</span> <span>Emotions-Analyse</span></h2>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>😊</span> <span data-i18n="emotionAnalysis">Emotions-Analyse</span></h2>
          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="h-64">
            <canvas id="emotionChart"></canvas>
@@ -412,49 +552,63 @@
          </div>
         </div>
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-xl font-bold mb-4">📊 Performance pro Emotion</h3>
+         <h3 class="text-xl font-bold mb-4" data-i18n="emotionPerformance">📊 Performance pro Emotion</h3>
          <div id="emotionPerformanceList" class="space-y-3"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Zinseszins Tab -->
        <div id="compoundTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💰</span> <span>Zinseszins-Rechner</span></h2>
+         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💰</span> <span data-i18n="compoundCalculator">Zinseszins-Rechner</span></h2>
          <form id="compoundForm" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Ziel Summe (€)</label> <input type="number" id="compoundTarget" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="100000" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="targetAmount">Ziel Summe (€)</label> <input type="number" id="compoundTarget" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="100000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300">Monatliche Rendite (%)</label> <input type="number" id="compoundRate" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="5" required>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="monthlyReturn">Monatliche Rendite (%)</label> <input type="number" id="compoundRate" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="5" required>
            </div>
-           <div class="flex items-end"><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 🧮 Berechnen </button>
+           <div class="flex items-end"><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            </div>
           </div>
          </form>
          <div id="compoundResults" class="mt-8 hidden">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
            <div class="bg-slate-800 rounded-xl p-6 text-center">
             <div class="text-sm text-gray-400 mb-2">
-             Benötigte Monate
+             🎯 <span data-i18n="requiredMonthsTarget">Benötigte Monate (Ziel)</span>
             </div>
             <div class="text-3xl font-bold text-purple-400" id="compoundMonths">
              0
             </div>
+            <div class="text-xs text-gray-500 mt-2" data-i18n="withDesiredReturn">
+             Mit gewünschter Rendite
+            </div>
            </div>
            <div class="bg-slate-800 rounded-xl p-6 text-center">
             <div class="text-sm text-gray-400 mb-2">
-             Mit aktueller Performance
+             📊 <span data-i18n="withCurrentPerformance">Mit aktueller Performance</span>
             </div>
             <div class="text-3xl font-bold text-blue-400" id="compoundCurrentMonths">
              0
             </div>
+            <div class="text-xs text-gray-500 mt-2" data-i18n="basedOnTrades">
+             Basierend auf deinen Trades
+            </div>
            </div>
-           <div class="bg-slate-800 rounded-xl p-6 text-center">
-            <div class="text-sm text-gray-400 mb-2">
-             Differenz
-            </div>
-            <div class="text-3xl font-bold" id="compoundDiff">
-             0
-            </div>
+          </div><!-- Status Indicator -->
+          <div id="compoundStatus" class="rounded-2xl p-8 mb-6 text-center">
+           <div class="text-6xl mb-4" id="compoundStatusIcon">
+            🎯
+           </div>
+           <div class="text-3xl font-bold mb-3" id="compoundStatusText">
+            Berechne...
+           </div>
+           <div class="text-lg text-gray-300" id="compoundStatusDetail"></div>
+           <div class="mt-4 text-sm text-gray-400" id="compoundStatusExtra"></div>
+          </div><!-- Vergleichsdiagramm -->
+          <div class="mb-6">
+           <h4 class="text-xl font-bold mb-4 text-center">📊 Geplant vs. Deine aktuelle Performance</h4>
+           <div class="h-96">
+            <canvas id="compoundComparisonChart"></canvas>
            </div>
           </div>
           <div class="h-96">
@@ -466,57 +620,57 @@
        <div id="calendarTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-8">
          <div class="flex justify-between items-center mb-6">
-          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📅</span> <span id="calendarMonth">Kalender</span></h2>
-          <div class="flex gap-2"><button id="prevMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">◀</button> <button id="todayBtn" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition">Heute</button> <button id="nextMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">▶</button>
+          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📅</span> <span id="calendarMonth" data-i18n="calendar">Kalender</span></h2>
+          <div class="flex gap-2"><button id="prevMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">◀</button> <button id="todayBtn" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition" data-i18n="today">Heute</button> <button id="nextMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">▶</button>
           </div>
          </div>
          <div class="grid grid-cols-7 gap-2 mb-4">
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="mon">
            Mo
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="tue">
            Di
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="wed">
            Mi
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="thu">
            Do
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="fri">
            Fr
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="sat">
            Sa
           </div>
-          <div class="text-center font-bold text-gray-400 py-2">
+          <div class="text-center font-bold text-gray-400 py-2" data-i18n="sun">
            So
           </div>
          </div>
-         <div id="calendarGrid" class="grid grid-cols-7 gap-2"><!-- Dynamisch gef  llt -->
+         <div id="calendarGrid" class="grid grid-cols-7 gap-2"><!-- Dynamisch gefüllt -->
          </div>
         </div>
         <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📝</span> <span>Termin hinzufügen</span></h3>
-         <form id="eventForm" class="space-y-4"><input type="date" id="eventDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required> <input type="text" id="eventTitle" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="Termin Titel" required> <textarea id="eventDescription" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="Beschreibung (optional)"></textarea> <button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 📅 Termin speichern </button>
+         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📝</span> <span data-i18n="addEvent">Termin hinzufügen</span></h3>
+         <form id="eventForm" class="space-y-4"><input type="date" id="eventDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required> <input type="text" id="eventTitle" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventTitlePlaceholder" placeholder="Termin Titel" required> <textarea id="eventDescription" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventDescriptionPlaceholder" placeholder="Beschreibung (optional)"></textarea> <button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="saveEvent">📅 Termin speichern</span> </button>
          </form>
         </div>
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Positionsgrößen-Rechner -->
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📐</span> <span>Positionsgrößen-Rechner</span></h3>
+          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📐</span> <span data-i18n="positionSizeCalculator">Positionsgrößen-Rechner</span></h3>
           <form id="positionSizeForm" class="space-y-4">
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="accountBalance">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Risiko pro Trade (%)</label> <input type="number" id="psRisk" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="1">
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="riskPerTrade">Risiko pro Trade (%)</label> <input type="number" id="psRisk" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="1">
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Stop Loss (Pips)</label> <input type="number" id="psStopLoss" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="stopLoss">Stop Loss (Pips)</label> <input type="number" id="psStopLoss" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Pip-Wert (€)</label> <input type="number" id="psPipValue" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="10">
-           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 🧮 Berechnen </button>
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="pipValue">Pip-Wert (€)</label> <input type="number" id="psPipValue" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="10">
+           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            <div id="positionSizeResult" class="mt-6 p-6 bg-slate-800 rounded-xl hidden">
-            <div class="text-sm text-gray-400 mb-2">
+            <div class="text-sm text-gray-400 mb-2" data-i18n="recommendedPosition">
              Empfohlene Positionsgröße
             </div>
             <div class="text-3xl font-bold text-purple-400" id="positionSizeValue">
@@ -529,24 +683,24 @@
           </form>
          </div><!-- Pip-Rechner -->
          <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📊</span> <span>Pip-Rechner</span></h3>
+          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📊</span> <span data-i18n="pipCalculator">Pip-Rechner</span></h3>
           <form id="pipCalculatorForm" class="space-y-4">
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Währungspaar</label> <select id="pipPair" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> </select>
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="currencyPair">Währungspaar</label> <select id="pipPair" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> </select>
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Lot-Größe</label> <input type="number" id="pipLots" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="1">
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="lotSize">Lot-Größe</label> <input type="number" id="pipLots" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="1">
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Anzahl Pips</label> <input type="number" id="pipAmount" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="numberOfPips">Anzahl Pips</label> <input type="number" id="pipAmount" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
            </div>
-           <div><label class="block text-sm font-bold mb-2 text-purple-300">Konvertierung nach</label> <select id="pipCurrency" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR">EUR</option> <option value="USD">USD</option> <option value="GBP">GBP</option> </select>
-           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 🧮 Berechnen </button>
+           <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="convertTo">Konvertierung nach</label> <select id="pipCurrency" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR">EUR</option> <option value="USD">USD</option> <option value="GBP">GBP</option> </select>
+           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            <div id="pipResult" class="mt-6 p-6 bg-slate-800 rounded-xl hidden">
-            <div class="text-sm text-gray-400 mb-2">
+            <div class="text-sm text-gray-400 mb-2" data-i18n="pipValue">
              Pip-Wert
             </div>
             <div class="text-3xl font-bold text-purple-400" id="pipValue">
              €0.00
             </div>
-            <div class="text-sm text-gray-400 mt-4 mb-2">
+            <div class="text-sm text-gray-400 mt-4 mb-2" data-i18n="totalValue">
              Gesamtwert
             </div>
             <div class="text-2xl font-bold text-blue-400" id="pipTotal">
@@ -564,31 +718,31 @@
   </div><!-- Edit Trade Modal -->
   <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay">
    <div class="glass-card rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90%] overflow-y-auto">
-    <h3 class="text-2xl font-bold mb-6">Trade bearbeiten</h3>
+    <h3 class="text-2xl font-bold mb-6" data-i18n="editTrade">Trade bearbeiten</h3>
     <form id="editTradeForm" class="space-y-4"><input type="hidden" id="editTradeId">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Datum</label> <input type="date" id="editDate" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="editDate" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Asset</label> <select id="editAsset" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="">-- Bitte wählen --</option> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="asset">Asset</label> <select id="editAsset" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="pleaseSelect">-- Bitte wählen --</option> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="GBP/JPY">GBP/JPY</option> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> </select>
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Ergebnis</label> <select id="editResult" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">Win</option> <option value="loss">Loss</option> <option value="breakeven">Break Even</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="result">Ergebnis</label> <select id="editResult" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">P/L (€)</label> <input type="number" id="editProfitLoss" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="profitLoss">P/L (€)</label> <input type="number" id="editProfitLoss" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Position</label> <select id="editPosition" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="position">Position</label> <select id="editPosition" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
       </div>
      </div>
-     <div><label class="block text-sm font-bold mb-2 text-purple-300">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"></textarea>
+     <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"></textarea>
      </div>
-     <div class="flex gap-4"><button type="submit" class="flex-1 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> 💾 Speichern </button> <button type="button" id="cancelEdit" class="flex-1 py-4 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition"> ❌ Abbrechen </button>
+     <div class="flex gap-4"><button type="submit" class="flex-1 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="save">💾 Speichern</span> </button> <button type="button" id="cancelEdit" class="flex-1 py-4 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition"> <span data-i18n="cancel">❌ Abbrechen</span> </button>
      </div>
     </form>
    </div>
@@ -617,8 +771,465 @@
         let transactions = [];
         let startCapitalData = null;
         let currentCalendarDate = new Date();
+        let currentLang = localStorage.getItem('tradingJournalLang') || 'de';
+        let currentTheme = localStorage.getItem('tradingJournalTheme') || 'dark';
         
         const charts = {};
+
+        // Translations
+        const translations = {
+            de: {
+                loginTitle: "Trading Journal Pro",
+                loginSubtitle: "Professionelles Trade Management",
+                emailLabel: "E-Mail Adresse",
+                emailPlaceholder: "deine@email.de",
+                passwordLabel: "Passwort",
+                passwordLabelMin: "Passwort (min. 6 Zeichen)",
+                loginButton: "🔐 Anmelden",
+                registerButton: "✨ Konto erstellen",
+                showRegister: "Noch kein Konto? Jetzt registrieren →",
+                showLogin: "   Bereits registriert? Jetzt anmelden",
+                registerTitle: "Registrierung",
+                registerSubtitle: "Erstelle dein Trading Journal",
+                appTitle: "Trading Journal Pro",
+                capital: "Kapital",
+                logout: "🚪 Abmelden",
+                navDashboard: "Dashboard",
+                navNewTrade: "Neuer Trade",
+                navHistory: "Historie",
+                navPerformance: "Performance",
+                navEmotions: "Emotionen",
+                navCompound: "Zinseszins",
+                navCalendar: "Kalender",
+                navWithdrawals: "Auszahlungen",
+                navDeposits: "Einzahlungen",
+                navCalculator: "Rechner",
+                startCapitalTitle: "Startkapital festlegen",
+                startCapitalPlaceholder: "z.B. 10000",
+                save: "💾 Speichern",
+                startCapital: "Startkapital",
+                currentCapital: "Aktuelles Kapital",
+                totalPL: "Gesamt P/L",
+                winRate: "Winrate",
+                trades: "Trades",
+                equityCurve: "Equity Curve",
+                currentPerformanceTitle: "Deine aktuelle Performance",
+                newTradeTitle: "Neuen Trade hinzufügen",
+                date: "Datum *",
+                asset: "Asset",
+                pleaseSelect: "-- Bitte wählen --",
+                result: "Ergebnis",
+                win: "Win",
+                loss: "Loss",
+                breakeven: "Break Even",
+                profitLoss: "Profit/Loss (€)",
+                position: "Position",
+                strategy: "Strategie",
+                strategyPlaceholder: "z.B. Breakout",
+                emotion: "Emotion",
+                none: "-- Keine --",
+                notes: "Notizen",
+                notesPlaceholder: "Details zum Trade, Setup, Fehler, Learnings...",
+                saveTrade: "    Trade speichern",
+                tradeHistory: "Trade Historie",
+                allAssets: "Alle Assets",
+                allResults: "Alle Ergebnisse",
+                wins: "Wins",
+                losses: "Loss",
+                withdrawalTitle: "Auszahlung erfassen",
+                amount: "Betrag (€)",
+                amountPlaceholder: "z.B. 5000",
+                noteOptional: "Notiz (optional)",
+                withdrawalNotePlaceholder: "z.B. Gewinnausschüttung Q1",
+                saveWithdrawal: "💸 Auszahlung speichern",
+                withdrawalHistory: "Auszahlungs-Historie",
+                depositTitle: "Nachträgliche Einzahlung",
+                depositAmountPlaceholder: "z.B. 10000",
+                depositNotePlaceholder: "z.B. Kapitalerhöhung",
+                saveDeposit: "💵 Einzahlung speichern",
+                depositHistory: "Einzahlungs-Historie",
+                bestTrade: "Bester Trade",
+                worstTrade: "Schlechtester Trade",
+                winStreak: "Win Streak",
+                lossStreak: "Loss Streak",
+                avgWin: "Ø Gewinn",
+                avgLoss: "Ø Verlust",
+                streakChart: "📊 Gewinn/Verlust Strähnen",
+                distributionChart: "🎯 Gewinn/Verlust Verteilung",
+                strategyChart: "🎲 Performance nach Strategie",
+                monthlyChart: "📅 Monatliche Performance",
+                assetChart: "💱 Performance nach Asset",
+                currentPerfChart: "🎯 Deine aktuelle Performance",
+                emotionAnalysis: "Emotions-Analyse",
+                emotionPerformance: "📊 Performance pro Emotion",
+                compoundCalculator: "Zinseszins-Rechner",
+                targetAmount: "Ziel Summe (€)",
+                monthlyReturn: "Monatliche Rendite (%)",
+                calculate: "🧮 Berechnen",
+                requiredMonthsTarget: "Benötigte Monate (Ziel)",
+                withDesiredReturn: "Mit gewünschter Rendite",
+                withCurrentPerformance: "Mit aktueller Performance",
+                basedOnTrades: "Basierend auf deinen Trades",
+                fasterThanPlanned: "Du bist schneller als geplant!",
+                slowerThanPlanned: "Du brauchst länger als geplant",
+                onTrack: "Perfekt auf Kurs!",
+                monthsFaster: "Monate schneller",
+                monthsSlower: "Monate länger",
+                keepGoing: "Weiter so! Deine Performance übertrifft das Ziel.",
+                needImprovement: "Du musst deine Strategie optimieren.",
+                exactlyOnTarget: "Deine Performance entspricht exakt dem Ziel!",
+                calendar: "Kalender",
+                today: "Heute",
+                mon: "Mo",
+                tue: "Di",
+                wed: "Mi",
+                thu: "Do",
+                fri: "Fr",
+                sat: "Sa",
+                sun: "So",
+                addEvent: "Termin hinzufügen",
+                eventTitlePlaceholder: "Termin Titel",
+                eventDescriptionPlaceholder: "Beschreibung (optional)",
+                saveEvent: "📅 Termin speichern",
+                positionSizeCalculator: "Positionsgrößen-Rechner",
+                accountBalance: "Kontostand (€)",
+                riskPerTrade: "Risiko pro Trade (%)",
+                stopLoss: "Stop Loss (Pips)",
+                pipValue: "Pip-Wert (€)",
+                recommendedPosition: "Empfohlene Positionsgröße",
+                pipCalculator: "Pip-Rechner",
+                currencyPair: "Währungspaar",
+                lotSize: "Lot-Größe",
+                numberOfPips: "Anzahl Pips",
+                convertTo: "Konvertierung nach",
+                totalValue: "Gesamtwert",
+                editTrade: "Trade bearbeiten",
+                cancel: "❌ Abbrechen"
+            },
+            en: {
+                loginTitle: "Trading Journal Pro",
+                loginSubtitle: "Professional Trade Management",
+                emailLabel: "Email Address",
+                emailPlaceholder: "your@email.com",
+                passwordLabel: "Password",
+                passwordLabelMin: "Password (min. 6 characters)",
+                loginButton: "🔐 Login",
+                registerButton: "✨ Create Account",
+                showRegister: "No account yet? Register now →",
+                showLogin: "← Already registered? Login now",
+                registerTitle: "Registration",
+                registerSubtitle: "Create your Trading Journal",
+                appTitle: "Trading Journal Pro",
+                capital: "Capital",
+                logout: "🚪 Logout",
+                navDashboard: "Dashboard",
+                navNewTrade: "New Trade",
+                navHistory: "History",
+                navPerformance: "Performance",
+                navEmotions: "Emotions",
+                navCompound: "Compound",
+                navCalendar: "Calendar",
+                navWithdrawals: "Withdrawals",
+                navDeposits: "Deposits",
+                navCalculator: "Calculator",
+                startCapitalTitle: "Set Starting Capital",
+                startCapitalPlaceholder: "e.g. 10000",
+                save: "💾 Save",
+                startCapital: "Starting Capital",
+                currentCapital: "Current Capital",
+                totalPL: "Total P/L",
+                winRate: "Win Rate",
+                trades: "Trades",
+                equityCurve: "Equity Curve",
+                currentPerformanceTitle: "Your Current Performance",
+                newTradeTitle: "Add New Trade",
+                date: "Date *",
+                asset: "Asset",
+                pleaseSelect: "-- Please Select --",
+                result: "Result",
+                win: "Win",
+                loss: "Loss",
+                breakeven: "Break Even",
+                profitLoss: "Profit/Loss (€)",
+                position: "Position",
+                strategy: "Strategy",
+                strategyPlaceholder: "e.g. Breakout",
+                emotion: "Emotion",
+                none: "-- None --",
+                notes: "Notes",
+                notesPlaceholder: "Trade details, setup, mistakes, learnings...",
+                saveTrade: "💾 Save Trade",
+                tradeHistory: "Trade History",
+                allAssets: "All Assets",
+                allResults: "All Results",
+                wins: "Wins",
+                losses: "Losses",
+                withdrawalTitle: "Record Withdrawal",
+                amount: "Amount (€)",
+                amountPlaceholder: "e.g. 5000",
+                noteOptional: "Note (optional)",
+                withdrawalNotePlaceholder: "e.g. Q1 Profit Distribution",
+                saveWithdrawal: "💸 Save Withdrawal",
+                withdrawalHistory: "Withdrawal History",
+                depositTitle: "Additional Deposit",
+                depositAmountPlaceholder: "e.g. 10000",
+                depositNotePlaceholder: "e.g. Capital Increase",
+                saveDeposit: "💵 Save Deposit",
+                depositHistory: "Deposit History",
+                bestTrade: "Best Trade",
+                worstTrade: "Worst Trade",
+                winStreak: "Win Streak",
+                lossStreak: "Loss Streak",
+                avgWin: "Avg Win",
+                avgLoss: "Avg Loss",
+                streakChart: "📊 Win/Loss Streaks",
+                distributionChart: "🎯 Win/Loss Distribution",
+                strategyChart: "🎲 Performance by Strategy",
+                monthlyChart: "📅 Monthly Performance",
+                assetChart: "💱 Performance by Asset",
+                currentPerfChart: "🎯 Your Current Performance",
+                emotionAnalysis: "Emotion Analysis",
+                emotionPerformance: "📊 Performance per Emotion",
+                compoundCalculator: "Compound Calculator",
+                targetAmount: "Target Amount (€)",
+                monthlyReturn: "Monthly Return (%)",
+                calculate: "🧮 Calculate",
+                requiredMonthsTarget: "Required Months (Target)",
+                withDesiredReturn: "With desired return",
+                withCurrentPerformance: "With Current Performance",
+                basedOnTrades: "Based on your trades",
+                fasterThanPlanned: "You're faster than planned!",
+                slowerThanPlanned: "You need more time than planned",
+                onTrack: "Perfectly on track!",
+                monthsFaster: "months faster",
+                monthsSlower: "months longer",
+                keepGoing: "Keep it up! Your performance exceeds the target.",
+                needImprovement: "You need to optimize your strategy.",
+                exactlyOnTarget: "Your performance matches the target exactly!",
+                calendar: "Calendar",
+                today: "Today",
+                mon: "Mon",
+                tue: "Tue",
+                wed: "Wed",
+                thu: "Thu",
+                fri: "Fri",
+                sat: "Sat",
+                sun: "Sun",
+                addEvent: "Add Event",
+                eventTitlePlaceholder: "Event Title",
+                eventDescriptionPlaceholder: "Description (optional)",
+                saveEvent: "📅 Save Event",
+                positionSizeCalculator: "Position Size Calculator",
+                accountBalance: "Account Balance (€)",
+                riskPerTrade: "Risk per Trade (%)",
+                stopLoss: "Stop Loss (Pips)",
+                pipValue: "Pip Value (€)",
+                recommendedPosition: "Recommended Position Size",
+                pipCalculator: "Pip Calculator",
+                currencyPair: "Currency Pair",
+                lotSize: "Lot Size",
+                numberOfPips: "Number of Pips",
+                convertTo: "Convert to",
+                totalValue: "Total Value",
+                editTrade: "Edit Trade",
+                cancel: "❌ Cancel"
+            },
+            es: {
+                loginTitle: "Trading Journal Pro",
+                loginSubtitle: "Gestión Profesional de Trading",
+                emailLabel: "Correo Electrónico",
+                emailPlaceholder: "tu@email.com",
+                passwordLabel: "Contraseña",
+                passwordLabelMin: "Contraseña (mín. 6 caracteres)",
+                loginButton: "🔐 Iniciar Sesión",
+                registerButton: "✨ Crear Cuenta",
+                showRegister: "¿No tienes cuenta? Regístrate ahora →",
+                showLogin: "← ¿Ya registrado? Inicia sesión",
+                registerTitle: "Registro",
+                registerSubtitle: "Crea tu Diario de Trading",
+                appTitle: "Trading Journal Pro",
+                capital: "Capital",
+                logout: "🚪 Cerrar Sesión",
+                navDashboard: "Panel",
+                navNewTrade: "Nuevo Trade",
+                navHistory: "Historial",
+                navPerformance: "Rendimiento",
+                navEmotions: "Emociones",
+                navCompound: "Interés Compuesto",
+                navCalendar: "Calendario",
+                navWithdrawals: "Retiros",
+                navDeposits: "Depósitos",
+                navCalculator: "Calculadora",
+                startCapitalTitle: "Establecer Capital Inicial",
+                startCapitalPlaceholder: "ej. 10000",
+                save: "💾 Guardar",
+                startCapital: "Capital Inicial",
+                currentCapital: "Capital Actual",
+                totalPL: "P/L Total",
+                winRate: "Tasa de Éxito",
+                trades: "Operaciones",
+                equityCurve: "Curva de Capital",
+                currentPerformanceTitle: "Tu Rendimiento Actual",
+                newTradeTitle: "Agregar Nuevo Trade",
+                date: "Fecha *",
+                asset: "Activo",
+                pleaseSelect: "-- Por favor selecciona --",
+                result: "Resultado",
+                win: "Ganancia",
+                loss: "Pérdida",
+                breakeven: "Punto Muerto",
+                profitLoss: "Ganancia/Pérdida (€)",
+                position: "Posición",
+                strategy: "Estrategia",
+                strategyPlaceholder: "ej. Breakout",
+                emotion: "Emoción",
+                none: "-- Ninguna --",
+                notes: "Notas",
+                notesPlaceholder: "Detalles del trade, configuración, errores, aprendizajes...",
+                saveTrade: "💾 Guardar Trade",
+                tradeHistory: "Historial de Trades",
+                allAssets: "Todos los Activos",
+                allResults: "Todos los Resultados",
+                wins: "Ganancias",
+                losses: "Pérdidas",
+                withdrawalTitle: "Registrar Retiro",
+                amount: "Monto (€)",
+                amountPlaceholder: "ej. 5000",
+                noteOptional: "Nota (opcional)",
+                withdrawalNotePlaceholder: "ej. Distribución de ganancias Q1",
+                saveWithdrawal: "💸 Guardar Retiro",
+                withdrawalHistory: "Historial de Retiros",
+                depositTitle: "Depósito Adicional",
+                depositAmountPlaceholder: "ej. 10000",
+                depositNotePlaceholder: "ej. Aumento de capital",
+                saveDeposit: "💵 Guardar Depósito",
+                depositHistory: "Historial de Depósitos",
+                bestTrade: "Mejor Trade",
+                worstTrade: "Peor Trade",
+                winStreak: "Racha Ganadora",
+                lossStreak: "Racha Perdedora",
+                avgWin: "Ganancia Promedio",
+                avgLoss: "Pérdida Promedio",
+                streakChart: "📊 Rachas de Ganancia/Pérdida",
+                distributionChart: "🎯 Distribución Ganancia/Pérdida",
+                strategyChart: "🎲 Rendimiento por Estrategia",
+                monthlyChart: "📅 Rendimiento Mensual",
+                assetChart: "💱 Rendimiento por Activo",
+                currentPerfChart: "🎯 Tu Rendimiento Actual",
+                emotionAnalysis: "Análisis de Emociones",
+                emotionPerformance: "📊 Rendimiento por Emoción",
+                compoundCalculator: "Calculadora de Interés Compuesto",
+                targetAmount: "Monto Objetivo (€)",
+                monthlyReturn: "Retorno Mensual (%)",
+                calculate: "🧮 Calcular",
+                requiredMonthsTarget: "Meses Necesarios (Objetivo)",
+                withDesiredReturn: "Con retorno deseado",
+                withCurrentPerformance: "Con Rendimiento Actual",
+                basedOnTrades: "Basado en tus trades",
+                fasterThanPlanned: "¡Eres más rápido de lo planeado!",
+                slowerThanPlanned: "Necesitas más tiempo del planeado",
+                onTrack: "¡Perfectamente en camino!",
+                monthsFaster: "meses más rápido",
+                monthsSlower: "meses más",
+                keepGoing: "¡Sigue así! Tu rendimiento supera el objetivo.",
+                needImprovement: "Necesitas optimizar tu estrategia.",
+                exactlyOnTarget: "¡Tu rendimiento coincide exactamente con el objetivo!",
+                calendar: "Calendario",
+                today: "Hoy",
+                mon: "Lun",
+                tue: "Mar",
+                wed: "Mié",
+                thu: "Jue",
+                fri: "Vie",
+                sat: "Sáb",
+                sun: "Dom",
+                addEvent: "Agregar Evento",
+                eventTitlePlaceholder: "Título del Evento",
+                eventDescriptionPlaceholder: "Descripción (opcional)",
+                saveEvent: "📅 Guardar Evento",
+                positionSizeCalculator: "Calculadora de Tamaño de Posición",
+                accountBalance: "Balance de Cuenta (€)",
+                riskPerTrade: "Riesgo por Operación (%)",
+                stopLoss: "Stop Loss (Pips)",
+                pipValue: "Valor del Pip (€)",
+                recommendedPosition: "Tamaño de Posición Recomendado",
+                pipCalculator: "Calculadora de Pips",
+                currencyPair: "Par de Divisas",
+                lotSize: "Tamaño del Lote",
+                numberOfPips: "Número de Pips",
+                convertTo: "Convertir a",
+                totalValue: "Valor Total",
+                editTrade: "Editar Trade",
+                cancel: "❌ Cancelar"
+            }
+        };
+
+        function t(key) {
+            return translations[currentLang][key] || key;
+        }
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key);
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key);
+            });
+
+            localStorage.setItem('tradingJournalLang', currentLang);
+        }
+
+        function updateTheme() {
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.getElementById('themeIconLogin').textContent = '☀️';
+                document.getElementById('themeIconRegister').textContent = '☀️';
+                document.getElementById('themeIconMain').textContent = '☀️';
+            } else {
+                document.body.classList.remove('light-mode');
+                document.getElementById('themeIconLogin').textContent = '🌙';
+                document.getElementById('themeIconRegister').textContent = '🌙';
+                document.getElementById('themeIconMain').textContent = '🌙';
+            }
+            localStorage.setItem('tradingJournalTheme', currentTheme);
+        }
+
+        // Language switcher
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                currentLang = lang;
+                
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll(`[data-lang="${lang}"]`).forEach(b => b.classList.add('active'));
+                
+                updateLanguage();
+            });
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggleLogin').addEventListener('click', () => {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme();
+        });
+
+        document.getElementById('themeToggleRegister').addEventListener('click', () => {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme();
+        });
+
+        document.getElementById('themeToggleMain').addEventListener('click', () => {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme();
+        });
+
+        // Initialize theme and language
+        updateTheme();
+        updateLanguage();
+        document.querySelectorAll(`[data-lang="${currentLang}"]`).forEach(b => b.classList.add('active'));
 
         function showToast(message) {
             const toast = document.createElement('div');
@@ -634,7 +1245,7 @@
 
         function formatDate(dateStr) {
             const date = new Date(dateStr);
-            return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            return date.toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
 
         async function loadAllData() {
@@ -742,7 +1353,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'Kapital',
+                            label: t('capital'),
                             data: equityData,
                             borderColor: '#8b5cf6',
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',
@@ -755,11 +1366,11 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { labels: { color: '#ffffff', font: { size: 14, weight: 'bold' } } }
+                            legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff', font: { size: 14, weight: 'bold' } } }
                         },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -775,11 +1386,11 @@
 
                 perfGrid.innerHTML = `
                     <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">Bester Trade</div>
+                        <div class="text-sm text-gray-400 mb-2">${t('bestTrade')}</div>
                         <div class="text-2xl font-bold text-green-400">${formatCurrency(best)}</div>
                     </div>
                     <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">Schlechtester Trade</div>
+                        <div class="text-sm text-gray-400 mb-2">${t('worstTrade')}</div>
                         <div class="text-2xl font-bold text-red-400">${formatCurrency(worst)}</div>
                     </div>
                     <div class="bg-slate-800 rounded-xl p-6">
@@ -787,7 +1398,7 @@
                         <div class="text-2xl font-bold ${avg >= 0 ? 'text-green-400' : 'text-red-400'}">${formatCurrency(avg)}</div>
                     </div>
                     <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">Total Trades</div>
+                        <div class="text-sm text-gray-400 mb-2">Total ${t('trades')}</div>
                         <div class="text-2xl font-bold text-purple-400">${trades.length}</div>
                     </div>
                 `;
@@ -804,7 +1415,7 @@
             if (!filter) return;
 
             const assets = [...new Set(trades.map(t => t.asset).filter(a => a))];
-            filter.innerHTML = '<option value="all">Alle Assets</option>';
+            filter.innerHTML = `<option value="all">${t('allAssets')}</option>`;
             assets.forEach(asset => {
                 const opt = document.createElement('option');
                 opt.value = asset;
@@ -867,7 +1478,7 @@
                         ${trade.notes ? `<div class="text-sm text-gray-300 mt-3 p-3 bg-slate-800 rounded-lg">${trade.notes}</div>` : ''}
                         <div class="flex gap-3 mt-4">
                             <button onclick="editTrade('${trade.id}')" class="flex-1 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold transition">
-                                ✏️ Bearbeiten
+                                ✏️ ${t('editTrade')}
                             </button>
                             <button onclick="deleteTrade('${trade.id}')" class="flex-1 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">
                                 🗑️ Löschen
@@ -998,7 +1609,7 @@
             const wins = trades.filter(t => t.result === 'win');
             const losses = trades.filter(t => t.result === 'loss');
             const avgWin = wins.length > 0 ? wins.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / wins.length : 0;
-            const avgLoss = losses.length > 0 ? losses.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / losses.length : 0;
+            const avgLoss = losses.length > 0 ? Math.abs(losses.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / losses.length) : 0;
 
             document.getElementById('perfAvgWin').textContent = formatCurrency(avgWin);
             document.getElementById('perfAvgLoss').textContent = formatCurrency(avgLoss);
@@ -1012,7 +1623,7 @@
                     data: {
                         labels: streaks.map((_, i) => `Strähne ${i + 1}`),
                         datasets: [{
-                            label: 'Gewinn/Verlust Strähnen',
+                            label: t('streakChart'),
                             data: streaks,
                             backgroundColor: streaks.map(s => s > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
@@ -1020,10 +1631,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1040,7 +1651,7 @@
                 charts.distribution = new Chart(distCanvas.getContext('2d'), {
                     type: 'pie',
                     data: {
-                        labels: ['Wins', 'Losses', 'Break Even'],
+                        labels: [t('wins'), t('losses'), t('breakeven')],
                         datasets: [{
                             data: [winCount, lossCount, beCount],
                             backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(234, 179, 8, 0.8)']
@@ -1049,7 +1660,7 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } }
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } }
                     }
                 });
             }
@@ -1070,7 +1681,7 @@
                     data: {
                         labels: Object.keys(strategyPerf),
                         datasets: [{
-                            label: 'P/L pro Strategie',
+                            label: 'P/L ' + t('strategy'),
                             data: Object.values(strategyPerf),
                             backgroundColor: Object.values(strategyPerf).map(v => v >= 0 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
@@ -1078,10 +1689,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1104,7 +1715,7 @@
                     data: {
                         labels: Object.keys(monthlyPerf).sort(),
                         datasets: [{
-                            label: 'Monatliche Performance',
+                            label: t('monthlyChart'),
                             data: Object.keys(monthlyPerf).sort().map(k => monthlyPerf[k]),
                             backgroundColor: Object.keys(monthlyPerf).sort().map(k => monthlyPerf[k] >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
@@ -1112,10 +1723,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1137,7 +1748,7 @@
                     data: {
                         labels: Object.keys(assetPerf),
                         datasets: [{
-                            label: 'P/L pro Asset',
+                            label: 'P/L ' + t('asset'),
                             data: Object.values(assetPerf),
                             backgroundColor: 'rgba(99, 102, 241, 0.8)'
                         }]
@@ -1145,10 +1756,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1176,10 +1787,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1223,7 +1834,7 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } }
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } }
                     }
                 });
             }
@@ -1264,7 +1875,7 @@
             const year = currentCalendarDate.getFullYear();
             const month = currentCalendarDate.getMonth();
 
-            document.getElementById('calendarMonth').textContent = new Date(year, month).toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+            document.getElementById('calendarMonth').textContent = new Date(year, month).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES', { month: 'long', year: 'numeric' });
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -1660,69 +2271,225 @@
 
             document.getElementById('compoundMonths').textContent = months >= maxMonths ? '∞' : months;
             document.getElementById('compoundCurrentMonths').textContent = monthsCurrent >= maxMonths ? '∞' : monthsCurrent;
+            
             const diff = monthsCurrent - months;
-            document.getElementById('compoundDiff').textContent = diff > 0 ? `+${diff} Monate` : `${diff} Monate`;
-            document.getElementById('compoundDiff').className = diff > 0 ? 'text-3xl font-bold text-red-400' : 'text-3xl font-bold text-green-400';
+            
+            // Status Box Update
+            const statusBox = document.getElementById('compoundStatus');
+            const statusIcon = document.getElementById('compoundStatusIcon');
+            const statusText = document.getElementById('compoundStatusText');
+            const statusDetail = document.getElementById('compoundStatusDetail');
+            const statusExtra = document.getElementById('compoundStatusExtra');
 
-            document.getElementById('compoundResults').classList.remove('hidden');
+            if (diff < 0) {
+                // Schneller als geplant
+                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-green-500 to-green-600';
+                statusIcon.textContent = '🚀';
+                statusText.textContent = t('fasterThanPlanned');
+                statusDetail.textContent = `${Math.abs(diff)} ${t('monthsFaster')}`;
+                statusExtra.textContent = t('keepGoing');
+            } else if (diff > 0) {
+                // Langsamer als geplant
+                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-red-500 to-red-600';
+                statusIcon.textContent = '⚠️';
+                statusText.textContent = t('slowerThanPlanned');
+                statusDetail.textContent = `${diff} ${t('monthsSlower')}`;
+                statusExtra.textContent = t('needImprovement');
+            } else {
+                // Genau auf Plan
+                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-purple-500 to-purple-600';
+                statusIcon.textContent = '🎯';
+                statusText.textContent = t('onTrack');
+                statusDetail.textContent = t('exactlyOnTarget');
+                statusExtra.textContent = '';
+            }
 
-            // Chart
-            if (charts.compound) charts.compound.destroy();
-            const compoundCanvas = document.getElementById('compoundChart');
-            if (compoundCanvas) {
-                const dataIdeal = [startCapital];
-                const dataCurrent = [startCapital];
-                const labels = ['Start'];
+            // Vergleichsdiagramm erstellen
+            const maxDisplayMonths = Math.max(months, monthsCurrent) + 2;
+            const plannedData = [];
+            const actualData = [];
+            const labelsComparison = [];
 
-                let capIdeal = startCapital;
-                let capCurrent = startCapital;
-
-                for (let i = 1; i <= Math.max(months, monthsCurrent); i++) {
-                    capIdeal += capIdeal * rate;
-                    capCurrent += capCurrent * actualRate;
-                    dataIdeal.push(capIdeal);
-                    dataCurrent.push(capCurrent);
-                    labels.push(`M${i}`);
+            // Geplante Entwicklung
+            let capPlanned = startCapital;
+            for (let m = 0; m <= maxDisplayMonths; m++) {
+                labelsComparison.push(`Monat ${m}`);
+                plannedData.push(capPlanned);
+                if (capPlanned < target) {
+                    capPlanned += capPlanned * rate;
                 }
+            }
 
-                charts.compound = new Chart(compoundCanvas.getContext('2d'), {
+            // Aktuelle Performance
+            let capActual = startCapital;
+            for (let m = 0; m <= maxDisplayMonths; m++) {
+                actualData.push(capActual);
+                if (capActual < target) {
+                    capActual += capActual * actualRate;
+                }
+            }
+
+            // Vergleichschart
+            if (charts.compoundComparison) {
+                charts.compoundComparison.destroy();
+            }
+
+            const comparisonCanvas = document.getElementById('compoundComparisonChart');
+            if (comparisonCanvas) {
+                charts.compoundComparison = new Chart(comparisonCanvas.getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: labels,
+                        labels: labelsComparison,
                         datasets: [
                             {
-                                label: 'Ziel-Rendite',
-                                data: dataIdeal,
+                                label: '🎯 Geplante Entwicklung',
+                                data: plannedData,
                                 borderColor: '#8b5cf6',
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
                                 borderWidth: 3,
                                 fill: false,
-                                tension: 0.4
+                                tension: 0.4,
+                                pointRadius: 0,
+                                borderDash: [5, 5]
                             },
                             {
-                                label: 'Aktuelle Performance',
-                                data: dataCurrent,
-                                borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                                borderWidth: 3,
+                                label: '📊 Deine aktuelle Performance',
+                                data: actualData,
+                                borderColor: diff < 0 ? '#22c55e' : diff > 0 ? '#ef4444' : '#8b5cf6',
+                                backgroundColor: diff < 0 ? 'rgba(34, 197, 94, 0.1)' : diff > 0 ? 'rgba(239, 68, 68, 0.1)' : 'rgba(139, 92, 246, 0.1)',
+                                borderWidth: 4,
+                                fill: true,
+                                tension: 0.4,
+                                pointRadius: 0
+                            },
+                            {
+                                label: '🏁 Ziel',
+                                data: Array(maxDisplayMonths + 1).fill(target),
+                                borderColor: '#facc15',
+                                backgroundColor: 'rgba(250, 204, 21, 0.1)',
+                                borderWidth: 2,
                                 fill: false,
-                                tension: 0.4
+                                borderDash: [10, 5],
+                                pointRadius: 0
                             }
                         ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: '#ffffff' } } },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: currentTheme === 'light' ? '#1e293b' : '#ffffff',
+                                    font: { size: 14, weight: 'bold' },
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                    }
+                                }
+                            }
+                        },
                         scales: {
-                            x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                            x: {
+                                ticks: {
+                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
+                                    maxTicksLimit: 12
+                                },
+                                grid: {
+                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
+                                    callback: (v) => formatCurrency(v)
+                                },
+                                grid: {
+                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
                         }
                     }
                 });
             }
+
+            // Original Chart (einzelne Entwicklung)
+            const dataPoints = [];
+            const labels = [];
+            capital = startCapital;
+
+            for (let m = 0; m <= months && m < maxMonths; m++) {
+                labels.push(`Monat ${m}`);
+                dataPoints.push(capital);
+                capital += capital * rate;
+            }
+
+            if (charts.compound) {
+                charts.compound.destroy();
+            }
+
+            const canvas = document.getElementById('compoundChart');
+            if (canvas) {
+                charts.compound = new Chart(canvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: t('capital'),
+                            data: dataPoints,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: currentTheme === 'light' ? '#1e293b' : '#ffffff',
+                                    font: { size: 14, weight: 'bold' }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af'
+                                },
+                                grid: {
+                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
+                                    callback: (v) => formatCurrency(v)
+                                },
+                                grid: {
+                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            document.getElementById('compoundResults').classList.remove('hidden');
         });
 
+        // Calendar
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
             renderCalendar();
@@ -1759,6 +2526,7 @@
             }
         });
 
+        // Position Size Calculator
         document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -1767,18 +2535,14 @@
             const stopLoss = parseFloat(document.getElementById('psStopLoss').value);
             const pipValue = parseFloat(document.getElementById('psPipValue').value);
 
-            if (isNaN(balance) || isNaN(risk) || isNaN(stopLoss) || isNaN(pipValue)) {
-                showToast('❌ Bitte alle Felder ausfüllen');
-                return;
-            }
-
             const riskAmount = balance * risk;
             const positionSize = riskAmount / (stopLoss * pipValue);
 
-            document.getElementById('positionSizeResult').classList.remove('hidden');
             document.getElementById('positionSizeValue').textContent = positionSize.toFixed(2);
+            document.getElementById('positionSizeResult').classList.remove('hidden');
         });
 
+        // Pip Calculator
         document.getElementById('pipCalculatorForm').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -1786,29 +2550,15 @@
             const lots = parseFloat(document.getElementById('pipLots').value);
             const pips = parseFloat(document.getElementById('pipAmount').value);
 
-            if (isNaN(lots) || isNaN(pips)) {
-                showToast('❌ Bitte alle Felder ausfüllen');
-                return;
-            }
+            // Simplified pip value calculation
+            const basePipValue = 10; // Standard für 1 lot
+            const pipValuePerLot = basePipValue * lots;
+            const totalValue = pipValuePerLot * pips;
 
-            // Simplified pip value calculation (real values vary)
-            const pipValues = {
-                'EUR/USD': 10,
-                'GBP/USD': 10,
-                'USD/JPY': 9.09,
-                'USD/CHF': 10.20,
-                'AUD/USD': 10
-            };
-
-            const basePipValue = pipValues[pair] || 10;
-            const pipValue = basePipValue * lots;
-            const total = pipValue * pips;
-
+            document.getElementById('pipValue').textContent = formatCurrency(pipValuePerLot);
+            document.getElementById('pipTotal').textContent = formatCurrency(totalValue);
             document.getElementById('pipResult').classList.remove('hidden');
-            document.getElementById('pipValue').textContent = formatCurrency(pipValue);
-            document.getElementById('pipTotal').textContent = formatCurrency(total);
         });
-
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7603dee58ce0d3',t:'MTc2NzMxMjQzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b761853e2f2e0d3',t:'MTc2NzMxMzI3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
