@@ -191,6 +191,17 @@
             background: #8b5cf6;
             color: white;
         }
+
+        /* Mobile Sidebar Styles */
+        .sidebar-open {
+            transform: translateX(0) !important;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content-mobile {
+                padding-bottom: 80px;
+            }
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -199,401 +210,420 @@
  <body class="h-full text-white">
   <div class="min-h-full w-full flex flex-col overflow-auto"><!-- Login Screen -->
    <div id="loginScreen" class="flex-1 flex items-center justify-center px-4">
-    <div class="glass-card rounded-3xl p-10 max-w-md w-full"><!-- Theme & Language Controls -->
+    <div class="glass-card rounded-3xl p-6 sm:p-10 max-w-md w-full"><!-- Theme & Language Controls -->
      <div class="flex justify-end gap-2 mb-6">
-      <div class="flex gap-1"><button class="lang-btn active" data-lang="de">DE</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="es">ES</button>
+      <div class="flex gap-1"><button class="lang-btn active text-xs sm:text-sm" data-lang="de">DE</button> <button class="lang-btn text-xs sm:text-sm" data-lang="en">EN</button> <button class="lang-btn text-xs sm:text-sm" data-lang="es">ES</button>
       </div>
       <div class="theme-toggle" id="themeToggleLogin"><span id="themeIconLogin">🌙</span>
       </div>
      </div>
-     <div class="text-center mb-10">
-      <div class="text-7xl mb-6">
+     <div class="text-center mb-8 sm:mb-10">
+      <div class="text-5xl sm:text-7xl mb-4 sm:mb-6">
        📊
       </div>
-      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="loginTitle">Trading Journal Pro</h1>
-      <p class="text-gray-400 text-lg" data-i18n="loginSubtitle">Professionelles Trade Management</p>
+      <h1 class="text-2xl sm:text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="loginTitle">Trading Journal Pro</h1>
+      <p class="text-gray-400 text-base sm:text-lg" data-i18n="loginSubtitle">Professionelles Trade Management</p>
      </div>
-     <form id="loginForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
+     <form id="loginForm" class="space-y-4 sm:space-y-5 mb-6">
+      <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
-      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="loginButton">🔐 Anmelden</span> </button>
+      <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
+      </div><button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold text-white text-base sm:text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="loginButton">🔐 Anmelden</span> </button>
      </form>
-     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showRegister"> Noch kein Konto? Jetzt registrieren → </button>
+     <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold text-sm sm:text-base" data-i18n="showRegister"> Noch kein Konto? Jetzt registrieren → </button>
      </div>
     </div>
    </div><!-- Register Screen -->
    <div id="registerScreen" class="flex-1 flex items-center justify-center px-4 hidden">
-    <div class="glass-card rounded-3xl p-10 max-w-md w-full"><!-- Theme & Language Controls -->
+    <div class="glass-card rounded-3xl p-6 sm:p-10 max-w-md w-full"><!-- Theme & Language Controls -->
      <div class="flex justify-end gap-2 mb-6">
-      <div class="flex gap-1"><button class="lang-btn active" data-lang="de">DE</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="es">ES</button>
+      <div class="flex gap-1"><button class="lang-btn active text-xs sm:text-sm" data-lang="de">DE</button> <button class="lang-btn text-xs sm:text-sm" data-lang="en">EN</button> <button class="lang-btn text-xs sm:text-sm" data-lang="es">ES</button>
       </div>
       <div class="theme-toggle" id="themeToggleRegister"><span id="themeIconRegister">🌙</span>
       </div>
      </div>
-     <div class="text-center mb-10">
-      <div class="text-7xl mb-6">
+     <div class="text-center mb-8 sm:mb-10">
+      <div class="text-5xl sm:text-7xl mb-4 sm:mb-6">
        🚀
       </div>
-      <h1 class="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="registerTitle">Registrierung</h1>
-      <p class="text-gray-400 text-lg" data-i18n="registerSubtitle">Erstelle dein Trading Journal</p>
+      <h1 class="text-2xl sm:text-4xl font-bold mb-3 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent" data-i18n="registerTitle">Registrierung</h1>
+      <p class="text-gray-400 text-base sm:text-lg" data-i18n="registerSubtitle">Erstelle dein Trading Journal</p>
      </div>
-     <form id="registerForm" class="space-y-5 mb-6">
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="registerEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
+     <form id="registerForm" class="space-y-4 sm:space-y-5 mb-6">
+      <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="registerEmail" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabelMin">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
-      </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="registerButton">✨ Konto erstellen</span> </button>
+      <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="passwordLabelMin">Passwort (min. 6 Zeichen)</label> <input type="password" id="registerPassword" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
+      </div><button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold text-white text-base sm:text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="registerButton">✨ Konto erstellen</span> </button>
      </form>
-     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showLogin"> ← Bereits registriert? Jetzt anmelden </button>
+     <div class="text-center"><button id="showLoginBtn" class="text-purple-400 hover:text-purple-300 font-semibold text-sm sm:text-base" data-i18n="showLogin"> ← Bereits registriert? Jetzt anmelden </button>
      </div>
     </div>
    </div><!-- Main App -->
-   <div id="mainApp" class="flex-1 flex flex-col w-full hidden">
-    <header class="bg-gradient-to-r from-purple-600 to-blue-600 shadow-2xl w-full sticky top-0 z-50">
-     <div class="max-w-7xl mx-auto px-6 py-6">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-       <h1 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3"><span class="text-4xl">💎</span> <span data-i18n="appTitle">Trading Journal Pro</span></h1>
-       <div class="flex items-center gap-4">
-        <div class="flex gap-1"><button class="lang-btn text-white active" data-lang="de">DE</button> <button class="lang-btn text-white" data-lang="en">EN</button> <button class="lang-btn text-white" data-lang="es">ES</button>
+   <div id="mainApp" class="flex-1 flex flex-col w-full hidden"><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="fixed bottom-6 right-6 z-50 lg:hidden bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform">
+     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+     </svg></button>
+    <header class="bg-gradient-to-r from-purple-600 to-blue-600 shadow-2xl w-full sticky top-0 z-40">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-6">
+      <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
+       <h1 class="text-lg sm:text-2xl lg:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3"><span class="text-2xl sm:text-4xl">💎</span> <span data-i18n="appTitle" class="hidden sm:inline">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
+       <div class="flex items-center gap-2 sm:gap-4 flex-wrap">
+        <div class="hidden sm:flex gap-1"><button class="lang-btn text-white active" data-lang="de">DE</button> <button class="lang-btn text-white" data-lang="en">EN</button> <button class="lang-btn text-white" data-lang="es">ES</button>
         </div>
-        <div class="theme-toggle" id="themeToggleMain"><span id="themeIconMain">🌙</span>
+        <div class="hidden sm:flex theme-toggle" id="themeToggleMain"><span id="themeIconMain">🌙</span>
         </div>
-        <div class="bg-white bg-opacity-10 px-4 py-2 rounded-xl">
+        <div class="bg-white bg-opacity-10 px-2 sm:px-4 py-1 sm:py-2 rounded-xl">
          <div class="text-xs text-purple-100" data-i18n="capital">
           Kapital
          </div>
-         <div class="text-xl font-bold" id="headerCapital">
+         <div class="text-sm sm:text-xl font-bold" id="headerCapital">
           €0.00
          </div>
-        </div><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl font-bold transition"> <span data-i18n="logout">🚪 Abmelden</span> </button>
+        </div><button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-bold transition text-sm sm:text-base"> <span class="hidden sm:inline" data-i18n="logout">🚪 Abmelden</span> <span class="sm:hidden">🚪</span> </button>
        </div>
       </div>
      </div>
     </header>
-    <div class="flex flex-1 overflow-hidden w-full">
-     <aside class="w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto flex-shrink-0">
-      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-5 py-4 rounded-xl font-bold bg-purple-600 text-white flex items-center gap-3 transition" data-tab="dashboard"> <span class="text-xl">📊</span> <span data-i18n="navDashboard">Dashboard</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="newtrade"> <span class="text-xl">➕</span> <span data-i18n="navNewTrade">Neuer Trade</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="history"> <span class="text-xl">📜</span> <span data-i18n="navHistory">Historie</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="performance"> <span class="text-xl">📈</span> <span data-i18n="navPerformance">Performance</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="emotions"> <span class="text-xl">😊</span> <span data-i18n="navEmotions">Emotionen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="compound"> <span class="text-xl">💰</span> <span data-i18n="navCompound">Zinseszins</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calendar"> <span class="text-xl">📅</span> <span data-i18n="navCalendar">Kalender</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="withdrawals"> <span class="text-xl">💸</span> <span data-i18n="navWithdrawals">Auszahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="deposits"> <span class="text-xl">💵</span> <span data-i18n="navDeposits">Einzahlungen</span> </button> <button class="nav-button w-full text-left px-5 py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition" data-tab="calculator"> <span class="text-xl">🧮</span> <span data-i18n="navCalculator">Rechner</span> </button>
+    <div class="flex flex-1 overflow-hidden w-full relative"><!-- Mobile Navigation Overlay -->
+     <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+     <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto flex-shrink-0 z-40 top-0 lg:top-auto pt-16 lg:pt-0">
+      <nav class="p-4 space-y-2"><button class="nav-button active w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold bg-purple-600 text-white flex items-center gap-3 transition text-sm sm:text-base" data-tab="dashboard"> <span class="text-lg sm:text-xl">📊</span> <span data-i18n="navDashboard">Dashboard</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="newtrade"> <span class="text-lg sm:text-xl">➕</span> <span data-i18n="navNewTrade">Neuer Trade</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="history"> <span class="text-lg sm:text-xl">📜</span> <span data-i18n="navHistory">Historie</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="performance"> <span class="text-lg sm:text-xl">📈</span> <span data-i18n="navPerformance">Performance</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="emotions"> <span class="text-lg sm:text-xl">😊</span> <span data-i18n="navEmotions">Emotionen</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="compound"> <span class="text-lg sm:text-xl">💰</span> <span data-i18n="navCompound">Zinseszins</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="calendar"> <span class="text-lg sm:text-xl">📅</span> <span data-i18n="navCalendar">Kalender</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="withdrawals"> <span class="text-lg sm:text-xl">💸</span> <span data-i18n="navWithdrawals">Auszahlungen</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="deposits"> <span class="text-lg sm:text-xl">💵</span> <span data-i18n="navDeposits">Einzahlungen</span> </button> <button class="nav-button w-full text-left px-4 sm:px-5 py-3 sm:py-4 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-slate-700 flex items-center gap-3 transition text-sm sm:text-base" data-tab="calculator"> <span class="text-lg sm:text-xl">🧮</span> <span data-i18n="navCalculator">Rechner</span> </button> <!-- Mobile Theme & Language -->
+       <div class="lg:hidden border-t border-slate-700 pt-4 mt-4 space-y-3">
+        <div class="px-5">
+         <div class="text-xs text-gray-400 mb-2">
+          Sprache
+         </div>
+         <div class="flex gap-2"><button class="lang-btn active flex-1" data-lang="de">DE</button> <button class="lang-btn flex-1" data-lang="en">EN</button> <button class="lang-btn flex-1" data-lang="es">ES</button>
+         </div>
+        </div>
+        <div class="px-5">
+         <div class="text-xs text-gray-400 mb-2">
+          Theme
+         </div>
+         <div class="theme-toggle w-full justify-center" id="themeToggleMobile"><span id="themeIconMobile">🌙</span> <span class="text-sm">Theme wechseln</span>
+         </div>
+        </div>
+       </div>
       </nav>
      </aside>
-     <main class="flex-1 overflow-auto w-full">
-      <div class="max-w-7xl mx-auto px-6 py-8"><!-- Dashboard Tab -->
+     <main class="flex-1 overflow-auto w-full main-content-mobile">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8"><!-- Dashboard Tab -->
        <div id="dashboardTab" class="tab-content"><!-- Startkapital festlegen -->
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💼</span> <span data-i18n="startCapitalTitle">Startkapital festlegen</span></h2>
-         <form id="startCapitalForm" class="flex gap-4 flex-wrap"><input type="number" id="startCapital" step="0.01" class="flex-1 min-w-[200px] px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="startCapitalPlaceholder" placeholder="z.B. 10000" required> <button type="submit" class="px-8 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="save">💾 Speichern</span> </button>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>💼</span> <span data-i18n="startCapitalTitle">Startkapital festlegen</span></h2>
+         <form id="startCapitalForm" class="flex gap-3 sm:gap-4 flex-wrap"><input type="number" id="startCapital" step="0.01" class="flex-1 min-w-[200px] px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="startCapitalPlaceholder" placeholder="z.B. 10000" required> <button type="submit" class="px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition text-sm sm:text-base"> <span data-i18n="save">💾 Speichern</span> </button>
          </form>
          <div id="startCapitalDisplay" class="mt-6 hidden">
           <div class="text-sm text-gray-400 font-bold" data-i18n="startCapital">
            Startkapital
           </div>
-          <div class="text-4xl font-bold text-purple-400 mt-2" id="startCapitalValue">
+          <div class="text-2xl sm:text-4xl font-bold text-purple-400 mt-2" id="startCapitalValue">
            €0.00
           </div>
          </div>
         </div><!-- Finanzübersicht -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-         <div class="glass-card rounded-2xl p-6 text-center transform hover:scale-105 transition">
-          <div class="text-4xl mb-3">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center transform hover:scale-105 transition">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            💰
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="currentCapital">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="currentCapital">
            Aktuelles Kapital
           </div>
-          <div class="text-3xl font-bold text-purple-400" id="currentCapital">
+          <div class="text-lg sm:text-3xl font-bold text-purple-400" id="currentCapital">
            €0.00
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center transform hover:scale-105 transition">
-          <div class="text-4xl mb-3">
-               
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center transform hover:scale-105 transition">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
+           📊
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="totalPL">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="totalPL">
            Gesamt P/L
           </div>
-          <div class="text-3xl font-bold" id="totalPL">
+          <div class="text-lg sm:text-3xl font-bold" id="totalPL">
            €0.00
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center transform hover:scale-105 transition">
-          <div class="text-4xl mb-3">
-              
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center transform hover:scale-105 transition">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
+           🎯
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="winRate">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="winRate">
            Winrate
           </div>
-          <div class="text-3xl font-bold" id="winRate">
+          <div class="text-lg sm:text-3xl font-bold" id="winRate">
            0%
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center transform hover:scale-105 transition">
-          <div class="text-4xl mb-3">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center transform hover:scale-105 transition">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            📝
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="trades">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="trades">
            Trades
           </div>
-          <div class="text-3xl font-bold" id="totalTrades">
+          <div class="text-lg sm:text-3xl font-bold" id="totalTrades">
            0
           </div>
          </div>
         </div><!-- Equity Curve -->
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>   </span> <span data-i18n="equityCurve">Equity Curve</span></h3>
-         <div class="h-96">
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📈</span> <span data-i18n="equityCurve">Equity Curve</span></h3>
+         <div class="h-64 sm:h-96">
           <canvas id="dashboardEquityChart"></canvas>
          </div>
         </div><!-- Deine aktuelle Performance -->
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>🎯</span> <span data-i18n="currentPerformanceTitle">Deine aktuelle Performance</span></h3>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="currentPerformanceGrid"><!-- Dynamisch gefüllt -->
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>🎯</span> <span data-i18n="currentPerformanceTitle">Deine aktuelle Performance</span></h3>
+         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6" id="currentPerformanceGrid"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Neuer Trade Tab -->
        <div id="newtradeTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>➕</span> <span data-i18n="newTradeTitle">Neuen Trade hinzufügen</span></h2>
-         <form id="newTradeForm" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum *</label> <input type="date" id="tradeDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>➕</span> <span data-i18n="newTradeTitle">Neuen Trade hinzufügen</span></h2>
+         <form id="newTradeForm" class="space-y-4 sm:space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="date">Datum *</label> <input type="date" id="tradeDate" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="pleaseSelect">-- Bitte wählen --</option> <optgroup label="📊 Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💱 Crosses"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/CHF">EUR/CHF</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/NZD">EUR/NZD</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/CHF">GBP/CHF</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/NZD">GBP/NZD</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CHF">AUD/CHF</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/NZD">AUD/NZD</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CHF">NZD/CHF</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🌍 Exotics"> <option value="USD/TRY">USD/TRY</option> <option value="USD/ZAR">USD/ZAR</option> <option value="USD/MXN">USD/MXN</option> <option value="USD/SGD">USD/SGD</option> <option value="USD/HKD">USD/HKD</option> <option value="USD/NOK">USD/NOK</option> <option value="USD/SEK">USD/SEK</option> <option value="USD/DKK">USD/DKK</option> <option value="EUR/TRY">EUR/TRY</option> <option value="EUR/ZAR">EUR/ZAR</option> <option value="EUR/NOK">EUR/NOK</option> <option value="EUR/SEK">EUR/SEK</option> <option value="EUR/DKK">EUR/DKK</option> <option value="GBP/TRY">GBP/TRY</option> <option value="GBP/ZAR">GBP/ZAR</option> <option value="GBP/NOK">GBP/NOK</option> <option value="GBP/SEK">GBP/SEK</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Oil (Brent)">Oil (Brent)</option> <option value="Natural Gas">Natural Gas</option> </optgroup> <optgroup label="₿ Crypto"> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> <option value="Ripple">Ripple</option> <option value="Litecoin">Litecoin</option> </optgroup> </select>
-           </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
-           </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="profitLoss">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="0.00">
-           </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="position">Position</label> <select id="tradePosition" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="pleaseSelect">-- Bitte wählen --</option> <optgroup label="📊 Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💱 Crosses"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/CHF">EUR/CHF</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/NZD">EUR/NZD</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/CHF">GBP/CHF</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/NZD">GBP/NZD</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CHF">AUD/CHF</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/NZD">AUD/NZD</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CHF">NZD/CHF</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🌍 Exotics"> <option value="USD/TRY">USD/TRY</option> <option value="USD/ZAR">USD/ZAR</option> <option value="USD/MXN">USD/MXN</option> <option value="USD/SGD">USD/SGD</option> <option value="USD/HKD">USD/HKD</option> <option value="USD/NOK">USD/NOK</option> <option value="USD/SEK">USD/SEK</option> <option value="USD/DKK">USD/DKK</option> <option value="EUR/TRY">EUR/TRY</option> <option value="EUR/ZAR">EUR/ZAR</option> <option value="EUR/NOK">EUR/NOK</option> <option value="EUR/SEK">EUR/SEK</option> <option value="EUR/DKK">EUR/DKK</option> <option value="GBP/TRY">GBP/TRY</option> <option value="GBP/ZAR">GBP/ZAR</option> <option value="GBP/NOK">GBP/NOK</option> <option value="GBP/SEK">GBP/SEK</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Oil (Brent)">Oil (Brent)</option> <option value="Natural Gas">Natural Gas</option> </optgroup> <optgroup label="₿ Crypto"> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> <option value="Ripple">Ripple</option> <option value="Litecoin">Litecoin</option> </optgroup> </select>
            </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="entryPrice">Einstiegspreis (optional)</label> <input type="number" id="tradeEntryPrice" step="0.00001" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="entryPricePlaceholder" placeholder="z.B. 1.08500">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="exitPrice">Ausstiegspreis (optional)</label> <input type="number" id="tradeExitPrice" step="0.00001" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="exitPricePlaceholder" placeholder="z.B. 1.08750">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="profitLoss">Profit/Loss (€)</label> <input type="number" id="tradeProfitLoss" step="0.01" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="0.00">
            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="strategyPlaceholder" placeholder="z.B. Breakout">
-           </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="position">Position</label> <select id="tradePosition" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="notesPlaceholder" placeholder="Details zum Trade, Setup, Fehler, Learnings..."></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition transform hover:scale-105"> <span data-i18n="saveTrade">💾 Trade speichern</span> </button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="entryPrice">Einstiegspreis (optional)</label> <input type="number" id="tradeEntryPrice" step="0.00001" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="entryPricePlaceholder" placeholder="z.B. 1.08500">
+           </div>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="exitPrice">Ausstiegspreis (optional)</label> <input type="number" id="tradeExitPrice" step="0.00001" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="exitPricePlaceholder" placeholder="z.B. 1.08750">
+           </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="strategyPlaceholder" placeholder="z.B. Breakout">
+           </div>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+           </div>
+          </div>
+          <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="notesPlaceholder" placeholder="Details zum Trade, Setup, Fehler, Learnings..."></textarea>
+          </div><button type="submit" class="w-full py-4 sm:py-5 rounded-xl font-bold text-white text-base sm:text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition transform hover:scale-105"> <span data-i18n="saveTrade">💾 Trade speichern</span> </button>
          </form>
         </div>
        </div><!-- Historie Tab -->
        <div id="historyTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-6">
-         <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
-          <h2 class="text-3xl font-bold flex items-center gap-3"><span>  </span> <span data-i18n="tradeHistory">Trade Historie</span></h2>
-          <div class="flex gap-3 flex-wrap"><select id="filterAsset" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allAssets">Alle Assets</option> </select> <select id="filterResult" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allResults">Alle Ergebnisse</option> <option value="win">   Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6">
+         <div class="flex justify-between items-center mb-4 sm:mb-6 flex-wrap gap-3 sm:gap-4">
+          <h2 class="text-xl sm:text-3xl font-bold flex items-center gap-3"><span>📜</span> <span data-i18n="tradeHistory">Trade Historie</span></h2>
+          <div class="flex gap-2 sm:gap-3 flex-wrap w-full sm:w-auto"><select id="filterAsset" class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allAssets">Alle Assets</option> </select> <select id="filterResult" class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allResults">Alle Ergebnisse</option> <option value="win">✅ Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
           </div>
          </div>
          <div id="tradeHistoryList" class="space-y-4"></div>
         </div>
        </div><!-- Auszahlungen Tab -->
        <div id="withdrawalsTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💸</span> <span data-i18n="withdrawalTitle">Auszahlung erfassen</span></h2>
-         <form id="withdrawalForm" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="amountPlaceholder" placeholder="z.B. 5000" required>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>💸</span> <span data-i18n="withdrawalTitle">Auszahlung erfassen</span></h2>
+         <form id="withdrawalForm" class="space-y-4 sm:space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="withdrawalAmount" step="0.01" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="amountPlaceholder" placeholder="z.B. 5000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="withdrawalDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="withdrawalDate" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="withdrawalNotePlaceholder" placeholder="z.B. Gewinnausschüttung Q1"></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition transform hover:scale-105"> <span data-i18n="saveWithdrawal">💸 Auszahlung speichern</span> </button>
+          <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="withdrawalNote" rows="3" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="withdrawalNotePlaceholder" placeholder="z.B. Gewinnausschüttung Q1"></textarea>
+          </div><button type="submit" class="w-full py-4 sm:py-5 rounded-xl font-bold text-white text-base sm:text-lg bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 transition transform hover:scale-105"> <span data-i18n="saveWithdrawal">💸 Auszahlung speichern</span> </button>
          </form>
         </div>
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="withdrawalHistory">Auszahlungs-Historie</span></h3>
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="withdrawalHistory">Auszahlungs-Historie</span></h3>
          <div id="withdrawalsList" class="space-y-4"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Einzahlungen Tab -->
        <div id="depositsTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💵</span> <span data-i18n="depositTitle">Nachträgliche Einzahlung</span></h2>
-         <form id="depositForm" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositAmountPlaceholder" placeholder="z.B. 10000" required>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>💵</span> <span data-i18n="depositTitle">Nachträgliche Einzahlung</span></h2>
+         <form id="depositForm" class="space-y-4 sm:space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="amount">Betrag (€)</label> <input type="number" id="depositAmount" step="0.01" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositAmountPlaceholder" placeholder="z.B. 10000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="depositDate" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="depositDate" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl text-base sm:text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
            </div>
           </div>
-          <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositNotePlaceholder" placeholder="z.B. Kapitalerhöhung"></textarea>
-          </div><button type="submit" class="w-full py-5 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition transform hover:scale-105"> <span data-i18n="saveDeposit">💵 Einzahlung speichern</span> </button>
+          <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="noteOptional">Notiz (optional)</label> <textarea id="depositNote" rows="3" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="depositNotePlaceholder" placeholder="z.B. Kapitalerhöhung"></textarea>
+          </div><button type="submit" class="w-full py-4 sm:py-5 rounded-xl font-bold text-white text-base sm:text-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 transition transform hover:scale-105"> <span data-i18n="saveDeposit">💵 Einzahlung speichern</span> </button>
          </form>
         </div>
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="depositHistory">Einzahlungs-Historie</span></h3>
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📜</span> <span data-i18n="depositHistory">Einzahlungs-Historie</span></h3>
          <div id="depositsList" class="space-y-4"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Performance Tab -->
        <div id="performanceTab" class="tab-content hidden"><!-- Statistiken -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            🏆
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="bestTrade">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="bestTrade">
            Bester Trade
           </div>
-          <div class="text-2xl font-bold text-green-400" id="perfBestTrade">
+          <div class="text-base sm:text-2xl font-bold text-green-400" id="perfBestTrade">
            €0.00
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            💔
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="worstTrade">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="worstTrade">
            Schlechtester Trade
           </div>
-          <div class="text-2xl font-bold text-red-400" id="perfWorstTrade">
+          <div class="text-base sm:text-2xl font-bold text-red-400" id="perfWorstTrade">
            €0.00
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            🔥
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="winStreak">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="winStreak">
            Win Streak
           </div>
-          <div class="text-2xl font-bold text-green-400" id="perfWinStreak">
+          <div class="text-base sm:text-2xl font-bold text-green-400" id="perfWinStreak">
            0
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
-              ️
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
+           ❄️
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="lossStreak">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="lossStreak">
            Loss Streak
           </div>
-          <div class="text-2xl font-bold text-red-400" id="perfLossStreak">
+          <div class="text-base sm:text-2xl font-bold text-red-400" id="perfLossStreak">
            0
           </div>
          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            📈
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="avgWin">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="avgWin">
            Ø Gewinn
           </div>
-          <div class="text-2xl font-bold text-green-400" id="perfAvgWin">
+          <div class="text-base sm:text-2xl font-bold text-green-400" id="perfAvgWin">
            €0.00
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-6 text-center">
-          <div class="text-4xl mb-3">
+         <div class="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
+          <div class="text-2xl sm:text-4xl mb-2 sm:mb-3">
            📉
           </div>
-          <div class="text-sm text-gray-400 mb-2" data-i18n="avgLoss">
+          <div class="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2" data-i18n="avgLoss">
            Ø Verlust
           </div>
-          <div class="text-2xl font-bold text-red-400" id="perfAvgLoss">
+          <div class="text-base sm:text-2xl font-bold text-red-400" id="perfAvgLoss">
            €0.00
           </div>
          </div>
         </div><!-- Charts -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4" data-i18n="streakChart">📊 Gewinn/Verlust Strähnen</h3>
-          <div class="h-64">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="streakChart">📊 Gewinn/Verlust Strähnen</h3>
+          <div class="h-48 sm:h-64">
            <canvas id="streakChart"></canvas>
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4" data-i18n="distributionChart">🎯 Gewinn/Verlust Verteilung</h3>
-          <div class="h-64">
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="distributionChart">🎯 Gewinn/Verlust Verteilung</h3>
+          <div class="h-48 sm:h-64">
            <canvas id="distributionChart"></canvas>
           </div>
          </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4" data-i18n="strategyChart">🎲 Performance nach Strategie</h3>
-          <div class="h-64">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="strategyChart">🎲 Performance nach Strategie</h3>
+          <div class="h-48 sm:h-64">
            <canvas id="strategyChart"></canvas>
           </div>
          </div>
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-xl font-bold mb-4" data-i18n="monthlyChart">📅 Monatliche Performance</h3>
-          <div class="h-64">
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="monthlyChart">📅 Monatliche Performance</h3>
+          <div class="h-48 sm:h-64">
            <canvas id="monthlyChart"></canvas>
           </div>
          </div>
         </div>
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h3 class="text-xl font-bold mb-4" data-i18n="assetChart">💱 Performance nach Asset</h3>
-         <div class="h-96">
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="assetChart">💱 Performance nach Asset</h3>
+         <div class="h-64 sm:h-96">
           <canvas id="assetChart"></canvas>
          </div>
         </div>
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-xl font-bold mb-4" data-i18n="currentPerfChart">🎯 Deine aktuelle Performance</h3>
-         <div class="h-96">
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="currentPerfChart">🎯 Deine aktuelle Performance</h3>
+         <div class="h-64 sm:h-96">
           <canvas id="currentPerfChart"></canvas>
          </div>
         </div>
        </div><!-- Emotionen Tab -->
        <div id="emotionsTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>😊</span> <span data-i18n="emotionAnalysis">Emotions-Analyse</span></h2>
-         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="h-64">
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>😊</span> <span data-i18n="emotionAnalysis">Emotions-Analyse</span></h2>
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="h-48 sm:h-64">
            <canvas id="emotionChart"></canvas>
           </div>
-          <div id="emotionStats" class="space-y-4"><!-- Dynamisch gefüllt -->
+          <div id="emotionStats" class="space-y-3 sm:space-y-4"><!-- Dynamisch gefüllt -->
           </div>
          </div>
         </div>
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-xl font-bold mb-4" data-i18n="emotionPerformance">📊 Performance pro Emotion</h3>
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-base sm:text-xl font-bold mb-4" data-i18n="emotionPerformance">📊 Performance pro Emotion</h3>
          <div id="emotionPerformanceList" class="space-y-3"><!-- Dynamisch gefüllt -->
          </div>
         </div>
        </div><!-- Zinseszins Tab -->
        <div id="compoundTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><span>💰</span> <span data-i18n="compoundCalculator">Zinseszins-Rechner</span></h2>
-         <form id="compoundForm" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="targetAmount">Ziel Summe (€)</label> <input type="number" id="compoundTarget" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="100000" required>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <h2 class="text-xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>💰</span> <span data-i18n="compoundCalculator">Zinseszins-Rechner</span></h2>
+         <form id="compoundForm" class="space-y-4 sm:space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="targetAmount">Ziel Summe (€)</label> <input type="number" id="compoundTarget" step="0.01" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="100000" required>
            </div>
-           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="monthlyReturn">Monatliche Rendite (%)</label> <input type="number" id="compoundRate" step="0.01" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="5" required>
+           <div><label class="block text-sm font-bold mb-2 sm:mb-3 text-purple-300" data-i18n="monthlyReturn">Monatliche Rendite (%)</label> <input type="number" id="compoundRate" step="0.01" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="5" required>
            </div>
-           <div class="flex items-end"><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
+           <div class="flex items-end"><button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            </div>
           </div>
          </form>
-         <div id="compoundResults" class="mt-8 hidden">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-           <div class="bg-slate-800 rounded-xl p-6 text-center">
-            <div class="text-sm text-gray-400 mb-2">
+         <div id="compoundResults" class="mt-6 sm:mt-8 hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+           <div class="bg-slate-800 rounded-xl p-4 sm:p-6 text-center">
+            <div class="text-xs sm:text-sm text-gray-400 mb-2">
              🎯 <span data-i18n="requiredMonthsTarget">Benötigte Monate (Ziel)</span>
             </div>
-            <div class="text-3xl font-bold text-purple-400" id="compoundMonths">
+            <div class="text-2xl sm:text-3xl font-bold text-purple-400" id="compoundMonths">
              0
             </div>
             <div class="text-xs text-gray-500 mt-2" data-i18n="withDesiredReturn">
              Mit gewünschter Rendite
             </div>
            </div>
-           <div class="bg-slate-800 rounded-xl p-6 text-center">
-            <div class="text-sm text-gray-400 mb-2">
+           <div class="bg-slate-800 rounded-xl p-4 sm:p-6 text-center">
+            <div class="text-xs sm:text-sm text-gray-400 mb-2">
              📊 <span data-i18n="withCurrentPerformance">Mit aktueller Performance</span>
             </div>
-            <div class="text-3xl font-bold text-blue-400" id="compoundCurrentMonths">
+            <div class="text-2xl sm:text-3xl font-bold text-blue-400" id="compoundCurrentMonths">
              0
             </div>
             <div class="text-xs text-gray-500 mt-2" data-i18n="basedOnTrades">
@@ -601,71 +631,71 @@
             </div>
            </div>
           </div><!-- Status Indicator -->
-          <div id="compoundStatus" class="rounded-2xl p-8 mb-6 text-center">
-           <div class="text-6xl mb-4" id="compoundStatusIcon">
+          <div id="compoundStatus" class="rounded-2xl p-6 sm:p-8 mb-4 sm:mb-6 text-center">
+           <div class="text-4xl sm:text-6xl mb-3 sm:mb-4" id="compoundStatusIcon">
             🎯
            </div>
-           <div class="text-3xl font-bold mb-3" id="compoundStatusText">
+           <div class="text-xl sm:text-3xl font-bold mb-2 sm:mb-3" id="compoundStatusText">
             Berechne...
            </div>
-           <div class="text-lg text-gray-300" id="compoundStatusDetail"></div>
-           <div class="mt-4 text-sm text-gray-400" id="compoundStatusExtra"></div>
+           <div class="text-base sm:text-lg text-gray-300" id="compoundStatusDetail"></div>
+           <div class="mt-3 sm:mt-4 text-sm text-gray-400" id="compoundStatusExtra"></div>
           </div><!-- Vergleichsdiagramm -->
-          <div class="mb-6">
-           <h4 class="text-xl font-bold mb-4 text-center">📊 Geplant vs. Deine aktuelle Performance</h4>
-           <div class="h-96">
+          <div class="mb-4 sm:mb-6">
+           <h4 class="text-base sm:text-xl font-bold mb-4 text-center">📊 Geplant vs. Deine aktuelle Performance</h4>
+           <div class="h-64 sm:h-96">
             <canvas id="compoundComparisonChart"></canvas>
            </div>
           </div>
-          <div class="h-96">
+          <div class="h-64 sm:h-96">
            <canvas id="compoundChart"></canvas>
           </div>
          </div>
         </div>
        </div><!-- Kalender Tab -->
        <div id="calendarTab" class="tab-content hidden">
-        <div class="glass-card rounded-2xl p-8 mb-8">
-         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📅</span> <span id="calendarMonth" data-i18n="calendar">Kalender</span></h2>
-          <div class="flex gap-2"><button id="prevMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">◀</button> <button id="todayBtn" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition" data-i18n="today">Heute</button> <button id="nextMonth" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition">▶</button>
+        <div class="glass-card rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8">
+         <div class="flex justify-between items-center mb-4 sm:mb-6 flex-wrap gap-3">
+          <h2 class="text-xl sm:text-3xl font-bold flex items-center gap-3"><span>📅</span> <span id="calendarMonth" data-i18n="calendar">Kalender</span></h2>
+          <div class="flex gap-2"><button id="prevMonth" class="px-3 sm:px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition text-sm sm:text-base">◀</button> <button id="todayBtn" class="px-3 sm:px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition text-sm sm:text-base" data-i18n="today">Heute</button> <button id="nextMonth" class="px-3 sm:px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition text-sm sm:text-base">▶</button>
           </div>
          </div>
-         <div class="grid grid-cols-7 gap-2 mb-4">
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="mon">
+         <div class="grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="mon">
            Mo
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="tue">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="tue">
            Di
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="wed">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="wed">
            Mi
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="thu">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="thu">
            Do
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="fri">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="fri">
            Fr
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="sat">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="sat">
            Sa
           </div>
-          <div class="text-center font-bold text-gray-400 py-2" data-i18n="sun">
+          <div class="text-center font-bold text-gray-400 py-1 sm:py-2 text-xs sm:text-sm" data-i18n="sun">
            So
           </div>
          </div>
-         <div id="calendarGrid" class="grid grid-cols-7 gap-2"><!-- Dynamisch gefüllt -->
+         <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2"><!-- Dynamisch gefüllt -->
          </div>
         </div>
-        <div class="glass-card rounded-2xl p-8">
-         <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📝</span> <span data-i18n="addEvent">Termin hinzufügen</span></h3>
-         <form id="eventForm" class="space-y-4"><input type="date" id="eventDate" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required> <input type="text" id="eventTitle" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventTitlePlaceholder" placeholder="Termin Titel" required> <textarea id="eventDescription" rows="3" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventDescriptionPlaceholder" placeholder="Beschreibung (optional)"></textarea> <button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="saveEvent">📅 Termin speichern</span> </button>
+        <div class="glass-card rounded-2xl p-4 sm:p-8">
+         <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📝</span> <span data-i18n="addEvent">Termin hinzufügen</span></h3>
+         <form id="eventForm" class="space-y-4"><input type="date" id="eventDate" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required> <input type="text" id="eventTitle" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventTitlePlaceholder" placeholder="Termin Titel" required> <textarea id="eventDescription" rows="3" class="w-full px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="eventDescriptionPlaceholder" placeholder="Beschreibung (optional)"></textarea> <button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="saveEvent">📅 Termin speichern</span> </button>
          </form>
         </div>
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Positionsgrö  en-Rechner -->
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📐</span> <span data-i18n="positionSizeCalculator">Positionsgrößen-Rechner</span></h3>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6"><!-- Positionsgrößen-Rechner -->
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📐</span> <span data-i18n="positionSizeCalculator">Positionsgrößen-Rechner</span></h3>
           <form id="positionSizeForm" class="space-y-4">
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="accountBalance">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
            </div>
@@ -674,12 +704,12 @@
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="stopLoss">Stop Loss (Pips)</label> <input type="number" id="psStopLoss" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
            </div>
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="pipValue">Pip-Wert (€)</label> <input type="number" id="psPipValue" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="10">
-           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
+           </div><button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            <div id="positionSizeResult" class="mt-6 p-6 bg-slate-800 rounded-xl hidden">
             <div class="text-sm text-gray-400 mb-2" data-i18n="recommendedPosition">
              Empfohlene Positionsgröße
             </div>
-            <div class="text-3xl font-bold text-purple-400" id="positionSizeValue">
+            <div class="text-2xl sm:text-3xl font-bold text-purple-400" id="positionSizeValue">
              0
             </div>
             <div class="text-sm text-gray-400 mt-2">
@@ -688,8 +718,8 @@
            </div>
           </form>
          </div><!-- Pip-Rechner -->
-         <div class="glass-card rounded-2xl p-8">
-          <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📊</span> <span data-i18n="pipCalculator">Pip-Rechner</span></h3>
+         <div class="glass-card rounded-2xl p-4 sm:p-8">
+          <h3 class="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3"><span>📊</span> <span data-i18n="pipCalculator">Pip-Rechner</span></h3>
           <form id="pipCalculatorForm" class="space-y-4">
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="currencyPair">Währungspaar</label> <select id="pipPair" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> </select>
            </div>
@@ -698,18 +728,18 @@
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="numberOfPips">Anzahl Pips</label> <input type="number" id="pipAmount" step="0.1" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="50">
            </div>
            <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="convertTo">Konvertierung nach</label> <select id="pipCurrency" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="EUR">EUR</option> <option value="USD">USD</option> <option value="GBP">GBP</option> </select>
-           </div><button type="submit" class="w-full py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
+           </div><button type="submit" class="w-full py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
            <div id="pipResult" class="mt-6 p-6 bg-slate-800 rounded-xl hidden">
             <div class="text-sm text-gray-400 mb-2" data-i18n="pipValue">
              Pip-Wert
             </div>
-            <div class="text-3xl font-bold text-purple-400" id="pipValue">
+            <div class="text-2xl sm:text-3xl font-bold text-purple-400" id="pipValue">
              €0.00
             </div>
             <div class="text-sm text-gray-400 mt-4 mb-2" data-i18n="totalValue">
              Gesamtwert
             </div>
-            <div class="text-2xl font-bold text-blue-400" id="pipTotal">
+            <div class="text-xl sm:text-2xl font-bold text-blue-400" id="pipTotal">
              €0.00
             </div>
            </div>
@@ -722,9 +752,9 @@
     </div>
    </div>
   </div><!-- Edit Trade Modal -->
-  <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay">
-   <div class="glass-card rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90%] overflow-y-auto">
-    <h3 class="text-2xl font-bold mb-6" data-i18n="editTrade">Trade bearbeiten</h3>
+  <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay p-4">
+   <div class="glass-card rounded-2xl p-4 sm:p-8 max-w-2xl w-full mx-4 max-h-[90%] overflow-y-auto">
+    <h3 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" data-i18n="editTrade">Trade bearbeiten</h3>
     <form id="editTradeForm" class="space-y-4"><input type="hidden" id="editTradeId">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="date">Datum</label> <input type="date" id="editDate" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" required>
@@ -732,7 +762,7 @@
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="asset">Asset</label> <select id="editAsset" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="pleaseSelect">-- Bitte wählen --</option> <optgroup label="📊 Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="💱 Crosses"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/CHF">EUR/CHF</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/NZD">EUR/NZD</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/CHF">GBP/CHF</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/NZD">GBP/NZD</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CHF">AUD/CHF</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/NZD">AUD/NZD</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CHF">NZD/CHF</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🌍 Exotics"> <option value="USD/TRY">USD/TRY</option> <option value="USD/ZAR">USD/ZAR</option> <option value="USD/MXN">USD/MXN</option> <option value="USD/SGD">USD/SGD</option> <option value="USD/HKD">USD/HKD</option> <option value="USD/NOK">USD/NOK</option> <option value="USD/SEK">USD/SEK</option> <option value="USD/DKK">USD/DKK</option> <option value="EUR/TRY">EUR/TRY</option> <option value="EUR/ZAR">EUR/ZAR</option> <option value="EUR/NOK">EUR/NOK</option> <option value="EUR/SEK">EUR/SEK</option> <option value="EUR/DKK">EUR/DKK</option> <option value="GBP/TRY">GBP/TRY</option> <option value="GBP/ZAR">GBP/ZAR</option> <option value="GBP/NOK">GBP/NOK</option> <option value="GBP/SEK">GBP/SEK</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="Gold (XAU/USD)">Gold (XAU/USD)</option> <option value="Silver (XAG/USD)">Silver (XAG/USD)</option> <option value="Oil (WTI)">Oil (WTI)</option> <option value="Oil (Brent)">Oil (Brent)</option> <option value="Natural Gas">Natural Gas</option> </optgroup> <optgroup label="₿ Crypto"> <option value="Bitcoin">Bitcoin</option> <option value="Ethereum">Ethereum</option> <option value="Ripple">Ripple</option> <option value="Litecoin">Litecoin</option> </optgroup> </select>
       </div>
      </div>
-     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="result">Ergebnis</label> <select id="editResult" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
       </div>
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="profitLoss">P/L (€)</label> <input type="number" id="editProfitLoss" step="0.01" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
@@ -749,12 +779,12 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="    Neutral">😐 Neutral</option> <option value="     Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="   FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
       </div>
      </div>
      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"></textarea>
      </div>
-     <div class="flex gap-4"><button type="submit" class="flex-1 py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="save">💾 Speichern</span> </button> <button type="button" id="cancelEdit" class="flex-1 py-4 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition"> <span data-i18n="cancel">❌ Abbrechen</span> </button>
+     <div class="flex gap-3 sm:gap-4 flex-col sm:flex-row"><button type="submit" class="flex-1 py-3 sm:py-4 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="save">💾 Speichern</span> </button> <button type="button" id="cancelEdit" class="flex-1 py-3 sm:py-4 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition"> <span data-i18n="cancel">❌ Abbrechen</span> </button>
      </div>
     </form>
    </div>
@@ -788,6 +818,28 @@
         
         const charts = {};
 
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('sidebar-open');
+            mobileMenuOverlay.classList.toggle('hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when nav button is clicked
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', () => {
+                if (window.innerWidth < 1024) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
         // Translations
         const translations = {
             de: {
@@ -800,7 +852,7 @@
                 loginButton: "🔐 Anmelden",
                 registerButton: "✨ Konto erstellen",
                 showRegister: "Noch kein Konto? Jetzt registrieren →",
-                showLogin: "   Bereits registriert? Jetzt anmelden",
+                showLogin: "← Bereits registriert? Jetzt anmelden",
                 registerTitle: "Registrierung",
                 registerSubtitle: "Erstelle dein Trading Journal",
                 appTitle: "Trading Journal Pro",
@@ -842,7 +894,7 @@
                 none: "-- Keine --",
                 notes: "Notizen",
                 notesPlaceholder: "Details zum Trade, Setup, Fehler, Learnings...",
-                saveTrade: "    Trade speichern",
+                saveTrade: "💾 Trade speichern",
                 tradeHistory: "Trade Historie",
                 allAssets: "Alle Assets",
                 allResults: "Alle Ergebnisse",
@@ -867,7 +919,7 @@
                 avgWin: "Ø Gewinn",
                 avgLoss: "Ø Verlust",
                 streakChart: "📊 Gewinn/Verlust Strähnen",
-                distributionChart: "   Gewinn/Verlust Verteilung",
+                distributionChart: "🎯 Gewinn/Verlust Verteilung",
                 strategyChart: "🎲 Performance nach Strategie",
                 monthlyChart: "📅 Monatliche Performance",
                 assetChart: "💱 Performance nach Asset",
@@ -903,7 +955,7 @@
                 eventTitlePlaceholder: "Termin Titel",
                 eventDescriptionPlaceholder: "Beschreibung (optional)",
                 saveEvent: "📅 Termin speichern",
-                positionSizeCalculator: "Positionsgr  ßen-Rechner",
+                positionSizeCalculator: "Positionsgrößen-Rechner",
                 accountBalance: "Kontostand (€)",
                 riskPerTrade: "Risiko pro Trade (%)",
                 stopLoss: "Stop Loss (Pips)",
@@ -916,7 +968,7 @@
                 convertTo: "Konvertierung nach",
                 totalValue: "Gesamtwert",
                 editTrade: "Trade bearbeiten",
-                cancel: "    Abbrechen",
+                cancel: "❌ Abbrechen",
                 entryPrice: "Einstiegspreis (optional)",
                 exitPrice: "Ausstiegspreis (optional)",
                 entryPricePlaceholder: "z.B. 1.08500",
@@ -1056,7 +1108,7 @@
             },
             es: {
                 loginTitle: "Trading Journal Pro",
-                loginSubtitle: "Gesti  n Profesional de Trading",
+                loginSubtitle: "Gestión Profesional de Trading",
                 emailLabel: "Correo Electrónico",
                 emailPlaceholder: "tu@email.com",
                 passwordLabel: "Contraseña",
@@ -1082,7 +1134,7 @@
                 navCalculator: "Calculadora",
                 startCapitalTitle: "Establecer Capital Inicial",
                 startCapitalPlaceholder: "ej. 10000",
-                save: "     Guardar",
+                save: "💾 Guardar",
                 startCapital: "Capital Inicial",
                 currentCapital: "Capital Actual",
                 totalPL: "P/L Total",
@@ -1151,7 +1203,7 @@
                 onTrack: "¡Perfectamente en camino!",
                 monthsFaster: "meses más rápido",
                 monthsSlower: "meses más",
-                keepGoing: "  Sigue así! Tu rendimiento supera el objetivo.",
+                keepGoing: "¡Sigue así! Tu rendimiento supera el objetivo.",
                 needImprovement: "Necesitas optimizar tu estrategia.",
                 exactlyOnTarget: "¡Tu rendimiento coincide exactamente con el objetivo!",
                 calendar: "Calendario",
@@ -1211,12 +1263,14 @@
                 document.body.classList.add('light-mode');
                 document.getElementById('themeIconLogin').textContent = '☀️';
                 document.getElementById('themeIconRegister').textContent = '☀️';
-                document.getElementById('themeIconMain').textContent = '☀   ';
+                document.getElementById('themeIconMain').textContent = '☀️';
+                document.getElementById('themeIconMobile').textContent = '☀️';
             } else {
                 document.body.classList.remove('light-mode');
                 document.getElementById('themeIconLogin').textContent = '🌙';
                 document.getElementById('themeIconRegister').textContent = '🌙';
                 document.getElementById('themeIconMain').textContent = '🌙';
+                document.getElementById('themeIconMobile').textContent = '🌙';
             }
             localStorage.setItem('tradingJournalTheme', currentTheme);
         }
@@ -1250,6 +1304,11 @@
             updateTheme();
         });
 
+        document.getElementById('themeToggleMobile').addEventListener('click', () => {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            updateTheme();
+        });
+
         // Initialize theme and language
         updateTheme();
         updateLanguage();
@@ -1257,14 +1316,14 @@
 
         function showToast(message) {
             const toast = document.createElement('div');
-            toast.style.cssText = 'position:fixed;bottom:32px;right:32px;background:rgba(0,0,0,0.9);color:white;padding:16px 24px;border-radius:12px;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.5);';
+            toast.style.cssText = 'position:fixed;bottom:32px;right:32px;background:rgba(0,0,0,0.9);color:white;padding:16px 24px;border-radius:12px;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.5);max-width:90vw;';
             toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
 
         function formatCurrency(value) {
-            return '   ' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return '€' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
         function formatDate(dateStr) {
@@ -1334,7 +1393,7 @@
             document.getElementById('headerCapital').textContent = formatCurrency(currentCapital);
             document.getElementById('currentCapital').textContent = formatCurrency(currentCapital);
             document.getElementById('totalPL').textContent = formatCurrency(totalPL);
-            document.getElementById('totalPL').className = totalPL >= 0 ? 'text-3xl font-bold text-green-400' : 'text-3xl font-bold text-red-400';
+            document.getElementById('totalPL').className = totalPL >= 0 ? 'text-lg sm:text-3xl font-bold text-green-400' : 'text-lg sm:text-3xl font-bold text-red-400';
             document.getElementById('totalTrades').textContent = trades.length;
 
             // Winrate aus der Historie berechnen (alle Trades einrechnen)
@@ -1408,21 +1467,21 @@
                 const avg = profitLosses.length > 0 ? profitLosses.reduce((a, b) => a + b, 0) / profitLosses.length : 0;
 
                 perfGrid.innerHTML = `
-                    <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">${t('bestTrade')}</div>
-                        <div class="text-2xl font-bold text-green-400">${formatCurrency(best)}</div>
+                    <div class="bg-slate-800 rounded-xl p-4 sm:p-6">
+                        <div class="text-xs sm:text-sm text-gray-400 mb-2">${t('bestTrade')}</div>
+                        <div class="text-lg sm:text-2xl font-bold text-green-400">${formatCurrency(best)}</div>
                     </div>
-                    <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">${t('worstTrade')}</div>
-                        <div class="text-2xl font-bold text-red-400">${formatCurrency(worst)}</div>
+                    <div class="bg-slate-800 rounded-xl p-4 sm:p-6">
+                        <div class="text-xs sm:text-sm text-gray-400 mb-2">${t('worstTrade')}</div>
+                        <div class="text-lg sm:text-2xl font-bold text-red-400">${formatCurrency(worst)}</div>
                     </div>
-                    <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">Ø Trade</div>
-                        <div class="text-2xl font-bold ${avg >= 0 ? 'text-green-400' : 'text-red-400'}">${formatCurrency(avg)}</div>
+                    <div class="bg-slate-800 rounded-xl p-4 sm:p-6">
+                        <div class="text-xs sm:text-sm text-gray-400 mb-2">Ø Trade</div>
+                        <div class="text-lg sm:text-2xl font-bold ${avg >= 0 ? 'text-green-400' : 'text-red-400'}">${formatCurrency(avg)}</div>
                     </div>
-                    <div class="bg-slate-800 rounded-xl p-6">
-                        <div class="text-sm text-gray-400 mb-2">Total ${t('trades')}</div>
-                        <div class="text-2xl font-bold text-purple-400">${trades.length}</div>
+                    <div class="bg-slate-800 rounded-xl p-4 sm:p-6">
+                        <div class="text-xs sm:text-sm text-gray-400 mb-2">Total ${t('trades')}</div>
+                        <div class="text-lg sm:text-2xl font-bold text-purple-400">${trades.length}</div>
                     </div>
                 `;
             }
@@ -1466,9 +1525,9 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-20">
-                        <div class="text-6xl mb-4">📜</div>
-                        <p class="text-gray-400 text-lg">Keine Trades gefunden</p>
+                    <div class="text-center py-12 sm:py-20">
+                        <div class="text-4xl sm:text-6xl mb-4">📜</div>
+                        <p class="text-gray-400 text-base sm:text-lg">Keine Trades gefunden</p>
                     </div>
                 `;
                 return;
@@ -1482,28 +1541,28 @@
                 const positionBadge = trade.position === 'Long' ? 'bg-blue-500' : 'bg-orange-500';
 
                 html += `
-                    <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition">
+                    <div class="glass-card rounded-xl p-4 sm:p-6 hover:scale-[1.02] transition">
                         <div class="flex justify-between items-start mb-3 flex-wrap gap-3">
                             <div>
-                                <div class="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span class="text-2xl font-bold">${trade.asset || 'N/A'}</span>
-                                    <span class="text-xs font-bold px-3 py-1 rounded-full ${resultBadge}">${trade.result?.toUpperCase() || 'N/A'}</span>
-                                    <span class="text-xs font-bold px-3 py-1 rounded-full ${positionBadge}">${trade.position || 'N/A'}</span>
+                                <div class="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                                    <span class="text-lg sm:text-2xl font-bold">${trade.asset || 'N/A'}</span>
+                                    <span class="text-xs font-bold px-2 sm:px-3 py-1 rounded-full ${resultBadge}">${trade.result?.toUpperCase() || 'N/A'}</span>
+                                    <span class="text-xs font-bold px-2 sm:px-3 py-1 rounded-full ${positionBadge}">${trade.position || 'N/A'}</span>
                                     ${trade.emotion ? `<span class="emotion-badge bg-purple-500">${trade.emotion}</span>` : ''}
                                 </div>
-                                <div class="text-sm text-gray-400">${formatDate(trade.date)}</div>
-                                ${trade.strategy ? `<div class="text-sm text-gray-300 mt-1">📊 ${trade.strategy}</div>` : ''}
+                                <div class="text-xs sm:text-sm text-gray-400">${formatDate(trade.date)}</div>
+                                ${trade.strategy ? `<div class="text-xs sm:text-sm text-gray-300 mt-1">📊 ${trade.strategy}</div>` : ''}
                             </div>
-                            <div class="text-3xl font-bold ${plColor}">
+                            <div class="text-xl sm:text-3xl font-bold ${plColor}">
                                 ${formatCurrency(plValue)}
                             </div>
                         </div>
-                        ${trade.notes ? `<div class="text-sm text-gray-300 mt-3 p-3 bg-slate-800 rounded-lg">${trade.notes}</div>` : ''}
-                        <div class="flex gap-3 mt-4">
-                            <button onclick="editTrade('${trade.id}')" class="flex-1 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-bold transition">
+                        ${trade.notes ? `<div class="text-xs sm:text-sm text-gray-300 mt-3 p-3 bg-slate-800 rounded-lg">${trade.notes}</div>` : ''}
+                        <div class="flex gap-2 sm:gap-3 mt-4 flex-col sm:flex-row">
+                            <button onclick="editTrade('${trade.id}')" class="flex-1 bg-blue-500 hover:bg-blue-600 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition">
                                 ✏️ ${t('editTrade')}
                             </button>
-                            <button onclick="deleteTrade('${trade.id}')" class="flex-1 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">
+                            <button onclick="deleteTrade('${trade.id}')" class="flex-1 bg-red-500 hover:bg-red-600 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition">
                                 🗑️ Löschen
                             </button>
                         </div>
@@ -1523,27 +1582,27 @@
             if (withdrawalsList) {
                 if (withdrawals.length === 0) {
                     withdrawalsList.innerHTML = `
-                        <div class="text-center py-20">
-                            <div class="text-6xl mb-4">💸</div>
-                            <p class="text-gray-400 text-lg">Noch keine Auszahlungen</p>
+                        <div class="text-center py-12 sm:py-20">
+                            <div class="text-4xl sm:text-6xl mb-4">💸</div>
+                            <p class="text-gray-400 text-base sm:text-lg">Noch keine Auszahlungen</p>
                         </div>
                     `;
                 } else {
                     let html = '';
                     withdrawals.forEach(withdrawal => {
                         html += `
-                            <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition">
+                            <div class="glass-card rounded-xl p-4 sm:p-6 hover:scale-[1.02] transition">
                                 <div class="flex justify-between items-center flex-wrap gap-3">
                                     <div>
-                                        <div class="text-sm text-gray-400">${formatDate(withdrawal.date)}</div>
-                                        ${withdrawal.note ? `<div class="text-sm text-gray-300 mt-2">${withdrawal.note}</div>` : ''}
+                                        <div class="text-xs sm:text-sm text-gray-400">${formatDate(withdrawal.date)}</div>
+                                        ${withdrawal.note ? `<div class="text-xs sm:text-sm text-gray-300 mt-2">${withdrawal.note}</div>` : ''}
                                     </div>
-                                    <div class="text-3xl font-bold text-red-400">
+                                    <div class="text-xl sm:text-3xl font-bold text-red-400">
                                         -${formatCurrency(withdrawal.amount)}
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button onclick="deleteTransaction('${withdrawal.id}')" class="w-full bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">
+                                    <button onclick="deleteTransaction('${withdrawal.id}')" class="w-full bg-red-500 hover:bg-red-600 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition">
                                         🗑️ Löschen
                                     </button>
                                 </div>
@@ -1559,27 +1618,27 @@
             if (depositsList) {
                 if (deposits.length === 0) {
                     depositsList.innerHTML = `
-                        <div class="text-center py-20">
-                            <div class="text-6xl mb-4">💵</div>
-                            <p class="text-gray-400 text-lg">Noch keine Einzahlungen</p>
+                        <div class="text-center py-12 sm:py-20">
+                            <div class="text-4xl sm:text-6xl mb-4">💵</div>
+                            <p class="text-gray-400 text-base sm:text-lg">Noch keine Einzahlungen</p>
                         </div>
                     `;
                 } else {
                     let html = '';
                     deposits.forEach(deposit => {
                         html += `
-                            <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition">
+                            <div class="glass-card rounded-xl p-4 sm:p-6 hover:scale-[1.02] transition">
                                 <div class="flex justify-between items-center flex-wrap gap-3">
                                     <div>
-                                        <div class="text-sm text-gray-400">${formatDate(deposit.date)}</div>
-                                        ${deposit.note ? `<div class="text-sm text-gray-300 mt-2">${deposit.note}</div>` : ''}
+                                        <div class="text-xs sm:text-sm text-gray-400">${formatDate(deposit.date)}</div>
+                                        ${deposit.note ? `<div class="text-xs sm:text-sm text-gray-300 mt-2">${deposit.note}</div>` : ''}
                                     </div>
-                                    <div class="text-3xl font-bold text-green-400">
+                                    <div class="text-xl sm:text-3xl font-bold text-green-400">
                                         +${formatCurrency(deposit.amount)}
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button onclick="deleteTransaction('${deposit.id}')" class="w-full bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-bold transition">
+                                    <button onclick="deleteTransaction('${deposit.id}')" class="w-full bg-red-500 hover:bg-red-600 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition">
                                         🗑️ Löschen
                                     </button>
                                 </div>
@@ -1638,7 +1697,7 @@
                 // Break-even ignorieren für Streaks
             });
             
-            // Letzten Streak hinzuf  gen
+            // Letzten Streak hinzufügen
             if (currentStreak !== 0) {
                 streaks.push(currentStreak);
             }
@@ -1673,10 +1732,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff', font: { size: window.innerWidth < 640 ? 10 : 12 } } } },
                         scales: {
-                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', font: { size: window.innerWidth < 640 ? 9 : 11 } }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', font: { size: window.innerWidth < 640 ? 9 : 11 } }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1702,7 +1761,7 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } }
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff', font: { size: window.innerWidth < 640 ? 10 : 12 } } } }
                     }
                 });
             }
@@ -1734,10 +1793,10 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff', font: { size: window.innerWidth < 640 ? 10 : 12 } } } },
                         scales: {
-                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '   ' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', font: { size: window.innerWidth < 640 ? 9 : 11 } }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0), font: { size: window.innerWidth < 640 ? 9 : 11 } }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1771,853 +1830,9 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
+                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff', font: { size: window.innerWidth < 640 ? 10 : 12 } } } },
                         scales: {
-                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
-                        }
-                    }
-                });
-            }
-
-            // Asset Chart - Berechnung aus der Historie
-            if (charts.asset) charts.asset.destroy();
-            const assetCanvas = document.getElementById('assetChart');
-            if (assetCanvas) {
-                const assetPerf = {};
-                trades.forEach(t => {
-                    const asset = t.asset || 'Unbekannt';
-                    if (!assetPerf[asset]) assetPerf[asset] = 0;
-                    assetPerf[asset] += (t.profitLoss || 0);
-                });
-
-                const assetLabels = Object.keys(assetPerf);
-                const assetData = Object.values(assetPerf);
-
-                charts.asset = new Chart(assetCanvas.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: assetLabels,
-                        datasets: [{
-                            label: 'P/L Asset',
-                            data: assetData,
-                            backgroundColor: assetData.map(v => v >= 0 ? 'rgba(99, 102, 241, 0.8)' : 'rgba(239, 68, 68, 0.8)')
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
-                        scales: {
-                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
-                        }
-                    }
-                });
-            }
-
-            // Current Performance Chart - Berechnung aus der Historie (letzte 10 Trades)
-            if (charts.currentPerf) charts.currentPerf.destroy();
-            const currentPerfCanvas = document.getElementById('currentPerfChart');
-            if (currentPerfCanvas) {
-                const sortedForChart = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
-                const last10 = sortedForChart.slice(-10);
-                
-                charts.currentPerf = new Chart(currentPerfCanvas.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: last10.map((t, i) => `Trade ${i + 1}`),
-                        datasets: [{
-                            label: 'Letzte 10 Trades',
-                            data: last10.map(t => t.profitLoss || 0),
-                            borderColor: '#8b5cf6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
-                        scales: {
-                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
-                        }
-                    }
-                });
-            }
-        }
-
-        function renderEmotions() {
-            const emotionCounts = {};
-            const emotionPL = {};
-
-            trades.forEach(t => {
-                if (t.emotion) {
-                    emotionCounts[t.emotion] = (emotionCounts[t.emotion] || 0) + 1;
-                    emotionPL[t.emotion] = (emotionPL[t.emotion] || 0) + (t.profitLoss || 0);
-                }
-            });
-
-            // Emotion Chart
-            if (charts.emotion) charts.emotion.destroy();
-            const emotionCanvas = document.getElementById('emotionChart');
-            if (emotionCanvas) {
-                charts.emotion = new Chart(emotionCanvas.getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(emotionCounts),
-                        datasets: [{
-                            data: Object.values(emotionCounts),
-                            backgroundColor: [
-                                'rgba(34, 197, 94, 0.8)',
-                                'rgba(59, 130, 246, 0.8)',
-                                'rgba(139, 92, 246, 0.8)',
-                                'rgba(234, 179, 8, 0.8)',
-                                'rgba(249, 115, 22, 0.8)',
-                                'rgba(239, 68, 68, 0.8)',
-                                'rgba(236, 72, 153, 0.8)',
-                                'rgba(20, 184, 166, 0.8)',
-                                'rgba(251, 146, 60, 0.8)'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } }
-                    }
-                });
-            }
-
-            // Emotion Stats
-            const emotionStats = document.getElementById('emotionStats');
-            if (emotionStats) {
-                let html = '<div class="text-xl font-bold mb-4">Häufigste Emotionen</div>';
-                Object.entries(emotionCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).forEach(([emotion, count]) => {
-                    html += `
-                        <div class="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
-                            <span class="font-bold">${emotion}</span>
-                            <span class="text-purple-400 font-bold">${count}x</span>
-                        </div>
-                    `;
-                });
-                emotionStats.innerHTML = html;
-            }
-
-            // Performance pro Emotion
-            const emotionPerfList = document.getElementById('emotionPerformanceList');
-            if (emotionPerfList) {
-                let html = '';
-                Object.entries(emotionPL).sort((a, b) => b[1] - a[1]).forEach(([emotion, pl]) => {
-                    const color = pl >= 0 ? 'text-green-400' : 'text-red-400';
-                    html += `
-                        <div class="flex justify-between items-center p-3 bg-slate-800 rounded-lg">
-                            <span class="font-bold">${emotion}</span>
-                            <span class="font-bold ${color}">${formatCurrency(pl)}</span>
-                        </div>
-                    `;
-                });
-                emotionPerfList.innerHTML = html || '<div class="text-center text-gray-400 py-8">Keine Emotionsdaten</div>';
-            }
-        }
-
-        function renderCalendar() {
-            const year = currentCalendarDate.getFullYear();
-            const month = currentCalendarDate.getMonth();
-
-            document.getElementById('calendarMonth').textContent = new Date(year, month).toLocaleDateString(currentLang === 'de' ? 'de-DE' : currentLang === 'en' ? 'en-US' : 'es-ES', { month: 'long', year: 'numeric' });
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-
-            // Empty cells
-            const startDay = firstDay === 0 ? 6 : firstDay - 1;
-            for (let i = 0; i < startDay; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'p-2 bg-slate-800 rounded-lg opacity-50';
-                grid.appendChild(cell);
-            }
-
-            // Days
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const dayTrades = trades.filter(t => t.date === dateStr);
-                const dayEvents = events.filter(e => e.date === dateStr);
-
-                const cell = document.createElement('div');
-                cell.className = 'p-2 bg-slate-800 rounded-lg hover:bg-slate-700 cursor-pointer transition min-h-[80px]';
-
-                let content = `<div class="font-bold mb-1">${day}</div>`;
-
-                if (dayTrades.length > 0) {
-                    const totalPL = dayTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
-                    const color = totalPL > 0 ? 'text-green-400' : totalPL < 0 ? 'text-red-400' : 'text-yellow-400';
-                    content += `<div class="text-xs ${color} font-bold">${formatCurrency(totalPL)}</div>`;
-                }
-
-                if (dayEvents.length > 0) {
-                    dayEvents.forEach(e => {
-                        content += `<div class="text-xs text-purple-300 mt-1 truncate">📅 ${e.title}</div>`;
-                    });
-                }
-
-                cell.innerHTML = content;
-                grid.appendChild(cell);
-            }
-        }
-
-        window.editTrade = function(tradeId) {
-            const trade = trades.find(t => t.id === tradeId);
-            if (!trade) return;
-
-            document.getElementById('editTradeId').value = tradeId;
-            document.getElementById('editDate').value = trade.date || '';
-            document.getElementById('editAsset').value = trade.asset || '';
-            document.getElementById('editResult').value = trade.result || 'win';
-            document.getElementById('editProfitLoss').value = trade.profitLoss || 0;
-            document.getElementById('editPosition').value = trade.position || 'Long';
-            document.getElementById('editStrategy').value = trade.strategy || '';
-            document.getElementById('editEmotion').value = trade.emotion || '';
-            document.getElementById('editNotes').value = trade.notes || '';
-            document.getElementById('editEntryPrice').value = trade.entryPrice || '';
-            document.getElementById('editExitPrice').value = trade.exitPrice || '';
-
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
-        };
-
-        window.deleteTrade = async function(tradeId) {
-            if (!currentUser) return;
-
-            const confirmDiv = document.createElement('div');
-            confirmDiv.className = 'fixed inset-0 z-50 flex items-center justify-center modal-overlay';
-            confirmDiv.innerHTML = `
-                <div class="glass-card rounded-2xl p-8 max-w-md mx-4">
-                    <h3 class="text-2xl font-bold mb-4">Trade l  schen?</h3>
-                    <p class="text-gray-400 mb-6">Möchtest du diesen Trade wirklich löschen?</p>
-                    <div class="flex gap-4">
-                        <button id="confirmDeleteYes" class="flex-1 py-3 rounded-xl font-bold bg-red-600 hover:bg-red-700 transition">Ja, löschen</button>
-                        <button id="confirmDeleteNo" class="flex-1 py-3 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition">Abbrechen</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmDiv);
-
-            document.getElementById('confirmDeleteNo').onclick = () => confirmDiv.remove();
-            document.getElementById('confirmDeleteYes').onclick = async () => {
-                try {
-                    await deleteDoc(doc(db, 'users', currentUser.uid, 'trades', tradeId));
-                    showToast('✅ Trade gelöscht');
-                    await loadAllData();
-                    confirmDiv.remove();
-                } catch (error) {
-                    console.error('Fehler:', error);
-                    showToast('❌ Fehler beim Löschen');
-                }
-            };
-        };
-
-        window.deleteTransaction = async function(transactionId) {
-            if (!currentUser) return;
-
-            const confirmDiv = document.createElement('div');
-            confirmDiv.className = 'fixed inset-0 z-50 flex items-center justify-center modal-overlay';
-            confirmDiv.innerHTML = `
-                <div class="glass-card rounded-2xl p-8 max-w-md mx-4">
-                    <h3 class="text-2xl font-bold mb-4">Transaktion löschen?</h3>
-                    <p class="text-gray-400 mb-6">Möchtest du diese Transaktion wirklich löschen?</p>
-                    <div class="flex gap-4">
-                        <button id="confirmDeleteYes" class="flex-1 py-3 rounded-xl font-bold bg-red-600 hover:bg-red-700 transition">Ja, löschen</button>
-                        <button id="confirmDeleteNo" class="flex-1 py-3 rounded-xl font-bold bg-slate-700 hover:bg-slate-600 transition">Abbrechen</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmDiv);
-
-            document.getElementById('confirmDeleteNo').onclick = () => confirmDiv.remove();
-            document.getElementById('confirmDeleteYes').onclick = async () => {
-                try {
-                    await deleteDoc(doc(db, 'users', currentUser.uid, 'transactions', transactionId));
-                    showToast('✅ Transaktion gelöscht');
-                    await loadAllData();
-                    confirmDiv.remove();
-                } catch (error) {
-                    console.error('Fehler:', error);
-                    showToast('❌ Fehler beim Löschen');
-                }
-            };
-        };
-
-        // Auth handlers
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            try {
-                await signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
-            } catch (error) {
-                showToast('❌ Login fehlgeschlagen: ' + error.message);
-            }
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            try {
-                await createUserWithEmailAndPassword(auth, document.getElementById('registerEmail').value, document.getElementById('registerPassword').value);
-                showToast('✅ Registrierung erfolgreich!');
-            } catch (error) {
-                showToast('❌ Registrierung fehlgeschlagen: ' + error.message);
-            }
-        });
-
-        document.getElementById('showRegisterBtn').addEventListener('click', () => {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('registerScreen').classList.remove('hidden');
-        });
-
-        document.getElementById('showLoginBtn').addEventListener('click', () => {
-            document.getElementById('registerScreen').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
-        });
-
-        document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
-                loadAllData();
-            } else {
-                currentUser = null;
-                document.getElementById('mainApp').classList.add('hidden');
-                document.getElementById('registerScreen').classList.add('hidden');
-                document.getElementById('loginScreen').classList.remove('hidden');
-            }
-        });
-
-        // Tab Navigation
-        document.querySelectorAll('.nav-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabName = button.dataset.tab;
-
-                document.querySelectorAll('.nav-button').forEach(btn => {
-                    btn.classList.remove('active', 'bg-purple-600', 'text-white');
-                    btn.classList.add('text-gray-400');
-                });
-                button.classList.add('active', 'bg-purple-600', 'text-white');
-                button.classList.remove('text-gray-400');
-
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.add('hidden');
-                });
-                document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            });
-        });
-
-        // Forms
-        document.getElementById('startCapitalForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const amount = parseFloat(document.getElementById('startCapital').value);
-            if (isNaN(amount) || amount <= 0) {
-                showToast('❌ Bitte gültigen Betrag eingeben');
-                return;
-            }
-
-            try {
-                await setDoc(doc(db, 'users', currentUser.uid, 'settings', 'capital'), {
-                    startCapital: amount
-                });
-                showToast('✅ Startkapital gespeichert!');
-                await loadAllData();
-            } catch (error) {
-                showToast('❌ Fehler beim Speichern');
-            }
-        });
-
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('tradeDate').value = today;
-        document.getElementById('withdrawalDate').value = today;
-        document.getElementById('depositDate').value = today;
-        document.getElementById('eventDate').value = today;
-
-        document.getElementById('newTradeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const result = document.getElementById('tradeResult').value;
-            let profitLoss = parseFloat(document.getElementById('tradeProfitLoss').value) || 0;
-
-            // Bei Loss negativ machen
-            if (result === 'loss' && profitLoss > 0) {
-                profitLoss = -Math.abs(profitLoss);
-            } else if (result === 'loss') {
-                profitLoss = Math.abs(profitLoss) * -1;
-            }
-
-            const trade = {
-                date: document.getElementById('tradeDate').value,
-                asset: document.getElementById('tradeAsset').value,
-                result: result,
-                profitLoss: profitLoss,
-                position: document.getElementById('tradePosition').value,
-                strategy: document.getElementById('tradeStrategy').value,
-                emotion: document.getElementById('tradeEmotion').value,
-                notes: document.getElementById('tradeNotes').value,
-                entryPrice: document.getElementById('tradeEntryPrice').value ? parseFloat(document.getElementById('tradeEntryPrice').value) : null,
-                exitPrice: document.getElementById('tradeExitPrice').value ? parseFloat(document.getElementById('tradeExitPrice').value) : null
-            };
-
-            try {
-                await addDoc(collection(db, 'users', currentUser.uid, 'trades'), trade);
-                showToast('✅ Trade gespeichert!');
-                document.getElementById('newTradeForm').reset();
-                document.getElementById('tradeDate').value = today;
-                await loadAllData();
-
-                // Switch to history
-                document.querySelectorAll('.nav-button').forEach(btn => {
-                    btn.classList.remove('active', 'bg-purple-600', 'text-white');
-                    btn.classList.add('text-gray-400');
-                });
-                document.querySelector('[data-tab="history"]').classList.add('active', 'bg-purple-600', 'text-white');
-                document.querySelector('[data-tab="history"]').classList.remove('text-gray-400');
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.add('hidden');
-                });
-                document.getElementById('historyTab').classList.remove('hidden');
-            } catch (error) {
-                showToast('❌ Fehler beim Speichern');
-            }
-        });
-
-        document.getElementById('editTradeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const tradeId = document.getElementById('editTradeId').value;
-            const result = document.getElementById('editResult').value;
-            let profitLoss = parseFloat(document.getElementById('editProfitLoss').value) || 0;
-
-            if (result === 'loss' && profitLoss > 0) {
-                profitLoss = -Math.abs(profitLoss);
-            } else if (result === 'loss') {
-                profitLoss = Math.abs(profitLoss) * -1;
-            }
-
-            const trade = {
-                date: document.getElementById('editDate').value,
-                asset: document.getElementById('editAsset').value,
-                result: result,
-                profitLoss: profitLoss,
-                position: document.getElementById('editPosition').value,
-                strategy: document.getElementById('editStrategy').value,
-                emotion: document.getElementById('editEmotion').value,
-                notes: document.getElementById('editNotes').value,
-                entryPrice: document.getElementById('editEntryPrice').value ? parseFloat(document.getElementById('editEntryPrice').value) : null,
-                exitPrice: document.getElementById('editExitPrice').value ? parseFloat(document.getElementById('editExitPrice').value) : null
-            };
-
-            try {
-                await updateDoc(doc(db, 'users', currentUser.uid, 'trades', tradeId), trade);
-                showToast('✅ Trade aktualisiert!');
-                document.getElementById('editModal').classList.add('hidden');
-                document.getElementById('editModal').classList.remove('flex');
-                await loadAllData();
-            } catch (error) {
-                showToast('❌ Fehler beim Aktualisieren');
-            }
-        });
-
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-            document.getElementById('editModal').classList.add('hidden');
-            document.getElementById('editModal').classList.remove('flex');
-        });
-
-        document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
-            const date = document.getElementById('withdrawalDate').value;
-            const note = document.getElementById('withdrawalNote').value;
-
-            try {
-                await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-                    type: 'withdrawal',
-                    amount: amount,
-                    date: date,
-                    note: note
-                });
-                showToast('✅ Auszahlung erfasst!');
-                document.getElementById('withdrawalForm').reset();
-                document.getElementById('withdrawalDate').value = today;
-                await loadAllData();
-            } catch (error) {
-                showToast('❌ Fehler beim Speichern');
-            }
-        });
-
-        document.getElementById('depositForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            const date = document.getElementById('depositDate').value;
-            const note = document.getElementById('depositNote').value;
-
-            try {
-                await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), {
-                    type: 'deposit',
-                    amount: amount,
-                    date: date,
-                    note: note
-                });
-                showToast('✅ Einzahlung erfasst!');
-                document.getElementById('depositForm').reset();
-                document.getElementById('depositDate').value = today;
-                await loadAllData();
-            } catch (error) {
-                showToast('❌ Fehler beim Speichern');
-            }
-        });
-
-        document.getElementById('filterAsset')?.addEventListener('change', renderHistory);
-        document.getElementById('filterResult')?.addEventListener('change', renderHistory);
-
-        document.getElementById('compoundForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const target = parseFloat(document.getElementById('compoundTarget').value);
-            const rate = parseFloat(document.getElementById('compoundRate').value) / 100;
-            const startCapital = startCapitalData?.startCapital || 0;
-
-            if (startCapital === 0) {
-                showToast('❌ Bitte zuerst Startkapital festlegen');
-                return;
-            }
-
-            // Berechne Monate bis Ziel
-            let capital = startCapital;
-            let months = 0;
-            const maxMonths = 1000;
-
-            while (capital < target && months < maxMonths) {
-                capital += capital * rate;
-                months++;
-            }
-
-            // Mit aktueller Performance
-            const totalPL = trades.reduce((sum, t) => sum + (t.profitLoss || 0), 0);
-            const currentCapital = startCapital + totalPL;
-            const actualMonthsTrading = trades.length > 0 ? Math.ceil((new Date() - new Date(Math.min(...trades.map(t => new Date(t.date))))) / (1000 * 60 * 60 * 24 * 30)) : 1;
-            const actualRate = actualMonthsTrading > 0 ? ((currentCapital - startCapital) / startCapital) / actualMonthsTrading : 0;
-
-            let capitalCurrent = startCapital;
-            let monthsCurrent = 0;
-
-            while (capitalCurrent < target && monthsCurrent < maxMonths) {
-                capitalCurrent += capitalCurrent * actualRate;
-                monthsCurrent++;
-            }
-
-            document.getElementById('compoundMonths').textContent = months >= maxMonths ? '∞' : months;
-            document.getElementById('compoundCurrentMonths').textContent = monthsCurrent >= maxMonths ? '∞' : monthsCurrent;
-            
-            const diff = monthsCurrent - months;
-            
-            // Status Box Update
-            const statusBox = document.getElementById('compoundStatus');
-            const statusIcon = document.getElementById('compoundStatusIcon');
-            const statusText = document.getElementById('compoundStatusText');
-            const statusDetail = document.getElementById('compoundStatusDetail');
-            const statusExtra = document.getElementById('compoundStatusExtra');
-
-            if (diff < 0) {
-                // Schneller als geplant
-                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-green-500 to-green-600';
-                statusIcon.textContent = '🚀';
-                statusText.textContent = t('fasterThanPlanned');
-                statusDetail.textContent = `${Math.abs(diff)} ${t('monthsFaster')}`;
-                statusExtra.textContent = t('keepGoing');
-            } else if (diff > 0) {
-                // Langsamer als geplant
-                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-red-500 to-red-600';
-                statusIcon.textContent = '⚠️';
-                statusText.textContent = t('slowerThanPlanned');
-                statusDetail.textContent = `${diff} ${t('monthsSlower')}`;
-                statusExtra.textContent = t('needImprovement');
-            } else {
-                // Genau auf Plan
-                statusBox.className = 'rounded-2xl p-8 mb-6 text-center bg-gradient-to-br from-purple-500 to-purple-600';
-                statusIcon.textContent = '🎯';
-                statusText.textContent = t('onTrack');
-                statusDetail.textContent = t('exactlyOnTarget');
-                statusExtra.textContent = '';
-            }
-
-            // Vergleichsdiagramm erstellen
-            const maxDisplayMonths = Math.max(months, monthsCurrent) + 2;
-            const plannedData = [];
-            const actualData = [];
-            const labelsComparison = [];
-
-            // Geplante Entwicklung
-            let capPlanned = startCapital;
-            for (let m = 0; m <= maxDisplayMonths; m++) {
-                labelsComparison.push(`Monat ${m}`);
-                plannedData.push(capPlanned);
-                if (capPlanned < target) {
-                    capPlanned += capPlanned * rate;
-                }
-            }
-
-            // Aktuelle Performance
-            let capActual = startCapital;
-            for (let m = 0; m <= maxDisplayMonths; m++) {
-                actualData.push(capActual);
-                if (capActual < target) {
-                    capActual += capActual * actualRate;
-                }
-            }
-
-            // Vergleichschart
-            if (charts.compoundComparison) {
-                charts.compoundComparison.destroy();
-            }
-
-            const comparisonCanvas = document.getElementById('compoundComparisonChart');
-            if (comparisonCanvas) {
-                charts.compoundComparison = new Chart(comparisonCanvas.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: labelsComparison,
-                        datasets: [
-                            {
-                                label: '🎯 Geplante Entwicklung',
-                                data: plannedData,
-                                borderColor: '#8b5cf6',
-                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                                borderWidth: 3,
-                                fill: false,
-                                tension: 0.4,
-                                pointRadius: 0,
-                                borderDash: [5, 5]
-                            },
-                            {
-                                label: '📊 Deine aktuelle Performance',
-                                data: actualData,
-                                borderColor: diff < 0 ? '#22c55e' : diff > 0 ? '#ef4444' : '#8b5cf6',
-                                backgroundColor: diff < 0 ? 'rgba(34, 197, 94, 0.1)' : diff > 0 ? 'rgba(239, 68, 68, 0.1)' : 'rgba(139, 92, 246, 0.1)',
-                                borderWidth: 4,
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 0
-                            },
-                            {
-                                label: '🏁 Ziel',
-                                data: Array(maxDisplayMonths + 1).fill(target),
-                                borderColor: '#facc15',
-                                backgroundColor: 'rgba(250, 204, 21, 0.1)',
-                                borderWidth: 2,
-                                fill: false,
-                                borderDash: [10, 5],
-                                pointRadius: 0
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        interaction: {
-                            intersect: false,
-                            mode: 'index'
-                        },
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: currentTheme === 'light' ? '#1e293b' : '#ffffff',
-                                    font: { size: 14, weight: 'bold' },
-                                    padding: 15
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: {
-                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
-                                    maxTicksLimit: 12
-                                },
-                                grid: {
-                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
-                                    callback: (v) => formatCurrency(v)
-                                },
-                                grid: {
-                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Original Chart (einzelne Entwicklung)
-            const dataPoints = [];
-            const labels = [];
-            capital = startCapital;
-
-            for (let m = 0; m <= months && m < maxMonths; m++) {
-                labels.push(`Monat ${m}`);
-                dataPoints.push(capital);
-                capital += capital * rate;
-            }
-
-            if (charts.compound) {
-                charts.compound.destroy();
-            }
-
-            const canvas = document.getElementById('compoundChart');
-            if (canvas) {
-                charts.compound = new Chart(canvas.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: t('capital'),
-                            data: dataPoints,
-                            borderColor: '#8b5cf6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: currentTheme === 'light' ? '#1e293b' : '#ffffff',
-                                    font: { size: 14, weight: 'bold' }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: {
-                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af'
-                                },
-                                grid: {
-                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    color: currentTheme === 'light' ? '#64748b' : '#9ca3af',
-                                    callback: (v) => formatCurrency(v)
-                                },
-                                grid: {
-                                    color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            document.getElementById('compoundResults').classList.remove('hidden');
-        });
-
-        // Calendar
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-            renderCalendar();
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        document.getElementById('todayBtn').addEventListener('click', () => {
-            currentCalendarDate = new Date();
-            renderCalendar();
-        });
-
-        document.getElementById('eventForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!currentUser) return;
-
-            const event = {
-                date: document.getElementById('eventDate').value,
-                title: document.getElementById('eventTitle').value,
-                description: document.getElementById('eventDescription').value
-            };
-
-            try {
-                await addDoc(collection(db, 'users', currentUser.uid, 'events'), event);
-                showToast('✅ Termin gespeichert!');
-                document.getElementById('eventForm').reset();
-                document.getElementById('eventDate').value = today;
-                await loadAllData();
-            } catch (error) {
-                showToast('❌ Fehler beim Speichern');
-            }
-        });
-
-        // Position Size Calculator
-        document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const balance = parseFloat(document.getElementById('psBalance').value);
-            const risk = parseFloat(document.getElementById('psRisk').value) / 100;
-            const stopLoss = parseFloat(document.getElementById('psStopLoss').value);
-            const pipValue = parseFloat(document.getElementById('psPipValue').value);
-
-            const riskAmount = balance * risk;
-            const positionSize = riskAmount / (stopLoss * pipValue);
-
-            document.getElementById('positionSizeValue').textContent = positionSize.toFixed(2);
-            document.getElementById('positionSizeResult').classList.remove('hidden');
-        });
-
-        // Pip Calculator
-        document.getElementById('pipCalculatorForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const pair = document.getElementById('pipPair').value;
-            const lots = parseFloat(document.getElementById('pipLots').value);
-            const pips = parseFloat(document.getElementById('pipAmount').value);
-
-            // Simplified pip value calculation
-            const basePipValue = 10; // Standard für 1 lot
-            const pipValuePerLot = basePipValue * lots;
-            const totalValue = pipValuePerLot * pips;
-
-            document.getElementById('pipValue').textContent = formatCurrency(pipValuePerLot);
-            document.getElementById('pipTotal').textContent = formatCurrency(totalValue);
-            document.getElementById('pipResult').classList.remove('hidden');
-        });
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7643fef573e0d3',t:'MTc2NzMxNTA2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                            x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', font: { size: window.innerWidth < 640 ? 9 : 11 } }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0),</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b79b595951ee0d3',t:'MTc2NzM1MTE3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
