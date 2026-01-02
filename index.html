@@ -216,7 +216,7 @@
      <form id="loginForm" class="space-y-5 mb-6">
       <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="•••••     ••" required>
       </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="loginButton">🔐 Anmelden</span> </button>
      </form>
      <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showRegister"> Noch kein Konto? Jetzt registrieren → </button>
@@ -737,7 +737,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="    Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
       </div>
      </div>
      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"></textarea>
@@ -1131,7 +1131,7 @@
                 onTrack: "¡Perfectamente en camino!",
                 monthsFaster: "meses más rápido",
                 monthsSlower: "meses más",
-                keepGoing: "¡Sigue así! Tu rendimiento supera el objetivo.",
+                keepGoing: "  Sigue así! Tu rendimiento supera el objetivo.",
                 needImprovement: "Necesitas optimizar tu estrategia.",
                 exactlyOnTarget: "¡Tu rendimiento coincide exactamente con el objetivo!",
                 calendar: "Calendario",
@@ -1240,7 +1240,7 @@
         }
 
         function formatCurrency(value) {
-            return '€' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            return '   ' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
         function formatDate(dateStr) {
@@ -1576,40 +1576,59 @@
             document.getElementById('perfBestTrade').textContent = formatCurrency(best);
             document.getElementById('perfWorstTrade').textContent = formatCurrency(worst);
 
-            // Win/Loss Streaks
+            // Win/Loss Streaks - Berechnung aus der chronologischen Historie
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
             let currentStreak = 0;
+            let currentStreakType = null;
             let maxWinStreak = 0;
             let maxLossStreak = 0;
             let streaks = [];
 
-            trades.slice().reverse().forEach(t => {
-                if (t.result === 'win') {
-                    if (currentStreak >= 0) {
+            sortedTrades.forEach(t => {
+                const isWin = (t.profitLoss || 0) > 0;
+                const isLoss = (t.profitLoss || 0) < 0;
+                
+                if (isWin) {
+                    if (currentStreakType === 'win') {
                         currentStreak++;
                     } else {
-                        streaks.push(currentStreak);
+                        if (currentStreak !== 0) {
+                            streaks.push(currentStreak);
+                        }
                         currentStreak = 1;
+                        currentStreakType = 'win';
                     }
                     maxWinStreak = Math.max(maxWinStreak, currentStreak);
-                } else if (t.result === 'loss') {
-                    if (currentStreak <= 0) {
+                } else if (isLoss) {
+                    if (currentStreakType === 'loss') {
                         currentStreak--;
                     } else {
-                        streaks.push(currentStreak);
+                        if (currentStreak !== 0) {
+                            streaks.push(currentStreak);
+                        }
                         currentStreak = -1;
+                        currentStreakType = 'loss';
                     }
                     maxLossStreak = Math.max(maxLossStreak, Math.abs(currentStreak));
                 }
+                // Break-even ignorieren für Streaks
             });
+            
+            // Letzten Streak hinzufügen
+            if (currentStreak !== 0) {
+                streaks.push(currentStreak);
+            }
 
             document.getElementById('perfWinStreak').textContent = maxWinStreak;
             document.getElementById('perfLossStreak').textContent = maxLossStreak;
 
-            // Avg Win/Loss
-            const wins = trades.filter(t => t.result === 'win');
-            const losses = trades.filter(t => t.result === 'loss');
-            const avgWin = wins.length > 0 ? wins.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / wins.length : 0;
-            const avgLoss = losses.length > 0 ? Math.abs(losses.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / losses.length) : 0;
+            // Avg Win/Loss - Berechnung aus tatsächlichen Trades
+            const winTrades = trades.filter(t => (t.profitLoss || 0) > 0);
+            const lossTrades = trades.filter(t => (t.profitLoss || 0) < 0);
+            
+            const avgWin = winTrades.length > 0 ? winTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / winTrades.length : 0;
+            const avgLoss = lossTrades.length > 0 ? Math.abs(lossTrades.reduce((sum, t) => sum + (t.profitLoss || 0), 0) / lossTrades.length) : 0;
 
             document.getElementById('perfAvgWin').textContent = formatCurrency(avgWin);
             document.getElementById('perfAvgLoss').textContent = formatCurrency(avgLoss);
@@ -2560,5 +2579,5 @@
             document.getElementById('pipResult').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b761853e2f2e0d3',t:'MTc2NzMxMzI3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b761eb307f5e0d3',t:'MTc2NzMxMzUzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
