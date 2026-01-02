@@ -216,7 +216,7 @@
      <form id="loginForm" class="space-y-5 mb-6">
       <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emailLabel">E-Mail Adresse</label> <input type="email" id="loginEmail" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="emailPlaceholder" placeholder="deine@email.de" required>
       </div>
-      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="•••••     ••" required>
+      <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="passwordLabel">Passwort</label> <input type="password" id="loginPassword" class="w-full px-5 py-4 rounded-xl text-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" placeholder="••••••••" required>
       </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-white text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition"> <span data-i18n="loginButton">🔐 Anmelden</span> </button>
      </form>
      <div class="text-center"><button id="showRegisterBtn" class="text-purple-400 hover:text-purple-300 font-semibold" data-i18n="showRegister"> Noch kein Konto? Jetzt registrieren → </button>
@@ -657,7 +657,7 @@
         </div>
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Positionsgrößen-Rechner -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><!-- Positionsgrö  en-Rechner -->
          <div class="glass-card rounded-2xl p-8">
           <h3 class="text-2xl font-bold mb-6 flex items-center gap-3"><span>📐</span> <span data-i18n="positionSizeCalculator">Positionsgrößen-Rechner</span></h3>
           <form id="positionSizeForm" class="space-y-4">
@@ -1659,18 +1659,18 @@
                 });
             }
 
-            // Distribution Chart
+            // Distribution Chart - Berechnung aus der Historie
             if (charts.distribution) charts.distribution.destroy();
             const distCanvas = document.getElementById('distributionChart');
             if (distCanvas) {
-                const winCount = wins.length;
-                const lossCount = losses.length;
-                const beCount = trades.filter(t => t.result === 'breakeven').length;
+                const winCount = trades.filter(t => (t.profitLoss || 0) > 0).length;
+                const lossCount = trades.filter(t => (t.profitLoss || 0) < 0).length;
+                const beCount = trades.filter(t => (t.profitLoss || 0) === 0).length;
 
                 charts.distribution = new Chart(distCanvas.getContext('2d'), {
                     type: 'pie',
                     data: {
-                        labels: [t('wins'), t('losses'), t('breakeven')],
+                        labels: ['Wins', 'Losses', 'Break Even'],
                         datasets: [{
                             data: [winCount, lossCount, beCount],
                             backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(234, 179, 8, 0.8)']
@@ -1684,7 +1684,7 @@
                 });
             }
 
-            // Strategy Chart
+            // Strategy Chart - Berechnung aus der Historie
             if (charts.strategy) charts.strategy.destroy();
             const strategyCanvas = document.getElementById('strategyChart');
             if (strategyCanvas) {
@@ -1695,14 +1695,17 @@
                     strategyPerf[strat] += (t.profitLoss || 0);
                 });
 
+                const strategyLabels = Object.keys(strategyPerf);
+                const strategyData = Object.values(strategyPerf);
+
                 charts.strategy = new Chart(strategyCanvas.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(strategyPerf),
+                        labels: strategyLabels,
                         datasets: [{
-                            label: 'P/L ' + t('strategy'),
-                            data: Object.values(strategyPerf),
-                            backgroundColor: Object.values(strategyPerf).map(v => v >= 0 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(239, 68, 68, 0.8)')
+                            label: 'P/L Strategie',
+                            data: strategyData,
+                            backgroundColor: strategyData.map(v => v >= 0 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
                     },
                     options: {
@@ -1711,13 +1714,13 @@
                         plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
                             x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
             }
 
-            // Monthly Chart
+            // Monthly Chart - Berechnung aus der Historie
             if (charts.monthly) charts.monthly.destroy();
             const monthlyCanvas = document.getElementById('monthlyChart');
             if (monthlyCanvas) {
@@ -1729,14 +1732,17 @@
                     monthlyPerf[key] += (t.profitLoss || 0);
                 });
 
+                const monthlyLabels = Object.keys(monthlyPerf).sort();
+                const monthlyData = monthlyLabels.map(k => monthlyPerf[k]);
+
                 charts.monthly = new Chart(monthlyCanvas.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(monthlyPerf).sort(),
+                        labels: monthlyLabels,
                         datasets: [{
-                            label: t('monthlyChart'),
-                            data: Object.keys(monthlyPerf).sort().map(k => monthlyPerf[k]),
-                            backgroundColor: Object.keys(monthlyPerf).sort().map(k => monthlyPerf[k] >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
+                            label: 'Monatliche Performance',
+                            data: monthlyData,
+                            backgroundColor: monthlyData.map(v => v >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
                     },
                     options: {
@@ -1745,13 +1751,13 @@
                         plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
                             x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
             }
 
-            // Asset Chart
+            // Asset Chart - Berechnung aus der Historie
             if (charts.asset) charts.asset.destroy();
             const assetCanvas = document.getElementById('assetChart');
             if (assetCanvas) {
@@ -1762,14 +1768,17 @@
                     assetPerf[asset] += (t.profitLoss || 0);
                 });
 
+                const assetLabels = Object.keys(assetPerf);
+                const assetData = Object.values(assetPerf);
+
                 charts.asset = new Chart(assetCanvas.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: Object.keys(assetPerf),
+                        labels: assetLabels,
                         datasets: [{
-                            label: 'P/L ' + t('asset'),
-                            data: Object.values(assetPerf),
-                            backgroundColor: 'rgba(99, 102, 241, 0.8)'
+                            label: 'P/L Asset',
+                            data: assetData,
+                            backgroundColor: assetData.map(v => v >= 0 ? 'rgba(99, 102, 241, 0.8)' : 'rgba(239, 68, 68, 0.8)')
                         }]
                     },
                     options: {
@@ -1778,17 +1787,19 @@
                         plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
                             x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
             }
 
-            // Current Performance Chart
+            // Current Performance Chart - Berechnung aus der Historie (letzte 10 Trades)
             if (charts.currentPerf) charts.currentPerf.destroy();
             const currentPerfCanvas = document.getElementById('currentPerfChart');
             if (currentPerfCanvas) {
-                const last10 = trades.slice(0, 10).reverse();
+                const sortedForChart = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+                const last10 = sortedForChart.slice(-10);
+                
                 charts.currentPerf = new Chart(currentPerfCanvas.getContext('2d'), {
                     type: 'line',
                     data: {
@@ -1809,7 +1820,7 @@
                         plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
                             x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -2579,5 +2590,5 @@
             document.getElementById('pipResult').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b761eb307f5e0d3',t:'MTc2NzMxMzUzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7626f791dfe0d3',t:'MTc2NzMxMzg3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
