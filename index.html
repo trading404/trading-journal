@@ -267,7 +267,7 @@
          <div class="text-sm font-bold" id="headerCapital">
           €0.00
          </div>
-        </div><button id="menuBtn" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition md:hidden">
+        </div><button id="logoutBtnDesktop" class="hidden md:block p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition" title="Abmelden"> <span class="text-xl">🚪</span> </button> <button id="menuBtn" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition md:hidden">
          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
          </svg></button>
        </div>
@@ -375,7 +375,7 @@
          <form id="newTradeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2"> <span data-i18n="date">Datum</span> * </label> <input type="date" id="tradeDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="     Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
            <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
@@ -393,7 +393,7 @@
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-4 py-3 rounded-xl" placeholder="z.B. Breakout, Scalping">
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">😨 Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">    Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">😨 Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-4 py-3 rounded-xl" placeholder="Details zum Trade..."></textarea>
           </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-lg btn-primary"> <span data-i18n="save_trade">💾 Trade speichern</span> </button>
@@ -1348,6 +1348,14 @@
                     showToast('👋 ' + translations[currentLang].logout);
                 }
             });
+        });
+
+        // Desktop Logout Button
+        document.getElementById('logoutBtnDesktop').addEventListener('click', () => {
+            currentUser = null;
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            showToast('👋 ' + translations[currentLang].logout);
         });
 
         // Theme Toggle
@@ -2513,5 +2521,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a5092c3d4e0d3',t:'MTc2NzM1NzUxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a55d234e1e0d3',t:'MTc2NzM1NzczNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
