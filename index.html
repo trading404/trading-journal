@@ -738,7 +738,7 @@
           <div><label class="block text-sm font-bold mb-2" data-i18n="lot_size">Lot Größe</label> <input type="number" id="pipLotSize" step="0.01" class="w-full px-4 py-3 rounded-xl" placeholder="1">
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="pip_value">Pip-Wert (€)</label> <input type="number" id="pipValue" step="0.01" class="w-full px-4 py-3 rounded-xl" placeholder="10">
-          </div><button type="submit" class="w-full py-4 rounded-xl font-bold btn-primary"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
+          </div><button type="submit" class="w-full py-4 rounded-xl font-bold btn-primary"> <span data-i18n="calculate">   Berechnen</span> </button>
           <div id="pipCalcResult" class="mt-6 space-y-3 hidden">
            <div class="p-4 rounded-xl glass-card">
             <div class="text-sm mb-2" data-i18n="pips">
@@ -1532,20 +1532,49 @@
                     months++;
                 }
                 
-                // Calculate actual performance
+                // Calculate actual performance with all transactions
                 const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                // Build complete transaction timeline
+                const allTransactions = [
+                    ...deposits.map(d => ({ date: d.date, amount: d.amount, type: 'deposit' })),
+                    ...sortedTrades.map(t => ({ date: t.date, amount: t.profitLoss, type: 'trade' })),
+                    ...withdrawals.map(w => ({ date: w.date, amount: -w.amount, type: 'withdrawal' }))
+                ].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                // Calculate actual capital progression month by month
                 const actualData = [startCapital];
                 let runningCap = startCapital;
                 
-                sortedTrades.forEach(t => {
-                    runningCap += t.profitLoss;
-                    actualData.push(runningCap);
-                });
+                // Get start date
+                const startDate = allTransactions.length > 0 ? new Date(allTransactions[0].date) : new Date();
+                const today = new Date();
                 
-                const currentMonths = sortedTrades.length > 0 ? 
-                    Math.max(1, Math.floor((new Date() - new Date(sortedTrades[0].date)) / (1000 * 60 * 60 * 24 * 30))) : 0;
+                // Calculate months elapsed
+                const monthsElapsed = allTransactions.length > 0 ? 
+                    Math.max(1, Math.floor((today - startDate) / (1000 * 60 * 60 * 24 * 30))) : 0;
                 
-                const expectedCapital = startCapital * Math.pow(1 + monthlyReturn, currentMonths);
+                // Build actual data for each month
+                for (let i = 0; i < Math.min(monthsElapsed + 1, 60); i++) {
+                    const monthDate = new Date(startDate);
+                    monthDate.setMonth(monthDate.getMonth() + i);
+                    
+                    // Add all transactions up to this month
+                    const transactionsThisMonth = allTransactions.filter(t => {
+                        const transDate = new Date(t.date);
+                        return transDate <= monthDate;
+                    });
+                    
+                    let monthCapital = startCapital;
+                    transactionsThisMonth.forEach(t => {
+                        monthCapital += t.amount;
+                    });
+                    
+                    actualData.push(monthCapital);
+                }
+                
+                // Current performance metrics
+                const expectedCapital = startCapital * Math.pow(1 + monthlyReturn, monthsElapsed);
                 const actualCapital = currentCapital;
                 const performanceDiff = actualCapital - expectedCapital;
                 const performancePercent = expectedCapital > 0 ? ((actualCapital / expectedCapital - 1) * 100) : 0;
@@ -1567,9 +1596,16 @@
                 if (charts.compound) charts.compound.destroy();
                 const ctx = document.getElementById('compoundChart').getContext('2d');
                 
-                const labels = Array.from({length: Math.min(months + 1, 60)}, (_, i) => i);
+                const maxMonths = Math.min(months + 1, 60);
+                const labels = Array.from({length: maxMonths}, (_, i) => i);
                 const textColor = currentTheme === 'dark' ? '#ffffff' : '#0f172a';
                 const gridColor = currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.15)';
+                
+                // Pad actual data with nulls if needed
+                const paddedActualData = [...actualData];
+                while (paddedActualData.length < maxMonths) {
+                    paddedActualData.push(null);
+                }
                 
                 charts.compound = new Chart(ctx, {
                     type: 'line',
@@ -1578,7 +1614,7 @@
                         datasets: [
                             {
                                 label: 'Projektion',
-                                data: projectedData.slice(0, 60),
+                                data: projectedData.slice(0, maxMonths),
                                 borderColor: '#8b5cf6',
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
                                 borderWidth: 2,
@@ -1586,11 +1622,12 @@
                             },
                             {
                                 label: 'Tatsächlich',
-                                data: [...actualData, ...Array(60 - actualData.length).fill(null)],
+                                data: paddedActualData,
                                 borderColor: '#22c55e',
                                 backgroundColor: 'rgba(34, 197, 94, 0.1)',
                                 borderWidth: 3,
-                                fill: true
+                                fill: true,
+                                spanGaps: false
                             }
                         ]
                     },
@@ -1601,8 +1638,15 @@
                             legend: { labels: { color: textColor } }
                         },
                         scales: {
-                            x: { ticks: { color: textColor }, grid: { color: gridColor } },
-                            y: { ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, grid: { color: gridColor } }
+                            x: { 
+                                title: { display: true, text: 'Monate', color: textColor },
+                                ticks: { color: textColor }, 
+                                grid: { color: gridColor } 
+                            },
+                            y: { 
+                                ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, 
+                                grid: { color: gridColor } 
+                            }
                         }
                     }
                 });
@@ -2385,5 +2429,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a0f654196e0d3',t:'MTc2NzM1NDg1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a14ea415de0d3',t:'MTc2NzM1NTA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
