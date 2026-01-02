@@ -258,7 +258,7 @@
     <header class="bg-gradient-to-r from-purple-600 to-blue-600 shadow-2xl w-full sticky top-0 z-30">
      <div class="px-4 py-3">
       <div class="flex items-center justify-between">
-       <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">💎</span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
+       <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">   </span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
        <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
         <div class="bg-white bg-opacity-10 px-3 py-1 rounded-lg">
          <div class="text-xs text-purple-100" id="capitalLabel">
@@ -579,7 +579,7 @@
           <div><label class="block text-sm font-bold mb-2" data-i18n="target_amount">Ziel Summe (€)</label> <input type="number" id="targetAmount" step="0.01" class="w-full px-4 py-3 rounded-xl" placeholder="100000" required>
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="monthly_return">Monatliche Rendite (%)</label> <input type="number" id="monthlyReturn" step="0.1" class="w-full px-4 py-3 rounded-xl" placeholder="5" required>
-          </div><button type="submit" class="w-full py-4 rounded-xl font-bold btn-primary"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
+          </div><button type="submit" class="w-full py-4 rounded-xl font-bold btn-primary"> <span data-i18n="calculate">    Berechnen</span> </button>
          </form>
          <div id="compoundResult" class="mt-6 hidden">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
@@ -794,7 +794,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">    Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1748,12 +1748,33 @@
             
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const hasTrade = trades.some(t => t.date === dateStr);
+                const dayTrades = trades.filter(t => t.date === dateStr);
                 const hasEvent = events.some(e => e.date === dateStr);
+                
+                const dayPL = dayTrades.reduce((sum, t) => sum + t.profitLoss, 0);
+                const hasTrade = dayTrades.length > 0;
                 
                 const dayEl = document.createElement('div');
                 dayEl.className = `calendar-day ${hasTrade ? 'has-trade' : ''} ${hasEvent ? 'has-event' : ''}`;
-                dayEl.textContent = day;
+                dayEl.style.flexDirection = 'column';
+                dayEl.style.padding = '0.25rem';
+                dayEl.style.gap = '0.125rem';
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.textContent = day;
+                dayNumber.style.fontSize = '0.75rem';
+                dayNumber.style.fontWeight = 'bold';
+                dayEl.appendChild(dayNumber);
+                
+                if (hasTrade) {
+                    const plDisplay = document.createElement('div');
+                    plDisplay.textContent = dayPL >= 0 ? `+${dayPL.toFixed(0)}` : dayPL.toFixed(0);
+                    plDisplay.style.fontSize = '0.6rem';
+                    plDisplay.style.fontWeight = 'bold';
+                    plDisplay.style.color = dayPL > 0 ? '#22c55e' : dayPL < 0 ? '#ef4444' : '#eab308';
+                    dayEl.appendChild(plDisplay);
+                }
+                
                 dayEl.onclick = () => showDayDetails(dateStr);
                 container.appendChild(dayEl);
             }
@@ -1984,7 +2005,7 @@
                 fearful: '😨',
                 euphoric: '🥳',
                 disciplined: '🧘',
-                revenge: '😡'
+                revenge: '    '
             };
             return emotions[emotion] || '';
         }
@@ -2362,5 +2383,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a025684ece0d3',t:'MTc2NzM1NDMxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a0a68a09ee0d3',t:'MTc2NzM1NDY0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
