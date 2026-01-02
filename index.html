@@ -692,7 +692,7 @@
        </div><!-- Einzahlungen Tab -->
        <div id="depositsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>💰</span> <span data-i18n="deposits">Einzahlungen</span></h2>
+         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="deposits">Einzahlungen</span></h2>
          <form id="depositForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="date">Datum</label> <input type="date" id="depositDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
@@ -1146,25 +1146,6 @@
             localStorage.setItem('tradingJournalLang', lang);
         }
 
-        // User Auth System with Password Hashing
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hash = await crypto.subtle.digest('SHA-256', data);
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function getUserData(email) {
-            const users = JSON.parse(localStorage.getItem('tradingJournalUsers') || '{}');
-            return users[email];
-        }
-
-        function saveUserData(email, data) {
-            const users = JSON.parse(localStorage.getItem('tradingJournalUsers') || '{}');
-            users[email] = data;
-            localStorage.setItem('tradingJournalUsers', JSON.stringify(users));
-        }
-
         // Data Storage per User
         let trades = [];
         let startCapital = 0;
@@ -1189,36 +1170,20 @@
             { id: 'calculator', icon: '🔢', label: 'calculator' }
         ];
 
-        // Load user-specific data
-        function loadUserData() {
-            if (!currentUser) return;
-            
-            const userData = getUserData(currentUser.email);
-            if (userData) {
-                trades = userData.trades || [];
-                startCapital = userData.startCapital || 0;
-                withdrawals = userData.withdrawals || [];
-                deposits = userData.deposits || [];
-                events = userData.events || [];
-            } else {
-                trades = [];
-                startCapital = 0;
-                withdrawals = [];
-                deposits = [];
-                events = [];
-            }
-        }
-
         function saveUserDataToDB() {
             if (!currentUser) return;
             
-            saveUserData(currentUser.email, {
-                passwordHash: getUserData(currentUser.email).passwordHash,
+            // Speichere in Firestore
+            db.collection('users').doc(currentUser.email).set({
                 trades,
                 startCapital,
                 withdrawals,
                 deposits,
-                events
+                events,
+                updatedAt: new Date().toISOString()
+            }).catch(error => {
+                console.error('Fehler beim Speichern:', error);
+                showToast('❌ ' + (currentLang === 'de' ? 'Speicherfehler' : 'Save error'));
             });
         }
 
@@ -1362,29 +1327,38 @@
                 return;
             }
             
-            const existingUser = getUserData(email);
-            if (existingUser) {
-                showToast('❌ ' + (currentLang === 'de' ? 'E-Mail bereits registriert!' : 
-                    currentLang === 'es' ? '¡Correo ya registrado!' : 'Email already registered!'));
-                return;
+            try {
+                // Firebase Authentication Registrierung
+                await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Erstelle User-Daten in Firestore
+                await db.collection('users').doc(email).set({
+                    trades: [],
+                    startCapital: 0,
+                    withdrawals: [],
+                    deposits: [],
+                    events: [],
+                    createdAt: new Date().toISOString()
+                });
+                
+                showToast('✅ ' + (currentLang === 'de' ? 'Konto erstellt! Bitte anmelden.' : 
+                    currentLang === 'es' ? '¡Cuenta creada! Inicia sesión.' : 'Account created! Please login.'));
+                
+                document.getElementById('registerForm').classList.add('hidden');
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('registerForm').reset();
+            } catch (error) {
+                console.error('Registrierungsfehler:', error);
+                let errorMsg = '❌ Fehler bei der Registrierung';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMsg = '❌ ' + (currentLang === 'de' ? 'E-Mail bereits registriert!' : 
+                        currentLang === 'es' ? '¡Correo ya registrado!' : 'Email already registered!');
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Ungültige E-Mail!' : 
+                        currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!');
+                }
+                showToast(errorMsg);
             }
-            
-            const passwordHash = await hashPassword(password);
-            saveUserData(email, {
-                passwordHash,
-                trades: [],
-                startCapital: 0,
-                withdrawals: [],
-                deposits: [],
-                events: []
-            });
-            
-            showToast('✅ ' + (currentLang === 'de' ? 'Konto erstellt! Bitte anmelden.' : 
-                currentLang === 'es' ? '¡Cuenta creada! Inicia sesión.' : 'Account created! Please login.'));
-            
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('registerForm').reset();
         });
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -1392,29 +1366,51 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            const userData = getUserData(email);
-            if (!userData) {
-                showToast('❌ ' + (currentLang === 'de' ? 'Kein Konto gefunden!' : 
-                    currentLang === 'es' ? '¡Cuenta no encontrada!' : 'Account not found!'));
-                return;
+            try {
+                // Firebase Authentication Login
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                currentUser = { email };
+                
+                // Lade Daten aus Firestore
+                const userDoc = await db.collection('users').doc(email).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    trades = userData.trades || [];
+                    startCapital = userData.startCapital || 0;
+                    withdrawals = userData.withdrawals || [];
+                    deposits = userData.deposits || [];
+                    events = userData.events || [];
+                } else {
+                    // Erstelle leere Daten wenn nicht vorhanden
+                    trades = [];
+                    startCapital = 0;
+                    withdrawals = [];
+                    deposits = [];
+                    events = [];
+                }
+                
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                
+                renderNavigation();
+                updateDashboard();
+                showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet' : currentLang === 'es' ? 'Sesión iniciada' : 'Logged in'));
+            } catch (error) {
+                console.error('Login-Fehler:', error);
+                let errorMsg = '❌ Login fehlgeschlagen';
+                if (error.code === 'auth/user-not-found') {
+                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Kein Konto gefunden!' : 
+                        currentLang === 'es' ? '¡Cuenta no encontrada!' : 'Account not found!');
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Falsches Passwort!' : 
+                        currentLang === 'es' ? '¡Contraseña incorrecta!' : 'Wrong password!');
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg = '❌ ' + (currentLang === 'de' ? 'Ungültige E-Mail!' : 
+                        currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!');
+                }
+                showToast(errorMsg);
             }
-            
-            const passwordHash = await hashPassword(password);
-            if (passwordHash !== userData.passwordHash) {
-                showToast('❌ ' + (currentLang === 'de' ? 'Falsches Passwort!' : 
-                    currentLang === 'es' ? '¡Contraseña incorrecta!' : 'Wrong password!'));
-                return;
-            }
-            
-            currentUser = { email };
-            loadUserData();
-            
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            
-            renderNavigation();
-            updateDashboard();
-            showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet' : currentLang === 'es' ? 'Sesión iniciada' : 'Logged in'));
         });
 
         // Menu
@@ -2609,5 +2605,5 @@
         
         renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a865617aae0d3',t:'MTc2NzM1OTcyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a90fba63ee0d3',t:'MTc2NzM2MDE1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
