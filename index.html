@@ -164,6 +164,16 @@
             transition: all 0.3s;
         }
         
+        select option {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        [data-theme="dark"] select option {
+            background: #1a1f3a;
+            color: #ffffff;
+        }
+        
         input:focus, select:focus, textarea:focus {
             border-color: var(--accent-purple);
             outline: none;
@@ -482,7 +492,7 @@
          <div class="grid grid-cols-2 gap-3 mb-4">
           <div class="glass-card rounded-xl p-4 text-center" style="background: rgba(59, 130, 246, 0.1);">
            <div class="text-2xl mb-2">
-            📈
+                  
            </div>
            <div class="text-sm font-bold mb-2">
             Long Trades
@@ -2520,6 +2530,9 @@
         document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
+        
+        // Render initial history
+        renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a55d234e1e0d3',t:'MTc2NzM1NzczNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a6138d24be0d3',t:'MTc2NzM1ODIwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
