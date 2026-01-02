@@ -303,7 +303,7 @@
             Aktuelles Kapital
            </div>
            <div class="text-lg sm:text-xl font-bold text-purple-400" id="currentCapital">
-            €0.00
+              0.00
            </div>
           </div>
           <div class="glass-card rounded-xl stat-card text-center">
@@ -375,7 +375,7 @@
          <form id="newTradeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2"> <span data-i18n="date">Datum</span> * </label> <input type="date" id="tradeDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="    Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
            <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
@@ -474,6 +474,56 @@
           </div>
           <div class="text-lg font-bold text-red-400" id="perfAvgLoss">
            €0.00
+          </div>
+         </div>
+        </div>
+        <div class="glass-card rounded-2xl p-4 mb-4">
+         <h3 class="text-lg font-bold mb-4">📊 Long vs Short Performance</h3>
+         <div class="grid grid-cols-2 gap-3 mb-4">
+          <div class="glass-card rounded-xl p-4 text-center" style="background: rgba(59, 130, 246, 0.1);">
+           <div class="text-2xl mb-2">
+            📈
+           </div>
+           <div class="text-sm font-bold mb-2">
+            Long Trades
+           </div>
+           <div class="text-xs mb-1">
+            Anzahl: <span class="font-bold" id="longCount">0</span>
+           </div>
+           <div class="text-lg font-bold" id="longPL">
+            €0.00
+           </div>
+           <div class="text-xs mt-1" id="longWinrate">
+            0% Winrate
+           </div>
+          </div>
+          <div class="glass-card rounded-xl p-4 text-center" style="background: rgba(249, 115, 22, 0.1);">
+           <div class="text-2xl mb-2">
+            📉
+           </div>
+           <div class="text-sm font-bold mb-2">
+            Short Trades
+           </div>
+           <div class="text-xs mb-1">
+            Anzahl: <span class="font-bold" id="shortCount">0</span>
+           </div>
+           <div class="text-lg font-bold" id="shortPL">
+            €0.00
+           </div>
+           <div class="text-xs mt-1" id="shortWinrate">
+            0% Winrate
+           </div>
+          </div>
+         </div>
+         <div class="h-64 mb-3">
+          <canvas id="longShortChart"></canvas>
+         </div>
+         <div class="text-center p-3 rounded-lg glass-card">
+          <div class="text-xs mb-1">
+           Du performst besser bei:
+          </div>
+          <div class="text-lg font-bold text-purple-400" id="betterPosition">
+           --
           </div>
          </div>
         </div>
@@ -655,7 +705,7 @@
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📐</span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
+         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
          <form id="positionSizeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="account_balance">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl">
           </div>
@@ -2312,5 +2362,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b79fc804534e0d3',t:'MTc2NzM1NDA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a025684ece0d3',t:'MTc2NzM1NDMxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
