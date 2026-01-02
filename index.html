@@ -368,6 +368,12 @@
            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="entryPrice">Einstiegspreis (optional)</label> <input type="number" id="tradeEntryPrice" step="0.00001" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="entryPricePlaceholder" placeholder="z.B. 1.08500">
+           </div>
+           <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="exitPrice">Ausstiegspreis (optional)</label> <input type="number" id="tradeExitPrice" step="0.00001" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="exitPricePlaceholder" placeholder="z.B. 1.08750">
+           </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none" data-i18n-placeholder="strategyPlaceholder" placeholder="z.B. Breakout">
            </div>
            <div><label class="block text-sm font-bold mb-3 text-purple-300" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-5 py-4 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="😐 Neutral">   Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
@@ -381,7 +387,7 @@
        <div id="historyTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-8 mb-6">
          <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
-          <h2 class="text-3xl font-bold flex items-center gap-3"><span>📜</span> <span data-i18n="tradeHistory">Trade Historie</span></h2>
+          <h2 class="text-3xl font-bold flex items-center gap-3"><span>  </span> <span data-i18n="tradeHistory">Trade Historie</span></h2>
           <div class="flex gap-3 flex-wrap"><select id="filterAsset" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allAssets">Alle Assets</option> </select> <select id="filterResult" class="px-4 py-2 rounded-lg bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white text-sm focus:border-purple-500 outline-none"> <option value="all" data-i18n="allResults">Alle Ergebnisse</option> <option value="win">✅ Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
           </div>
          </div>
@@ -465,7 +471,7 @@
          </div>
          <div class="glass-card rounded-2xl p-6 text-center">
           <div class="text-4xl mb-3">
-           ❄️
+              ️
           </div>
           <div class="text-sm text-gray-400 mb-2" data-i18n="lossStreak">
            Loss Streak
@@ -735,9 +741,15 @@
       </div>
      </div>
      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="entryPrice">Einstiegspreis</label> <input type="number" id="editEntryPrice" step="0.00001" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
+      </div>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="exitPrice">Ausstiegspreis</label> <input type="number" id="editExitPrice" step="0.00001" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
+      </div>
+     </div>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none">
       </div>
-      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="    Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="😱 FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
+      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"> <option value="" data-i18n="none">-- Keine --</option> <option value="😊 Zufrieden">😊 Zufrieden</option> <option value="😃 Euphorisch">😃 Euphorisch</option> <option value="😌 Ruhig">😌 Ruhig</option> <option value="    Neutral">😐 Neutral</option> <option value="😟 Unsicher">😟 Unsicher</option> <option value="😰 Nervös">😰 Nervös</option> <option value="😡 Frustriert">😡 Frustriert</option> <option value="   FOMO">😱 FOMO</option> <option value="😤 Rachetrading">😤 Rachetrading</option> </select>
       </div>
      </div>
      <div><label class="block text-sm font-bold mb-2 text-purple-300" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border-2 border-purple-500 border-opacity-30 text-white focus:border-purple-500 outline-none"></textarea>
@@ -904,7 +916,11 @@
                 convertTo: "Konvertierung nach",
                 totalValue: "Gesamtwert",
                 editTrade: "Trade bearbeiten",
-                cancel: "❌ Abbrechen"
+                cancel: "❌ Abbrechen",
+                entryPrice: "Einstiegspreis (optional)",
+                exitPrice: "Ausstiegspreis (optional)",
+                entryPricePlaceholder: "z.B. 1.08500",
+                exitPricePlaceholder: "z.B. 1.08750"
             },
             en: {
                 loginTitle: "Trading Journal Pro",
@@ -1032,7 +1048,11 @@
                 convertTo: "Convert to",
                 totalValue: "Total Value",
                 editTrade: "Edit Trade",
-                cancel: "❌ Cancel"
+                cancel: "❌ Cancel",
+                entryPrice: "Entry Price (optional)",
+                exitPrice: "Exit Price (optional)",
+                entryPricePlaceholder: "e.g. 1.08500",
+                exitPricePlaceholder: "e.g. 1.08750"
             },
             es: {
                 loginTitle: "Trading Journal Pro",
@@ -1160,7 +1180,11 @@
                 convertTo: "Convertir a",
                 totalValue: "Valor Total",
                 editTrade: "Editar Trade",
-                cancel: "❌ Cancelar"
+                cancel: "❌ Cancelar",
+                entryPrice: "Precio de Entrada (opcional)",
+                exitPrice: "Precio de Salida (opcional)",
+                entryPricePlaceholder: "ej. 1.08500",
+                exitPricePlaceholder: "ej. 1.08750"
             }
         };
 
@@ -1714,7 +1738,7 @@
                         plugins: { legend: { labels: { color: currentTheme === 'light' ? '#1e293b' : '#ffffff' } } },
                         scales: {
                             x: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af' }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } },
-                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '€' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
+                            y: { ticks: { color: currentTheme === 'light' ? '#64748b' : '#9ca3af', callback: (v) => '   ' + v.toFixed(0) }, grid: { color: currentTheme === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.1)' } }
                         }
                     }
                 });
@@ -1962,6 +1986,8 @@
             document.getElementById('editStrategy').value = trade.strategy || '';
             document.getElementById('editEmotion').value = trade.emotion || '';
             document.getElementById('editNotes').value = trade.notes || '';
+            document.getElementById('editEntryPrice').value = trade.entryPrice || '';
+            document.getElementById('editExitPrice').value = trade.exitPrice || '';
 
             document.getElementById('editModal').classList.remove('hidden');
             document.getElementById('editModal').classList.add('flex');
@@ -2145,7 +2171,9 @@
                 position: document.getElementById('tradePosition').value,
                 strategy: document.getElementById('tradeStrategy').value,
                 emotion: document.getElementById('tradeEmotion').value,
-                notes: document.getElementById('tradeNotes').value
+                notes: document.getElementById('tradeNotes').value,
+                entryPrice: document.getElementById('tradeEntryPrice').value ? parseFloat(document.getElementById('tradeEntryPrice').value) : null,
+                exitPrice: document.getElementById('tradeExitPrice').value ? parseFloat(document.getElementById('tradeExitPrice').value) : null
             };
 
             try {
@@ -2193,7 +2221,9 @@
                 position: document.getElementById('editPosition').value,
                 strategy: document.getElementById('editStrategy').value,
                 emotion: document.getElementById('editEmotion').value,
-                notes: document.getElementById('editNotes').value
+                notes: document.getElementById('editNotes').value,
+                entryPrice: document.getElementById('editEntryPrice').value ? parseFloat(document.getElementById('editEntryPrice').value) : null,
+                exitPrice: document.getElementById('editExitPrice').value ? parseFloat(document.getElementById('editExitPrice').value) : null
             };
 
             try {
@@ -2590,5 +2620,5 @@
             document.getElementById('pipResult').classList.remove('hidden');
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7626f791dfe0d3',t:'MTc2NzMxMzg3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b762e92f566e0d3',t:'MTc2NzMxNDE4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
