@@ -1372,36 +1372,49 @@
                 return;
             }
             
+            // Show loading state
+            const loginBtn = document.querySelector('#loginForm button[type="submit"]');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<span>⏳ ' + (currentLang === 'de' ? 'Wird geladen...' : 'Loading...') + '</span>';
+            loginBtn.disabled = true;
+            
             try {
                 // Firebase Authentication Login
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 
                 currentUser = { email: userCredential.user.email };
                 
-                // Lade Daten aus Firestore mit Timeout
-                const userDoc = await Promise.race([
-                    db.collection('users').doc(currentUser.email).get(),
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
-                ]);
-                
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    trades = userData.trades || [];
-                    startCapital = userData.startCapital || 0;
-                    withdrawals = userData.withdrawals || [];
-                    deposits = userData.deposits || [];
-                    events = userData.events || [];
-                } else {
-                    // Erstelle leere Daten wenn nicht vorhanden
-                    await db.collection('users').doc(currentUser.email).set({
-                        trades: [],
-                        startCapital: 0,
-                        withdrawals: [],
-                        deposits: [],
-                        events: [],
-                        createdAt: new Date().toISOString()
-                    });
+                // Lade Daten aus Firestore
+                try {
+                    const userDoc = await db.collection('users').doc(currentUser.email).get();
                     
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        trades = userData.trades || [];
+                        startCapital = userData.startCapital || 0;
+                        withdrawals = userData.withdrawals || [];
+                        deposits = userData.deposits || [];
+                        events = userData.events || [];
+                    } else {
+                        // Erstelle leere Daten wenn nicht vorhanden
+                        await db.collection('users').doc(currentUser.email).set({
+                            trades: [],
+                            startCapital: 0,
+                            withdrawals: [],
+                            deposits: [],
+                            events: [],
+                            createdAt: new Date().toISOString()
+                        });
+                        
+                        trades = [];
+                        startCapital = 0;
+                        withdrawals = [];
+                        deposits = [];
+                        events = [];
+                    }
+                } catch (dbError) {
+                    console.error('Firestore-Fehler:', dbError);
+                    // Continue with empty data if Firestore fails
                     trades = [];
                     startCapital = 0;
                     withdrawals = [];
@@ -1417,12 +1430,12 @@
                 showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
             } catch (error) {
                 console.error('Login-Fehler:', error);
+                console.error('Fehlercode:', error.code);
+                console.error('Fehlermeldung:', error.message);
+                
                 let errorMsg = '❌ ';
                 
-                if (error.message === 'Timeout') {
-                    errorMsg += currentLang === 'de' ? 'Zeitüberschreitung - Bitte erneut versuchen' : 
-                        currentLang === 'es' ? 'Tiempo de espera agotado - Inténtalo de nuevo' : 'Timeout - Please try again';
-                } else if (error.code === 'auth/user-not-found') {
+                if (error.code === 'auth/user-not-found') {
                     errorMsg += currentLang === 'de' ? 'Kein Konto gefunden! Bitte registrieren.' : 
                         currentLang === 'es' ? '¡Cuenta no encontrada! Por favor regístrate.' : 'Account not found! Please register.';
                 } else if (error.code === 'auth/wrong-password') {
@@ -1432,17 +1445,24 @@
                     errorMsg += currentLang === 'de' ? 'Ungültige E-Mail-Adresse!' : 
                         currentLang === 'es' ? '¡Dirección de correo inválida!' : 'Invalid email address!';
                 } else if (error.code === 'auth/invalid-credential') {
-                    errorMsg += currentLang === 'de' ? 'Ungültige Anmeldedaten! Bitte prüfen.' : 
-                        currentLang === 'es' ? '¡Credenciales inválidas! Por favor verifica.' : 'Invalid credentials! Please check.';
+                    errorMsg += currentLang === 'de' ? 'Falsche E-Mail oder Passwort!' : 
+                        currentLang === 'es' ? '¡Correo o contraseña incorrecta!' : 'Wrong email or password!';
                 } else if (error.code === 'auth/network-request-failed') {
                     errorMsg += currentLang === 'de' ? 'Netzwerkfehler - Bitte Verbindung prüfen' : 
                         currentLang === 'es' ? 'Error de red - Por favor verifica tu conexión' : 'Network error - Please check connection';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMsg += currentLang === 'de' ? 'Zu viele Versuche! Bitte später erneut versuchen.' : 
+                        currentLang === 'es' ? '¡Demasiados intentos! Inténtalo más tarde.' : 'Too many attempts! Please try again later.';
                 } else {
-                    errorMsg += currentLang === 'de' ? 'Login fehlgeschlagen. Bitte erneut versuchen.' : 
-                        currentLang === 'es' ? 'Inicio de sesión fallido. Inténtalo de nuevo.' : 'Login failed. Please try again.';
+                    errorMsg += currentLang === 'de' ? 'E-Mail oder Passwort falsch!' : 
+                        currentLang === 'es' ? '¡Correo o contraseña incorrecta!' : 'Wrong email or password!';
                 }
                 
                 showToast(errorMsg);
+                
+                // Reset button
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
             }
         });
 
@@ -2638,5 +2658,5 @@
         
         renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a97a8c459e0d3',t:'MTc2NzM2MDQzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a9f67545ae0d3',t:'MTc2NzM2MDc0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
