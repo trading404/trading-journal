@@ -532,7 +532,7 @@
           </div><button type="submit" class="w-full py-4 rounded-xl font-bold btn-primary"> <span data-i18n="calculate">🧮 Berechnen</span> </button>
          </form>
          <div id="compoundResult" class="mt-6 hidden">
-          <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
            <div class="glass-card rounded-xl p-4 text-center">
             <div class="text-xs mb-2" data-i18n="target_reached_in">
              Ziel erreicht in
@@ -550,6 +550,22 @@
             </div>
             <div class="text-2xl font-bold" id="paceStatus">
              --
+            </div>
+           </div>
+           <div class="glass-card rounded-xl p-4 text-center">
+            <div class="text-xs mb-2" data-i18n="performance_diff">
+             Differenz
+            </div>
+            <div class="text-2xl font-bold" id="performanceDiff">
+             €0.00
+            </div>
+           </div>
+           <div class="glass-card rounded-xl p-4 text-center">
+            <div class="text-xs mb-2" data-i18n="vs_plan">
+             vs. Plan
+            </div>
+            <div class="text-2xl font-bold" id="performancePercent">
+             0%
             </div>
            </div>
           </div>
@@ -800,6 +816,8 @@
                 target_reached_in: 'Ziel erreicht in',
                 months: 'Monaten',
                 your_pace: 'Dein Tempo',
+                performance_diff: 'Differenz',
+                vs_plan: 'vs. Plan',
                 add_withdrawal: '💸 Auszahlung hinzufügen',
                 withdrawal_history: 'Auszahlungshistorie',
                 add_deposit: '💰 Einzahlung hinzufügen',
@@ -818,7 +836,7 @@
                 pips: 'Pips',
                 edit_trade: 'Trade bearbeiten',
                 cancel: '❌ Abbrechen',
-                faster: '🚀 Schneller',
+                faster: '      Schneller',
                 slower: '🐌 Langsamer',
                 on_track: '✅ Im Plan'
             },
@@ -882,6 +900,8 @@
                 target_reached_in: 'Target reached in',
                 months: 'Months',
                 your_pace: 'Your Pace',
+                performance_diff: 'Difference',
+                vs_plan: 'vs. Plan',
                 add_withdrawal: '💸 Add Withdrawal',
                 withdrawal_history: 'Withdrawal History',
                 add_deposit: '💰 Add Deposit',
@@ -964,6 +984,8 @@
                 target_reached_in: 'Objetivo alcanzado en',
                 months: 'Meses',
                 your_pace: 'Tu Ritmo',
+                performance_diff: 'Diferencia',
+                vs_plan: 'vs. Plan',
                 add_withdrawal: '💸 Agregar Retiro',
                 withdrawal_history: 'Historial de Retiros',
                 add_deposit: '💰 Agregar Depósito',
@@ -1475,6 +1497,8 @@
                 
                 const expectedCapital = startCapital * Math.pow(1 + monthlyReturn, currentMonths);
                 const actualCapital = currentCapital;
+                const performanceDiff = actualCapital - expectedCapital;
+                const performancePercent = expectedCapital > 0 ? ((actualCapital / expectedCapital - 1) * 100) : 0;
                 const performance = actualCapital >= expectedCapital ? 'faster' : actualCapital >= expectedCapital * 0.9 ? 'on_track' : 'slower';
                 
                 document.getElementById('compoundResult').classList.remove('hidden');
@@ -1482,6 +1506,12 @@
                 document.getElementById('paceStatus').textContent = translations[currentLang][performance];
                 document.getElementById('paceStatus').className = performance === 'faster' ? 'text-2xl font-bold text-green-400' : 
                     performance === 'on_track' ? 'text-2xl font-bold text-blue-400' : 'text-2xl font-bold text-yellow-400';
+                
+                // Performance difference display
+                document.getElementById('performanceDiff').textContent = formatCurrency(performanceDiff);
+                document.getElementById('performanceDiff').className = performanceDiff >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
+                document.getElementById('performancePercent').textContent = (performanceDiff >= 0 ? '+' : '') + performancePercent.toFixed(1) + '%';
+                document.getElementById('performancePercent').className = performanceDiff >= 0 ? 'text-sm text-green-400' : 'text-sm text-red-400';
                 
                 // Chart
                 if (charts.compound) charts.compound.destroy();
@@ -1921,6 +1951,45 @@
             const avgWin = winTrades.length > 0 ? winTrades.reduce((sum, t) => sum + t.profitLoss, 0) / winTrades.length : 0;
             const avgLoss = lossTrades.length > 0 ? Math.abs(lossTrades.reduce((sum, t) => sum + t.profitLoss, 0) / lossTrades.length) : 0;
 
+            // Long vs Short Analysis
+            const longTrades = trades.filter(t => t.position === 'Long');
+            const shortTrades = trades.filter(t => t.position === 'Short');
+            
+            const longPL = longTrades.reduce((sum, t) => sum + t.profitLoss, 0);
+            const shortPL = shortTrades.reduce((sum, t) => sum + t.profitLoss, 0);
+            
+            const longWins = longTrades.filter(t => t.profitLoss > 0).length;
+            const shortWins = shortTrades.filter(t => t.profitLoss > 0).length;
+            
+            const longWinrate = longTrades.length > 0 ? (longWins / longTrades.length * 100) : 0;
+            const shortWinrate = shortTrades.length > 0 ? (shortWins / shortTrades.length * 100) : 0;
+            
+            document.getElementById('longCount').textContent = longTrades.length;
+            document.getElementById('shortCount').textContent = shortTrades.length;
+            document.getElementById('longPL').textContent = formatCurrency(longPL);
+            document.getElementById('longPL').className = longPL >= 0 ? 'text-sm mt-2 text-green-400' : 'text-sm mt-2 text-red-400';
+            document.getElementById('shortPL').textContent = formatCurrency(shortPL);
+            document.getElementById('shortPL').className = shortPL >= 0 ? 'text-sm mt-2 text-green-400' : 'text-sm mt-2 text-red-400';
+            document.getElementById('longWinrate').textContent = longWinrate.toFixed(1) + '% Winrate';
+            document.getElementById('shortWinrate').textContent = shortWinrate.toFixed(1) + '% Winrate';
+            
+            // Determine better position
+            let betterPos = '--';
+            if (longTrades.length > 0 && shortTrades.length > 0) {
+                if (longPL > shortPL) {
+                    betterPos = '📈 Long Trades';
+                } else if (shortPL > longPL) {
+                    betterPos = '📉 Short Trades';
+                } else {
+                    betterPos = '⚖️ Ausgeglichen';
+                }
+            } else if (longTrades.length > 0) {
+                betterPos = '📈 Long Trades (nur Long)';
+            } else if (shortTrades.length > 0) {
+                betterPos = '📉 Short Trades (nur Short)';
+            }
+            document.getElementById('betterPosition').textContent = betterPos;
+
             // Calculate streaks
             let currentWinStreak = 0;
             let currentLossStreak = 0;
@@ -1950,6 +2019,34 @@
 
             const textColor = currentTheme === 'dark' ? '#ffffff' : '#0f172a';
             const gridColor = currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.15)';
+
+            // Long vs Short Chart
+            if (charts.longShort) charts.longShort.destroy();
+            const longShortCanvas = document.getElementById('longShortChart');
+            if (longShortCanvas) {
+                charts.longShort = new Chart(longShortCanvas.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Long', 'Short'],
+                        datasets: [{
+                            label: 'Gesamt P/L',
+                            data: [longPL, shortPL],
+                            backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(249, 115, 22, 0.8)'],
+                            borderColor: ['rgba(59, 130, 246, 1)', 'rgba(249, 115, 22, 1)'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: textColor } } },
+                        scales: {
+                            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                            y: { ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, grid: { color: gridColor } }
+                        }
+                    }
+                });
+            }
 
             // Streak Chart
             if (charts.streak) charts.streak.destroy();
@@ -2215,5 +2312,5 @@
         document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
         document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b79e9338069e0d3',t:'MTc2NzM1MzI4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b79fc804534e0d3',t:'MTc2NzM1NDA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
