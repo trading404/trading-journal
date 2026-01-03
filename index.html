@@ -274,7 +274,7 @@
      <div class="px-4 py-3">
       <div class="flex items-center justify-between">
        <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">💎</span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
-       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
+       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪    </option> </select>
         <div class="bg-white bg-opacity-10 px-3 py-1 rounded-lg">
          <div class="text-xs text-purple-100" id="capitalLabel">
           Kapital
@@ -956,7 +956,7 @@
                 vs_plan: 'vs. Plan',
                 add_withdrawal: '💸 Auszahlung hinzufügen',
                 withdrawal_history: 'Auszahlungshistorie',
-                add_deposit: '💰 Einzahlung hinzufügen',
+                add_deposit: '    Einzahlung hinzufügen',
                 deposit_history: 'Einzahlungshistorie',
                 amount: 'Betrag',
                 add_event: '📅 Termin hinzufügen',
@@ -1921,12 +1921,616 @@
                 });
             }
             
-            // Weitere Charts (gekürzt für die Länge)...
-            // Streak, Distribution, Strategy, Monthly, Asset Charts hier einfügen
+            // Streak Chart
+            if (charts.streak) charts.streak.destroy();
+            const streakCtx = document.getElementById('streakChart');
+            if (streakCtx) {
+                charts.streak = new Chart(streakCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Win Streak', 'Loss Streak'],
+                        datasets: [{
+                            label: 'Maximale Strähne',
+                            data: [winStreak, lossStreak],
+                            backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                            borderColor: ['#22c55e', '#ef4444'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Distribution Chart
+            if (charts.distribution) charts.distribution.destroy();
+            const distributionCtx = document.getElementById('distributionChart');
+            if (distributionCtx) {
+                charts.distribution = new Chart(distributionCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Wins', 'Losses', 'Break Even'],
+                        datasets: [{
+                            data: [
+                                wins.length,
+                                losses.length,
+                                trades.filter(t => t.result === 'breakeven').length
+                            ],
+                            backgroundColor: [
+                                'rgba(34, 197, 94, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(156, 163, 175, 0.8)'
+                            ],
+                            borderColor: ['#22c55e', '#ef4444', '#9ca3af'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Strategy Chart
+            if (charts.strategy) charts.strategy.destroy();
+            const strategyCtx = document.getElementById('strategyChart');
+            if (strategyCtx) {
+                const strategies = {};
+                trades.forEach(t => {
+                    if (t.strategy) {
+                        strategies[t.strategy] = (strategies[t.strategy] || 0) + t.profitLoss;
+                    }
+                });
+                
+                charts.strategy = new Chart(strategyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(strategies),
+                        datasets: [{
+                            label: 'Profit/Loss',
+                            data: Object.values(strategies),
+                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Monthly Chart
+            if (charts.monthly) charts.monthly.destroy();
+            const monthlyCtx = document.getElementById('monthlyChart');
+            if (monthlyCtx) {
+                const monthlyData = {};
+                trades.forEach(t => {
+                    const date = new Date(t.date);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                    monthlyData[monthKey] = (monthlyData[monthKey] || 0) + t.profitLoss;
+                });
+                
+                const sortedMonths = Object.keys(monthlyData).sort();
+                
+                charts.monthly = new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: sortedMonths,
+                        datasets: [{
+                            label: 'Monatliche Performance',
+                            data: sortedMonths.map(m => monthlyData[m]),
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Asset Chart
+            if (charts.asset) charts.asset.destroy();
+            const assetCtx = document.getElementById('assetChart');
+            if (assetCtx) {
+                const assets = {};
+                trades.forEach(t => {
+                    if (t.asset) {
+                        assets[t.asset] = (assets[t.asset] || 0) + t.profitLoss;
+                    }
+                });
+                
+                charts.asset = new Chart(assetCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(assets),
+                        datasets: [{
+                            label: 'Profit/Loss',
+                            data: Object.values(assets),
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Render Emotions Charts
+        function renderEmotions() {
+            const isDark = currentTheme === 'dark';
+            
+            // Emotion Count Chart
+            if (charts.emotion) charts.emotion.destroy();
+            const emotionCtx = document.getElementById('emotionChart');
+            if (emotionCtx) {
+                const emotions = {};
+                trades.forEach(t => {
+                    if (t.emotion) {
+                        emotions[t.emotion] = (emotions[t.emotion] || 0) + 1;
+                    }
+                });
+                
+                charts.emotion = new Chart(emotionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(emotions),
+                        datasets: [{
+                            data: Object.values(emotions),
+                            backgroundColor: [
+                                'rgba(139, 92, 246, 0.8)',
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(34, 197, 94, 0.8)',
+                                'rgba(234, 179, 8, 0.8)',
+                                'rgba(249, 115, 22, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(236, 72, 153, 0.8)',
+                                'rgba(168, 85, 247, 0.8)',
+                                'rgba(14, 165, 233, 0.8)',
+                                'rgba(132, 204, 22, 0.8)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Emotion Performance Chart
+            if (charts.emotionPerf) charts.emotionPerf.destroy();
+            const emotionPerfCtx = document.getElementById('emotionPerfChart');
+            if (emotionPerfCtx) {
+                const emotionPL = {};
+                trades.forEach(t => {
+                    if (t.emotion) {
+                        emotionPL[t.emotion] = (emotionPL[t.emotion] || 0) + t.profitLoss;
+                    }
+                });
+                
+                charts.emotionPerf = new Chart(emotionPerfCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(emotionPL),
+                        datasets: [{
+                            label: 'Profit/Loss',
+                            data: Object.values(emotionPL),
+                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
         }
         
         // Weitere Funktionen (gekürzt)...
         // renderEmotions, renderCalendar, renderWithdrawals, renderDeposits, etc.
+        
+        // Zinseszins Calculator
+        document.getElementById('compoundForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const targetAmount = parseFloat(document.getElementById('targetAmount').value);
+            const monthlyReturnPercent = parseFloat(document.getElementById('monthlyReturn').value) / 100;
+            const currentCapital = calculateCurrentCapital();
+            
+            if (!targetAmount || !monthlyReturnPercent || targetAmount <= currentCapital) {
+                showToast('❌ ' + (currentLang === 'de' ? 'Bitte gültige Werte eingeben! Ziel muss größer als aktuelles Kapital sein.' : 
+                    currentLang === 'es' ? '¡Por favor ingrese valores válidos! El objetivo debe ser mayor que el capital actual.' : 
+                    'Please enter valid values! Target must be greater than current capital.'));
+                return;
+            }
+            
+            // Calculate months needed to reach target
+            let monthsNeeded = 0;
+            let projectedCapital = currentCapital;
+            
+            while (projectedCapital < targetAmount && monthsNeeded < 1000) {
+                projectedCapital *= (1 + monthlyReturnPercent);
+                monthsNeeded++;
+            }
+            
+            // Generate projection data
+            const projectionData = [currentCapital];
+            const actualData = [currentCapital];
+            const labels = ['Start'];
+            
+            let tempCapital = currentCapital;
+            for (let i = 1; i <= monthsNeeded; i++) {
+                tempCapital *= (1 + monthlyReturnPercent);
+                projectionData.push(tempCapital);
+                actualData.push(currentCapital); // Actual stays same (current reality)
+                labels.push(`M${i}`);
+            }
+            
+            // Calculate performance comparison
+            const projectedAtMonth = projectionData[Math.min(monthsNeeded, projectionData.length - 1)];
+            const performanceDiff = currentCapital - projectedCapital;
+            const performancePercent = ((currentCapital / projectedCapital) - 1) * 100;
+            
+            // Determine pace
+            let paceStatus = '';
+            let paceEmoji = '';
+            
+            if (performancePercent > 10) {
+                paceStatus = translations[currentLang].faster || '🚀 Schneller';
+                paceEmoji = '🚀';
+            } else if (performancePercent < -10) {
+                paceStatus = translations[currentLang].slower || '🐌 Langsamer';
+                paceEmoji = '🐌';
+            } else {
+                paceStatus = translations[currentLang].on_track || '✅ Im Plan';
+                paceEmoji = '✅';
+            }
+            
+            // Update UI
+            document.getElementById('compoundResult').classList.remove('hidden');
+            document.getElementById('monthsToGoal').textContent = monthsNeeded;
+            document.getElementById('performanceDiff').textContent = formatCurrency(Math.abs(performanceDiff));
+            document.getElementById('performanceDiff').className = performanceDiff >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
+            document.getElementById('performancePercent').textContent = performancePercent.toFixed(1) + '%';
+            document.getElementById('performancePercent').className = performancePercent >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
+            
+            document.getElementById('paceStatus').textContent = paceStatus;
+            document.getElementById('paceStatusEmoji').textContent = paceEmoji;
+            
+            document.getElementById('compoundStartCapital').textContent = formatCurrency(startCapital);
+            document.getElementById('compoundCurrentCapital').textContent = formatCurrency(currentCapital);
+            document.getElementById('compoundTargetCapital').textContent = formatCurrency(targetAmount);
+            
+            // Render Chart
+            const isDark = currentTheme === 'dark';
+            
+            if (charts.compound) charts.compound.destroy();
+            const compoundCtx = document.getElementById('compoundChart');
+            if (compoundCtx) {
+                charts.compound = new Chart(compoundCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Projektion (Plan)',
+                                data: projectionData,
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Tatsächlich',
+                                data: actualData,
+                                borderColor: '#22c55e',
+                                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { 
+                                    color: isDark ? '#9ca3af' : '#64748b',
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        
+        // Withdrawals
+        document.getElementById('withdrawalForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const withdrawal = {
+                id: Date.now().toString(),
+                date: document.getElementById('withdrawalDate').value,
+                amount: parseFloat(document.getElementById('withdrawalAmount').value),
+                notes: document.getElementById('withdrawalNotes').value
+            };
+            
+            withdrawals.unshift(withdrawal);
+            await saveUserDataToDB();
+            updateDashboard();
+            renderWithdrawals();
+            
+            document.getElementById('withdrawalForm').reset();
+            document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
+            
+            showToast('✅ ' + (currentLang === 'de' ? 'Auszahlung gespeichert' : currentLang === 'es' ? 'Retiro guardado' : 'Withdrawal saved'));
+        });
+        
+        function renderWithdrawals() {
+            const listEl = document.getElementById('withdrawalsList');
+            if (withdrawals.length === 0) {
+                listEl.innerHTML = '<p class="text-center opacity-50">Keine Auszahlungen</p>';
+                return;
+            }
+            
+            listEl.innerHTML = withdrawals.map(w => `
+                <div class="glass-card rounded-xl p-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-lg text-red-400">-${formatCurrency(w.amount)}</div>
+                        <div class="text-sm opacity-70">${formatDate(w.date)}</div>
+                        ${w.notes ? `<div class="text-sm mt-1">${w.notes}</div>` : ''}
+                    </div>
+                    <button onclick="deleteWithdrawal('${w.id}')" class="p-2 rounded-lg bg-red-500 hover:bg-red-600">🗑️</button>
+                </div>
+            `).join('');
+        }
+        
+        window.deleteWithdrawal = async function(id) {
+            withdrawals = withdrawals.filter(w => w.id !== id);
+            await saveUserDataToDB();
+            updateDashboard();
+            renderWithdrawals();
+            showToast('🗑️ ' + (currentLang === 'de' ? 'Gelöscht' : currentLang === 'es' ? 'Eliminado' : 'Deleted'));
+        };
+        
+        // Deposits
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const deposit = {
+                id: Date.now().toString(),
+                date: document.getElementById('depositDate').value,
+                amount: parseFloat(document.getElementById('depositAmount').value),
+                notes: document.getElementById('depositNotes').value
+            };
+            
+            deposits.unshift(deposit);
+            await saveUserDataToDB();
+            updateDashboard();
+            renderDeposits();
+            
+            document.getElementById('depositForm').reset();
+            document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
+            
+            showToast('✅ ' + (currentLang === 'de' ? 'Einzahlung gespeichert' : currentLang === 'es' ? 'Depósito guardado' : 'Deposit saved'));
+        });
+        
+        function renderDeposits() {
+            const listEl = document.getElementById('depositsList');
+            if (deposits.length === 0) {
+                listEl.innerHTML = '<p class="text-center opacity-50">Keine Einzahlungen</p>';
+                return;
+            }
+            
+            listEl.innerHTML = deposits.map(d => `
+                <div class="glass-card rounded-xl p-4 flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-lg text-green-400">+${formatCurrency(d.amount)}</div>
+                        <div class="text-sm opacity-70">${formatDate(d.date)}</div>
+                        ${d.notes ? `<div class="text-sm mt-1">${d.notes}</div>` : ''}
+                    </div>
+                    <button onclick="deleteDeposit('${d.id}')" class="p-2 rounded-lg bg-red-500 hover:bg-red-600">🗑️</button>
+                </div>
+            `).join('');
+        }
+        
+        window.deleteDeposit = async function(id) {
+            deposits = deposits.filter(d => d.id !== id);
+            await saveUserDataToDB();
+            updateDashboard();
+            renderDeposits();
+            showToast('🗑️ ' + (currentLang === 'de' ? 'Gelöscht' : currentLang === 'es' ? 'Eliminado' : 'Deleted'));
+        };
+        
+        // Calendar
+        function renderCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            const monthNames = {
+                de: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+            };
+            
+            document.getElementById('calendarMonthYear').textContent = `${monthNames[currentLang][month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+            
+            const daysContainer = document.getElementById('calendarDays');
+            daysContainer.innerHTML = '';
+            
+            // Empty cells before first day
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                daysContainer.appendChild(emptyCell);
+            }
+            
+            // Days
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasTrade = trades.some(t => t.date === dateStr);
+                const hasEvent = events.some(e => e.date === dateStr);
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = `calendar-day ${hasTrade ? 'has-trade' : ''} ${hasEvent ? 'has-event' : ''}`;
+                dayCell.textContent = day;
+                dayCell.addEventListener('click', () => {
+                    document.getElementById('eventDate').value = dateStr;
+                });
+                
+                daysContainer.appendChild(dayCell);
+            }
+        }
+        
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderCalendar();
+        });
+        
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderCalendar();
+        });
+        
+        document.getElementById('eventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const event = {
+                id: Date.now().toString(),
+                date: document.getElementById('eventDate').value,
+                title: document.getElementById('eventTitle').value,
+                notes: document.getElementById('eventNotes').value
+            };
+            
+            events.push(event);
+            await saveUserDataToDB();
+            renderCalendar();
+            
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
+            
+            showToast('✅ ' + (currentLang === 'de' ? 'Termin gespeichert' : currentLang === 'es' ? 'Evento guardado' : 'Event saved'));
+        });
         
         // Calculator Functions
         document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
@@ -2075,5 +2679,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b852ec0622be0d3',t:'MTc2NzQ3MTQ3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8537a66090e0d3',t:'MTc2NzQ3MTg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
