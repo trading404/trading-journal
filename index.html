@@ -1261,7 +1261,7 @@
             currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', currentTheme);
             localStorage.setItem('tradingJournalTheme', currentTheme);
-            document.getElementById('themeIcon').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+            document.getElementById('themeIcon').textContent = currentTheme === 'dark' ? '   ' : '☀️';
             if (document.getElementById('themeToggleLogin')) {
                 document.querySelector('#themeToggleLogin span').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
             }
@@ -1453,8 +1453,11 @@
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
+            
+            console.log('🔐 Login-Versuch gestartet:', email);
             
             if (!email || !password) {
                 showToast('❌ ' + (currentLang === 'de' ? 'Bitte alle Felder ausfüllen' : 
@@ -1468,14 +1471,18 @@
             loginBtn.disabled = true;
             
             try {
+                console.log('🔄 Firebase-Authentifizierung wird durchgeführt...');
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log('✅ Firebase-Auth erfolgreich:', userCredential.user.email);
                 
                 currentUser = { email: userCredential.user.email };
                 
+                console.log('📥 Lade Benutzerdaten aus Firestore...');
                 try {
                     const userDoc = await db.collection('users').doc(currentUser.email).get();
                     
                     if (userDoc.exists) {
+                        console.log('✅ Benutzerdaten gefunden');
                         const userData = userDoc.data();
                         trades = userData.trades || [];
                         startCapital = userData.startCapital || 0;
@@ -1483,6 +1490,7 @@
                         deposits = userData.deposits || [];
                         events = userData.events || [];
                     } else {
+                        console.log('⚠️ Keine Daten gefunden - erstelle neue Datenbank');
                         await db.collection('users').doc(currentUser.email).set({
                             trades: [],
                             startCapital: 0,
@@ -1499,7 +1507,7 @@
                         events = [];
                     }
                 } catch (dbError) {
-                    console.error('Firestore-Fehler:', dbError);
+                    console.error('❌ Firestore-Fehler:', dbError);
                     trades = [];
                     startCapital = 0;
                     withdrawals = [];
@@ -1507,13 +1515,26 @@
                     events = [];
                 }
                 
-                // Screen-Wechsel - komplett vereinfacht
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'flex';
+                console.log('🖥️ Wechsle zu Main-App...');
+                
+                // KRITISCH: Screen-Wechsel mit garantierter Sichtbarkeit
+                const loginScreen = document.getElementById('loginScreen');
+                const mainApp = document.getElementById('mainApp');
+                
+                loginScreen.style.display = 'none';
+                loginScreen.style.visibility = 'hidden';
+                loginScreen.style.opacity = '0';
+                
+                mainApp.style.display = 'flex';
+                mainApp.style.visibility = 'visible';
+                mainApp.style.opacity = '1';
+                
+                console.log('✅ Screen-Wechsel abgeschlossen');
                 
                 showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
                 // App initialisieren
+                console.log('🎨 Initialisiere App...');
                 const today = new Date().toISOString().split('T')[0];
                 document.getElementById('tradeDate').value = today;
                 document.getElementById('withdrawalDate').value = today;
@@ -1525,14 +1546,17 @@
                 renderHistory();
                 switchTab('dashboard');
                 
+                console.log('🎉 Login komplett erfolgreich!');
+                
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
                 document.getElementById('loginForm').reset();
                 
             } catch (error) {
-                console.error('Login-Fehler:', error);
+                console.error('❌ Login-Fehler:', error);
                 console.error('Fehlercode:', error.code);
                 console.error('Fehlermeldung:', error.message);
+                console.error('Fehler-Stack:', error.stack);
                 
                 let errorMsg = '❌ ';
                 
@@ -2441,7 +2465,7 @@
                 document.getElementById('performancePercent').className = perfPercent >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
                 
                 if (currentCapital > startCapital * (1 + monthlyReturn)) {
-                    document.getElementById('paceStatus').textContent = translations[currentLang].faster || '🚀 Schneller';
+                    document.getElementById('paceStatus').textContent = translations[currentLang].faster || '     Schneller';
                     document.getElementById('paceStatusEmoji').textContent = '🚀';
                 } else if (currentCapital < startCapital * (1 + monthlyReturn * 0.8)) {
                     document.getElementById('paceStatus').textContent = translations[currentLang].slower || '🐌 Langsamer';
@@ -2656,5 +2680,5 @@
                     emotion: document.getElementById('editEmotion').value,
                     notes: document.getElementById('edit
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8519ccb44fe0d3',t:'MTc2NzQ3MDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8520c11428e0d3',t:'MTc2NzQ3MDkwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
