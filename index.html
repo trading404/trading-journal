@@ -661,7 +661,7 @@
            </div>
           </div><!-- Chart -->
           <div class="glass-card rounded-xl p-4">
-           <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📊</span> <span>Projektion vs. Tatsächlich</span></h3>
+           <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📊</span> <span>Projektion vs. Tats  chlich</span></h3>
            <div class="h-80">
             <canvas id="compoundChart"></canvas>
            </div>
@@ -883,7 +883,7 @@
                 register: 'Noch kein Konto? Registrieren',
                 create_account: 'Konto erstellen',
                 back_to_login: 'Zurück zum Login',
-                forgot_password: '🔑 Passwort vergessen?',
+                forgot_password: '     Passwort vergessen?',
                 send_reset_email: '📧 Zurücksetzen-Link senden',
                 demo_note: 'Demo-Modus: Beliebige E-Mail verwenden',
                 logout: 'Abmelden',
@@ -1073,7 +1073,7 @@
                 emotions: 'Emociones',
                 compound: 'Interés Compuesto',
                 withdrawals: 'Retiros',
-                deposits: 'Depósitos',
+                deposits: 'Dep  sitos',
                 calendar: 'Calendario',
                 calculator: 'Calculadora',
                 financial_overview: 'Resumen Financiero',
@@ -1177,7 +1177,7 @@
             { id: 'withdrawals', icon: '💸', label: 'withdrawals' },
             { id: 'deposits', icon: '💰', label: 'deposits' },
             { id: 'calendar', icon: '📅', label: 'calendar' },
-            { id: 'calculator', icon: '🔢', label: 'calculator' }
+            { id: 'calculator', icon: '  ', label: 'calculator' }
         ];
 
         async function saveUserDataToDB() {
@@ -1376,7 +1376,7 @@
                     errorMsg += currentLang === 'de' ? 'E-Mail nicht gefunden!' : 
                         currentLang === 'es' ? '¡Correo no encontrado!' : 'Email not found!';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMsg += currentLang === 'de' ? 'Ungültige E-Mail!' : 
+                    errorMsg += currentLang === 'de' ? 'Ung  ltige E-Mail!' : 
                         currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!';
                 } else {
                     errorMsg += currentLang === 'de' ? 'Fehler beim Senden. Bitte erneut versuchen.' : 
@@ -1498,15 +1498,24 @@
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
                 
+                // KRITISCH: Warte einen Moment bis DOM bereit ist
+                await new Promise(resolve => setTimeout(resolve, 50));
+                
                 // Alle Initialisierungen NACH dem Login
                 renderNavigation();
                 
-                // Datum-Felder setzen
+                // Datum-Felder setzen - NACH renderNavigation
+                await new Promise(resolve => setTimeout(resolve, 50));
                 const today = new Date().toISOString().split('T')[0];
-                document.getElementById('tradeDate').value = today;
-                document.getElementById('withdrawalDate').value = today;
-                document.getElementById('depositDate').value = today;
-                document.getElementById('eventDate').value = today;
+                const tradeDateField = document.getElementById('tradeDate');
+                const withdrawalDateField = document.getElementById('withdrawalDate');
+                const depositDateField = document.getElementById('depositDate');
+                const eventDateField = document.getElementById('eventDate');
+                
+                if (tradeDateField) tradeDateField.value = today;
+                if (withdrawalDateField) withdrawalDateField.value = today;
+                if (depositDateField) depositDateField.value = today;
+                if (eventDateField) eventDateField.value = today;
                 
                 // Dashboard aktualisieren
                 updateDashboard();
@@ -1518,7 +1527,7 @@
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
                 
-                showToast('✅ ' + (currentLang === 'de' ? 'Angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
+                showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
             } catch (error) {
                 console.error('Login-Fehler:', error);
                 console.error('Fehlercode:', error.code);
@@ -2607,5 +2616,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84448020c4e0d3',t:'MTc2NzQ2MTg4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b844ca85370e0d3',t:'MTc2NzQ2MjIxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
