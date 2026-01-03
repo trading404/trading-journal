@@ -1055,7 +1055,7 @@
             es: {
                 trading_journal_pro: 'Diario de Trading Pro',
                 email: 'Correo electrónico',
-                password: 'Contraseña',
+                password: 'Contrase    a',
                 confirm_password: 'Confirmar Contraseña',
                 login: 'Iniciar sesión',
                 register: '¿No tienes cuenta? Regístrate',
@@ -1377,7 +1377,7 @@
                         currentLang === 'es' ? '¡Correo no encontrado!' : 'Email not found!';
                 } else if (error.code === 'auth/invalid-email') {
                     errorMsg += currentLang === 'de' ? 'Ung  ltige E-Mail!' : 
-                        currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!';
+                        currentLang === 'es' ? '¡Correo inv  lido!' : 'Invalid email!';
                 } else {
                     errorMsg += currentLang === 'de' ? 'Fehler beim Senden. Bitte erneut versuchen.' : 
                         currentLang === 'es' ? 'Error al enviar. Inténtalo de nuevo.' : 'Error sending. Please try again.';
@@ -1494,33 +1494,27 @@
                     events = [];
                 }
                 
-                // Login-Screen verstecken und App sofort zeigen
+                // UI umschalten - SOFORT sichtbar machen
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
+                document.getElementById('mainApp').style.display = 'flex';
                 
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
                 
                 showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
-                // Dann App initialisieren (NACH dem Anzeigen)
-                setTimeout(() => {
-                    const today = new Date().toISOString().split('T')[0];
-                    const tradeDateField = document.getElementById('tradeDate');
-                    const withdrawalDateField = document.getElementById('withdrawalDate');
-                    const depositDateField = document.getElementById('depositDate');
-                    const eventDateField = document.getElementById('eventDate');
-                    
-                    if (tradeDateField) tradeDateField.value = today;
-                    if (withdrawalDateField) withdrawalDateField.value = today;
-                    if (depositDateField) depositDateField.value = today;
-                    if (eventDateField) eventDateField.value = today;
-                    
-                    renderNavigation();
-                    updateDashboard();
-                    renderHistory();
-                    switchTab('dashboard');
-                }, 100);
+                // App initialisieren
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('tradeDate').value = today;
+                document.getElementById('withdrawalDate').value = today;
+                document.getElementById('depositDate').value = today;
+                document.getElementById('eventDate').value = today;
+                
+                renderNavigation();
+                updateDashboard();
+                renderHistory();
+                switchTab('dashboard');
                 
             } catch (error) {
                 console.error('Login-Fehler:', error);
@@ -1549,7 +1543,7 @@
                         currentLang === 'es' ? '¡Demasiados intentos! Inténtalo más tarde.' : 'Too many attempts! Please try again later.';
                 } else {
                     errorMsg += currentLang === 'de' ? 'E-Mail oder Passwort falsch!' : 
-                        currentLang === 'es' ? '¡Correo o contraseña incorrecta!' : 'Wrong email or password!';
+                        currentLang === 'es' ? '¡Correo o contrase  a incorrecta!' : 'Wrong email or password!';
                 }
                 
                 showToast(errorMsg);
@@ -2610,5 +2604,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84988455f0e0d3',t:'MTc2NzQ2NTMyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b849e1c30f3e0d3',t:'MTc2NzQ2NTU1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
