@@ -240,7 +240,11 @@
       <div><label class="block text-sm font-bold mb-2" id="emailLabel" data-i18n="email">E-Mail</label> <input type="email" id="loginEmail" class="w-full px-4 py-3 rounded-xl" placeholder="beispiel@email.com" required>
       </div>
       <div><label class="block text-sm font-bold mb-2" id="passwordLabel" data-i18n="password">Passwort</label> <input type="password" id="loginPassword" class="w-full px-4 py-3 rounded-xl" placeholder="••••••••" required>
-      </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span id="loginBtn" data-i18n="login">Anmelden</span> </button> <button type="button" id="showRegisterBtn" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span id="registerBtn" data-i18n="register">Noch kein Konto? Registrieren</span> </button>
+      </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span id="loginBtn" data-i18n="login">Anmelden</span> </button> <button type="button" id="showRegisterBtn" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span id="registerBtn" data-i18n="register">Noch kein Konto? Registrieren</span> </button> <button type="button" id="forgotPasswordBtn" class="w-full py-3 rounded-xl font-bold hover:bg-opacity-70 transition text-sm" style="background: var(--bg-secondary);"> <span data-i18n="forgot_password">🔑 Passwort vergessen?</span> </button>
+     </form><!-- Forgot Password Form (hidden by default) -->
+     <form id="forgotPasswordForm" class="space-y-4 hidden">
+      <div><label class="block text-sm font-bold mb-2" data-i18n="email">E-Mail</label> <input type="email" id="forgotEmail" class="w-full px-4 py-3 rounded-xl" placeholder="beispiel@email.com" required>
+      </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span data-i18n="send_reset_email">📧 Zurücksetzen-Link senden</span> </button> <button type="button" id="backToLoginFromForgot" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span data-i18n="back_to_login">Zurück zum Login</span> </button>
      </form><!-- Register Form (hidden by default) -->
      <form id="registerForm" class="space-y-4 hidden">
       <div><label class="block text-sm font-bold mb-2" data-i18n="email">E-Mail</label> <input type="email" id="registerEmail" class="w-full px-4 py-3 rounded-xl" placeholder="beispiel@email.com" required>
@@ -257,7 +261,7 @@
      <div class="px-4 py-3">
       <div class="flex items-center justify-between">
        <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">💎</span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
-       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩   </option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
+       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
         <div class="bg-white bg-opacity-10 px-3 py-1 rounded-lg">
          <div class="text-xs text-purple-100" id="capitalLabel">
           Kapital
@@ -328,7 +332,7 @@
           </div>
           <div class="glass-card rounded-xl stat-card text-center">
            <div class="text-2xl mb-2">
-                
+            📈
            </div>
            <div class="text-xs mb-1" data-i18n="trades">
             Trades
@@ -692,7 +696,7 @@
        </div><!-- Einzahlungen Tab -->
        <div id="depositsTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="deposits">Einzahlungen</span></h2>
+         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>💰</span> <span data-i18n="deposits">Einzahlungen</span></h2>
          <form id="depositForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="date">Datum</label> <input type="date" id="depositDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
@@ -842,7 +846,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">     Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -854,14 +858,13 @@
   <script>
         // Firebase Configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
-  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
-  projectId: "trading-journal-pro-8212f",
-  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
-  messagingSenderId: "927047992152",
-  appId: "1:927047992152:web:2269467aa95689e0955b2d",
-  measurementId: "G-36WT75DLEL"
-};
+            apiKey: "AIzaSyBpyPf8N9ElZVxLIk0pQWeT5t2HpKmxQVs",
+            authDomain: "trading-journal-b5ced.firebaseapp.com",
+            projectId: "trading-journal-b5ced",
+            storageBucket: "trading-journal-b5ced.firebasestorage.app",
+            messagingSenderId: "446469055428",
+            appId: "1:446469055428:web:e7cc2e35d8c7bb7e6b5f3b"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -879,6 +882,8 @@
                 register: 'Noch kein Konto? Registrieren',
                 create_account: 'Konto erstellen',
                 back_to_login: 'Zurück zum Login',
+                forgot_password: '🔑 Passwort vergessen?',
+                send_reset_email: '📧 Zurücksetzen-Link senden',
                 demo_note: 'Demo-Modus: Beliebige E-Mail verwenden',
                 logout: 'Abmelden',
                 capital: 'Kapital',
@@ -966,6 +971,8 @@
                 register: 'No account? Register',
                 create_account: 'Create Account',
                 back_to_login: 'Back to Login',
+                forgot_password: '🔑 Forgot Password?',
+                send_reset_email: '📧 Send Reset Link',
                 demo_note: 'Demo Mode: Use any email',
                 logout: 'Logout',
                 capital: 'Capital',
@@ -1053,6 +1060,8 @@
                 register: '¿No tienes cuenta? Regístrate',
                 create_account: 'Crear Cuenta',
                 back_to_login: 'Volver al Login',
+                forgot_password: '🔑 ¿Olvidaste tu contraseña?',
+                send_reset_email: '📧 Enviar enlace de restablecimiento',
                 demo_note: 'Modo Demo: Usa cualquier correo',
                 logout: 'Cerrar sesión',
                 capital: 'Capital',
@@ -1177,7 +1186,6 @@
             }
             
             try {
-                // Speichere in Firestore
                 await db.collection('users').doc(currentUser.email).set({
                     trades: trades || [],
                     startCapital: startCapital || 0,
@@ -1317,12 +1325,65 @@
         // Login/Register System
         document.getElementById('showRegisterBtn').addEventListener('click', () => {
             document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
             document.getElementById('registerForm').classList.remove('hidden');
         });
 
         document.getElementById('showLoginBtn').addEventListener('click', () => {
             document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
             document.getElementById('loginForm').classList.remove('hidden');
+        });
+
+        document.getElementById('forgotPasswordBtn').addEventListener('click', () => {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').classList.remove('hidden');
+        });
+
+        document.getElementById('backToLoginFromForgot').addEventListener('click', () => {
+            document.getElementById('forgotPasswordForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        });
+
+        // Forgot Password Handler
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('forgotEmail').value.trim();
+            
+            if (!email) {
+                showToast('❌ ' + (currentLang === 'de' ? 'Bitte E-Mail eingeben' : 
+                    currentLang === 'es' ? 'Por favor ingresa tu correo' : 'Please enter email'));
+                return;
+            }
+            
+            try {
+                await auth.sendPasswordResetEmail(email);
+                
+                showToast('✅ ' + (currentLang === 'de' ? 'Zurücksetzen-Link gesendet! Prüfe deine E-Mails.' : 
+                    currentLang === 'es' ? '¡Enlace enviado! Revisa tu correo.' : 'Reset link sent! Check your email.'));
+                
+                document.getElementById('forgotPasswordForm').classList.add('hidden');
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('forgotPasswordForm').reset();
+            } catch (error) {
+                console.error('Passwort-Reset-Fehler:', error);
+                let errorMsg = '❌ ';
+                
+                if (error.code === 'auth/user-not-found') {
+                    errorMsg += currentLang === 'de' ? 'E-Mail nicht gefunden!' : 
+                        currentLang === 'es' ? '¡Correo no encontrado!' : 'Email not found!';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMsg += currentLang === 'de' ? 'Ungültige E-Mail!' : 
+                        currentLang === 'es' ? '¡Correo inválido!' : 'Invalid email!';
+                } else {
+                    errorMsg += currentLang === 'de' ? 'Fehler beim Senden. Bitte erneut versuchen.' : 
+                        currentLang === 'es' ? 'Error al enviar. Inténtalo de nuevo.' : 'Error sending. Please try again.';
+                }
+                
+                showToast(errorMsg);
+            }
         });
 
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
@@ -1345,10 +1406,8 @@
             }
             
             try {
-                // Firebase Authentication Registrierung
                 await auth.createUserWithEmailAndPassword(email, password);
                 
-                // Erstelle User-Daten in Firestore
                 await db.collection('users').doc(email).set({
                     trades: [],
                     startCapital: 0,
@@ -1389,19 +1448,16 @@
                 return;
             }
             
-            // Show loading state
             const loginBtn = document.querySelector('#loginForm button[type="submit"]');
             const originalText = loginBtn.innerHTML;
             loginBtn.innerHTML = '<span>⏳ ' + (currentLang === 'de' ? 'Wird geladen...' : 'Loading...') + '</span>';
             loginBtn.disabled = true;
             
             try {
-                // Firebase Authentication Login
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 
                 currentUser = { email: userCredential.user.email };
                 
-                // Lade Daten aus Firestore
                 try {
                     const userDoc = await db.collection('users').doc(currentUser.email).get();
                     
@@ -1413,7 +1469,6 @@
                         deposits = userData.deposits || [];
                         events = userData.events || [];
                     } else {
-                        // Erstelle leere Daten wenn nicht vorhanden
                         await db.collection('users').doc(currentUser.email).set({
                             trades: [],
                             startCapital: 0,
@@ -1431,7 +1486,6 @@
                     }
                 } catch (dbError) {
                     console.error('Firestore-Fehler:', dbError);
-                    // Continue with empty data if Firestore fails
                     trades = [];
                     startCapital = 0;
                     withdrawals = [];
@@ -1477,7 +1531,6 @@
                 
                 showToast(errorMsg);
                 
-                // Reset button
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
             }
@@ -1801,7 +1854,7 @@
                     performanceEmoji = '🚀';
                 } else if (actualCapital >= expectedCapital * 0.95) {
                     performance = 'on_track';
-                    performanceEmoji = '  ';
+                    performanceEmoji = '✅';
                 } else {
                     performance = 'slower';
                     performanceEmoji = '🐌';
@@ -2532,148 +2585,6 @@
                         datasets: [{
                             label: 'Monatlich',
                             data: sortedMonths.map(m => monthlyPerf[m]),
-                            backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: textColor } } },
-                        scales: {
-                            x: { ticks: { color: textColor }, grid: { color: gridColor } },
-                            y: { ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, grid: { color: gridColor } }
-                        }
-                    }
-                });
-            }
-
-            // Asset Chart
-            if (charts.asset) charts.asset.destroy();
-            const assetCanvas = document.getElementById('assetChart');
-            if (assetCanvas) {
-                const assetPerf = {};
-                trades.forEach(t => {
-                    const asset = t.asset || 'N/A';
-                    if (!assetPerf[asset]) assetPerf[asset] = 0;
-                    assetPerf[asset] += t.profitLoss;
-                });
-
-                charts.asset = new Chart(assetCanvas.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(assetPerf),
-                        datasets: [{
-                            label: 'P/L',
-                            data: Object.values(assetPerf),
-                            backgroundColor: Object.values(assetPerf).map(v => v >= 0 ? 'rgba(139, 92, 246, 0.8)' : 'rgba(239, 68, 68, 0.8)')
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: textColor } } },
-                        scales: {
-                            x: { ticks: { color: textColor }, grid: { color: gridColor } },
-                            y: { ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, grid: { color: gridColor } }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Render Emotions
-        function renderEmotions() {
-            const emotionCounts = {};
-            const emotionPerf = {};
-            
-            trades.forEach(t => {
-                if (t.emotion) {
-                    emotionCounts[t.emotion] = (emotionCounts[t.emotion] || 0) + 1;
-                    emotionPerf[t.emotion] = (emotionPerf[t.emotion] || 0) + t.profitLoss;
-                }
-            });
-
-            const textColor = currentTheme === 'dark' ? '#ffffff' : '#0f172a';
-            const gridColor = currentTheme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.15)';
-
-            // Emotion Count Chart
-            if (charts.emotion) charts.emotion.destroy();
-            const emotionCanvas = document.getElementById('emotionChart');
-            if (emotionCanvas) {
-                charts.emotion = new Chart(emotionCanvas.getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(emotionCounts).map(e => getEmotionEmoji(e) + ' ' + e),
-                        datasets: [{
-                            data: Object.values(emotionCounts),
-                            backgroundColor: [
-                                'rgba(139, 92, 246, 0.8)',
-                                'rgba(59, 130, 246, 0.8)',
-                                'rgba(34, 197, 94, 0.8)',
-                                'rgba(234, 179, 8, 0.8)',
-                                'rgba(239, 68, 68, 0.8)',
-                                'rgba(236, 72, 153, 0.8)',
-                                'rgba(168, 85, 247, 0.8)',
-                                'rgba(45, 212, 191, 0.8)',
-                                'rgba(251, 146, 60, 0.8)',
-                                'rgba(248, 113, 113, 0.8)'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: textColor } } }
-                    }
-                });
-            }
-
-            // Emotion Performance Chart
-            if (charts.emotionPerf) charts.emotionPerf.destroy();
-            const emotionPerfCanvas = document.getElementById('emotionPerfChart');
-            if (emotionPerfCanvas) {
-                charts.emotionPerf = new Chart(emotionPerfCanvas.getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(emotionPerf).map(e => getEmotionEmoji(e) + ' ' + e),
-                        datasets: [{
-                            label: 'P/L',
-                            data: Object.values(emotionPerf),
-                            backgroundColor: Object.values(emotionPerf).map(v => v >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)')
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: textColor } } },
-                        scales: {
-                            x: { ticks: { color: textColor }, grid: { color: gridColor } },
-                            y: { ticks: { color: textColor, callback: (v) => '€' + v.toFixed(0) }, grid: { color: gridColor } }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Initialize
-        const savedLang = localStorage.getItem('tradingJournalLang') || 'de';
-        currentLang = savedLang;
-        document.getElementById('langSelector').value = savedLang;
-        document.getElementById('langSelectorLogin').value = savedLang;
-        updateLanguage(savedLang);
-        
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        document.getElementById('themeIcon').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-        if (document.getElementById('themeToggleLogin')) {
-            document.querySelector('#themeToggleLogin span').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-        }
-        
-        document.getElementById('tradeDate').value = new Date().toISOString().split('T')[0];
-        document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
-        document.getElementById('depositDate').value = new Date().toISOString().split('T')[0];
-        document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
-        
-        renderHistory();
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b83fbe252bae0d3',t:'MTc2NzQ1ODkwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                            backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84267816cce0d3',t:'MTc2NzQ2MDY1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
