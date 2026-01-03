@@ -2193,15 +2193,24 @@
                     }
                 });
                 
+                // Create color array based on positive/negative values
+                const emotionValues = Object.values(emotionPL);
+                const emotionColors = emotionValues.map(value => 
+                    value >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                );
+                const emotionBorderColors = emotionValues.map(value => 
+                    value >= 0 ? '#22c55e' : '#ef4444'
+                );
+                
                 charts.emotionPerf = new Chart(emotionPerfCtx, {
                     type: 'bar',
                     data: {
                         labels: Object.keys(emotionPL),
                         datasets: [{
                             label: 'Profit/Loss',
-                            data: Object.values(emotionPL),
-                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
-                            borderColor: '#8b5cf6',
+                            data: emotionValues,
+                            backgroundColor: emotionColors,
+                            borderColor: emotionBorderColors,
                             borderWidth: 2
                         }]
                     },
@@ -2740,5 +2749,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b854b57a6fae0d3',t:'MTc2NzQ3MjY0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85528d81bee0d3',t:'MTc2NzQ3Mjk0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
