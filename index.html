@@ -257,7 +257,7 @@
      <div class="px-4 py-3">
       <div class="flex items-center justify-between">
        <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">💎</span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
-       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
+       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩   </option> <option value="en">🇬🇧</option> <option value="es">🇪🇸</option> </select>
         <div class="bg-white bg-opacity-10 px-3 py-1 rounded-lg">
          <div class="text-xs text-purple-100" id="capitalLabel">
           Kapital
@@ -328,7 +328,7 @@
           </div>
           <div class="glass-card rounded-xl stat-card text-center">
            <div class="text-2xl mb-2">
-            📝
+                
            </div>
            <div class="text-xs mb-1" data-i18n="trades">
             Trades
@@ -842,7 +842,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">     Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1170,21 +1170,38 @@
             { id: 'calculator', icon: '🔢', label: 'calculator' }
         ];
 
-        function saveUserDataToDB() {
-            if (!currentUser) return;
+        async function saveUserDataToDB() {
+            if (!currentUser) {
+                console.error('Kein User angemeldet');
+                return;
+            }
             
-            // Speichere in Firestore
-            db.collection('users').doc(currentUser.email).set({
-                trades,
-                startCapital,
-                withdrawals,
-                deposits,
-                events,
-                updatedAt: new Date().toISOString()
-            }).catch(error => {
+            try {
+                // Speichere in Firestore
+                await db.collection('users').doc(currentUser.email).set({
+                    trades: trades || [],
+                    startCapital: startCapital || 0,
+                    withdrawals: withdrawals || [],
+                    deposits: deposits || [],
+                    events: events || [],
+                    updatedAt: new Date().toISOString()
+                });
+                console.log('Daten erfolgreich gespeichert');
+            } catch (error) {
                 console.error('Fehler beim Speichern:', error);
-                showToast('❌ ' + (currentLang === 'de' ? 'Speicherfehler' : 'Save error'));
-            });
+                console.error('Fehlercode:', error.code);
+                console.error('Fehlermeldung:', error.message);
+                
+                let errorMsg = '❌ ';
+                if (error.code === 'permission-denied') {
+                    errorMsg += currentLang === 'de' ? 'Keine Berechtigung zum Speichern' : 'Permission denied';
+                } else if (error.code === 'unavailable') {
+                    errorMsg += currentLang === 'de' ? 'Netzwerkfehler - Bitte Verbindung prüfen' : 'Network error';
+                } else {
+                    errorMsg += currentLang === 'de' ? 'Speicherfehler' : 'Save error';
+                }
+                showToast(errorMsg);
+            }
         }
 
         // Helper Functions
@@ -2658,5 +2675,5 @@
         
         renderHistory();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a9f67545ae0d3',t:'MTc2NzM2MDc0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b83fbe252bae0d3',t:'MTc2NzQ1ODkwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
