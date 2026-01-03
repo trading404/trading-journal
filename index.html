@@ -274,7 +274,7 @@
      <div class="px-4 py-3">
       <div class="flex items-center justify-between">
        <h1 class="text-lg font-bold text-white flex items-center gap-2"><span class="text-2xl">💎</span> <span class="hidden sm:inline" id="headerTitle">Trading Journal Pro</span> <span class="sm:hidden">TJ Pro</span></h1>
-       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪    </option> </select>
+       <div class="flex items-center gap-2"><button id="themeToggle" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition"> <span class="text-xl" id="themeIcon">🌙</span> </button> <select id="langSelector" class="px-3 py-1 rounded-lg text-sm bg-white bg-opacity-20 border-none text-white"> <option value="de">🇩🇪</option> <option value="en">🇬🇧</option> <option value="es">🇪      </option> </select>
         <div class="bg-white bg-opacity-10 px-3 py-1 rounded-lg">
          <div class="text-xs text-purple-100" id="capitalLabel">
           Kapital
@@ -871,14 +871,13 @@
   <script>
         // Firebase Configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
-  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
-  projectId: "trading-journal-pro-8212f",
-  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
-  messagingSenderId: "927047992152",
-  appId: "1:927047992152:web:2269467aa95689e0955b2d",
-  measurementId: "G-36WT75DLEL"
-};
+            apiKey: "AIzaSyBpyPf8N9ElZVxLIk0pQWeT5t2HpKmxQVs",
+            authDomain: "trading-journal-b5ced.firebaseapp.com",
+            projectId: "trading-journal-b5ced",
+            storageBucket: "trading-journal-b5ced.firebasestorage.app",
+            messagingSenderId: "446469055428",
+            appId: "1:446469055428:web:e7cc2e35d8c7bb7e6b5f3b"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -2205,11 +2204,13 @@
             const emotionPerfCtx = document.getElementById('emotionPerfChart');
             if (emotionPerfCtx) {
                 const emotionPL = {};
+                const emotionCounts = {};
                 
-                // Nur Trades mit tatsächlicher Emotion addieren
+                // Sammle ALLE Trades mit Emotion (Win UND Loss)
                 trades.forEach(t => {
                     if (t.emotion && t.emotion.trim() !== '') {
                         emotionPL[t.emotion] = (emotionPL[t.emotion] || 0) + t.profitLoss;
+                        emotionCounts[t.emotion] = (emotionCounts[t.emotion] || 0) + 1;
                     }
                 });
                 
@@ -2217,8 +2218,11 @@
                 if (Object.keys(emotionPL).length === 0) {
                     emotionPerfCtx.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-center opacity-50">Keine Emotions-Daten verfügbar</p></div>';
                 } else {
-                    // Create color array based on positive/negative values
+                    // Erstelle Arrays für Labels und Daten
+                    const emotionLabels = Object.keys(emotionPL);
                     const emotionValues = Object.values(emotionPL);
+                    
+                    // Erstelle Farbarrays basierend auf Werten
                     const emotionColors = emotionValues.map(value => 
                         value >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
                     );
@@ -2229,7 +2233,7 @@
                     charts.emotionPerf = new Chart(emotionPerfCtx, {
                         type: 'bar',
                         data: {
-                            labels: Object.keys(emotionPL),
+                            labels: emotionLabels,
                             datasets: [{
                                 label: 'Profit/Loss',
                                 data: emotionValues,
@@ -2248,13 +2252,20 @@
                                 tooltip: {
                                     callbacks: {
                                         label: function(context) {
-                                            return 'P/L: ' + formatCurrency(context.parsed.y);
+                                            const emotion = context.label;
+                                            const pl = context.parsed.y;
+                                            const count = emotionCounts[emotion] || 0;
+                                            return [
+                                                'P/L: ' + formatCurrency(pl),
+                                                'Trades: ' + count
+                                            ];
                                         }
                                     }
                                 }
                             },
                             scales: {
                                 y: {
+                                    beginAtZero: true,
                                     ticks: { 
                                         color: isDark ? '#9ca3af' : '#64748b',
                                         callback: function(value) {
@@ -2264,7 +2275,11 @@
                                     grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
                                 },
                                 x: {
-                                    ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                    ticks: { 
+                                        color: isDark ? '#9ca3af' : '#64748b',
+                                        maxRotation: 45,
+                                        minRotation: 30
+                                    },
                                     grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
                                 }
                             }
@@ -2513,7 +2528,7 @@
             document.getElementById('withdrawalForm').reset();
             document.getElementById('withdrawalDate').value = new Date().toISOString().split('T')[0];
             
-            showToast('✅ ' + (currentLang === 'de' ? 'Auszahlung gespeichert' : currentLang === 'es' ? 'Retiro guardado' : 'Withdrawal saved'));
+            showToast('   ' + (currentLang === 'de' ? 'Auszahlung gespeichert' : currentLang === 'es' ? 'Retiro guardado' : 'Withdrawal saved'));
         });
         
         function renderWithdrawals() {
@@ -2893,5 +2908,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b858d95f493e0d3',t:'MTc2NzQ3NTM2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85983d243ae0d3',t:'MTc2NzQ3NTc5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
