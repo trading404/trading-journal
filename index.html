@@ -248,7 +248,7 @@
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full">
      <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold flex items-center gap-2"><span class="text-3xl">💎</span> <span id="loginTitle" data-i18n="trading_journal_pro">Trading Journal Pro</span></h1>
-      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬       English</option> <option value="es">    🇸 Español</option> </select>
+      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
       </div>
      </div><!-- Login Form -->
      <form id="loginForm" class="space-y-4">
@@ -284,7 +284,7 @@
          <div class="text-sm font-bold" id="headerCapital">
           €0.00
          </div>
-        </div><button id="logoutBtnDesktop" class="hidden md:block p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition" title="Abmelden"> <span class="text-xl">  </span> </button> <button id="menuBtn" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition md:hidden">
+        </div><button id="logoutBtnDesktop" class="hidden md:block p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition" title="Abmelden"> <span class="text-xl">🚪</span> </button> <button id="menuBtn" class="p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition md:hidden">
          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
          </svg></button>
        </div>
@@ -410,7 +410,7 @@
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-4 py-3 rounded-xl" placeholder="z.B. Breakout, Scalping">
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">   Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">😨 Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-4 py-3 rounded-xl" placeholder="Details zum Trade..."></textarea>
           </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-lg btn-primary"> <span data-i18n="save_trade">💾 Trade speichern</span> </button>
@@ -772,7 +772,7 @@
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
+         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📏</span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
          <form id="positionSizeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="account_balance">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl">
           </div>
@@ -846,7 +846,7 @@
      <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="editAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> </select>
      </div>
      <div class="grid grid-cols-2 gap-3">
-      <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="editResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">   Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
+      <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="editResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
       </div>
       <div><label class="block text-sm font-bold mb-2" data-i18n="position">Position</label> <select id="editPosition" class="w-full px-4 py-3 rounded-xl"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
       </div>
@@ -861,7 +861,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">   Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1086,7 +1086,7 @@
                 history: 'Historial',
                 performance: 'Rendimiento',
                 emotions: 'Emociones',
-                compound: 'Inter  s Compuesto',
+                compound: 'Interés Compuesto',
                 withdrawals: 'Retiros',
                 deposits: 'Depósitos',
                 calendar: 'Calendario',
@@ -1190,7 +1190,7 @@
             { id: 'emotions', icon: '😊', label: 'emotions' },
             { id: 'compound', icon: '🧮', label: 'compound' },
             { id: 'withdrawals', icon: '💸', label: 'withdrawals' },
-            { id: 'deposits', icon: '  ', label: 'deposits' },
+            { id: 'deposits', icon: '💰', label: 'deposits' },
             { id: 'calendar', icon: '📅', label: 'calendar' },
             { id: 'calculator', icon: '🧮', label: 'calculator' }
         ];
@@ -2448,13 +2448,126 @@
                     document.getElementById('paceStatusEmoji').textContent = '🚀';
                 } else if (currentCapital < startCapital * (1 + monthlyReturn * 0.8)) {
                     document.getElementById('paceStatus').textContent = translations[currentLang].slower || '🐌 Langsamer';
-                    document.getElementById('paceStatusEmoji').textContent = '   ';
+                    document.getElementById('paceStatusEmoji').textContent = '🐌';
                 } else {
                     document.getElementById('paceStatus').textContent = translations[currentLang].on_track || '✅ Im Plan';
                     document.getElementById('paceStatusEmoji').textContent = '✅';
                 }
+                
+                // Render Compound Chart
+                renderCompoundChart(months, startCapital, monthlyReturn, targetAmount);
             }
         });
+        
+        function renderCompoundChart(months, startCap, monthlyReturn, target) {
+            const isDark = currentTheme === 'dark';
+            
+            if (charts.compound) charts.compound.destroy();
+            
+            const compoundCtx = document.getElementById('compoundChart');
+            if (!compoundCtx) return;
+            
+            // Projizierte Daten (Plan)
+            const projectedLabels = [];
+            const projectedData = [];
+            let projCap = startCap;
+            
+            for (let i = 0; i <= months; i++) {
+                projectedLabels.push(`M${i}`);
+                projectedData.push(projCap);
+                projCap *= (1 + monthlyReturn);
+            }
+            
+            // Tatsächliche Daten (basierend auf Trades)
+            const actualData = [];
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // Gruppiere Trades nach Monaten
+            const tradesByMonth = {};
+            sortedTrades.forEach(trade => {
+                const date = new Date(trade.date);
+                const monthsSinceStart = Math.floor((date - new Date(sortedTrades[0]?.date || Date.now())) / (1000 * 60 * 60 * 24 * 30));
+                if (!tradesByMonth[monthsSinceStart]) {
+                    tradesByMonth[monthsSinceStart] = 0;
+                }
+                tradesByMonth[monthsSinceStart] += trade.profitLoss;
+            });
+            
+            // Erstelle tatsächliche Kapitalkurve
+            let actualCap = startCap;
+            for (let i = 0; i <= months; i++) {
+                actualCap += (tradesByMonth[i] || 0);
+                actualData.push(actualCap);
+            }
+            
+            charts.compound = new Chart(compoundCtx, {
+                type: 'line',
+                data: {
+                    labels: projectedLabels,
+                    datasets: [
+                        {
+                            label: 'Projektion (Plan)',
+                            data: projectedData,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Tatsächlich (Deine Performance)',
+                            data: actualData,
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: { 
+                                color: isDark ? '#9ca3af' : '#64748b',
+                                callback: function(value) {
+                                    return '€' + (value / 1000).toFixed(0) + 'k';
+                                }
+                            },
+                            grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                        },
+                        x: {
+                            ticks: { 
+                                color: isDark ? '#9ca3af' : '#64748b',
+                                maxTicksLimit: 12
+                            },
+                            grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                        }
+                    }
+                }
+            });
+        }
 
         // Filter
         document.getElementById('filterResult').addEventListener('change', renderHistory);
@@ -2544,73 +2657,6 @@
                     exitPrice: parseFloat(document.getElementById('editExit').value) || null,
                     strategy: document.getElementById('editStrategy').value,
                     emotion: document.getElementById('editEmotion').value,
-                    notes: document.getElementById('editNotes').value
-                };
-
-                saveUserDataToDB();
-                updateDashboard();
-                renderHistory();
-                
-                document.getElementById('editModal').classList.add('hidden');
-                document.getElementById('editModal').style.display = 'none';
-                
-                showToast('✅ ' + translations[currentLang].save);
-            }
-        });
-
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-            document.getElementById('editModal').classList.add('hidden');
-            document.getElementById('editModal').style.display = 'none';
-        });
-
-        // Calculators
-        document.getElementById('positionSizeForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const balance = parseFloat(document.getElementById('psBalance').value) || 0;
-            const risk = parseFloat(document.getElementById('psRisk').value) || 0;
-            const stopLoss = parseFloat(document.getElementById('psStopLoss').value) || 0;
-            const pipValue = parseFloat(document.getElementById('psPipValue').value) || 0;
-
-            if (balance > 0 && risk > 0 && stopLoss > 0 && pipValue > 0) {
-                const riskAmount = balance * (risk / 100);
-                const positionSize = riskAmount / (stopLoss * pipValue);
-                
-                document.getElementById('positionSizeResult').classList.remove('hidden');
-                document.getElementById('positionSizeValue').textContent = positionSize.toFixed(2);
-            }
-        });
-
-        document.getElementById('pipCalcForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const entry = parseFloat(document.getElementById('pipEntry').value) || 0;
-            const exit = parseFloat(document.getElementById('pipExit').value) || 0;
-            const lotSize = parseFloat(document.getElementById('pipLotSize').value) || 0;
-            const pipValue = parseFloat(document.getElementById('pipValue').value) || 0;
-
-            if (entry > 0 && exit > 0 && lotSize > 0 && pipValue > 0) {
-                const pips = Math.abs(exit - entry) * 10000;
-                const pl = pips * pipValue * lotSize * (exit > entry ? 1 : -1);
-                
-                document.getElementById('pipCalcResult').classList.remove('hidden');
-                document.getElementById('pipResultPips').textContent = pips.toFixed(1);
-                document.getElementById('pipResultPL').textContent = formatCurrency(pl);
-                document.getElementById('pipResultPL').className = pl >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
-            }
-        });
-
-        // DUE TO LENGTH, the rest of the JavaScript continues...
-        // Init
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        if (currentTheme === 'light') {
-            document.getElementById('themeIcon').textContent = '☀️';
-        }
-        
-        const savedLang = localStorage.getItem('tradingJournalLang') || 'de';
-        updateLanguage(savedLang);
-        document.getElementById('langSelector').value = savedLang;
-        document.getElementById('langSelectorLogin').value = savedLang;
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84e3dd224fe0d3',t:'MTc2NzQ2ODQxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+                    notes: document.getElementById('edit</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84f9d5c2d3e0d3',t:'MTc2NzQ2OTMxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
