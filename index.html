@@ -257,7 +257,7 @@
      </form><!-- Forgot Password Form (hidden by default) -->
      <form id="forgotPasswordForm" class="space-y-4 hidden">
       <div><label class="block text-sm font-bold mb-2" data-i18n="email">E-Mail</label> <input type="email" id="forgotEmail" class="w-full px-4 py-3 rounded-xl" placeholder="beispiel@email.com" required>
-      </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span data-i18n="send_reset_email">📧 Zurücksetzen-Link senden</span> </button> <button type="button" id="backToLoginFromForgot" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span data-i18n="back_to_login">Zurück zum Login</span> </button>
+      </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span data-i18n="send_reset_email">     Zurücksetzen-Link senden</span> </button> <button type="button" id="backToLoginFromForgot" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span data-i18n="back_to_login">Zurück zum Login</span> </button>
      </form><!-- Register Form (hidden by default) -->
      <form id="registerForm" class="space-y-4 hidden">
       <div><label class="block text-sm font-bold mb-2" data-i18n="email">E-Mail</label> <input type="email" id="registerEmail" class="w-full px-4 py-3 rounded-xl" placeholder="beispiel@email.com" required>
@@ -477,7 +477,7 @@
            Ø Gewinn
           </div>
           <div class="text-lg font-bold text-green-400" id="perfAvgWin">
-           €0.00
+             0.00
           </div>
          </div>
          <div class="glass-card rounded-xl stat-card text-center">
@@ -871,13 +871,14 @@
   <script>
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyBpyPf8N9ElZVxLIk0pQWeT5t2HpKmxQVs",
-            authDomain: "trading-journal-b5ced.firebaseapp.com",
-            projectId: "trading-journal-b5ced",
-            storageBucket: "trading-journal-b5ced.firebasestorage.app",
-            messagingSenderId: "446469055428",
-            appId: "1:446469055428:web:e7cc2e35d8c7bb7e6b5f3b"
-        };
+  apiKey: "AIzaSyAYpUD2SFyviiHDJSKvei_TtCqnhsM2sBA",
+  authDomain: "trading-journal-pro-8212f.firebaseapp.com",
+  projectId: "trading-journal-pro-8212f",
+  storageBucket: "trading-journal-pro-8212f.firebasestorage.app",
+  messagingSenderId: "927047992152",
+  appId: "1:927047992152:web:2269467aa95689e0955b2d",
+  measurementId: "G-36WT75DLEL"
+};
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -1060,7 +1061,7 @@
                 pips: 'Pips',
                 edit_trade: 'Edit Trade',
                 cancel: '❌ Cancel',
-                faster: '🚀 Faster',
+                faster: '     Faster',
                 slower: '🐌 Slower',
                 on_track: '✅ On Track'
             },
@@ -1514,17 +1515,12 @@
                 
                 console.log('🖥️ Wechsle zu Main-App...');
                 
-                // KRITISCH: Screen-Wechsel mit garantierter Sichtbarkeit
+                // Screen-Wechsel
                 const loginScreen = document.getElementById('loginScreen');
                 const mainApp = document.getElementById('mainApp');
                 
                 loginScreen.style.display = 'none';
-                loginScreen.style.visibility = 'hidden';
-                loginScreen.style.opacity = '0';
-                
                 mainApp.style.display = 'flex';
-                mainApp.style.visibility = 'visible';
-                mainApp.style.opacity = '1';
                 
                 console.log('✅ Screen-Wechsel abgeschlossen');
                 
@@ -2908,5 +2904,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85983d243ae0d3',t:'MTc2NzQ3NTc5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b859e75e7e3e0d3',t:'MTc2NzQ3NjA1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
