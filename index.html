@@ -233,7 +233,7 @@
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full">
      <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold flex items-center gap-2"><span class="text-3xl">💎</span> <span id="loginTitle" data-i18n="trading_journal_pro">Trading Journal Pro</span></h1>
-      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬🇧 English</option> <option value="es">🇪🇸 Español</option> </select>
+      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬     English</option> <option value="es">🇪🇸 Español</option> </select>
       </div>
      </div><!-- Login Form -->
      <form id="loginForm" class="space-y-4">
@@ -289,7 +289,7 @@
       <div class="max-w-7xl mx-auto px-3 py-4 sm:px-6 sm:py-6"><!-- Dashboard Tab -->
        <div id="dashboardTab" class="tab-content"><!-- Finanzübersicht -->
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>💼</span> <span data-i18n="financial_overview">Finanzübersicht</span></h2>
+         <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="financial_overview">Finanzübersicht</span></h2>
          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="start_capital">Startkapital (€)</label> <input type="number" id="startCapitalInput" step="0.01" class="w-full px-4 py-3 rounded-xl" placeholder="10000">
           </div>
@@ -395,7 +395,7 @@
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-4 py-3 rounded-xl" placeholder="z.B. Breakout, Scalping">
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">   Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">   Fearful / Ängstlich</option> <option value="euphoric">    Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-4 py-3 rounded-xl" placeholder="Details zum Trade..."></textarea>
           </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-lg btn-primary"> <span data-i18n="save_trade">💾 Trade speichern</span> </button>
@@ -1494,38 +1494,33 @@
                     events = [];
                 }
                 
-                // ZUERST: App vorbereiten (noch unsichtbar)
-                const today = new Date().toISOString().split('T')[0];
-                const tradeDateField = document.getElementById('tradeDate');
-                const withdrawalDateField = document.getElementById('withdrawalDate');
-                const depositDateField = document.getElementById('depositDate');
-                const eventDateField = document.getElementById('eventDate');
+                // Login-Screen verstecken und App sofort zeigen
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
                 
-                if (tradeDateField) tradeDateField.value = today;
-                if (withdrawalDateField) withdrawalDateField.value = today;
-                if (depositDateField) depositDateField.value = today;
-                if (eventDateField) eventDateField.value = today;
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
                 
-                // Navigation rendern
-                renderNavigation();
+                showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
-                // Dashboard vorbereiten
-                updateDashboard();
-                renderHistory();
-                
-                // Zum Dashboard wechseln
-                switchTab('dashboard');
-                
-                // JETZT ERST: Login verstecken und App zeigen
+                // Dann App initialisieren (NACH dem Anzeigen)
                 setTimeout(() => {
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('mainApp').classList.remove('hidden');
+                    const today = new Date().toISOString().split('T')[0];
+                    const tradeDateField = document.getElementById('tradeDate');
+                    const withdrawalDateField = document.getElementById('withdrawalDate');
+                    const depositDateField = document.getElementById('depositDate');
+                    const eventDateField = document.getElementById('eventDate');
                     
-                    loginBtn.innerHTML = originalText;
-                    loginBtn.disabled = false;
+                    if (tradeDateField) tradeDateField.value = today;
+                    if (withdrawalDateField) withdrawalDateField.value = today;
+                    if (depositDateField) depositDateField.value = today;
+                    if (eventDateField) eventDateField.value = today;
                     
-                    showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
-                }, 50);
+                    renderNavigation();
+                    updateDashboard();
+                    renderHistory();
+                    switchTab('dashboard');
+                }, 100);
                 
             } catch (error) {
                 console.error('Login-Fehler:', error);
@@ -2615,5 +2610,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b848eac7053e0d3',t:'MTc2NzQ2NDkyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84988455f0e0d3',t:'MTc2NzQ2NTMyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
