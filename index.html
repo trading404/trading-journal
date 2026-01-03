@@ -744,7 +744,7 @@
          <div class="calendar-grid" id="calendarDays"></div>
         </div>
         <div class="glass-card rounded-2xl p-4">
-         <h3 class="text-lg font-bold mb-4" data-i18n="add_event">Termin hinzufügen</h3>
+         <h3 class="text-lg font-bold mb-4" data-i18n="add_event">Termin hinzuf    gen</h3>
          <form id="eventForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="date">Datum</label> <input type="date" id="eventDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
@@ -846,7 +846,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">    Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1108,7 +1108,7 @@
                 perf_by_strategy: 'Rendimiento por Estrategia',
                 monthly_perf: 'Rendimiento Mensual',
                 perf_by_asset: 'Rendimiento por Activo',
-                emotion_analysis: 'Análisis de Emociones',
+                emotion_analysis: 'An  lisis de Emociones',
                 emotion_performance: 'Rendimiento por Emoción',
                 compound_calculator: 'Calculadora de Interés Compuesto',
                 target_amount: 'Cantidad Objetivo',
@@ -1494,12 +1494,26 @@
                     events = [];
                 }
                 
+                // Login Screen verstecken, App anzeigen
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
                 
+                // Alle Initialisierungen NACH dem Login
                 renderNavigation();
+                
+                // Datum-Felder setzen
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('tradeDate').value = today;
+                document.getElementById('withdrawalDate').value = today;
+                document.getElementById('depositDate').value = today;
+                document.getElementById('eventDate').value = today;
+                
+                // Dashboard aktualisieren
                 updateDashboard();
                 renderHistory();
+                
+                // Zum Dashboard-Tab wechseln
+                switchTab('dashboard');
                 
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
@@ -2593,5 +2607,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8430b790fee0d3',t:'MTc2NzQ2MTA3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84448020c4e0d3',t:'MTc2NzQ2MTg4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
