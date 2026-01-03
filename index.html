@@ -390,10 +390,10 @@
          <form id="newTradeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2"> <span data-i18n="date">Datum</span> * </label> <input type="date" id="tradeDate" class="w-full px-4 py-3 rounded-xl" required>
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="₿ Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="asset">Asset</label> <select id="tradeAsset" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Bitte wählen --</option> <optgroup label="📊 Forex Majors"> <option value="EUR/USD">EUR/USD</option> <option value="GBP/USD">GBP/USD</option> <option value="USD/JPY">USD/JPY</option> <option value="USD/CHF">USD/CHF</option> <option value="AUD/USD">AUD/USD</option> <option value="USD/CAD">USD/CAD</option> <option value="NZD/USD">NZD/USD</option> </optgroup> <optgroup label="📊 Forex Minors"> <option value="EUR/GBP">EUR/GBP</option> <option value="EUR/JPY">EUR/JPY</option> <option value="EUR/AUD">EUR/AUD</option> <option value="EUR/CAD">EUR/CAD</option> <option value="EUR/CHF">EUR/CHF</option> <option value="GBP/JPY">GBP/JPY</option> <option value="GBP/AUD">GBP/AUD</option> <option value="GBP/CAD">GBP/CAD</option> <option value="GBP/CHF">GBP/CHF</option> <option value="AUD/JPY">AUD/JPY</option> <option value="AUD/CAD">AUD/CAD</option> <option value="AUD/CHF">AUD/CHF</option> <option value="CAD/JPY">CAD/JPY</option> <option value="CAD/CHF">CAD/CHF</option> <option value="CHF/JPY">CHF/JPY</option> <option value="NZD/JPY">NZD/JPY</option> <option value="NZD/CAD">NZD/CAD</option> </optgroup> <optgroup label="🥇 Commodities"> <option value="XAU/USD">Gold (XAU/USD)</option> <option value="XAG/USD">Silver (XAG/USD)</option> <option value="Oil">Oil</option> </optgroup> <optgroup label="    Crypto"> <option value="BTC/USD">Bitcoin</option> <option value="ETH/USD">Ethereum</option> </optgroup> </select>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-           <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
+           <div><label class="block text-sm font-bold mb-2" data-i18n="result">Ergebnis</label> <select id="tradeResult" class="w-full px-4 py-3 rounded-xl"> <option value="win">✅ Win</option> <option value="loss">❌ Loss</option> <option value="breakeven">  ️ Break Even</option> </select>
            </div>
            <div><label class="block text-sm font-bold mb-2" data-i18n="position">Position</label> <select id="tradePosition" class="w-full px-4 py-3 rounded-xl"> <option value="Long">Long</option> <option value="Short">Short</option> </select>
            </div>
@@ -408,7 +408,7 @@
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="tradeStrategy" class="w-full px-4 py-3 rounded-xl" placeholder="z.B. Breakout, Scalping">
           </div>
-          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">😨 Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
+          <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="tradeEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident / Zuversichtlich</option> <option value="calm">😌 Calm / Ruhig</option> <option value="excited">🤩 Excited / Aufgeregt</option> <option value="anxious">😰 Anxious / Ängstlich</option> <option value="frustrated">😤 Frustrated / Frustriert</option> <option value="greedy">🤑 Greedy / Gierig</option> <option value="fearful">   Fearful / Ängstlich</option> <option value="euphoric">🥳 Euphoric / Euphorisch</option> <option value="disciplined">🧘 Disciplined / Diszipliniert</option> <option value="revenge">😡 Revenge Trading</option> </select>
           </div>
           <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="tradeNotes" rows="4" class="w-full px-4 py-3 rounded-xl" placeholder="Details zum Trade..."></textarea>
           </div><button type="submit" class="w-full py-4 rounded-xl font-bold text-lg btn-primary"> <span data-i18n="save_trade">💾 Trade speichern</span> </button>
@@ -1068,7 +1068,7 @@
             es: {
                 trading_journal_pro: 'Diario de Trading Pro',
                 email: 'Correo electrónico',
-                password: 'Contraseña',
+                password: 'Contrase  a',
                 confirm_password: 'Confirmar Contraseña',
                 login: 'Iniciar sesión',
                 register: '  No tienes cuenta? Regístrate',
@@ -2138,102 +2138,139 @@
         function renderEmotions() {
             const isDark = currentTheme === 'dark';
             
-            // Emotion Count Chart
+            // Emotion Count Chart - nur Trades MIT Emotion zählen
             if (charts.emotion) charts.emotion.destroy();
             const emotionCtx = document.getElementById('emotionChart');
             if (emotionCtx) {
                 const emotions = {};
+                
+                // Nur Trades mit tatsächlicher Emotion zählen (nicht leere Strings)
                 trades.forEach(t => {
-                    if (t.emotion) {
+                    if (t.emotion && t.emotion.trim() !== '') {
                         emotions[t.emotion] = (emotions[t.emotion] || 0) + 1;
                     }
                 });
                 
-                charts.emotion = new Chart(emotionCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: Object.keys(emotions),
-                        datasets: [{
-                            data: Object.values(emotions),
-                            backgroundColor: [
-                                'rgba(139, 92, 246, 0.8)',
-                                'rgba(59, 130, 246, 0.8)',
-                                'rgba(34, 197, 94, 0.8)',
-                                'rgba(234, 179, 8, 0.8)',
-                                'rgba(249, 115, 22, 0.8)',
-                                'rgba(239, 68, 68, 0.8)',
-                                'rgba(236, 72, 153, 0.8)',
-                                'rgba(168, 85, 247, 0.8)',
-                                'rgba(14, 165, 233, 0.8)',
-                                'rgba(132, 204, 22, 0.8)'
-                            ],
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                // Falls keine Emotionen vorhanden, Placeholder zeigen
+                if (Object.keys(emotions).length === 0) {
+                    emotionCtx.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-center opacity-50">Keine Emotions-Daten verfügbar</p></div>';
+                } else {
+                    charts.emotion = new Chart(emotionCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: Object.keys(emotions),
+                            datasets: [{
+                                data: Object.values(emotions),
+                                backgroundColor: [
+                                    'rgba(139, 92, 246, 0.8)',
+                                    'rgba(59, 130, 246, 0.8)',
+                                    'rgba(34, 197, 94, 0.8)',
+                                    'rgba(234, 179, 8, 0.8)',
+                                    'rgba(249, 115, 22, 0.8)',
+                                    'rgba(239, 68, 68, 0.8)',
+                                    'rgba(236, 72, 153, 0.8)',
+                                    'rgba(168, 85, 247, 0.8)',
+                                    'rgba(14, 165, 233, 0.8)',
+                                    'rgba(132, 204, 22, 0.8)'
+                                ],
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    labels: { color: isDark ? '#fff' : '#0f172a' }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.parsed || 0;
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return `${label}: ${value} Trades (${percentage}%)`;
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
             
-            // Emotion Performance Chart
+            // Emotion Performance Chart - nur Trades MIT Emotion berücksichtigen
             if (charts.emotionPerf) charts.emotionPerf.destroy();
             const emotionPerfCtx = document.getElementById('emotionPerfChart');
             if (emotionPerfCtx) {
                 const emotionPL = {};
+                
+                // Nur Trades mit tatsächlicher Emotion addieren
                 trades.forEach(t => {
-                    if (t.emotion) {
+                    if (t.emotion && t.emotion.trim() !== '') {
                         emotionPL[t.emotion] = (emotionPL[t.emotion] || 0) + t.profitLoss;
                     }
                 });
                 
-                // Create color array based on positive/negative values
-                const emotionValues = Object.values(emotionPL);
-                const emotionColors = emotionValues.map(value => 
-                    value >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                );
-                const emotionBorderColors = emotionValues.map(value => 
-                    value >= 0 ? '#22c55e' : '#ef4444'
-                );
-                
-                charts.emotionPerf = new Chart(emotionPerfCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(emotionPL),
-                        datasets: [{
-                            label: 'Profit/Loss',
-                            data: emotionValues,
-                            backgroundColor: emotionColors,
-                            borderColor: emotionBorderColors,
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: { color: isDark ? '#fff' : '#0f172a' }
-                            }
+                // Falls keine Emotionen vorhanden, Placeholder zeigen
+                if (Object.keys(emotionPL).length === 0) {
+                    emotionPerfCtx.parentElement.innerHTML = '<div class="flex items-center justify-center h-full"><p class="text-center opacity-50">Keine Emotions-Daten verfügbar</p></div>';
+                } else {
+                    // Create color array based on positive/negative values
+                    const emotionValues = Object.values(emotionPL);
+                    const emotionColors = emotionValues.map(value => 
+                        value >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                    );
+                    const emotionBorderColors = emotionValues.map(value => 
+                        value >= 0 ? '#22c55e' : '#ef4444'
+                    );
+                    
+                    charts.emotionPerf = new Chart(emotionPerfCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(emotionPL),
+                            datasets: [{
+                                label: 'Profit/Loss',
+                                data: emotionValues,
+                                backgroundColor: emotionColors,
+                                borderColor: emotionBorderColors,
+                                borderWidth: 2
+                            }]
                         },
-                        scales: {
-                            y: {
-                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
-                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    labels: { color: isDark ? '#fff' : '#0f172a' }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return 'P/L: ' + formatCurrency(context.parsed.y);
+                                        }
+                                    }
+                                }
                             },
-                            x: {
-                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
-                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            scales: {
+                                y: {
+                                    ticks: { 
+                                        color: isDark ? '#9ca3af' : '#64748b',
+                                        callback: function(value) {
+                                            return formatCurrency(value);
+                                        }
+                                    },
+                                    grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                                },
+                                x: {
+                                    ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                    grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
         
@@ -2249,7 +2286,7 @@
             const currentCapital = calculateCurrentCapital();
             
             if (!targetAmount || !monthlyReturnPercent) {
-                showToast('❌ ' + (currentLang === 'de' ? 'Bitte gültige Werte eingeben!' : 
+                showToast('    ' + (currentLang === 'de' ? 'Bitte gültige Werte eingeben!' : 
                     currentLang === 'es' ? '¡Por favor ingrese valores válidos!' : 
                     'Please enter valid values!'));
                 return;
@@ -2706,7 +2743,7 @@
             document.getElementById('eventForm').reset();
             document.getElementById('eventDate').value = new Date().toISOString().split('T')[0];
             
-            showToast('✅ ' + (currentLang === 'de' ? 'Termin gespeichert' : currentLang === 'es' ? 'Evento guardado' : 'Event saved'));
+            showToast('    ' + (currentLang === 'de' ? 'Termin gespeichert' : currentLang === 'es' ? 'Evento guardado' : 'Event saved'));
         });
         
         // Calculator Functions
@@ -2856,5 +2893,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85648dd05fe0d3',t:'MTc2NzQ3MzY4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b858d95f493e0d3',t:'MTc2NzQ3NTM2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
