@@ -859,7 +859,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">      Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1569,7 +1569,7 @@
                         currentLang === 'es' ? '¡Dirección de correo inválida!' : 'Invalid email address!';
                 } else if (error.code === 'auth/invalid-credential') {
                     errorMsg += currentLang === 'de' ? 'Falsche E-Mail oder Passwort!' : 
-                        currentLang === 'es' ? '¡Correo o contraseña incorrecta!' : 'Wrong email or password!';
+                        currentLang === 'es' ? '  Correo o contraseña incorrecta!' : 'Wrong email or password!';
                 } else if (error.code === 'auth/network-request-failed') {
                     errorMsg += currentLang === 'de' ? 'Netzwerkfehler - Bitte Verbindung prüfen' : 
                         currentLang === 'es' ? 'Error de red - Por favor verifica tu conexión' : 'Network error - Please check connection';
@@ -2239,41 +2239,84 @@
             const monthlyReturnPercent = parseFloat(document.getElementById('monthlyReturn').value) / 100;
             const currentCapital = calculateCurrentCapital();
             
-            if (!targetAmount || !monthlyReturnPercent || targetAmount <= currentCapital) {
-                showToast('❌ ' + (currentLang === 'de' ? 'Bitte gültige Werte eingeben! Ziel muss größer als aktuelles Kapital sein.' : 
-                    currentLang === 'es' ? '¡Por favor ingrese valores válidos! El objetivo debe ser mayor que el capital actual.' : 
-                    'Please enter valid values! Target must be greater than current capital.'));
+            if (!targetAmount || !monthlyReturnPercent) {
+                showToast('❌ ' + (currentLang === 'de' ? 'Bitte gültige Werte eingeben!' : 
+                    currentLang === 'es' ? '¡Por favor ingrese valores válidos!' : 
+                    'Please enter valid values!'));
                 return;
             }
             
-            // Calculate months needed to reach target
+            if (targetAmount <= startCapital) {
+                showToast('❌ ' + (currentLang === 'de' ? 'Ziel muss größer als Startkapital sein!' : 
+                    currentLang === 'es' ? '¡El objetivo debe ser mayor que el capital inicial!' : 
+                    'Target must be greater than start capital!'));
+                return;
+            }
+            
+            // Calculate months needed from START CAPITAL to target
             let monthsNeeded = 0;
-            let projectedCapital = currentCapital;
+            let projectedCapital = startCapital;
             
             while (projectedCapital < targetAmount && monthsNeeded < 1000) {
                 projectedCapital *= (1 + monthlyReturnPercent);
                 monthsNeeded++;
             }
             
-            // Generate projection data
-            const projectionData = [currentCapital];
-            const actualData = [currentCapital];
+            // Calculate what projected capital SHOULD BE at current month based on trade count
+            const currentMonthsSinceStart = Math.max(1, trades.length > 0 ? 
+                Math.ceil((new Date() - new Date(Math.min(...trades.map(t => new Date(t.date))))) / (1000 * 60 * 60 * 24 * 30)) : 1);
+            
+            let projectedAtCurrentMonth = startCapital;
+            for (let i = 0; i < currentMonthsSinceStart; i++) {
+                projectedAtCurrentMonth *= (1 + monthlyReturnPercent);
+            }
+            
+            // Generate chart data showing FULL projection vs ACTUAL performance over time
+            const projectionData = [startCapital];
+            const actualData = [startCapital];
             const labels = ['Start'];
             
-            let tempCapital = currentCapital;
+            // Build projection line (what SHOULD happen)
+            let tempProjected = startCapital;
             for (let i = 1; i <= monthsNeeded; i++) {
-                tempCapital *= (1 + monthlyReturnPercent);
-                projectionData.push(tempCapital);
-                actualData.push(currentCapital); // Actual stays same (current reality)
+                tempProjected *= (1 + monthlyReturnPercent);
+                projectionData.push(tempProjected);
                 labels.push(`M${i}`);
             }
             
-            // Calculate performance comparison
-            const projectedAtMonth = projectionData[Math.min(monthsNeeded, projectionData.length - 1)];
-            const performanceDiff = currentCapital - projectedCapital;
-            const performancePercent = ((currentCapital / projectedCapital) - 1) * 100;
+            // Build actual line (what IS happening - based on real trades)
+            // Group trades by month and calculate running capital
+            const tradesByMonth = {};
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
             
-            // Determine pace
+            sortedTrades.forEach(trade => {
+                const date = new Date(trade.date);
+                const monthKey = Math.floor((date - new Date(Math.min(...trades.map(t => new Date(t.date))))) / (1000 * 60 * 60 * 24 * 30));
+                if (!tradesByMonth[monthKey]) tradesByMonth[monthKey] = [];
+                tradesByMonth[monthKey].push(trade);
+            });
+            
+            // Build actual performance curve
+            let runningCapital = startCapital;
+            for (let i = 1; i <= monthsNeeded; i++) {
+                // Add deposits/withdrawals for this period
+                const monthTrades = tradesByMonth[i - 1] || [];
+                monthTrades.forEach(t => runningCapital += t.profitLoss);
+                
+                // Add actual data point
+                actualData.push(runningCapital);
+            }
+            
+            // Pad actualData if it's shorter (future months)
+            while (actualData.length < projectionData.length) {
+                actualData.push(currentCapital);
+            }
+            
+            // Calculate performance comparison: Current vs Projected at current time
+            const performanceDiff = currentCapital - projectedAtCurrentMonth;
+            const performancePercent = projectedAtCurrentMonth > 0 ? ((currentCapital / projectedAtCurrentMonth) - 1) * 100 : 0;
+            
+            // Determine pace based on whether you're ahead or behind
             let paceStatus = '';
             let paceEmoji = '';
             
@@ -2288,13 +2331,17 @@
                 paceEmoji = '✅';
             }
             
+            // Calculate months remaining if on track
+            let monthsRemaining = monthsNeeded - currentMonthsSinceStart;
+            if (monthsRemaining < 0) monthsRemaining = 0;
+            
             // Update UI
             document.getElementById('compoundResult').classList.remove('hidden');
-            document.getElementById('monthsToGoal').textContent = monthsNeeded;
+            document.getElementById('monthsToGoal').textContent = monthsRemaining;
             document.getElementById('performanceDiff').textContent = formatCurrency(Math.abs(performanceDiff));
             document.getElementById('performanceDiff').className = performanceDiff >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
-            document.getElementById('performancePercent').textContent = performancePercent.toFixed(1) + '%';
-            document.getElementById('performancePercent').className = performancePercent >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
+            document.getElementById('performancePercent').textContent = (performanceDiff >= 0 ? '+' : '') + performancePercent.toFixed(1) + '%';
+            document.getElementById('performancePercent').className = performanceDiff >= 0 ? 'text-2xl font-bold text-green-400' : 'text-2xl font-bold text-red-400';
             
             document.getElementById('paceStatus').textContent = paceStatus;
             document.getElementById('paceStatusEmoji').textContent = paceEmoji;
@@ -2321,16 +2368,18 @@
                                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
                                 borderWidth: 3,
                                 fill: false,
-                                tension: 0.4
+                                tension: 0.4,
+                                pointRadius: 3
                             },
                             {
-                                label: 'Tatsächlich',
+                                label: 'Tatsächlich (Deine Performance)',
                                 data: actualData,
-                                borderColor: '#22c55e',
-                                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                                borderColor: performanceDiff >= 0 ? '#22c55e' : '#ef4444',
+                                backgroundColor: performanceDiff >= 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                                 borderWidth: 3,
                                 fill: false,
-                                tension: 0.4
+                                tension: 0.4,
+                                pointRadius: 3
                             }
                         ]
                     },
@@ -2339,12 +2388,24 @@
                         maintainAspectRatio: false,
                         plugins: {
                             legend: {
-                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                                labels: { color: isDark ? '#fff' : '#0f172a', font: { size: 12, weight: 'bold' } }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context.parsed.y);
+                                    }
+                                }
                             }
                         },
                         scales: {
                             y: {
-                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                ticks: { 
+                                    color: isDark ? '#9ca3af' : '#64748b',
+                                    callback: function(value) {
+                                        return '€' + (value / 1000).toFixed(0) + 'k';
+                                    }
+                                },
                                 grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
                             },
                             x: {
@@ -2679,5 +2740,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8537a66090e0d3',t:'MTc2NzQ3MTg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85410c226ce0d3',t:'MTc2NzQ3MjIyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
