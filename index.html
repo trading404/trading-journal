@@ -228,18 +228,13 @@
             position: fixed;
             inset: 0;
             z-index: 10000;
-        }
-        
-        #loginScreen.hidden {
-            display: none !important;
+            display: flex;
         }
         
         #mainApp {
             display: none;
-        }
-        
-        #mainApp.active {
-            display: flex !important;
+            flex: 1;
+            flex-direction: column;
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -269,7 +264,7 @@
       </div>
       <div><label class="block text-sm font-bold mb-2" data-i18n="password">Passwort (mind. 6 Zeichen)</label> <input type="password" id="registerPassword" class="w-full px-4 py-3 rounded-xl" placeholder="••••••••" minlength="6" required>
       </div>
-      <div><label class="block text-sm font-bold mb-2" data-i18n="confirm_password">Passwort bestätigen</label> <input type="password" id="registerPasswordConfirm" class="w-full px-4 py-3 rounded-xl" placeholder="••••••••" minlength="6" required>
+      <div><label class="block text-sm font-bold mb-2" data-i18n="confirm_password">Passwort bestätigen</label> <input type="password" id="registerPasswordConfirm" class="w-full px-4 py-3 rounded-xl" placeholder="••  •••••" minlength="6" required>
       </div><button type="submit" class="w-full py-3 rounded-xl font-bold btn-primary"> <span data-i18n="create_account">Konto erstellen</span> </button> <button type="button" id="showLoginBtn" class="w-full py-3 rounded-xl font-bold bg-gray-700 hover:bg-gray-600 transition"> <span data-i18n="back_to_login">Zurück zum Login</span> </button>
      </form>
     </div>
@@ -479,7 +474,7 @@
            📈
           </div>
           <div class="text-xs mb-1" data-i18n="avg_win">
-           Ø Gewinn
+              Gewinn
           </div>
           <div class="text-lg font-bold text-green-400" id="perfAvgWin">
            €0.00
@@ -961,7 +956,7 @@
                 vs_plan: 'vs. Plan',
                 add_withdrawal: '💸 Auszahlung hinzufügen',
                 withdrawal_history: 'Auszahlungshistorie',
-                add_deposit: '💰 Einzahlung hinzufügen',
+                add_deposit: '   Einzahlung hinzufügen',
                 deposit_history: 'Einzahlungshistorie',
                 amount: 'Betrag',
                 add_event: '📅 Termin hinzufügen',
@@ -1186,7 +1181,7 @@
         
         const charts = {};
         const menuItems = [
-            { id: 'dashboard', icon: '📊', label: 'dashboard' },
+            { id: 'dashboard', icon: '   ', label: 'dashboard' },
             { id: 'newtrade', icon: '➕', label: 'new_trade' },
             { id: 'history', icon: '📜', label: 'history' },
             { id: 'performance', icon: '🏆', label: 'performance' },
@@ -1512,17 +1507,9 @@
                     events = [];
                 }
                 
-                // Screen-Wechsel komplett neu
-                const loginScreen = document.getElementById('loginScreen');
-                const mainApp = document.getElementById('mainApp');
-                
-                // Login-Screen ausblenden
-                loginScreen.classList.add('hidden');
-                loginScreen.style.display = 'none';
-                
-                // Main-App einblenden
-                mainApp.classList.add('active');
-                mainApp.style.display = 'flex';
+                // Screen-Wechsel - komplett vereinfacht
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'flex';
                 
                 showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
@@ -1608,15 +1595,8 @@
                 
                 if (action === 'logout') {
                     currentUser = null;
-                    const loginScreen = document.getElementById('loginScreen');
-                    const mainApp = document.getElementById('mainApp');
-                    
-                    mainApp.classList.remove('active');
-                    mainApp.style.display = 'none';
-                    
-                    loginScreen.classList.remove('hidden');
-                    loginScreen.style.display = 'flex';
-                    
+                    document.getElementById('mainApp').style.display = 'none';
+                    document.getElementById('loginScreen').style.display = 'flex';
                     showToast('👋 ' + translations[currentLang].logout);
                 }
             });
@@ -1624,15 +1604,8 @@
 
         document.getElementById('logoutBtnDesktop').addEventListener('click', () => {
             currentUser = null;
-            const loginScreen = document.getElementById('loginScreen');
-            const mainApp = document.getElementById('mainApp');
-            
-            mainApp.classList.remove('active');
-            mainApp.style.display = 'none';
-            
-            loginScreen.classList.remove('hidden');
-            loginScreen.style.display = 'flex';
-            
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
             showToast('👋 ' + translations[currentLang].logout);
         });
 
@@ -1755,7 +1728,7 @@
                     ${trade.emotion ? `<div class="text-sm mb-2"><span class="opacity-70">Emotion:</span> ${trade.emotion}</div>` : ''}
                     ${trade.notes ? `<div class="text-sm opacity-70 mb-3">${trade.notes}</div>` : ''}
                     <div class="flex gap-2">
-                        <button onclick="editTrade('${trade.id}')" class="flex-1 py-2 rounded-lg font-bold btn-primary">✏️ ${translations[currentLang].edit_trade || 'Bearbeiten'}</button>
+                        <button onclick="editTrade('${trade.id}')" class="flex-1 py-2 rounded-lg font-bold btn-primary">  ️ ${translations[currentLang].edit_trade || 'Bearbeiten'}</button>
                         <button onclick="deleteTrade('${trade.id}')" class="flex-1 py-2 rounded-lg font-bold hover:bg-red-600 transition" style="background: #dc2626;">🗑️</button>
                     </div>
                 </div>
@@ -2683,5 +2656,5 @@
                     emotion: document.getElementById('editEmotion').value,
                     notes: document.getElementById('edit
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8512e611d4e0d3',t:'MTc2NzQ3MDMzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8519ccb44fe0d3',t:'MTc2NzQ3MDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
