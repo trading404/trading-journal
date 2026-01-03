@@ -1509,27 +1509,28 @@
                     events = [];
                 }
                 
+                // SOFORT zum App-Screen wechseln
+                document.getElementById('loginScreen').classList.add('logged-in');
+                document.getElementById('mainApp').classList.remove('logged-out');
+                
                 showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
-                // App initialisieren
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('tradeDate').value = today;
-                document.getElementById('withdrawalDate').value = today;
-                document.getElementById('depositDate').value = today;
-                document.getElementById('eventDate').value = today;
-                
-                renderNavigation();
-                updateDashboard();
-                renderHistory();
-                switchTab('dashboard');
-                
-                // Wichtig: NACH allen Updates den Screen wechseln
+                // App nach dem Screen-Wechsel initialisieren
                 setTimeout(() => {
-                    document.getElementById('loginScreen').classList.add('logged-in');
-                    document.getElementById('mainApp').classList.remove('logged-out');
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('tradeDate').value = today;
+                    document.getElementById('withdrawalDate').value = today;
+                    document.getElementById('depositDate').value = today;
+                    document.getElementById('eventDate').value = today;
+                    
+                    renderNavigation();
+                    updateDashboard();
+                    renderHistory();
+                    switchTab('dashboard');
+                    
                     loginBtn.innerHTML = originalText;
                     loginBtn.disabled = false;
-                }, 100);
+                }, 50);
                 
             } catch (error) {
                 console.error('Login-Fehler:', error);
@@ -2658,5 +2659,5 @@
                     emotion: document.getElementById('editEmotion').value,
                     notes: document.getElementById('edit
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84fef5c66de0d3',t:'MTc2NzQ2OTUyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8505ee6716e0d3',t:'MTc2NzQ2OTgwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
