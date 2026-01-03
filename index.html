@@ -866,7 +866,6 @@
   appId: "1:927047992152:web:2269467aa95689e0955b2d",
   measurementId: "G-36WT75DLEL"
 };
-
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -1495,10 +1494,11 @@
                 }
                 
                 // UI umschalten - SOFORT sichtbar machen
-                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').classList.remove('hidden');
                 document.getElementById('mainApp').style.display = 'flex';
                 
+                // Button zurücksetzen
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;
                 
@@ -1582,8 +1582,9 @@
                 
                 if (action === 'logout') {
                     currentUser = null;
+                    document.getElementById('mainApp').style.display = 'none';
                     document.getElementById('mainApp').classList.add('hidden');
-                    document.getElementById('loginScreen').classList.remove('hidden');
+                    document.getElementById('loginScreen').style.display = 'flex';
                     showToast('👋 ' + translations[currentLang].logout);
                 }
             });
@@ -1591,8 +1592,9 @@
 
         document.getElementById('logoutBtnDesktop').addEventListener('click', () => {
             currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
             document.getElementById('mainApp').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('loginScreen').style.display = 'flex';
             showToast('👋 ' + translations[currentLang].logout);
         });
 
@@ -2604,5 +2606,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b849e1c30f3e0d3',t:'MTc2NzQ2NTU1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84b4c44794e0d3',t:'MTc2NzQ2NjQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
