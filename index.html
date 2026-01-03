@@ -248,7 +248,7 @@
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full">
      <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold flex items-center gap-2"><span class="text-3xl">💎</span> <span id="loginTitle" data-i18n="trading_journal_pro">Trading Journal Pro</span></h1>
-      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬       English</option> <option value="es">🇪🇸 Español</option> </select>
+      <div class="flex gap-2"><button id="themeToggleLogin" class="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition"> <span class="text-xl">🌙</span> </button> <select id="langSelectorLogin" class="px-3 py-1 rounded-lg text-sm"> <option value="de">🇩🇪 Deutsch</option> <option value="en">🇬       English</option> <option value="es">    🇸 Español</option> </select>
       </div>
      </div><!-- Login Form -->
      <form id="loginForm" class="space-y-4">
@@ -772,7 +772,7 @@
        </div><!-- Rechner Tab -->
        <div id="calculatorTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4 mb-4">
-         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>📐</span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
+         <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><span>    </span> <span data-i18n="position_size_calc">Positionsgrößen-Rechner</span></h3>
          <form id="positionSizeForm" class="space-y-4">
           <div><label class="block text-sm font-bold mb-2" data-i18n="account_balance">Kontostand (€)</label> <input type="number" id="psBalance" step="0.01" class="w-full px-4 py-3 rounded-xl">
           </div>
@@ -861,7 +861,7 @@
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="strategy">Strategie</label> <input type="text" id="editStrategy" class="w-full px-4 py-3 rounded-xl">
      </div>
-     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">😤 Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
+     <div><label class="block text-sm font-bold mb-2" data-i18n="emotion">Emotion</label> <select id="editEmotion" class="w-full px-4 py-3 rounded-xl"> <option value="">-- Optional --</option> <option value="confident">😎 Confident</option> <option value="calm">😌 Calm</option> <option value="excited">🤩 Excited</option> <option value="anxious">😰 Anxious</option> <option value="frustrated">   Frustrated</option> <option value="greedy">🤑 Greedy</option> <option value="fearful">😨 Fearful</option> <option value="euphoric">🥳 Euphoric</option> <option value="disciplined">🧘 Disciplined</option> <option value="revenge">😡 Revenge Trading</option> </select>
      </div>
      <div><label class="block text-sm font-bold mb-2" data-i18n="notes">Notizen</label> <textarea id="editNotes" rows="3" class="w-full px-4 py-3 rounded-xl"></textarea>
      </div>
@@ -1795,7 +1795,7 @@
             });
         }
         
-        // Render Performance Charts (placeholder)
+        // Render Performance Charts
         function renderPerformance() {
             const wins = trades.filter(t => t.result === 'win');
             const losses = trades.filter(t => t.result === 'loss');
@@ -1812,7 +1812,9 @@
             document.getElementById('perfAvgLoss').textContent = formatCurrency(avgLoss);
             
             let winStreak = 0, lossStreak = 0, currentStreak = 0, currentType = null;
-            trades.forEach(trade => {
+            const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            sortedTrades.forEach(trade => {
                 if (trade.result === currentType) {
                     currentStreak++;
                 } else {
@@ -1827,11 +1829,428 @@
             
             document.getElementById('perfWinStreak').textContent = winStreak;
             document.getElementById('perfLossStreak').textContent = lossStreak;
+            
+            // Long vs Short Performance
+            const longTrades = trades.filter(t => t.position === 'Long');
+            const shortTrades = trades.filter(t => t.position === 'Short');
+            
+            const longPL = longTrades.reduce((sum, t) => sum + t.profitLoss, 0);
+            const shortPL = shortTrades.reduce((sum, t) => sum + t.profitLoss, 0);
+            
+            const longWins = longTrades.filter(t => t.result === 'win').length;
+            const shortWins = shortTrades.filter(t => t.result === 'win').length;
+            
+            const longWinrate = longTrades.length > 0 ? (longWins / longTrades.length * 100) : 0;
+            const shortWinrate = shortTrades.length > 0 ? (shortWins / shortTrades.length * 100) : 0;
+            
+            document.getElementById('longCount').textContent = longTrades.length;
+            document.getElementById('shortCount').textContent = shortTrades.length;
+            document.getElementById('longPL').textContent = formatCurrency(longPL);
+            document.getElementById('longPL').className = longPL >= 0 ? 'text-lg font-bold text-green-400' : 'text-lg font-bold text-red-400';
+            document.getElementById('shortPL').textContent = formatCurrency(shortPL);
+            document.getElementById('shortPL').className = shortPL >= 0 ? 'text-lg font-bold text-green-400' : 'text-lg font-bold text-red-400';
+            document.getElementById('longWinrate').textContent = longWinrate.toFixed(1) + '% Winrate';
+            document.getElementById('shortWinrate').textContent = shortWinrate.toFixed(1) + '% Winrate';
+            
+            if (longPL > shortPL) {
+                document.getElementById('betterPosition').textContent = '📈 Long Trades';
+            } else if (shortPL > longPL) {
+                document.getElementById('betterPosition').textContent = '📉 Short Trades';
+            } else {
+                document.getElementById('betterPosition').textContent = '⚖️ Ausgeglichen';
+            }
+            
+            // Long/Short Chart
+            const isDark = currentTheme === 'dark';
+            
+            if (charts.longShort) charts.longShort.destroy();
+            const longShortCtx = document.getElementById('longShortChart');
+            if (longShortCtx) {
+                charts.longShort = new Chart(longShortCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Long', 'Short'],
+                        datasets: [{
+                            label: 'Profit/Loss',
+                            data: [longPL, shortPL],
+                            backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(249, 115, 22, 0.8)'],
+                            borderColor: ['#3b82f6', '#f97316'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Streak Chart
+            if (charts.streak) charts.streak.destroy();
+            const streakCtx = document.getElementById('streakChart');
+            if (streakCtx) {
+                charts.streak = new Chart(streakCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Win Streak', 'Loss Streak'],
+                        datasets: [{
+                            label: 'Maximale Strähne',
+                            data: [winStreak, lossStreak],
+                            backgroundColor: ['rgba(34, 197, 94, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                            borderColor: ['#22c55e', '#ef4444'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { 
+                                    color: isDark ? '#9ca3af' : '#64748b',
+                                    stepSize: 1
+                                },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Distribution Chart
+            if (charts.distribution) charts.distribution.destroy();
+            const distributionCtx = document.getElementById('distributionChart');
+            if (distributionCtx) {
+                charts.distribution = new Chart(distributionCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Wins', 'Losses', 'Break Even'],
+                        datasets: [{
+                            data: [
+                                wins.length,
+                                losses.length,
+                                trades.filter(t => t.result === 'breakeven').length
+                            ],
+                            backgroundColor: [
+                                'rgba(34, 197, 94, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(156, 163, 175, 0.8)'
+                            ],
+                            borderColor: ['#22c55e', '#ef4444', '#9ca3af'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Strategy Chart
+            if (charts.strategy) charts.strategy.destroy();
+            const strategyCtx = document.getElementById('strategyChart');
+            if (strategyCtx) {
+                const strategyData = {};
+                trades.forEach(t => {
+                    const strategy = t.strategy || 'Keine Strategie';
+                    if (!strategyData[strategy]) strategyData[strategy] = 0;
+                    strategyData[strategy] += t.profitLoss;
+                });
+                
+                charts.strategy = new Chart(strategyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(strategyData),
+                        datasets: [{
+                            label: 'P/L',
+                            data: Object.values(strategyData),
+                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                            borderColor: '#8b5cf6',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Monthly Chart
+            if (charts.monthly) charts.monthly.destroy();
+            const monthlyCtx = document.getElementById('monthlyChart');
+            if (monthlyCtx) {
+                const monthlyData = {};
+                trades.forEach(t => {
+                    const date = new Date(t.date);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                    if (!monthlyData[monthKey]) monthlyData[monthKey] = 0;
+                    monthlyData[monthKey] += t.profitLoss;
+                });
+                
+                const sortedMonths = Object.keys(monthlyData).sort();
+                
+                charts.monthly = new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: sortedMonths,
+                        datasets: [{
+                            label: 'Monatliche P/L',
+                            data: sortedMonths.map(m => monthlyData[m]),
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Asset Chart
+            if (charts.asset) charts.asset.destroy();
+            const assetCtx = document.getElementById('assetChart');
+            if (assetCtx) {
+                const assetData = {};
+                trades.forEach(t => {
+                    const asset = t.asset || 'Unbekannt';
+                    if (!assetData[asset]) assetData[asset] = 0;
+                    assetData[asset] += t.profitLoss;
+                });
+                
+                charts.asset = new Chart(assetCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(assetData),
+                        datasets: [{
+                            label: 'P/L',
+                            data: Object.values(assetData),
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
         }
         
-        // Render Emotions (placeholder)
+        // Render Emotions
         function renderEmotions() {
-            // Placeholder
+            const isDark = currentTheme === 'dark';
+            
+            // Emotion Distribution
+            if (charts.emotion) charts.emotion.destroy();
+            const emotionCtx = document.getElementById('emotionChart');
+            if (emotionCtx) {
+                const emotionData = {};
+                trades.forEach(t => {
+                    if (t.emotion) {
+                        if (!emotionData[t.emotion]) emotionData[t.emotion] = 0;
+                        emotionData[t.emotion]++;
+                    }
+                });
+                
+                const emotionLabels = {
+                    'confident': '😎 Confident',
+                    'calm': '😌 Calm',
+                    'excited': '🤩 Excited',
+                    'anxious': '😰 Anxious',
+                    'frustrated': '😤 Frustrated',
+                    'greedy': '🤑 Greedy',
+                    'fearful': '😨 Fearful',
+                    'euphoric': '🥳 Euphoric',
+                    'disciplined': '🧘 Disciplined',
+                    'revenge': '😡 Revenge'
+                };
+                
+                charts.emotion = new Chart(emotionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(emotionData).map(e => emotionLabels[e] || e),
+                        datasets: [{
+                            data: Object.values(emotionData),
+                            backgroundColor: [
+                                'rgba(139, 92, 246, 0.8)',
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(34, 197, 94, 0.8)',
+                                'rgba(251, 191, 36, 0.8)',
+                                'rgba(239, 68, 68, 0.8)',
+                                'rgba(249, 115, 22, 0.8)',
+                                'rgba(156, 163, 175, 0.8)',
+                                'rgba(236, 72, 153, 0.8)',
+                                'rgba(14, 165, 233, 0.8)',
+                                'rgba(220, 38, 38, 0.8)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { 
+                                    color: isDark ? '#fff' : '#0f172a',
+                                    padding: 10
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Emotion Performance
+            if (charts.emotionPerf) charts.emotionPerf.destroy();
+            const emotionPerfCtx = document.getElementById('emotionPerfChart');
+            if (emotionPerfCtx) {
+                const emotionPLData = {};
+                trades.forEach(t => {
+                    if (t.emotion) {
+                        if (!emotionPLData[t.emotion]) emotionPLData[t.emotion] = 0;
+                        emotionPLData[t.emotion] += t.profitLoss;
+                    }
+                });
+                
+                const emotionLabels = {
+                    'confident': '😎 Confident',
+                    'calm': '😌 Calm',
+                    'excited': '🤩 Excited',
+                    'anxious': '😰 Anxious',
+                    'frustrated': '😤 Frustrated',
+                    'greedy': '🤑 Greedy',
+                    'fearful': '😨 Fearful',
+                    'euphoric': '🥳 Euphoric',
+                    'disciplined': '🧘 Disciplined',
+                    'revenge': '😡 Revenge'
+                };
+                
+                charts.emotionPerf = new Chart(emotionPerfCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(emotionPLData).map(e => emotionLabels[e] || e),
+                        datasets: [{
+                            label: 'P/L pro Emotion',
+                            data: Object.values(emotionPLData),
+                            backgroundColor: Object.values(emotionPLData).map(val => 
+                                val >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
+                            ),
+                            borderColor: Object.values(emotionPLData).map(val => 
+                                val >= 0 ? '#22c55e' : '#ef4444'
+                            ),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: isDark ? '#fff' : '#0f172a' }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: isDark ? '#9ca3af' : '#64748b' },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            },
+                            x: {
+                                ticks: { 
+                                    color: isDark ? '#9ca3af' : '#64748b',
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                },
+                                grid: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
         }
         
         // Render Calendar
@@ -2193,5 +2612,5 @@
         document.getElementById('langSelector').value = savedLang;
         document.getElementById('langSelectorLogin').value = savedLang;
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84ce1c4743e0d3',t:'MTc2NzQ2NzUxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b84e3dd224fe0d3',t:'MTc2NzQ2ODQxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
