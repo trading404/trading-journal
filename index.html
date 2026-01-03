@@ -405,7 +405,7 @@
        <div id="historyTab" class="tab-content hidden">
         <div class="glass-card rounded-2xl p-4">
          <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span>📜</span> <span data-i18n="history">Historie</span></h2>
-         <div class="mb-4 flex gap-2"><select id="filterResult" class="flex-1 px-3 py-2 rounded-lg text-sm"> <option value="all" data-i18n="all_results">Alle Ergebnisse</option> <option value="win">✅ Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">⚖️ Break Even</option> </select>
+         <div class="mb-4 flex gap-2"><select id="filterResult" class="flex-1 px-3 py-2 rounded-lg text-sm"> <option value="all" data-i18n="all_results">Alle Ergebnisse</option> <option value="win">✅ Wins</option> <option value="loss">❌ Loss</option> <option value="breakeven">    ️ Break Even</option> </select>
          </div>
          <div id="tradeHistoryList" class="space-y-3"></div>
         </div>
@@ -1494,40 +1494,45 @@
                     events = [];
                 }
                 
-                // Login Screen verstecken, App anzeigen
+                // Login Screen verstecken
                 document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('mainApp').classList.remove('hidden');
                 
-                // KRITISCH: Warte einen Moment bis DOM bereit ist
-                await new Promise(resolve => setTimeout(resolve, 50));
+                // App anzeigen mit kleiner Verzögerung
+                setTimeout(() => {
+                    document.getElementById('mainApp').classList.remove('hidden');
+                    
+                    // Navigation rendern
+                    setTimeout(() => {
+                        renderNavigation();
+                        
+                        // Datums-Felder initialisieren
+                        setTimeout(() => {
+                            const today = new Date().toISOString().split('T')[0];
+                            const tradeDateField = document.getElementById('tradeDate');
+                            const withdrawalDateField = document.getElementById('withdrawalDate');
+                            const depositDateField = document.getElementById('depositDate');
+                            const eventDateField = document.getElementById('eventDate');
+                            
+                            if (tradeDateField) tradeDateField.value = today;
+                            if (withdrawalDateField) withdrawalDateField.value = today;
+                            if (depositDateField) depositDateField.value = today;
+                            if (eventDateField) eventDateField.value = today;
+                            
+                            // Dashboard aktualisieren
+                            updateDashboard();
+                            renderHistory();
+                            
+                            // Zum Dashboard wechseln
+                            switchTab('dashboard');
+                            
+                            loginBtn.innerHTML = originalText;
+                            loginBtn.disabled = false;
+                            
+                            showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
+                        }, 100);
+                    }, 100);
+                }, 100);
                 
-                // Alle Initialisierungen NACH dem Login
-                renderNavigation();
-                
-                // Datum-Felder setzen - NACH renderNavigation
-                await new Promise(resolve => setTimeout(resolve, 50));
-                const today = new Date().toISOString().split('T')[0];
-                const tradeDateField = document.getElementById('tradeDate');
-                const withdrawalDateField = document.getElementById('withdrawalDate');
-                const depositDateField = document.getElementById('depositDate');
-                const eventDateField = document.getElementById('eventDate');
-                
-                if (tradeDateField) tradeDateField.value = today;
-                if (withdrawalDateField) withdrawalDateField.value = today;
-                if (depositDateField) depositDateField.value = today;
-                if (eventDateField) eventDateField.value = today;
-                
-                // Dashboard aktualisieren
-                updateDashboard();
-                renderHistory();
-                
-                // Zum Dashboard-Tab wechseln
-                switchTab('dashboard');
-                
-                loginBtn.innerHTML = originalText;
-                loginBtn.disabled = false;
-                
-                showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
             } catch (error) {
                 console.error('Login-Fehler:', error);
                 console.error('Fehlercode:', error.code);
@@ -2616,5 +2621,5 @@
                             data: sortedMonths.map(m => monthlyPerf[m]),
                             backgroundColor: sortedMonths.map(m => monthlyPerf[m] >= 0 ? 'rgba
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b844ca85370e0d3',t:'MTc2NzQ2MjIxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8489c1d679e0d3',t:'MTc2NzQ2NDcxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
