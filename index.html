@@ -228,15 +228,18 @@
             position: fixed;
             inset: 0;
             z-index: 10000;
-            display: flex;
         }
         
-        #loginScreen.logged-in {
+        #loginScreen.hidden {
             display: none !important;
         }
         
-        #mainApp.logged-out {
-            display: none !important;
+        #mainApp {
+            display: none;
+        }
+        
+        #mainApp.active {
+            display: flex !important;
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -244,7 +247,7 @@
  </head>
  <body class="h-full">
   <div class="min-h-full w-full flex flex-col overflow-auto" id="app"><!-- Login Screen -->
-   <div id="loginScreen" class="items-center justify-center p-4" style="background: linear-gradient(135deg, #0a0e27 0%, #1e1b4b 50%, #312e81 100%);">
+   <div id="loginScreen" class="fixed inset-0 flex items-center justify-center p-4" style="background: linear-gradient(135deg, #0a0e27 0%, #1e1b4b 50%, #312e81 100%);">
     <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full">
      <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold flex items-center gap-2"><span class="text-3xl">💎</span> <span id="loginTitle" data-i18n="trading_journal_pro">Trading Journal Pro</span></h1>
@@ -1077,7 +1080,7 @@
                 create_account: 'Crear Cuenta',
                 back_to_login: 'Volver al Login',
                 forgot_password: '🔑 ¿Olvidaste tu contraseña?',
-                send_reset_email: '📧 Enviar enlace de restablecimiento',
+                send_reset_email: '   Enviar enlace de restablecimiento',
                 demo_note: 'Modo Demo: Usa cualquier correo',
                 logout: 'Cerrar sesión',
                 capital: 'Capital',
@@ -1125,7 +1128,7 @@
                 perf_by_asset: 'Rendimiento por Activo',
                 emotion_analysis: 'Análisis de Emociones',
                 emotion_performance: 'Rendimiento por Emoción',
-                compound_calculator: 'Calculadora de Interés Compuesto',
+                compound_calculator: 'Calculadora de Inter  s Compuesto',
                 target_amount: 'Cantidad Objetivo',
                 monthly_return: 'Rendimiento Mensual',
                 calculate: '🧮 Calcular',
@@ -1509,13 +1512,17 @@
                     events = [];
                 }
                 
-                // Screen-Wechsel mit display:none erzwingen
+                // Screen-Wechsel komplett neu
                 const loginScreen = document.getElementById('loginScreen');
                 const mainApp = document.getElementById('mainApp');
                 
+                // Login-Screen ausblenden
+                loginScreen.classList.add('hidden');
                 loginScreen.style.display = 'none';
+                
+                // Main-App einblenden
+                mainApp.classList.add('active');
                 mainApp.style.display = 'flex';
-                mainApp.classList.remove('logged-out');
                 
                 showToast('✅ ' + (currentLang === 'de' ? 'Erfolgreich angemeldet!' : currentLang === 'es' ? '¡Sesión iniciada!' : 'Logged in!'));
                 
@@ -1601,8 +1608,15 @@
                 
                 if (action === 'logout') {
                     currentUser = null;
-                    document.getElementById('mainApp').classList.add('logged-out');
-                    document.getElementById('loginScreen').classList.remove('logged-in');
+                    const loginScreen = document.getElementById('loginScreen');
+                    const mainApp = document.getElementById('mainApp');
+                    
+                    mainApp.classList.remove('active');
+                    mainApp.style.display = 'none';
+                    
+                    loginScreen.classList.remove('hidden');
+                    loginScreen.style.display = 'flex';
+                    
                     showToast('👋 ' + translations[currentLang].logout);
                 }
             });
@@ -1610,8 +1624,15 @@
 
         document.getElementById('logoutBtnDesktop').addEventListener('click', () => {
             currentUser = null;
-            document.getElementById('mainApp').classList.add('logged-out');
-            document.getElementById('loginScreen').classList.remove('logged-in');
+            const loginScreen = document.getElementById('loginScreen');
+            const mainApp = document.getElementById('mainApp');
+            
+            mainApp.classList.remove('active');
+            mainApp.style.display = 'none';
+            
+            loginScreen.classList.remove('hidden');
+            loginScreen.style.display = 'flex';
+            
             showToast('👋 ' + translations[currentLang].logout);
         });
 
@@ -2662,5 +2683,5 @@
                     emotion: document.getElementById('editEmotion').value,
                     notes: document.getElementById('edit
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b850d574182e0d3',t:'MTc2NzQ3MDEwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8512e611d4e0d3',t:'MTc2NzQ3MDMzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
