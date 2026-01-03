@@ -1071,7 +1071,7 @@
                 password: 'Contraseña',
                 confirm_password: 'Confirmar Contraseña',
                 login: 'Iniciar sesión',
-                register: '¿No tienes cuenta? Regístrate',
+                register: '  No tienes cuenta? Regístrate',
                 create_account: 'Crear Cuenta',
                 back_to_login: 'Volver al Login',
                 forgot_password: '🔑 ¿Olvidaste tu contraseña?',
@@ -2294,31 +2294,57 @@
             }
             
             // Build actual line (what IS happening - based on real trades)
-            // Group trades by month and calculate running capital
-            const tradesByMonth = {};
+            // Calculate actual capital progression based on chronological trades
             const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
             
-            sortedTrades.forEach(trade => {
-                const date = new Date(trade.date);
-                const monthKey = Math.floor((date - new Date(Math.min(...trades.map(t => new Date(t.date))))) / (1000 * 60 * 60 * 24 * 30));
-                if (!tradesByMonth[monthKey]) tradesByMonth[monthKey] = [];
-                tradesByMonth[monthKey].push(trade);
+            // Build equity curve showing actual capital over time
+            let runningCapital = startCapital;
+            
+            // Add deposits first (they increase starting capital)
+            deposits.forEach(d => {
+                runningCapital += d.amount;
             });
             
-            // Build actual performance curve
-            let runningCapital = startCapital;
-            for (let i = 1; i <= monthsNeeded; i++) {
-                // Add deposits/withdrawals for this period
-                const monthTrades = tradesByMonth[i - 1] || [];
-                monthTrades.forEach(t => runningCapital += t.profitLoss);
-                
-                // Add actual data point
-                actualData.push(runningCapital);
-            }
+            // Track capital after each trade
+            const tradeEquityCurve = [startCapital];
+            let tempCapital = startCapital;
             
-            // Pad actualData if it's shorter (future months)
-            while (actualData.length < projectionData.length) {
-                actualData.push(currentCapital);
+            // Add deposits to starting capital
+            deposits.forEach(d => tempCapital += d.amount);
+            
+            sortedTrades.forEach(trade => {
+                tempCapital += trade.profitLoss;
+                tradeEquityCurve.push(tempCapital);
+            });
+            
+            // Subtract withdrawals from final capital
+            withdrawals.forEach(w => {
+                tempCapital -= w.amount;
+            });
+            
+            // Now map the actual performance onto the projection timeline
+            if (sortedTrades.length > 0) {
+                // Calculate how many months have passed since first trade
+                const firstTradeDate = new Date(sortedTrades[0].date);
+                const lastTradeDate = new Date(sortedTrades[sortedTrades.length - 1].date);
+                const monthsWithTrades = Math.max(1, Math.ceil((lastTradeDate - firstTradeDate) / (1000 * 60 * 60 * 24 * 30)));
+                
+                // Distribute actual performance across the timeline
+                for (let i = 1; i <= monthsNeeded; i++) {
+                    if (i <= tradeEquityCurve.length - 1) {
+                        // Use actual trade data
+                        const tradeIndex = Math.floor((i / monthsNeeded) * (tradeEquityCurve.length - 1));
+                        actualData.push(tradeEquityCurve[Math.min(tradeIndex, tradeEquityCurve.length - 1)]);
+                    } else {
+                        // Future months - show current capital as flat line
+                        actualData.push(currentCapital);
+                    }
+                }
+            } else {
+                // No trades yet - show flat line at start capital
+                for (let i = 1; i <= monthsNeeded; i++) {
+                    actualData.push(startCapital);
+                }
             }
             
             // Calculate performance comparison: Current vs Projected at current time
@@ -2749,5 +2775,5 @@
         
         console.log('✅ Trading Journal Pro geladen!');
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b85528d81bee0d3',t:'MTc2NzQ3Mjk0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b8558e34386e0d3',t:'MTc2NzQ3MzIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
